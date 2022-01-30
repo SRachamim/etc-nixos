@@ -1,0 +1,71 @@
+# ~/.config/tmuxinator/fg.yml
+
+name: fg
+root: ~/Development/dev.azure.com/fundguard/fgrepo
+
+windows:
+  - fgrepo:
+      layout: main-vertical
+      panes:
+        - vim
+        -
+  - client:
+      layout: main-vertical
+      pre: cd client
+      panes:
+        - vim
+        -
+  - gql-api:
+      layout: main-vertical
+      pre: cd client/packages/apps/gql-api
+      panes:
+        - vim
+        - yarn dev
+        - yarn test:watch
+  - webapp:
+      layout: main-vertical
+      pre: cd client/packages/apps/webapp
+      panes:
+        - vim
+        - yarn dev
+        - yarn test:watch
+  - components:
+      layout: main-vertical
+      pre: cd client/packages/libs/components
+      panes:
+        - vim
+        - 
+        - 
+  - domain:
+      layout: main-vertical
+      pre: cd client/packages/libs/domain
+      panes:
+        - vim
+        - 
+        - 
+  - iam:
+      layout: main-vertical
+      pre: cd client/packages/libs/iam
+      panes:
+        - vim
+        - 
+        - 
+  - util:
+      layout: main-vertical
+      pre: cd client/packages/libs/util
+      panes:
+        - vim
+        - 
+        - 
+  - e2e:
+      layout: main-vertical
+      pre: cd automation
+      panes:
+        - vim
+        -
+  - devops:
+      layout: main-vertical
+      pre: cd devops
+      panes:
+        - vim
+        -

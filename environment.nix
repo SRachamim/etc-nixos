@@ -9,6 +9,7 @@
     blender
     chromium
     firefox
+    freetube
     gimp
     jless
     joplin

@@ -3,13 +3,23 @@
 {
   networking = {
     # Define your hostname.
-    hostName = "nixos";
+    hostName = "host";
 
     interfaces.wlp0s20f3.useDHCP = true;
 
     # Enables wireless support via wpa_supplicant.
     networkmanager = {
+      connectionConfig = {
+        "connection.stable-id" = "\${CONNECTION}/\${BOOT}";
+      };
       enable = true;
+      ethernet = {
+        macAddress = "random";
+      };
+      wifi = {
+        macAddress = "random";
+        scanRandMacAddress = true;
+      };
     };
 
     timeServers = options.networking.timeServers.default ++ [ "ntp.example.com" ];

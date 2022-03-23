@@ -8,11 +8,13 @@
     bitwarden-cli
     blender
     chromium
-    firefox
+    cool-retro-term
+    element-desktop
     freetube
     gimp
     jless
     joplin
+    lbry
     lightworks
     mpv
     neofetch
@@ -27,6 +29,5 @@
     tor-browser-bundle-bin
     xclip
     xorg.xmessage
-    zoom-us
   ];
 }

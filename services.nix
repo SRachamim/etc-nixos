@@ -31,6 +31,19 @@
       };
     };
 
+    syncthing = {
+      devices = {
+        "android" = {
+          id = "WLFRIYD-Z2H7ULC-B5DQVK4-ONNA5C3-EOEWDMH-4VD4BIT-26ME36A-W6BZ2QS";
+        };
+      };
+      enable = true;
+      folders = {
+      };
+      overrideDevices = true;
+      overrideFolders = true;
+    };
+
     # Enable the X11 windowing system.
     xserver = {
       enable = true;   

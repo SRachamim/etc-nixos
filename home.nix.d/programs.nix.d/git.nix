@@ -5,7 +5,7 @@
     ./git.nix.d/delta.nix
   ];
 
-  home-manager.users.sahar.programs.git = {
+  home-manager.users.user.programs.git = {
     aliases = {
       br = "branch";
       ci = "commit";

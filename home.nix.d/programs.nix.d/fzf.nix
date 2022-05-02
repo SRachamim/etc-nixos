@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.fzf = {
+  home-manager.users.user.programs.fzf = {
     enable = true;
   };
 }

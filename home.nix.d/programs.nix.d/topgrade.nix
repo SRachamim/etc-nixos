@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.topgrade = {
+  home-manager.users.user.programs.topgrade = {
     enable = true;
   };
 }

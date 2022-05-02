@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.zsh = {
+  home-manager.users.user.programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
     enableSyntaxHighlighting = true;

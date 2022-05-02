@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.bat = {
+  home-manager.users.user.programs.bat = {
     config = {
       theme = "Nord";
     };

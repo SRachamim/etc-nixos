@@ -1,14 +1,13 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.sahar.programs.firefox = {
+  home-manager.users.user.programs.firefox = {
     enable = true;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-      bitwarden
       ublock-origin
     ];
     profiles = {
-      kishu = {
+      user = {
 	isDefault = true;
       };
     };

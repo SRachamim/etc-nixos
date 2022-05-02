@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.sahar.gtk = {
+  home-manager.users.user.gtk = {
     enable = true;
 
     theme = {

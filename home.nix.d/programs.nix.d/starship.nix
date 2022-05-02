@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.starship = {
+  home-manager.users.user.programs.starship = {
     enable = true;
     enableZshIntegration = true;
   };

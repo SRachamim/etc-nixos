@@ -46,6 +46,8 @@
 
       displayManager.defaultSession = "xfce+xmonad";
 
+      layout = "us,il";
+
       windowManager = {
         xmonad = {
           enable = true;

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.sahar.programs.tmux = {
+  home-manager.users.user.programs.tmux = {
     baseIndex = 1;
     enable = true;
     escapeTime = 20;

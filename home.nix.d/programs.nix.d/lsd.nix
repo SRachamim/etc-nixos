@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.lsd = {
+  home-manager.users.user.programs.lsd = {
     enable = true;
     enableAliases = true;
   };

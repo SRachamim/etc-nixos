@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.sahar.programs.neovim.coc = {
+  home-manager.users.user.programs.neovim.coc = {
     enable = true;
     settings = {
       "eslint.autoFixOnSave" = true;

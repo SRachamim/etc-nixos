@@ -2,7 +2,7 @@
 
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.sahar = {
+  users.users.user = {
     extraGroups = [
       "adbusers"
 
@@ -12,6 +12,8 @@
 
       # Enable ‘sudo’ for the user.
       "wheel"
+
+      "wireshark"
     ];
     isNormalUser = true;
   };

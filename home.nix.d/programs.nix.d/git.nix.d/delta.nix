@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.git.delta = {
+  home-manager.users.user.programs.git.delta = {
     enable = true;
   };
 }

@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.home.file = {
+  home-manager.users.user.home.file = {
     ".background-image" = {
       source = ./file.nix.d/.background-image.png;
       target = ".background-image";

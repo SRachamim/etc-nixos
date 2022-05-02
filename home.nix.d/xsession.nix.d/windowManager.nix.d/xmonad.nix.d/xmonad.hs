@@ -14,12 +14,17 @@ myNormColor   = "#2E3440"  -- Border color of normal windows
 myFocusColor :: String
 myFocusColor  = "#5E81AC"  -- Border color of focused windows
 
+myManageHook = composeAll
+   [ className =? "Tor Browseu"  --> doFloat
+   ]
+
 main = do   
     xmproc <- spawnPipe "xmobar"
     xmonad $ docks xfceConfig
         { layoutHook = avoidStruts  $  layoutHook xfceConfig
         , terminal = "kitty"
 	, startupHook = ewmhDesktopsStartup >> setWMName "LG3D"
+	, manageHook    = myManageHook <+> manageHook defaultConfig
         , focusFollowsMouse = False
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor

@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.atuin = {
+  home-manager.users.user.programs.atuin = {
     enable = true;
     enableZshIntegration = true;
   };

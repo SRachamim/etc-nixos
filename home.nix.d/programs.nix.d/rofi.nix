@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.rofi = {
+  home-manager.users.user.programs.rofi = {
     enable = true;
     theme = ./rofi.nix.d/theme.rasi;
   };

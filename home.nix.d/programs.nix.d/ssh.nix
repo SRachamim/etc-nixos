@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.ssh = {
+  home-manager.users.user.programs.ssh = {
     enable = true;
     matchBlocks = {
       "ssh.dev.azure.com" = {

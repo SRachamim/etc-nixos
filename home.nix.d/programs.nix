@@ -20,7 +20,7 @@
     ./programs.nix.d/zsh.nix
   ];
 
-  home-manager.users.sahar.programs = {
+  home-manager.users.user.programs = {
     home-manager = {
       enable = true;
     };

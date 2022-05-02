@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.sahar.programs.kitty = {
+  home-manager.users.user.programs.kitty = {
     enable = true;
     extraConfig = builtins.readFile ./kitty.nix.d/theme.conf;
     font = {

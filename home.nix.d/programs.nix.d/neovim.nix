@@ -5,7 +5,7 @@
     ./neovim.nix.d/coc.nix
   ];
 
-  home-manager.users.sahar.programs.neovim = {
+  home-manager.users.user.programs.neovim = {
     enable = true;
     extraConfig = builtins.readFile ./neovim.nix.d/rc.vim;
     plugins = with pkgs.vimPlugins; [

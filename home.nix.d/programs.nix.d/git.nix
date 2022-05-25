@@ -26,10 +26,6 @@
         defaultBranch = "master";
       };
 
-      pull = {
-        rebase = false;
-      };
-
       user = {
         email = "srachamim@gmail.com";
         name = "Sahar Rachamim (Kishu)";

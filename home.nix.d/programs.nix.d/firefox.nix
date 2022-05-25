@@ -8,7 +8,7 @@
     ];
     profiles = {
       user = {
-	isDefault = true;
+	      isDefault = true;
       };
     };
   };

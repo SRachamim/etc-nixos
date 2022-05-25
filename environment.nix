@@ -12,32 +12,13 @@
     # $ nix search wget
     systemPackages = with pkgs; [
       bitwarden
-      bitwarden-cli
-      blender
-      chromium
-      cool-retro-term
-      dig
+      brave
       element-desktop
       freetube
-      gimp
-      jless
-      joplin
-      lbry
-      libreoffice
-      mpv
-      neofetch
       nodejs_latest
-      protonmail-bridge
-      ranger
       ripgrep
       signal-desktop
-      speedtest-cli
-      tahoe-lafs
-      tor-browser-bundle-bin
-      tor-browser-bundle-bin
-      wireshark
       xclip
-      xorg.xmessage
     ];
   };
 }

@@ -21,17 +21,17 @@ windows:
       panes:
         - vim
         - yarn dev
-        - yarn test:watch
+        - yarn watch-test
   - webapp:
       layout: main-vertical
       pre: cd client/packages/apps/webapp
       panes:
         - vim
         - yarn dev
-        - yarn test:watch
-  - components:
+        - yarn watch-test
+  - feature-bits:
       layout: main-vertical
-      pre: cd client/packages/libs/components
+      pre: cd client/packages/libs/feature-bits
       panes:
         - vim
         - 
@@ -57,15 +57,3 @@ windows:
         - vim
         - 
         - 
-  - e2e:
-      layout: main-vertical
-      pre: cd automation
-      panes:
-        - vim
-        -
-  - devops:
-      layout: main-vertical
-      pre: cd devops
-      panes:
-        - vim
-        -

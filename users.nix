@@ -12,8 +12,6 @@
 
       # Enable ‘sudo’ for the user.
       "wheel"
-
-      "wireshark"
     ];
     isNormalUser = true;
   };

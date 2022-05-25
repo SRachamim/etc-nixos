@@ -38,10 +38,7 @@
         };
       };
       enable = true;
-      folders = {
-      };
       overrideDevices = true;
-      overrideFolders = true;
     };
 
     # Enable the X11 windowing system.

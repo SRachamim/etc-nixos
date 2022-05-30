@@ -5,7 +5,7 @@
 
 {
   imports = [ 
-  "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/precision/5530"
+    "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/precision/5530"
 
     ./boot.nix
 
@@ -26,13 +26,9 @@
 
     ./nixpkgs.nix
 
-    ./programs.nix
-
     ./services.nix
 
     ./system.nix
-
-    ./systemd.nix
 
     ./time.nix
 

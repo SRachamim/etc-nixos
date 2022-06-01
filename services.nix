@@ -1,24 +1,16 @@
 { ... }:
-
 {
-  # List services that you want to enable:
   services = {
     blueman.enable = true;
-
     fwupd.enable = true;
-
     geoclue2.appConfig.redshift.isAllowed = true;
-
     picom = {
       enable = true;
       fade = true;
       fadeDelta = 4;
       shadow = true;
     };
-
-    # Enable CUPS to print documents.
     printing.enable = true;
-  
     redshift = {
       brightness = {
         day = "1";
@@ -30,7 +22,6 @@
         night = 3700;
       };
     };
-
     syncthing = {
       devices = {
         "android" = {
@@ -40,11 +31,8 @@
       enable = true;
       overrideDevices = true;
     };
-
-    # Enable the X11 windowing system.
     xserver = {
       enable = true;   
-
       desktopManager = {
         xterm.enable = false;
         xfce = {
@@ -53,11 +41,8 @@
           noDesktop = true;
         };
       };
-
       displayManager.defaultSession = "xfce+xmonad";
-
-      layout = "us,il";
-
+      layout = "us,il,de";
       windowManager = {
         xmonad = {
           enable = true;
@@ -69,8 +54,6 @@
           ];
         };
       };
-
-      # Configure keymap in X11
       xkbOptions = "caps:escape";
     };
   };

@@ -9,6 +9,7 @@
     systemPackages = with pkgs; [
       bitwarden
       brave
+      brightnessctl
       element-desktop
       freetube
       nodejs_latest

@@ -11,6 +11,7 @@
     ./location.nix
     ./networking.nix
     ./nixpkgs.nix
+    ./programs.nix
     ./services.nix
     ./system.nix
     ./time.nix

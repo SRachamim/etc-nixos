@@ -23,6 +23,10 @@ in
         source = ./home/file/tmuxinator/fg.yaml;
         target = ".config/tmuxinator/fg.yaml";
       };
+      "sway-config" = {
+        source = ./home/file/sway/config;
+        target = ".config/sway/config";
+      };
     };
     programs = {
       atuin = {
@@ -85,16 +89,6 @@ in
       home-manager = {
         enable = true;
       };
-      kitty = {
-        enable = true;
-        extraConfig = builtins.readFile ./home/programs/kitty/theme.conf;
-        font = {
-          name = "JetBrainsMono Nerd Font Mono Regular";
-        };
-        settings = {
-          shell = "zsh";
-        };
-      };
       lsd = {
         enable = true;
         enableAliases = true;
@@ -145,10 +139,6 @@ in
         vimAlias = true;
         vimdiffAlias = true;
       };
-      rofi = {
-        enable = true;
-        theme = ./home/programs/rofi/theme.rasi;
-      };
       ssh = {
         enable = true;
         matchBlocks = {
@@ -183,10 +173,6 @@ in
       topgrade = {
         enable = true;
       };
-      xmobar = {
-        enable = true;
-        extraConfig = builtins.readFile ./home/programs/xmobar/xmobarrc.hs;
-      };
       zsh = {
         enable = true;
         enableAutosuggestions = true;
@@ -197,11 +183,6 @@ in
           pbpaste = "xclip -selection clipboard -o";
         };
       };
-    };
-    xsession.windowManager.xmonad = {
-      config = ./home/xsession/windowManager/xmonad/xmonad.hs;
-      enable = true;
-      enableContribAndExtras = true;
     };
   };
 }

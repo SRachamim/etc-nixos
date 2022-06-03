@@ -89,6 +89,16 @@ in
       home-manager = {
         enable = true;
       };
+      kitty = {
+        enable = true;
+        extraConfig = builtins.readFile ./home/programs/kitty/theme.conf;
+        font = {
+          name = "JetBrainsMono Nerd Font Mono Regular";
+        };
+        settings = {
+          shell = "zsh";
+        };
+      };
       lsd = {
         enable = true;
         enableAliases = true;

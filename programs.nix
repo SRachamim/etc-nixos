@@ -4,7 +4,6 @@
     sway = {
       enable = true;
       extraPackages = with pkgs; [
-        alacritty
         dmenu
         mako
         swayidle

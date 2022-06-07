@@ -9,10 +9,6 @@ in
   home-manager.users.user = {
     gtk = {
       enable = true;
-      theme = {
-        name = "Nordic";
-        package = pkgs.nordic;
-      };
     };
     home.file = {
       ".background-image" = {
@@ -26,6 +22,10 @@ in
       "sway-config" = {
         source = ./home/file/sway/config;
         target = ".config/sway/config";
+      };
+      "waybar" = {
+        source = ./home/file/waybar;
+        target = ".config/waybar";
       };
     };
     programs = {
@@ -181,6 +181,9 @@ in
         tmuxinator.enable = true;
       };
       topgrade = {
+        enable = true;
+      };
+      waybar = {
         enable = true;
       };
       zsh = {

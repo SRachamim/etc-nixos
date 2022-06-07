@@ -9,9 +9,9 @@
     systemPackages = with pkgs; [
       bitwarden
       brave
-      brightnessctl
       element-desktop
       freetube
+      htop
       nodejs_latest
       ripgrep
       signal-desktop

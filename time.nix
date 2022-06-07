@@ -1,6 +1,6 @@
 { ... }:
 
 {
-  time.timeZone = "UTC";
+  time.timeZone = "Asia/Jerusalem";
 }
 

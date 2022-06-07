@@ -2,6 +2,7 @@
 {
   services = {
     blueman.enable = true;
+    dbus.enable = true;
     fwupd.enable = true;
     greetd = {
       enable = true;
@@ -13,6 +14,11 @@
         };
       };
       vt = 2;
+    };
+    pipewire = {
+      alsa.enable = true;
+      enable = true;
+      pulse.enable = true;
     };
     printing.enable = true;
     syncthing = {

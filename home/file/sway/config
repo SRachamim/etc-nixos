@@ -45,7 +45,7 @@ bindswitch lid:off exec swaymsg output eDP-1 enable
 #
 # Example configuration:
 #
-set $lock 'swaylock \
+set $lock swaylock \
 	--screenshots \
 	--clock \
 	--indicator \
@@ -60,7 +60,7 @@ set $lock 'swaylock \
 	--separator-color 00000000 \
 	--grace 2 \
 	--fade-in 0.2
-'
+
 exec swayidle -w \
          timeout 300 $lock \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \

@@ -19,9 +19,9 @@ in
         source = ./home/file/tmuxinator/fg.yaml;
         target = ".config/tmuxinator/fg.yaml";
       };
-      "sway-config" = {
-        source = ./home/file/sway/config;
-        target = ".config/sway/config";
+      "sway" = {
+        source = ./home/file/sway;
+        target = ".config/sway";
       };
       "waybar" = {
         source = ./home/file/waybar;
@@ -191,7 +191,7 @@ in
         enableAutosuggestions = true;
         enableSyntaxHighlighting = true;
         shellAliases = {
-          lock = "swaylock --screenshots --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --ring-color bb00cc --key-hl-color 880033 --line-color 00000000 --inside-color 00000088 --separator-color 00000000 --grace 2 --fade-in 0.2";
+          lock = "sh ~/.config/sway/lock.sh";
           mux = "tmuxinator";
           pbcopy = "xclip -selection clipboard";
           pbpaste = "xclip -selection clipboard -o";

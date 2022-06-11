@@ -42,33 +42,7 @@ bindswitch lid:on output eDP-1 disable
 bindswitch lid:off exec swaymsg output eDP-1 enable
 
 ### Idle configuration
-#
-# Example configuration:
-#
-set $lock swaylock \
-	--screenshots \
-	--clock \
-	--indicator \
-	--indicator-radius 100 \
-	--indicator-thickness 7 \
-	--effect-blur 7x5 \
-	--effect-vignette 0.5:0.5 \
-	--ring-color bb00cc \
-	--key-hl-color 880033 \
-	--line-color 00000000 \
-	--inside-color 00000088 \
-	--separator-color 00000000 \
-	--grace 2 \
-	--fade-in 0.2
-
-exec swayidle -w \
-         timeout 300 $lock \
-         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep $lock
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+exec ~/.config/sway/idle.sh
 
 ### Input configuration
 #
@@ -113,7 +87,8 @@ input type:keyboard {
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+     bindsym $mod+Shift+e exec sh ~/.config/sway/lock.sh
 #
 # Moving around:
 #

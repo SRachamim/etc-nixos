@@ -21,7 +21,10 @@ set $term kitty
 set $uifont "Ubuntu 14"
 set $highlight #3daee9
 set $prompt #18b218
-set $menu bemenu-run --fn $uifont -b -p "▶" --tf "$prompt" --hf "$highlight" --sf "$highlight" --scf "$highlight" | xargs swaymsg exec
+
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+set $menu exec $term --class=launcher -e sway-launcher-desktop
+# set $menu bemenu-run --fn $uifont -b -p "▶" --tf "$prompt" --hf "$highlight" --sf "$highlight" --scf "$highlight" | xargs swaymsg exec
 
 ### Output configuration
 #
@@ -43,6 +46,9 @@ bindswitch lid:off exec swaymsg output eDP-1 enable
 
 ### Idle configuration
 exec ~/.config/sway/idle.sh
+
+exec wluma
+exec gammastep
 
 ### Input configuration
 #
@@ -233,9 +239,12 @@ bindsym XF86AudioMute exec 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
 default_border none
 
 # screenshots
-bindsym $mod+c exec grim  -g "$(slurp)" /tmp/$(date +'%H:%M:%S.png')
+bindsym $mod+c exec grim -g "$(slurp)" - | swappy -f -
 
 exec dbus-sway-environment
 exec configure-gtk
+
+### autotiling
+exec autotiling -w 1
 
 include /etc/sway/config.d/*

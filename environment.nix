@@ -9,12 +9,15 @@
     systemPackages = with pkgs; [
       bitwarden
       brave
+      cryptomator
       element-desktop
       freetube
+      google-chrome
       htop
       nodejs_latest
       ripgrep
       signal-desktop
+      spotify
       xclip
     ];
   };

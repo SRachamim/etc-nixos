@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
   programs = {
+    adb = {
+      enable = true;
+    };
     light.enable = true;
     sway = {
       enable = true;
@@ -29,20 +32,28 @@
             systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
           '';
         })
-        bemenu
+        autotiling
         dracula-theme
+        gammastep
         glib
         gnome3.adwaita-icon-theme
         grim
         mako
+        mpv
         pulseaudio
         slurp
+        swappy
+        sway-launcher-desktop
         swayidle
         swaylock-effects
         wayland
         wl-clipboard
+        wluma
       ];
       wrapperFeatures.gtk = true;
+    };
+    wshowkeys = {
+      enable = true;
     };
   };
 }

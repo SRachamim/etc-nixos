@@ -9,7 +9,7 @@
       settings = rec {
         default_session = initial_session;
         initial_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet -g 'Welcome to KishuOS!' --time --cmd sway";
           user = "greeter";
         };
       };

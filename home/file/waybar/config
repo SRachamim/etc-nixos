@@ -5,23 +5,17 @@
     // Archived modules
     // "custom/gpu", "bluetooth",  "custom/weather", "temperature", "sway/window"
     // Choose the order of the modules
-    "modules-left": [ "clock", "sway/language", "custom/scratchpad-indicator", "custom/pacman", "sway/mode", "idle_inhibitor", "custom/media"],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": [ "battery", "custom/cpugovernor", "cpu", "temperature", "custom/gpu", "pulseaudio", "bluetooth", "network", "tray"],
+    "modules-left": [ "clock", "sway/language", "custom/scratchpad-indicator", "custom/pacman", "sway/mode", "idle_inhibitor", "custom/media", "sway/workspaces"],
+    "modules-center": ["custom/text"],
+    "modules-right": [ "backlight", "battery", "custom/cpugovernor", "cpu", "temperature", "custom/gpu", "pulseaudio", "bluetooth", "network", "tray"],
+    "custom/text": {
+      "format": "🔒 KishuOS",
+      "on-click": "sh ~/.config/sway/lock.sh"
+    },
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "<span color=\"#D8DEE9\"></span>",
-            "2": "<span color=\"#88C0D0\"></span>",
-            "3": "<span color=\"#A3BE8C\"></span>",
-            "4": "<span color=\"#D8DEE9\"></span>",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -182,5 +176,10 @@
         "format": "{capacity}% {icon}",
         "format-icons": ["", "", "", "", ""],
         "max-length": 25
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""]
     }
 }

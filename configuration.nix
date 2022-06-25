@@ -10,6 +10,7 @@
     ./home.nix
     ./location.nix
     ./networking.nix
+    ./nix.nix
     ./nixpkgs.nix
     ./programs.nix
     ./services.nix

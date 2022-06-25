@@ -294,4 +294,8 @@
 #tray {
     background: #434C5E;
 }
-
+#custom-text {
+    background: @nord_bg;
+    font-weight: bold;
+    padding: 0 0.6em;
+}

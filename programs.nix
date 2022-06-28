@@ -33,6 +33,7 @@
           '';
         })
         autotiling
+        blueberry
         dracula-theme
         gammastep
         glib
@@ -46,9 +47,11 @@
         sway-launcher-desktop
         swayidle
         swaylock-effects
+        udiskie
         wayland
         wl-clipboard
         wluma
+        xdg-utils
       ];
       wrapperFeatures.gtk = true;
     };

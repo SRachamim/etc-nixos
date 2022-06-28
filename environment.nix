@@ -8,8 +8,6 @@
     };
     systemPackages = with pkgs; [
       bitwarden
-      brave
-      cryptomator
       element-desktop
       freetube
       google-chrome

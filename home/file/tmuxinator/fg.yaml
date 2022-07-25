@@ -1,6 +1,6 @@
 # ~/.config/tmuxinator/fg.yml
 
-name: fg
+name: fgrepo
 root: ~/Development/dev.azure.com/fundguard/fgrepo
 
 windows:
@@ -20,15 +20,15 @@ windows:
       pre: cd client/packages/apps/gql-api
       panes:
         - vim
-        - yarn dev
-        - yarn watch-test
+        - 
+        - 
   - webapp:
       layout: main-vertical
       pre: cd client/packages/apps/webapp
       panes:
         - vim
-        - yarn dev
-        - yarn watch-test
+        - 
+        - 
   - feature-bits:
       layout: main-vertical
       pre: cd client/packages/libs/feature-bits

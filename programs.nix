@@ -32,7 +32,6 @@
             systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
           '';
         })
-        autotiling
         blueberry
         dracula-theme
         gammastep
@@ -45,12 +44,12 @@
         slurp
         swappy
         sway-launcher-desktop
-        swayidle
-        swaylock-effects
         udiskie
+        waybar
         wayland
         wl-clipboard
         wluma
+        wtype
         xdg-utils
       ];
       wrapperFeatures.gtk = true;

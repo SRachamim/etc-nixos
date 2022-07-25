@@ -9,14 +9,12 @@
     systemPackages = with pkgs; [
       bitwarden
       element-desktop
-      freetube
       google-chrome
       htop
       nodejs_latest
       ripgrep
       signal-desktop
       spotify
-      xclip
     ];
   };
 }

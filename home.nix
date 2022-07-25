@@ -7,9 +7,6 @@ in
     (import "${home-manager}/nixos")
   ];
   home-manager.users.user = {
-    gtk = {
-      enable = true;
-    };
     home.file = {
       ".background-image" = {
         source = ./home/file/.background-image.png;
@@ -29,10 +26,6 @@ in
       };
     };
     programs = {
-      atuin = {
-        enable = true;
-        enableZshIntegration = true;
-      };
       bat = {
         config = {
           theme = "Nord";
@@ -44,17 +37,6 @@ in
         enableZshIntegration = true;
         nix-direnv = {
           enable = true;
-        };
-      };
-      firefox = {
-        enable = true;
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          ublock-origin
-        ];
-        profiles = {
-          user = {
-            isDefault = true;
-          };
         };
       };
       fzf = {
@@ -79,10 +61,6 @@ in
           };
           init = {
             defaultBranch = "master";
-          };
-          user = {
-            email = "srachamim@gmail.com";
-            name = "Sahar Rachamim (Kishu)";
           };
         };
       };
@@ -166,7 +144,6 @@ in
         enableZshIntegration = true;
       };
       tmux = {
-        baseIndex = 1;
         enable = true;
         escapeTime = 20;
         keyMode = "vi";
@@ -183,18 +160,20 @@ in
       topgrade = {
         enable = true;
       };
-      waybar = {
-        enable = true;
-      };
       zsh = {
         enable = true;
         enableAutosuggestions = true;
         enableSyntaxHighlighting = true;
+        initExtra = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
-          lock = "sh ~/.config/sway/lock.sh";
+          jc = "lxc exec FG -- ";
+          jcps = "jc ps -aufx | grep jumpcloud";
+          jcrestart = "jc systemctl restart jcagent";
+          jcstart = "jc systemctl start jcagent";
+          jcstatus = "jc systemctl status jcagent";
+          jcstop = "jc systemctl stop jcagent";
+          lock = "~/.config/sway/lock.sh";
           mux = "tmuxinator";
-          pbcopy = "xclip -selection clipboard";
-          pbpaste = "xclip -selection clipboard -o";
         };
       };
     };

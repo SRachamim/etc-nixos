@@ -1,3 +1,6 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p swaylock-effects
+
 swaylock --screenshots --clock --indicator-idle-visible \
 	--indicator-radius 100 \
 	--indicator-thickness 7 \

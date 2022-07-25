@@ -94,7 +94,7 @@ input type:keyboard {
 
     # Exit sway (logs you out of your Wayland session)
 #    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-     bindsym $mod+Shift+e exec sh ~/.config/sway/lock.sh
+     bindsym $mod+Shift+e exec ~/.config/sway/lock.sh
 #
 # Moving around:
 #
@@ -241,10 +241,9 @@ default_border none
 # screenshots
 bindsym $mod+c exec grim -g "$(slurp)" - | swappy -f -
 
+bindsym $mod+m exec ~/.config/sway/moji.sh
+
 exec dbus-sway-environment
 exec configure-gtk
-
-### autotiling
-exec autotiling -w 1
 
 include /etc/sway/config.d/*

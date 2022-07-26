@@ -148,13 +148,13 @@ in
         escapeTime = 20;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
-          nord
+          dracula
           pain-control
           yank
         ];
         sensibleOnTop = true;
         shell = "${pkgs.zsh}/bin/zsh";
-        terminal = "screen-256color";
+        terminal = "tmux";
         tmuxinator.enable = true;
       };
       topgrade = {

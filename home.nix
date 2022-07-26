@@ -71,7 +71,7 @@ in
         enable = true;
         extraConfig = builtins.readFile ./home/programs/kitty/theme.conf;
         font = {
-          name = "JetBrainsMono Nerd Font Mono Regular";
+          name = "Hasklig";
         };
         settings = {
           shell = "zsh";
@@ -103,8 +103,8 @@ in
             plugin = fzf-vim;
           }
           {
-            config = builtins.readFile ./home/programs/neovim/nord-vim.vim;
-            plugin = nord-vim;
+            config = builtins.readFile ./home/programs/neovim/tokyonight-nvim.vim;
+            plugin = tokyonight-nvim;
           }
           {
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;

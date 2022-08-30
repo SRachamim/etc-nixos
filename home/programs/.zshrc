@@ -16,3 +16,4 @@ co-d () {
 	git worktree remove $1
 }
 
+export FZF_DEFAULT_COMMAND='fd -H --type f --strip-cwd-prefix'

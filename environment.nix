@@ -9,12 +9,15 @@
     systemPackages = with pkgs; [
       bitwarden
       element-desktop
+      fd
       google-chrome
       htop
       nodejs_latest
       ripgrep
       signal-desktop
       spotify
+      vim
+      vimgolf
     ];
   };
 }

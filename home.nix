@@ -28,7 +28,7 @@ in
     programs = {
       bat = {
         config = {
-          theme = "Dracula";
+          theme = "Nord";
         };
         enable = true;
       };
@@ -103,8 +103,8 @@ in
             plugin = fzf-vim;
           }
           {
-            config = builtins.readFile ./home/programs/neovim/dracula-vim.vim;
-            plugin = dracula-vim;
+            config = builtins.readFile ./home/programs/neovim/nord-vim.vim;
+            plugin = nord-vim;
           }
           {
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;
@@ -124,6 +124,7 @@ in
           vim-surround
           vim-unimpaired
         ];
+        vimAlias = true;
         vimdiffAlias = true;
       };
       ssh = {
@@ -148,15 +149,7 @@ in
         escapeTime = 20;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
-          {
-            extraConfig = ''
-              set -g @dracula-show-battery false
-				      set -g @dracula-show-powerline true
-				      set -g @dracula-refresh-rate 10
-              set -g history-limit 50000
-            '';
-            plugin = dracula;
-          }
+          nord
           pain-control
           yank
         ];
@@ -177,13 +170,14 @@ in
         enableSyntaxHighlighting = true;
         initExtra = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
-          jc = "lxc exec FG2 -- ";
-          jcps = "jc ps -aufx | grep jumpcloud";
-          jcpull = ''jc "cd fgrepo && git pull"'';
-          jcrestart = "jc systemctl restart jcagent";
-          jcstart = "jc systemctl start jcagent";
-          jcstatus = "jc systemctl status jcagent";
-          jcstop = "jc systemctl stop jcagent";
+          bd = "fg bd";
+          fg = "lxc exec FG -- ";
+          jcps = "fg ps -aufx | grep jumpcloud";
+          jcpull = ''fg "cd fgrepo && git pull"'';
+          jcrestart = "fg systemctl restart jcagent";
+          jcstart = "fg systemctl start jcagent";
+          jcstatus = "fg systemctl status jcagent";
+          jcstop = "fg systemctl stop jcagent";
           lock = "~/.config/sway/lock.sh";
           mux = "tmuxinator";
         };

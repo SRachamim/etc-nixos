@@ -1,2 +1,2 @@
 " Load the colorscheme
-colorscheme dracula
+colorscheme nord

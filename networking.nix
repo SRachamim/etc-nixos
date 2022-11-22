@@ -1,7 +1,7 @@
 { options, ... }:
 {
   networking = {
-    hostName = "host";
+    hostName = "SaharRachamim";
     interfaces.wlp0s20f3.useDHCP = true;
     networkmanager = {
       connectionConfig = {

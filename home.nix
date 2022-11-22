@@ -67,6 +67,9 @@ in
       home-manager = {
         enable = true;
       };
+      jq = {
+        enable = true;
+      };
       kitty = {
         enable = true;
         extraConfig = builtins.readFile ./home/programs/kitty/kitty.conf;

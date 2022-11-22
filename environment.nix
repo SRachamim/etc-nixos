@@ -10,6 +10,7 @@
       bitwarden
       element-desktop
       fd
+      fx
       google-chrome
       htop
       nodejs_latest

@@ -2,6 +2,7 @@
 {
   imports = [ 
     "${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/precision/5530"
+    ./av.nix
     ./boot.nix
     ./environment.nix
     ./fonts.nix

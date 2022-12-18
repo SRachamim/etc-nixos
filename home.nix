@@ -149,6 +149,7 @@ in
       tmux = {
         clock24 = true;
         enable = true;
+        historyLimit = 100000;
         escapeTime = 20;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [

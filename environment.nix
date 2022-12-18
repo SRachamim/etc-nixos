@@ -19,6 +19,7 @@
       spotify
       vim
       vimgolf
+      wine
     ];
   };
 }

@@ -20,6 +20,7 @@
       vim
       vimgolf
       wine
+      xorg.xrandr
     ];
   };
 }

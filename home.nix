@@ -99,7 +99,11 @@ in
             config = builtins.readFile ./home/programs/neovim/coc-nvim.vim;
             plugin = coc-nvim;
           }
+          coc-css
+          coc-html
           coc-json
+          coc-markdownlint
+          coc-sh
           coc-tsserver
           {
             config = builtins.readFile ./home/programs/neovim/fzf-vim.vim;

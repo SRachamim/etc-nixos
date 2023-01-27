@@ -13,14 +13,15 @@
       fx
       google-chrome
       htop
+      mpv
       nodejs_latest
       ripgrep
       signal-desktop
       spotify
+      unzip
       vim
       vimgolf
       wine
-      xorg.xrandr
     ];
   };
 }

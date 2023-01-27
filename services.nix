@@ -1,20 +1,8 @@
 { pkgs, ... }:
 {
   services = {
-    blueman.enable = true;
     dbus.enable = true;
     fwupd.enable = true;
-    greetd = {
-      enable = true;
-      settings = rec {
-        default_session = initial_session;
-        initial_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet -g 'Welcome to KishuOS!' --time --cmd sway";
-          user = "greeter";
-        };
-      };
-      vt = 2;
-    };
     pipewire = {
       alsa.enable = true;
       enable = true;
@@ -29,6 +17,19 @@
       };
       enable = true;
       overrideDevices = true;
+    };
+    xserver = {
+      desktopManager = {
+        plasma5 = {
+          enable = true;
+        };
+      };
+      displayManager = {
+        sddm = {
+          enable = true;
+        };
+      };
+      enable = true;
     };
   };
 }

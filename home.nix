@@ -117,6 +117,7 @@ in
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;
             plugin = vim-airline;
           }
+          sniprun
           vim-commentary
           vim-devicons
           vim-fugitive
@@ -127,6 +128,7 @@ in
             config = builtins.readFile ./home/programs/neovim/vim-polyglot.vim;
             plugin = vim-polyglot;
           }
+          orgmode
           vim-repeat
           vim-surround
           vim-unimpaired

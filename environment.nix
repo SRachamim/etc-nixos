@@ -7,10 +7,14 @@
       };
     };
     systemPackages = with pkgs; [
+      adobe-reader
       bitwarden
+      bitwig-studio
+      davinci-resolve
       element-desktop
       fd
       fx
+      gimp
       google-chrome
       htop
       mpv

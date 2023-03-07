@@ -7,6 +7,8 @@
       "davinci-resolve"
       "falcon-sensor"
       "google-chrome"
+      "postman"
+      "slack"
       "spotify"
       "spotify-unwrapped"
     ];

@@ -6,10 +6,14 @@
         text = "b08dfa6083e7567a1921a715000001fb";
       };
     };
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
     systemPackages = with pkgs; [
       adobe-reader
       bitwarden
       bitwig-studio
+      brave
       davinci-resolve
       element-desktop
       fd
@@ -17,15 +21,20 @@
       gimp
       google-chrome
       htop
+      libreoffice
       mpv
       nodejs_latest
+      postman
       ripgrep
       signal-desktop
+      slack
       spotify
+      thunderbird
       unzip
       vim
       vimgolf
       wine
+      yubikey-manager
     ];
   };
 }

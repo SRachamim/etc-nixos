@@ -5,6 +5,7 @@
       "adobe-reader"
       "bitwig-studio"
       "davinci-resolve"
+      "discord"
       "falcon-sensor"
       "google-chrome"
       "postman"

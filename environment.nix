@@ -15,6 +15,7 @@
       bitwig-studio
       brave
       davinci-resolve
+      discord
       element-desktop
       fd
       fx
@@ -24,17 +25,19 @@
       libreoffice
       mpv
       nodejs_latest
+      pirate-get
       postman
       ripgrep
       signal-desktop
       slack
       spotify
       thunderbird
+      transmission-qt
       unzip
       vim
       vimgolf
       wine
-      yubikey-manager
+      wl-clipboard
     ];
   };
 }

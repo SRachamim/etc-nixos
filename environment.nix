@@ -10,33 +10,19 @@
       NIXOS_OZONE_WL = "1";
     };
     systemPackages = with pkgs; [
-      adobe-reader
+      amberol
       bitwarden
-      bitwig-studio
       brave
-      davinci-resolve
-      discord
+      cargo
       element-desktop
       fd
-      fx
-      gimp
-      google-chrome
-      htop
-      libreoffice
       mpv
       nodejs_latest
-      pirate-get
-      postman
       ripgrep
+      rustc
       signal-desktop
-      slack
-      spotify
-      thunderbird
-      transmission-qt
       unzip
       vim
-      vimgolf
-      wine
       wl-clipboard
     ];
   };

@@ -101,6 +101,7 @@ in
           }
           coc-css
           coc-html
+          coc-java
           coc-json
           coc-markdownlint
           coc-sh
@@ -165,7 +166,7 @@ in
         ];
         sensibleOnTop = true;
         shell = "${pkgs.zsh}/bin/zsh";
-        terminal = "tmux";
+        terminal = "tmux-256color";
         tmuxinator.enable = true;
         extraConfig = ''
           set -g mouse on
@@ -181,7 +182,7 @@ in
         initExtra = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
           bd = "fg bd";
-          fg = "lxc exec FG -- ";
+          fg = "lxc exec fg -- ";
           jcps = "fg ps -aufx | grep jumpcloud";
           jcpull = ''fg "cd fgrepo && git pull"'';
           jcrestart = "fg systemctl restart jcagent";

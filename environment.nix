@@ -12,15 +12,17 @@
     systemPackages = with pkgs; [
       amberol
       bitwarden
-      brave
       cargo
       element-desktop
       fd
+      google-chrome
       mpv
       nodejs_latest
       ripgrep
       rustc
       signal-desktop
+      spotify
+      stremio
       unzip
       vim
       wl-clipboard

@@ -9,21 +9,9 @@ in
   home-manager.users.user = {
     home.stateVersion = "23.05";
     home.file = {
-      ".background-image" = {
-        source = ./home/file/.background-image.png;
-        target = ".background-image";
-      };
       "tmuxinator-fg.yaml" = {
         source = ./home/file/tmuxinator/fg.yaml;
         target = ".config/tmuxinator/fg.yaml";
-      };
-      "sway" = {
-        source = ./home/file/sway;
-        target = ".config/sway";
-      };
-      "waybar" = {
-        source = ./home/file/waybar;
-        target = ".config/waybar";
       };
     };
     programs = {
@@ -119,7 +107,6 @@ in
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;
             plugin = vim-airline;
           }
-          sniprun
           vim-commentary
           vim-devicons
           vim-fugitive
@@ -190,7 +177,6 @@ in
           jcstart = "fg systemctl start jcagent";
           jcstatus = "fg systemctl status jcagent";
           jcstop = "fg systemctl stop jcagent";
-          lock = "~/.config/sway/lock.sh";
           mux = "tmuxinator";
         };
       };

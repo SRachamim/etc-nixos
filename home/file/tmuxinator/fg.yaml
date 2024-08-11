@@ -1,7 +1,7 @@
 # ~/.config/tmuxinator/fg.yml
 
 name: fgrepo
-root: ~/Development/dev.azure.com/fundguard/fgrepo
+root: /Volumes/Development/fgrepo
 
 windows:
   - fgrepo:
@@ -25,6 +25,13 @@ windows:
   - webapp:
       layout: main-vertical
       pre: cd client/packages/apps/webapp
+      panes:
+        - nvim
+        - 
+        - 
+  - components:
+      layout: main-vertical
+      pre: cd client/packages/libs/components
       panes:
         - nvim
         - 

@@ -1,12 +1,5 @@
 { config, pkgs, ... }:
-let
-    home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
-in
 {
-  imports = [
-    (import "${home-manager}/nixos")
-  ];
-  home-manager.users.user = {
     home.stateVersion = "23.05";
     home.file = {
       "tmuxinator-fg.yaml" = {
@@ -14,6 +7,12 @@ in
         target = ".config/tmuxinator/fg.yaml";
       };
     };
+    home.packages = with pkgs; [
+      fd
+      nerdfonts
+      ripgrep
+      podman
+    ];
     programs = {
       bat = {
         config = {
@@ -40,9 +39,6 @@ in
           st = "status";
           unstage = "reset HEAD --";
         };
-        delta = {
-          enable = true;
-        };
         enable = true;
         extraConfig = {
           core = {
@@ -63,7 +59,7 @@ in
         enable = true;
         extraConfig = builtins.readFile ./home/programs/kitty/kitty.conf;
         font = {
-          name = "Hasklig";
+          name = "Hasklug Nerd Font";
         };
         settings = {
           shell = "zsh";
@@ -88,12 +84,23 @@ in
             config = builtins.readFile ./home/programs/neovim/coc-nvim.vim;
             plugin = coc-nvim;
           }
+          {
+            config = builtins.readFile ./home/programs/neovim/ChatGPT-nvim.vim;
+            plugin = ChatGPT-nvim;
+          }
+          {
+            config = builtins.readFile ./home/programs/neovim/vim-closetag.vim;
+            plugin = vim-closetag;
+          }
           coc-css
+          vim-css-color
+          coc-python
           coc-html
           coc-java
           coc-json
           coc-markdownlint
           coc-sh
+          coc-tailwindcss
           coc-tsserver
           {
             config = builtins.readFile ./home/programs/neovim/fzf-vim.vim;
@@ -109,6 +116,10 @@ in
           }
           vim-commentary
           vim-devicons
+          {
+            config = builtins.readFile ./home/programs/neovim/vim-html-template-literals.vim;
+            plugin = vim-html-template-literals;
+          }
           vim-fugitive
           vim-gitgutter
           vim-highlightedyank
@@ -165,8 +176,12 @@ in
       };
       zsh = {
         enable = true;
-        enableAutosuggestions = true;
-        enableSyntaxHighlighting = true;
+        autosuggestion = {
+          enable = true;
+        };
+        syntaxHighlighting = {
+          enable = true;
+        };
         initExtra = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
           bd = "fg bd";
@@ -181,5 +196,4 @@ in
         };
       };
     };
-  };
 }

@@ -85,10 +85,6 @@
             plugin = coc-nvim;
           }
           {
-            config = builtins.readFile ./home/programs/neovim/ChatGPT-nvim.vim;
-            plugin = ChatGPT-nvim;
-          }
-          {
             config = builtins.readFile ./home/programs/neovim/vim-closetag.vim;
             plugin = vim-closetag;
           }

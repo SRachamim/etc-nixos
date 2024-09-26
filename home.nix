@@ -10,8 +10,9 @@
     home.packages = with pkgs; [
       fd
       nerdfonts
-      ripgrep
       podman
+      postgresql
+      ripgrep
     ];
     programs = {
       bat = {

@@ -10,8 +10,8 @@
     home.packages = with pkgs; [
       fd
       nerdfonts
+      nodejs
       podman
-      postgresql
       ripgrep
     ];
     programs = {
@@ -43,7 +43,7 @@
         enable = true;
         extraConfig = {
           core = {
-            editor = "vim";
+            editor = "nvim";
           };
           init = {
             defaultBranch = "master";
@@ -91,7 +91,6 @@
           }
           coc-css
           vim-css-color
-          coc-python
           coc-html
           coc-java
           coc-json
@@ -166,6 +165,8 @@
         tmuxinator.enable = true;
         extraConfig = ''
           set -g mouse on
+          set -gu default-command
+          set -g default-shell "$SHELL"
         '';
       };
       topgrade = {

@@ -76,3 +76,19 @@ endif
 
 " Set region to English
 set spelllang=en_gb
+
+" Auto-format Java files with Spotless Maven plugin after saving, only for the current file
+autocmd BufWritePost *.java call SpotlessFormat(expand('%:p'))
+
+function! SpotlessFormat(filepath)
+    " Check if we're in a Maven project (by looking for a pom.xml)
+    if filereadable(findfile('pom.xml', '.;'))
+        " Run Maven Spotless Apply command only on the current file
+        let l:cmd = 'mvn spotless:apply -DspotlessFiles=' . a:filepath
+        " Execute the command in Vim's terminal
+        execute 'silent !' . l:cmd
+        " Reload the file after formatting
+        edit!
+    endif
+endfunction
+

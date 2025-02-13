@@ -8,10 +8,10 @@
       };
     };
     home.packages = with pkgs; [
+      aider-chat
       fd
-      nerdfonts
+      #nerdfonts
       nodejs
-      podman
       ripgrep
     ];
     programs = {
@@ -42,11 +42,60 @@
         };
         enable = true;
         extraConfig = {
+          branch = {
+            sort = "-committerdate";
+          };
           core = {
             editor = "nvim";
+            excludesfile = "~/.gitignore";
+            fsmonitor = true;
+            untrackedCache = true;
+          };
+          column = {
+            ui = "auto";
+          };
+          commit = {
+            verbose = true;
+          };
+          diff = {
+            algorithm = "histogram";
+            colorMoved = "plain";
+            mnemonicPrefix = true;
+            renames = true;
+          };
+          fetch = {
+            all = true;
+            prune = true;
+            pruneTags = true;
+          };
+          help = {
+            autocorrect = "prompt";
           };
           init = {
             defaultBranch = "master";
+          };
+          merge = {
+            conflictstyle = "zdiff3";
+          };
+          pull = {
+            rebase = true;
+          };
+          push = {
+            autoSetupRemote = true;
+            default = "simple";
+            followTags = true;
+          };
+          rebase = {
+            autoSquash = true;
+            autoStash = true;
+            updateRefs = true;
+          };
+          rerere = {
+            autoupdate = true;
+            enabled = true;
+          };
+          tag = {
+            sort = "version:refname";
           };
         };
       };
@@ -91,6 +140,7 @@
           }
           coc-css
           vim-css-color
+          vim-orgmode
           coc-html
           coc-java
           coc-json
@@ -153,6 +203,7 @@
         enable = true;
         historyLimit = 100000;
         escapeTime = 20;
+        focusEvents = true;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
           nord
@@ -164,6 +215,7 @@
         terminal = "tmux-256color";
         tmuxinator.enable = true;
         extraConfig = ''
+          set-window-option -g other-pane-height 80
           set -g mouse on
           set -gu default-command
           set -g default-shell "$SHELL"
@@ -182,14 +234,6 @@
         };
         initExtra = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
-          bd = "fg bd";
-          fg = "lxc exec fg -- ";
-          jcps = "fg ps -aufx | grep jumpcloud";
-          jcpull = ''fg "cd fgrepo && git pull"'';
-          jcrestart = "fg systemctl restart jcagent";
-          jcstart = "fg systemctl start jcagent";
-          jcstatus = "fg systemctl status jcagent";
-          jcstop = "fg systemctl stop jcagent";
           mux = "tmuxinator";
         };
       };

@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+    home.username = "sahar.rachamim";
+    home.homeDirectory = "/Users/sahar.rachamim";
     home.stateVersion = "23.05";
     home.file = {
       "tmuxinator-fg.yaml" = {
@@ -8,11 +10,14 @@
       };
     };
     home.packages = with pkgs; [
+      # nerdfonts
       aider-chat
+      azure-cli
       fd
-      #nerdfonts
+      gemini-cli
       nodejs
       ripgrep
+      volta
     ];
     programs = {
       bat = {
@@ -117,7 +122,6 @@
       };
       lsd = {
         enable = true;
-        enableAliases = true;
       };
       neovim = {
         coc = {
@@ -140,6 +144,7 @@
           }
           coc-css
           vim-css-color
+          vim-hardtime
           vim-orgmode
           coc-html
           coc-java

@@ -17,3 +17,4 @@ co-d () {
 }
 
 export FZF_DEFAULT_COMMAND='fd -H --type f --strip-cwd-prefix'
+PATH=$PATH:$HOME/.npm-global/bin

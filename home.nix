@@ -8,6 +8,22 @@
         source = ./home/file/tmuxinator/fg.yaml;
         target = ".config/tmuxinator/fg.yaml";
       };
+      "cursor-mcp.json" = {
+        target = ".cursor/mcp.json";
+        force = true;
+        text = builtins.toJSON {
+          mcpServers = {
+            "Azure DevOps" = {
+              command = "/bin/zsh";
+              args = [
+                "-l"
+                "-c"
+                "npx -y @azure-devops/mcp@latest fundguard -a azcli"
+              ];
+            };
+          };
+        };
+      };
     };
     home.packages = with pkgs; [
       # nerdfonts

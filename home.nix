@@ -25,6 +25,10 @@
           };
         };
       };
+      "cursor-rules-functional-typescript-sage" = {
+        source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
+        target = ".cursor/rules/functional-typescript-sage.mdc";
+      };
     };
     home.packages = with pkgs; [
       # nerdfonts

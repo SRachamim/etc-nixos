@@ -14,11 +14,12 @@
         text = builtins.toJSON {
           mcpServers = {
             "Azure DevOps" = {
-              command = "/bin/zsh";
+              command = "nix-shell";
               args = [
-                "-l"
-                "-c"
-                "npx -y @azure-devops/mcp@latest fundguard -a azcli"
+                "-p"
+                "nodejs"
+                "--run"
+                "NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @azure-devops/mcp@latest fundguard -a azcli"
               ];
             };
           };

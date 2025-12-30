@@ -54,16 +54,16 @@
         enable = true;
       };
       git = {
-        aliases = {
-          br = "branch";
-          ci = "commit";
-          co = "checkout";
-          last = "log -1 HEAD";
-          st = "status";
-          unstage = "reset HEAD --";
-        };
         enable = true;
-        extraConfig = {
+        settings = {
+          alias = {
+            br = "branch";
+            ci = "commit";
+            co = "checkout";
+            last = "log -1 HEAD";
+            st = "status";
+            unstage = "reset HEAD --";
+          };
           branch = {
             sort = "-committerdate";
           };
@@ -206,6 +206,7 @@
       };
       ssh = {
         enable = true;
+        enableDefaultConfig = false;
         matchBlocks = {
           "ssh.dev.azure.com" = {
             extraOptions = {
@@ -254,7 +255,7 @@
         syntaxHighlighting = {
           enable = true;
         };
-        initExtra = builtins.readFile ./home/programs/.zshrc;
+        initContent = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
           mux = "tmuxinator";
         };

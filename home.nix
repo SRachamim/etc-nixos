@@ -46,7 +46,7 @@
       };
     };
     home.packages = with pkgs; [
-      # nerdfonts
+      nerd-fonts.fira-code
       aider-chat
       azure-cli
       fd
@@ -147,7 +147,7 @@
         enable = true;
         extraConfig = builtins.readFile ./home/programs/kitty/kitty.conf;
         font = {
-          name = "Hasklug Nerd Font";
+          name = "FiraCode Nerd Font Mono";
         };
         settings = {
           shell = "zsh";

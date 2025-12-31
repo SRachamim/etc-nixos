@@ -1,5 +1,20 @@
 { config, pkgs, ... }:
 {
+    imports = [
+      <catppuccin/modules/home-manager>
+    ];
+
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+      bat.enable = true;
+      fzf.enable = true;
+      kitty.enable = true;
+      lsd.enable = true;
+      starship.enable = true;
+      tmux.enable = true;
+      zsh-syntax-highlighting.enable = true;
+    };
     home.username = "sahar.rachamim";
     home.homeDirectory = "/Users/sahar.rachamim";
     home.stateVersion = "23.05";
@@ -42,9 +57,6 @@
     ];
     programs = {
       bat = {
-        config = {
-          theme = "Nord";
-        };
         enable = true;
       };
       direnv = {
@@ -156,6 +168,13 @@
         extraConfig = builtins.readFile ./home/programs/neovim/rc.vim;
         plugins = with pkgs.vimPlugins; [
           {
+            config = ''
+              set termguicolors
+              colorscheme catppuccin-mocha
+            '';
+            plugin = catppuccin-nvim;
+          }
+          {
             config = builtins.readFile ./home/programs/neovim/coc-nvim.vim;
             plugin = coc-nvim;
           }
@@ -177,10 +196,6 @@
           {
             config = builtins.readFile ./home/programs/neovim/fzf-vim.vim;
             plugin = fzf-vim;
-          }
-          {
-            config = builtins.readFile ./home/programs/neovim/nord-vim.vim;
-            plugin = nord-vim;
           }
           {
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;
@@ -233,7 +248,6 @@
         focusEvents = true;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
-          nord
           pain-control
           yank
         ];

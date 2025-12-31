@@ -1,6 +1,9 @@
 " Enabling Powerline symbols
 let g:airline_powerline_fonts = 1
 
+" Use catppuccin theme
+let g:airline_theme='catppuccin'
+
 " Allows word counting in the following filetypes
 let g:airline#extensions#wordcount#filetypes = '\vasciidoc|help|mail|markdown|pandoc|org|rst|tex|text'
 

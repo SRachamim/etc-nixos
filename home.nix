@@ -47,6 +47,10 @@
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;
       };
+      "aerospace-config" = {
+        source = ./home/file/aerospace/aerospace.toml;
+        target = ".aerospace.toml";
+      };
     };
     home.packages = with pkgs; [
       nerd-fonts.fira-code

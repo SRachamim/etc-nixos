@@ -1,0 +1,4 @@
+font-family = FiraCode Nerd Font Mono
+macos-option-as-alt = true
+shell-integration = zsh
+theme = Catppuccin Mocha

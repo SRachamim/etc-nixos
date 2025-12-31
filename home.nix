@@ -9,7 +9,6 @@
       flavor = "mocha";
       bat.enable = true;
       fzf.enable = true;
-      kitty.enable = true;
       lsd.enable = true;
       starship.enable = true;
       tmux.enable = true;
@@ -43,6 +42,10 @@
       "cursor-rules-functional-typescript-sage" = {
         source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
         target = ".cursor/rules/functional-typescript-sage.mdc";
+      };
+      "ghostty-config" = {
+        target = ".config/ghostty/config";
+        source = ./home/file/ghostty/config;
       };
     };
     home.packages = with pkgs; [
@@ -142,16 +145,6 @@
       };
       jq = {
         enable = true;
-      };
-      kitty = {
-        enable = true;
-        extraConfig = builtins.readFile ./home/programs/kitty/kitty.conf;
-        font = {
-          name = "FiraCode Nerd Font Mono";
-        };
-        settings = {
-          shell = "zsh";
-        };
       };
       lsd = {
         enable = true;

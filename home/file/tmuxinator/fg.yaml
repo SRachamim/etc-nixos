@@ -1,7 +1,7 @@
 # ~/.config/tmuxinator/fg.yml
 
 name: fgrepo
-root: /Volumes/Development/fgrepo
+root: /Volumes/Development/dev.azure.com/fundguard/fgrepo/develop/client
 
 windows:
   - fgrepo:

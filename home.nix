@@ -76,6 +76,10 @@
       fzf = {
         enable = true;
       };
+      zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+      };
       git = {
         enable = true;
         settings = {

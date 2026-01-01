@@ -54,7 +54,7 @@
     };
     home.packages = with pkgs; [
       nerd-fonts.fira-code
-      aider-chat
+      # aider-chat
       azure-cli
       fd
       gemini-cli

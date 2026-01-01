@@ -1,0 +1,98 @@
+layout {
+  default_tab_template {
+    pane size=1 borderless=true {
+      plugin location="tab-bar"
+    }
+    children
+    pane size=2 borderless=true {
+      plugin location="status-bar"
+    }
+  }
+
+  cwd "/Volumes/Development/dev.azure.com/fundguard/fgrepo/develop/client"
+
+  tab name="fgrepo" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane
+    }
+  }
+
+  tab name="client" cwd="client" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane
+    }
+  }
+
+  tab name="gql-api" cwd="client/packages/apps/gql-api" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="webapp" cwd="client/packages/apps/webapp" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="components" cwd="client/packages/libs/components" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="feature-bits" cwd="client/packages/libs/feature-bits" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="domain" cwd="client/packages/libs/domain" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="iam" cwd="client/packages/libs/iam" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+
+  tab name="util" cwd="client/packages/libs/util" {
+    pane split_direction="vertical" {
+      pane command="nvim" size="60%"
+      pane split_direction="horizontal" {
+        pane
+        pane
+      }
+    }
+  }
+}
+

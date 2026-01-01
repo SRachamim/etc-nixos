@@ -11,16 +11,16 @@
       fzf.enable = true;
       lsd.enable = true;
       starship.enable = true;
-      tmux.enable = true;
+      zellij.enable = true;
       zsh-syntax-highlighting.enable = true;
     };
     home.username = "sahar.rachamim";
     home.homeDirectory = "/Users/sahar.rachamim";
     home.stateVersion = "23.05";
     home.file = {
-      "tmuxinator-fg.yaml" = {
-        source = ./home/file/tmuxinator/fg.yaml;
-        target = ".config/tmuxinator/fg.yaml";
+      "zellij-layout-fg" = {
+        target = ".config/zellij/layouts/fg.kdl";
+        source = ./home/file/zellij/layouts/fg.kdl;
       };
       "cursor-mcp.json" = {
         target = ".cursor/mcp.json";
@@ -241,27 +241,11 @@
         enable = true;
         enableZshIntegration = true;
       };
-      tmux = {
-        clock24 = true;
+      zellij = {
         enable = true;
-        historyLimit = 100000;
-        escapeTime = 20;
-        focusEvents = true;
-        keyMode = "vi";
-        plugins = with pkgs.tmuxPlugins; [
-          pain-control
-          yank
-        ];
-        sensibleOnTop = true;
-        shell = "${pkgs.zsh}/bin/zsh";
-        terminal = "tmux-256color";
-        tmuxinator.enable = true;
-        extraConfig = ''
-          set-window-option -g other-pane-height 80
-          set -g mouse on
-          set -gu default-command
-          set -g default-shell "$SHELL"
-        '';
+        settings = {
+          theme = "catppuccin-mocha";
+        };
       };
       topgrade = {
         enable = true;
@@ -276,7 +260,8 @@
         };
         initContent = builtins.readFile ./home/programs/.zshrc;
         shellAliases = {
-          mux = "tmuxinator";
+          zj = "zellij";
+          fg = "zellij --layout fg";
         };
       };
     };

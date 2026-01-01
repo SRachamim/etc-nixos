@@ -1,0 +1,11 @@
+{
+  "window.commandCenter": true,
+  "git.openRepositoryInParentFolders": "never",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "editor.fontFamily": "FiraCode Nerd Font Mono",
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "FiraCode Nerd Font Mono"
+}

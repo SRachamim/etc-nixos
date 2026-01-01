@@ -39,6 +39,11 @@
           };
         };
       };
+      "cursor-settings.json" = {
+        target = "Library/Application Support/Cursor/User/settings.json";
+        force = true;
+        source = ./home/file/cursor/settings.json;
+      };
       "cursor-rules-functional-typescript-sage" = {
         source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
         target = ".cursor/rules/functional-typescript-sage.mdc";

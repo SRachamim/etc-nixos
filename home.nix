@@ -1,4 +1,16 @@
 { config, pkgs, ... }:
+let
+  agentic-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "agentic-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "carlos-algms";
+      repo = "agentic.nvim";
+      rev = "main";
+      sha256 = "sha256-eRQjzn60q6oiw6gyXEt9t44TeJQLm0yNX75sjt3jQgs=";
+    };
+    doCheck = false;
+  };
+in
 {
     imports = [
       <catppuccin/modules/home-manager>
@@ -39,6 +51,15 @@
           };
         };
       };
+      "cursor-agent-acp-config" = {
+        target = ".config/cursor-agent-acp/config.json";
+        text = builtins.toJSON {
+          cursorAgent = {
+            model = "opus-4-thinking";
+            args = [ "--model" "opus-4-thinking" ];
+          };
+        };
+      };
       "cursor-settings.json" = {
         target = "Library/Application Support/Cursor/User/settings.json";
         force = true;
@@ -67,6 +88,50 @@
       ripgrep
       volta
     ];
+    home.sessionPath = [ "$HOME/.local/bin" ];
+    home.activation.createSecretsFile = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      if ! [ -f "$HOME/.secrets" ]; then
+        cat > "$HOME/.secrets" << 'EOF'
+# ~/.secrets - Environment variables for sensitive data
+# This file is sourced by your shell. Keep it secure!
+# Run: chmod 600 ~/.secrets
+
+# Cursor Agent API Key (get from cursor.com settings)
+# export CURSOR_API_KEY=""
+
+# OpenAI API Key
+# export OPENAI_API_KEY=""
+
+# Anthropic API Key
+# export ANTHROPIC_API_KEY=""
+
+# Add other secrets below...
+EOF
+        chmod 600 "$HOME/.secrets"
+        echo "Created ~/.secrets template. Edit it with your API keys."
+      fi
+    '';
+    home.activation.installCursorCli = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      if ! [ -x "$HOME/.local/bin/cursor-agent" ]; then
+        echo "Installing Cursor CLI..."
+        export PATH="${pkgs.curl}/bin:${pkgs.gnutar}/bin:${pkgs.gzip}/bin:${pkgs.coreutils}/bin:$PATH"
+        ${pkgs.curl}/bin/curl https://cursor.com/install -fsS | ${pkgs.bash}/bin/bash
+      fi
+    '';
+    home.activation.installCursorAgentAcp = config.lib.dag.entryAfter [ "writeBoundary" "installCursorCli" ] ''
+      # Install cursor-agent-acp if not present
+      if ! [ -x "$HOME/.npm-global/bin/cursor-agent-acp" ]; then
+        echo "Installing cursor-agent-acp..."
+        export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+        export NPM_CONFIG_CACHE="$HOME/.npm-global/.cache"
+        mkdir -p "$HOME/.npm-global" "$HOME/.npm-global/.cache"
+        ${pkgs.nodejs}/bin/npm install -g @blowmage/cursor-agent-acp
+      fi
+      # Create symlink so cursor-agent-acp can find cursor-agent
+      if [ -x "$HOME/.local/bin/cursor-agent" ]; then
+        ln -sf "$HOME/.local/bin/cursor-agent" "$HOME/.npm-global/bin/cursor-agent"
+      fi
+    '';
     programs = {
       bat = {
         enable = true;
@@ -225,6 +290,30 @@
           vim-repeat
           vim-surround
           vim-unimpaired
+          {
+            config = ''
+              lua << EOF
+              require("agentic").setup({
+                provider = "cursor-acp",
+                debug = false,
+                acp_providers = {
+                  ["cursor-acp"] = {
+                    name = "Cursor Agent ACP",
+                    command = vim.fn.expand("~/.npm-global/bin/cursor-agent-acp"),
+                    args = { "-c", vim.fn.expand("~/.config/cursor-agent-acp/config.json") },
+                    env = {
+                      NODE_NO_WARNINGS = "1",
+                      IS_AI_TERMINAL = "1",
+                      PATH = vim.fn.expand("~/.npm-global/bin") .. ":" .. vim.fn.expand("~/.local/bin") .. ":" .. vim.env.PATH,
+                      HOME = vim.fn.expand("~"),
+                    },
+                  },
+                },
+              })
+              EOF
+            '';
+            plugin = agentic-nvim;
+          }
         ];
         vimAlias = true;
         vimdiffAlias = true;

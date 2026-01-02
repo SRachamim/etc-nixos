@@ -16,5 +16,8 @@ co-d () {
 	git worktree remove $1
 }
 
+# Source secrets file if it exists
+[ -f "$HOME/.secrets" ] && source "$HOME/.secrets"
+
 export FZF_DEFAULT_COMMAND='fd -H --type f --strip-cwd-prefix'
-PATH=$PATH:$HOME/.npm-global/bin
+PATH=$HOME/.local/bin:$PATH:$HOME/.npm-global/bin

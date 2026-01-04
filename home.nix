@@ -48,6 +48,15 @@ in
                 "NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @azure-devops/mcp@latest fundguard -a azcli"
               ];
             };
+            "Currents" = {
+              command = "nix-shell";
+              args = [
+                "-p"
+                "nodejs"
+                "--run"
+                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @currents/mcp@latest"
+              ];
+            };
           };
         };
       };
@@ -104,6 +113,9 @@ in
 
 # Anthropic API Key
 # export ANTHROPIC_API_KEY=""
+
+# Currents.dev API Key (get from currents.dev dashboard)
+# export CURRENTS_API_KEY=""
 
 # Add other secrets below...
 EOF

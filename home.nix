@@ -69,11 +69,6 @@ in
           };
         };
       };
-      "cursor-settings.json" = {
-        target = "Library/Application Support/Cursor/User/settings.json";
-        force = true;
-        source = ./home/file/cursor/settings.json;
-      };
       "cursor-rules-functional-typescript-sage" = {
         source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
         target = ".cursor/rules/functional-typescript-sage.mdc";
@@ -121,6 +116,27 @@ in
 EOF
         chmod 600 "$HOME/.secrets"
         echo "Created ~/.secrets template. Edit it with your API keys."
+      fi
+    '';
+    home.activation.fixCocPermissions = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      # Fix coc.nvim directory permissions if they were created by root (Nix builds)
+      if [ -d "$HOME/.config/coc" ]; then
+        find "$HOME/.config/coc" -user root -exec chown $(id -u):$(id -g) {} \; 2>/dev/null || true
+      fi
+    '';
+    home.activation.initCursorSettings = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      # Initialize Cursor settings if not present (don't overwrite user changes)
+      CURSOR_SETTINGS="$HOME/Library/Application Support/Cursor/User/settings.json"
+      mkdir -p "$(dirname "$CURSOR_SETTINGS")"
+      # Remove symlink if it exists (from previous home-manager config)
+      if [ -L "$CURSOR_SETTINGS" ]; then
+        rm "$CURSOR_SETTINGS"
+      fi
+      # Copy initial settings only if file doesn't exist
+      if [ ! -f "$CURSOR_SETTINGS" ]; then
+        cat > "$CURSOR_SETTINGS" << 'EOF'
+${builtins.readFile ./home/file/cursor/settings.json}
+EOF
       fi
     '';
     home.activation.installCursorCli = config.lib.dag.entryAfter [ "writeBoundary" ] ''

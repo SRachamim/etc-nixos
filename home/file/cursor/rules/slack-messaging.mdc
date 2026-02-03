@@ -1,6 +1,6 @@
 ---
 description: Formatting guidelines for Slack messages
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Slack Message Formatting
@@ -20,9 +20,17 @@ When composing Slack messages, use proper formatting:
 - `~strikethrough~` for corrections
 - `>` for quotes
 
+## Links
+
+Link nouns, not verbs. Avoid calls to action.
+
+- ✅ `[Pipeline 927888](link) is running now.`
+- ❌ `Pipeline 927888 is running now. [View Pipeline](link)`
+- ✅ `Fixed the bug in [PR #123](link).`
+- ❌ `Fixed the bug. [Click here](link) to see the PR.`
+
 ## Best Practices
 
 - Keep messages concise and scannable
 - Use bullet points for lists
-- Link to relevant resources with descriptive text
 - Mention users with `@name` only when their attention is needed

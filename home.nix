@@ -66,6 +66,15 @@ in
                 "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @zencoderai/slack-mcp-server@latest"
               ];
             };
+            "Datadog" = {
+              command = "nix-shell";
+              args = [
+                "-p"
+                "nodejs"
+                "--run"
+                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @winor30/mcp-server-datadog@latest"
+              ];
+            };
           };
         };
       };
@@ -126,6 +135,11 @@ in
 # export SLACK_BOT_TOKEN="xoxp-your-user-token"
 # export SLACK_TEAM_ID="T0123456789"
 # export SLACK_CHANNEL_IDS="C123,C456"  # Optional: comma-separated channel IDs
+
+# Datadog MCP Server (get from app.datadoghq.com/organization-settings/api-keys)
+# export DATADOG_API_KEY=""
+# export DATADOG_APP_KEY=""
+# export DATADOG_SITE="datadoghq.com"  # Optional: datadoghq.eu for EU
 
 # Add other secrets below...
 EOF

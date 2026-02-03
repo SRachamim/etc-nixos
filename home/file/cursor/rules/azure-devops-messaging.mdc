@@ -1,0 +1,31 @@
+---
+description: Formatting guidelines for Azure DevOps interactions
+alwaysApply: false
+---
+
+# Azure DevOps Formatting
+
+When interacting with Azure DevOps, use proper formatting:
+
+## Code & Technical Terms
+
+- Use backticks for: branch names, file paths, function names, variable names, CLI commands
+- Example: "Merge `feature/auth` into `master` after fixing `AuthService.ts`"
+
+## Always Link Resources
+
+Link PRs, pipelines, and work items when mentioning them:
+
+- PRs: "[PR #12345](https://dev.azure.com/org/project/_git/repo/pullrequest/12345)"
+- Pipelines: "[Pipeline 927888](https://dev.azure.com/org/project/_build/results?buildId=927888)"
+- Work items: "[Bug #5678](https://dev.azure.com/org/project/_workitems/edit/5678)"
+
+## Links
+
+Link nouns, not verbs. Avoid calls to action.
+
+- ❌ BAD: "The build failed. [View Pipeline](link)"
+- ✅ GOOD: "[Pipeline 927888](link) failed."
+
+- ❌ BAD: "I created a work item. [Click here](link)"
+- ✅ GOOD: "[Bug #5678](link) tracks this issue."

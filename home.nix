@@ -95,6 +95,10 @@ in
         source = ./home/file/cursor/rules/slack-messaging.mdc;
         target = ".cursor/rules/slack-messaging.mdc";
       };
+      "cursor-rules-azure-devops-messaging" = {
+        source = ./home/file/cursor/rules/azure-devops-messaging.mdc;
+        target = ".cursor/rules/azure-devops-messaging.mdc";
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;

@@ -57,6 +57,15 @@ in
                 "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @currents/mcp@latest"
               ];
             };
+            "Slack" = {
+              command = "nix-shell";
+              args = [
+                "-p"
+                "nodejs"
+                "--run"
+                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @zencoderai/slack-mcp-server@latest"
+              ];
+            };
           };
         };
       };
@@ -111,6 +120,12 @@ in
 
 # Currents.dev API Key (get from currents.dev dashboard)
 # export CURRENTS_API_KEY=""
+
+# Slack MCP Server (get from api.slack.com/apps)
+# Use User Token (xoxp-...) to post as yourself, Bot Token (xoxb-...) to post as app
+# export SLACK_BOT_TOKEN="xoxp-your-user-token"
+# export SLACK_TEAM_ID="T0123456789"
+# export SLACK_CHANNEL_IDS="C123,C456"  # Optional: comma-separated channel IDs
 
 # Add other secrets below...
 EOF

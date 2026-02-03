@@ -1,0 +1,28 @@
+---
+description: Formatting guidelines for Slack messages
+alwaysApply: true
+---
+
+# Slack Message Formatting
+
+When composing Slack messages, use proper formatting:
+
+## Code & Technical Terms
+
+- Use backticks for: code snippets, function names, variable names, file paths, CLI commands, class names, package names
+- Example: "The `fetchData` function in `src/api/client.ts` returns a `Promise`"
+
+## Formatting Syntax
+
+- `*bold*` for emphasis or important terms
+- `_italic_` for subtle emphasis
+- `` `code` `` for inline code
+- `~strikethrough~` for corrections
+- `>` for quotes
+
+## Best Practices
+
+- Keep messages concise and scannable
+- Use bullet points for lists
+- Link to relevant resources with descriptive text
+- Mention users with `@name` only when their attention is needed

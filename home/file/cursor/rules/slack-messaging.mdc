@@ -30,6 +30,14 @@ Link nouns, not verbs. Avoid calls to action.
 - ❌ BAD: "I opened a PR. [Click here to review](link)"
 - ✅ GOOD: "[PR #123](link) is ready for review."
 
+## Azure DevOps Resources
+
+Always link to Azure DevOps resources when mentioning them:
+
+- PRs: "[PR #12345](https://dev.azure.com/org/project/_git/repo/pullrequest/12345)"
+- Pipelines: "[Pipeline 927888](https://dev.azure.com/org/project/_build/results?buildId=927888)"
+- Work items: "[Bug #5678](https://dev.azure.com/org/project/_workitems/edit/5678)"
+
 ## Best Practices
 
 - Keep messages concise and scannable

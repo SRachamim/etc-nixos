@@ -99,6 +99,10 @@ in
         source = ./home/file/cursor/rules/azure-devops-messaging.mdc;
         target = ".cursor/rules/azure-devops-messaging.mdc";
       };
+      "cursor-rules-require-message-approval" = {
+        source = ./home/file/cursor/rules/require-message-approval.mdc;
+        target = ".cursor/rules/require-message-approval.mdc";
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;

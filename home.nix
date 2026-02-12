@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  nix-shell = "/nix/var/nix/profiles/default/bin/nix-shell";
   agentic-nvim = pkgs.vimUtils.buildVimPlugin {
     name = "agentic-nvim";
     src = pkgs.fetchFromGitHub {
@@ -40,7 +41,7 @@ in
         text = builtins.toJSON {
           mcpServers = {
             "Azure DevOps" = {
-              command = "nix-shell";
+              command = nix-shell;
               args = [
                 "-p"
                 "nodejs"
@@ -49,7 +50,7 @@ in
               ];
             };
             "Currents" = {
-              command = "nix-shell";
+              command = nix-shell;
               args = [
                 "-p"
                 "nodejs"
@@ -58,7 +59,7 @@ in
               ];
             };
             "Slack" = {
-              command = "nix-shell";
+              command = nix-shell;
               args = [
                 "-p"
                 "nodejs"
@@ -67,7 +68,7 @@ in
               ];
             };
             "Datadog" = {
-              command = "nix-shell";
+              command = nix-shell;
               args = [
                 "-p"
                 "nodejs"

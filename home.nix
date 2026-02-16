@@ -87,9 +87,9 @@ in
           };
         };
       };
-      "cursor-rules-functional-typescript-sage" = {
-        source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
-        target = ".cursor/rules/functional-typescript-sage.mdc";
+      "cursor-skills-functional-typescript" = {
+        source = ./home/file/cursor/skills/functional-typescript/SKILL.md;
+        target = ".cursor/skills/functional-typescript/SKILL.md";
       };
       "cursor-skills-slack-formatting" = {
         source = ./home/file/cursor/skills/slack-formatting/SKILL.md;

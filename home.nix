@@ -91,6 +91,10 @@ in
         source = ./home/file/cursor/rules/functional-typescript-sage.mdc;
         target = ".cursor/rules/functional-typescript-sage.mdc";
       };
+      "cursor-skills-slack-formatting" = {
+        source = ./home/file/cursor/skills/slack-formatting/SKILL.md;
+        target = ".cursor/skills/slack-formatting/SKILL.md";
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;

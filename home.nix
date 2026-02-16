@@ -95,6 +95,10 @@ in
         source = ./home/file/cursor/skills/slack-formatting/SKILL.md;
         target = ".cursor/skills/slack-formatting/SKILL.md";
       };
+      "cursor-skills-azure-devops-formatting" = {
+        source = ./home/file/cursor/skills/azure-devops-formatting/SKILL.md;
+        target = ".cursor/skills/azure-devops-formatting/SKILL.md";
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;

@@ -91,6 +91,10 @@ in
         source = ./home/file/cursor/skills/functional-typescript/SKILL.md;
         target = ".cursor/skills/functional-typescript/SKILL.md";
       };
+      "cursor-skills-require-message-approval" = {
+        source = ./home/file/cursor/skills/require-message-approval/SKILL.md;
+        target = ".cursor/skills/require-message-approval/SKILL.md";
+      };
       "cursor-skills-slack-formatting" = {
         source = ./home/file/cursor/skills/slack-formatting/SKILL.md;
         target = ".cursor/skills/slack-formatting/SKILL.md";

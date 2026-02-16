@@ -333,7 +333,7 @@ EOF
           coc-markdownlint
           coc-sh
           coc-tailwindcss
-          coc-tsserver
+
           {
             config = builtins.readFile ./home/programs/neovim/fzf-vim.vim;
             plugin = fzf-vim;

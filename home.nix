@@ -104,6 +104,10 @@ in
         source = ./home/file/cursor/skills/azure-devops-formatting/SKILL.md;
         target = ".cursor/skills/azure-devops-formatting/SKILL.md";
       };
+      "cursor-commands-plan-workitem" = {
+        source = ./home/file/cursor/commands/plan-workitem.md;
+        target = ".cursor/commands/plan-workitem.md";
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;

@@ -28,12 +28,7 @@ Spend enough time here to form a concrete mental model. Don't guess — read the
 
 ### 3. Draft the commit plan
 
-Design a sequence of commits where:
-
-- **Each commit is independently valid** — the codebase compiles/passes tests after each one.
-- **Each commit is focused** — one logical change per commit.
-- **The sequence tells a story** — a reviewer reading the commits in order can follow the reasoning.
-- A single commit is fine if the change is small and cohesive.
+Design a sequence of commits following the **commit-conventions** skill.
 
 For each proposed commit, specify:
 
@@ -76,16 +71,4 @@ Wait for approval, modifications, or questions before implementing.
 
 ### 6. Verify all changes are committed
 
-After executing the plan, run `git status` to confirm there are no uncommitted changes.
-
-- If validation steps (linters, formatters, tests) produced auto-fixed modifications, amend the commit that introduced those files — or create a fixup commit targeting the appropriate earlier commit.
-- If any other staged or unstaged modifications remain, commit them following the plan's commit structure.
-
-The working tree must be clean before considering the plan complete.
-
-## Guidelines
-
-- **Prefer fewer commits** — don't split artificially. One commit is valid if the change is cohesive.
-- **Tests belong with the code they test** — unless there's a good reason to separate (e.g., adding test infrastructure first).
-- **Refactors go first** — if the change requires restructuring existing code, do that in an early commit before adding new behavior.
-- **No empty or trivial commits** — every commit should deliver meaningful progress.
+Follow the hygiene section of the **commit-conventions** skill. The working tree must be clean before considering the plan complete.

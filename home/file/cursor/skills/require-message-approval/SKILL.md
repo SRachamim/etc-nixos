@@ -1,6 +1,6 @@
 ---
 name: require-message-approval
-description: Require user approval before posting any content to external systems. Use whenever the agent is about to post a Slack message, PR comment, PR description, work item comment, or any external communication.
+description: Require user approval before posting any content to external systems. Use whenever the agent is about to post content to any external system -- messaging platforms, code review tools, project management tools, or any other communication channel.
 ---
 
 # Require Approval Before Posting
@@ -11,11 +11,10 @@ description: Require user approval before posting any content to external system
 
 This applies to ALL external communications, including but not limited to:
 
-- Slack messages
-- PR comments and descriptions
-- Work item descriptions and comments
-- GitHub/Azure DevOps discussions
-- Any other external messaging system
+- Messages to team channels or direct messages (e.g., Slack)
+- Pull request comments and descriptions (e.g., Azure DevOps, GitHub)
+- Work item or issue updates and comments
+- Discussion threads in any project management or collaboration tool
 
 ## Required Process
 
@@ -25,10 +24,10 @@ This applies to ALL external communications, including but not limited to:
 
 ## Example
 
-Bad: Posting a Slack message immediately after composing it
+Bad: Posting a message immediately after composing it
 
 Good:
-> Here's the message I'll post to Slack:
+> Here's the message I'll post:
 >
 > ```
 > [PR #123](link) is ready for review. It adds the new authentication flow.

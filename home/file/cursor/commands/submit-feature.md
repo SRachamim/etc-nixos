@@ -1,4 +1,4 @@
-# Open Review
+# Submit Feature for Review
 
 Given a feature ID (or inferred from the current branch name), open a pull request, link it to the work item, transition the work item to review, and notify the team on Slack.
 
@@ -28,7 +28,7 @@ If neither yields a feature ID, ask the user and stop.
 
 Draft a PR description with a short summary of the change (derived from the work item and commits).
 
-Follow the **azure-devops-formatting** skill for all formatting.
+Follow the **message-formatting** skill for all formatting.
 
 **Present the PR title and description to the user for approval before creating the PR.**
 
@@ -46,7 +46,7 @@ Update the work item state to **Code Review**.
 
 Compose a message for the **#team-cinfra** Slack channel. The message should include:
 
-- A link to the PR (linked on the PR number, per **slack-formatting** skill).
+- A link to the PR (linked on the PR number, per **message-formatting** skill).
 - A link to the work item (linked on the work item ID).
 - A one-line summary of what the change does.
 

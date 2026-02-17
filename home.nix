@@ -108,9 +108,17 @@ in
         source = ./home/file/cursor/skills/nix-shell-direnv/SKILL.md;
         target = ".cursor/skills/nix-shell-direnv/SKILL.md";
       };
-      "cursor-commands-plan-workitem" = {
-        source = ./home/file/cursor/commands/plan-workitem.md;
-        target = ".cursor/commands/plan-workitem.md";
+      "cursor-commands-plan-feature" = {
+        source = ./home/file/cursor/commands/plan-feature.md;
+        target = ".cursor/commands/plan-feature.md";
+      };
+      "cursor-commands-checkout-feature" = {
+        source = ./home/file/cursor/commands/checkout-feature.md;
+        target = ".cursor/commands/checkout-feature.md";
+      };
+      "cursor-commands-open-review" = {
+        source = ./home/file/cursor/commands/open-review.md;
+        target = ".cursor/commands/open-review.md";
       };
       "ghostty-config" = {
         target = ".config/ghostty/config";

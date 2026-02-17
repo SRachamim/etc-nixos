@@ -2,28 +2,24 @@
 
 Given a feature ID, create a new git worktree with a dedicated branch for the feature.
 
+Follow the **worktree-layout** skill for all path and branch naming conventions.
+
 ## Steps
 
 ### 1. Resolve the repository root
 
-Run `git worktree list` to identify the **bare root** or **main worktree** path. This is the `<root-repo>` used for all path calculations.
+Run `git worktree list` to identify the **bare root** or **main worktree** path.
 
 ### 2. Validate preconditions
 
 - Confirm the branch `feature/<feature id>` does **not** already exist locally (`git branch --list`).
-- Confirm the directory `<root-repo>/feature/<feature id>` does **not** already exist.
+- Confirm the worktree directory does **not** already exist.
 
 If either exists, inform the user and stop — do not overwrite.
 
 ### 3. Create the worktree
 
-```sh
-git worktree add -b "feature/<feature id>" "<root-repo>/feature/<feature id>"
-```
-
-This atomically creates:
-- A new branch `feature/<feature id>` based on the current HEAD.
-- A new worktree checked out at `<root-repo>/feature/<feature id>`.
+Create the worktree and branch atomically per the **worktree-layout** skill.
 
 ### 4. Confirm success
 

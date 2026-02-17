@@ -88,37 +88,10 @@ in
           };
         };
       };
-      "cursor-skills-functional-typescript" = {
-        source = ./home/file/cursor/skills/functional-typescript/SKILL.md;
-        target = ".cursor/skills/functional-typescript/SKILL.md";
-      };
-      "cursor-skills-require-message-approval" = {
-        source = ./home/file/cursor/skills/require-message-approval/SKILL.md;
-        target = ".cursor/skills/require-message-approval/SKILL.md";
-      };
-      "cursor-skills-slack-formatting" = {
-        source = ./home/file/cursor/skills/slack-formatting/SKILL.md;
-        target = ".cursor/skills/slack-formatting/SKILL.md";
-      };
-      "cursor-skills-azure-devops-formatting" = {
-        source = ./home/file/cursor/skills/azure-devops-formatting/SKILL.md;
-        target = ".cursor/skills/azure-devops-formatting/SKILL.md";
-      };
-      "cursor-skills-nix-shell-direnv" = {
-        source = ./home/file/cursor/skills/nix-shell-direnv/SKILL.md;
-        target = ".cursor/skills/nix-shell-direnv/SKILL.md";
-      };
-      "cursor-commands-plan-feature" = {
-        source = ./home/file/cursor/commands/plan-feature.md;
-        target = ".cursor/commands/plan-feature.md";
-      };
-      "cursor-commands-checkout-feature" = {
-        source = ./home/file/cursor/commands/checkout-feature.md;
-        target = ".cursor/commands/checkout-feature.md";
-      };
-      "cursor-commands-open-review" = {
-        source = ./home/file/cursor/commands/open-review.md;
-        target = ".cursor/commands/open-review.md";
+      "cursor-config" = {
+        source = ./home/file/cursor;
+        target = ".cursor";
+        recursive = true;
       };
       "ghostty-config" = {
         target = ".config/ghostty/config";

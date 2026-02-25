@@ -30,6 +30,7 @@ Each entry: **Name** — one-line description — when to use.
 | **Split Variable** | A `const` is conceptually assigned different meanings at different stages — split into separate bindings. |
 | **Substitute Algorithm** | Replace a function's implementation with a clearer or more efficient one that produces the same result. |
 | **Replace Loop with Pipeline** | Convert `for`/`while` into `pipe(array, A.map(...), A.filter(...), A.reduce(...))`. |
+| **Extract Combinator** | When several functions share a composition pattern (e.g., wrap-then-dispatch, validate-then-transform), extract the pattern into a higher-order combinator that takes the varying steps as parameters. Ensures primitives and combinations share the same type signature. |
 
 ### Moving Features Between Modules
 
@@ -89,6 +90,7 @@ OOP inheritance maps to composition and discriminated unions in FP.
 | **Extract Interface Type** | Define a structural type (TypeScript interface/type alias) that multiple record types satisfy. |
 | **Replace Delegation with Direct Composition** | When a wrapper function adds nothing, compose the inner function directly. FP equivalent of *Replace Delegation with Inheritance*. |
 | **Form Higher-Order Function** | Extract varying steps of a fixed algorithm into function parameters. FP equivalent of *Form Template Method*. |
+| **Introduce Handler Registry** | Replace a closed `switch`/`if-else` dispatch on a string or literal with a `ReadonlyMap<Key, Handler>` and a `register` function, enabling additive extension without modifying the dispatch function. |
 
 ### Big Refactorings
 
@@ -97,6 +99,9 @@ OOP inheritance maps to composition and discriminated unions in FP.
 | **Separate Domain from Infrastructure** | Push side effects (IO, network, DB) to the boundary; keep the core as pure functions over domain types. |
 | **Tease Apart Modules** | Untangle a module serving two concerns into two independent modules. |
 | **Extract Type Hierarchy** | When a flat type with many optional fields is unwieldy, reshape it into a discriminated union. |
+| **Extract Domain Language** | When a module contains many related operations with implicit composition rules, extract a set of typed primitives and combinators that form a small embedded DSL, making the domain structure explicit and composition unlimited. |
+| **Separate Base from Metadata Layer** | When logging, tracing, metrics, or audit logic is interleaved with domain logic, extract each concern into an independent wrapper/middleware that composes around the pure base function without altering its signature. |
+| **Introduce Generate-and-Test** | When candidate generation and validation are tangled in a single loop, separate into an independent generator (producing candidates) piped through independent filter/validator stages. Either side can evolve without affecting the other. |
 
 ## Refactoring Workflow
 

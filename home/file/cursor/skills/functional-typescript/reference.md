@@ -3,7 +3,7 @@
 Concrete before/after examples for key patterns from the SKILL.md catalog.
 All code uses `fp-ts`, `io-ts`, `monocle-ts`, and immutable data.
 
-> **Scope**: Target architecture patterns — what good FP TypeScript looks like (domain modeling, workflows, DI, event sourcing, codecs, testing). For *transformation mechanics* (how to refactor from bad to good), see the **refactoring** skill's [reference.md](../refactoring/reference.md).
+> **Scope**: Target architecture patterns — what good FP TypeScript looks like (domain modeling, workflows, DI, event sourcing, codecs, testing, flexibility design). For *transformation mechanics* (how to refactor from bad to good), see the **refactoring** skill's [reference.md](../refactoring/reference.md).
 
 ---
 
@@ -631,3 +631,331 @@ const getNetAssetValue = (accountNo: AccountId): TE.TaskEither<DomainError, numb
 // Evaluation happens only at the application boundary:
 // pipe(getNetAssetValue(accountId), TE.fold(handleError, handleSuccess))()
 ```
+
+---
+
+## Flexibility Design — SDF Patterns
+
+Concrete TypeScript examples for the Flexibility Design principles from Hanson & Sussman's *Software Design for Flexibility*.
+
+---
+
+### Combinator Design — Self-Similar Composition
+
+From SDF Ch. 2: primitives and combinations share the same interface, so a combination is usable wherever a primitive is.
+
+**Before** — ad-hoc composition, each middleware has a different shape:
+
+```typescript
+const logRequest = (req: Request): void => { console.log(req.url) }
+const checkAuth = (req: Request): boolean => { return !!req.headers.auth }
+const handle = (req: Request): Response => { /* ... */ return { status: 200 } }
+
+const processRequest = (req: Request): Response => {
+  logRequest(req)
+  if (!checkAuth(req)) return { status: 401 }
+  return handle(req)
+}
+```
+
+**After** — uniform `Handler` interface; combinators produce new handlers from existing ones:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+import * as RA from 'fp-ts/ReadonlyArray'
+
+type Handler = (req: Request) => TE.TaskEither<AppError, Response>
+
+const guard = (check: (req: Request) => boolean, onFail: AppError): ((next: Handler) => Handler) =>
+  (next) => (req) =>
+    check(req) ? next(req) : TE.left(onFail)
+
+const tapRequest = (effect: (req: Request) => TE.TaskEither<never, void>): ((next: Handler) => Handler) =>
+  (next) => (req) =>
+    pipe(effect(req), TE.flatMap(() => next(req)))
+
+const composeMiddleware = (middleware: ReadonlyArray<(h: Handler) => Handler>) =>
+  (base: Handler): Handler =>
+    pipe(middleware, RA.reduceRight(base, (mw, acc) => mw(acc)))
+
+const app: Handler = composeMiddleware([
+  tapRequest((req) => TE.fromIO(() => { console.log(req.url) })),
+  guard((req) => !!req.headers.auth, { _tag: 'Unauthorized' }),
+])(coreHandler)
+```
+
+Every combinator takes a `Handler` and returns a `Handler`. Primitives and compositions are interchangeable.
+
+---
+
+### Additive Programming — Extend Without Modifying
+
+From SDF Ch. 1 & 3: add new behavior by writing new code, not editing existing functions.
+
+**Before** — adding a new notification channel requires editing the existing function:
+
+```typescript
+const notify = (channel: string, msg: string): TE.TaskEither<Error, void> => {
+  switch (channel) {
+    case 'email': return sendEmail(msg)
+    case 'sms': return sendSms(msg)
+    // every new channel: edit this function
+    default: return TE.left(new Error(`Unknown channel: ${channel}`))
+  }
+}
+```
+
+**After** — handler registry; new channels are added by registering, never by modifying `dispatch`:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RM from 'fp-ts/ReadonlyMap'
+import * as Str from 'fp-ts/string'
+import * as O from 'fp-ts/Option'
+import * as TE from 'fp-ts/TaskEither'
+
+type NotifyHandler = (msg: string) => TE.TaskEither<NotifyError, void>
+
+type NotifyRegistry = ReadonlyMap<string, NotifyHandler>
+
+const register = (
+  registry: NotifyRegistry,
+  channel: string,
+  handler: NotifyHandler,
+): NotifyRegistry => pipe(registry, RM.upsertAt(Str.Eq)(channel, handler))
+
+const dispatch = (registry: NotifyRegistry) =>
+  (channel: string, msg: string): TE.TaskEither<NotifyError, void> =>
+    pipe(
+      registry,
+      RM.lookup(Str.Eq)(channel),
+      O.fold(
+        () => TE.left<NotifyError>({ _tag: 'UnknownChannel', channel }),
+        (handler) => handler(msg),
+      ),
+    )
+
+// Extension is additive — adding Slack never touches existing code:
+const registry: NotifyRegistry = pipe(
+  RM.empty,
+  RM.upsertAt(Str.Eq)('email', sendEmail),
+  RM.upsertAt(Str.Eq)('sms', sendSms),
+  RM.upsertAt(Str.Eq)('slack', sendSlack),
+)
+```
+
+---
+
+### Postel's Law — Wide Inputs, Narrow Outputs
+
+From SDF Ch. 1 (Robustness Principle): accept a wider range of inputs than strictly needed; produce precise outputs.
+
+**Before** — function demands exact tuple input, produces broad union output:
+
+```typescript
+const summarize = (items: [Item, Item, Item]): string | number | null => {
+  if (items.length === 0) return null
+  const total = items.reduce((s, i) => s + i.price, 0)
+  return total > 100 ? `Total: ${total}` : total
+}
+```
+
+**After** — accepts any readonly array, returns a precise discriminated union:
+
+```typescript
+interface Summary { readonly _tag: 'Summary'; readonly total: number; readonly formatted: string }
+interface EmptyCart { readonly _tag: 'EmptyCart' }
+type SummarizeResult = Summary | EmptyCart
+
+const summarize = (items: ReadonlyArray<Item>): SummarizeResult =>
+  items.length === 0
+    ? { _tag: 'EmptyCart' }
+    : pipe(
+        items,
+        RA.reduce(0, (s, i) => s + i.price),
+        (total) => ({ _tag: 'Summary' as const, total, formatted: `Total: ${total}` }),
+      )
+```
+
+Wide input (`ReadonlyArray` — any length) suppresses noise; narrow output (discriminated union — no nulls, no mixed types) gives downstream consumers precise information.
+
+---
+
+### Degeneracy — Multiple Independent Verification
+
+From SDF Ch. 1 §1.3: multiple independent paths to the same result increase reliability.
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
+
+// Two independent implementations of order total calculation
+const totalByLineItems = (order: Order): number =>
+  order.items.reduce((s, i) => s + i.unitPrice * i.quantity, 0)
+
+const totalByPricingService = (order: Order): TE.TaskEither<PricingError, number> =>
+  pricingService.calculateTotal(order.id)
+
+// Degenerate verification: cross-check independent paths in property tests
+test('line-item total equals pricing-service total for all valid orders', async () => {
+  await fc.assert(
+    fc.asyncProperty(orderArb, async (order) => {
+      const byItems = totalByLineItems(order)
+      const byService = await pipe(
+        totalByPricingService(order),
+        TE.getOrElse(() => { throw new Error('test setup') }),
+      )()
+      expect(byItems).toBeCloseTo(byService, 2)
+    }),
+  )
+})
+
+// Runtime cross-check (degeneracy as guard) — pure, no exceptions:
+interface DegenerateCheckFailed {
+  readonly _tag: 'DegenerateCheckFailed'
+  readonly serviceTotal: number
+  readonly itemsTotal: number
+}
+type VerifiedTotalError = PricingError | DegenerateCheckFailed
+
+const verifiedTotal = (order: Order): TE.TaskEither<VerifiedTotalError, number> =>
+  pipe(
+    TE.Do,
+    TE.bind('serviceTotal', () => totalByPricingService(order)),
+    TE.let('itemsTotal', () => totalByLineItems(order)),
+    TE.flatMap(({ serviceTotal, itemsTotal }) =>
+      Math.abs(serviceTotal - itemsTotal) > 0.01
+        ? TE.left<VerifiedTotalError>({ _tag: 'DegenerateCheckFailed', serviceTotal, itemsTotal })
+        : TE.right(serviceTotal),
+    ),
+  )
+```
+
+---
+
+### Layering — Metadata Independent of Base
+
+From SDF Ch. 6: metadata layers process alongside the base computation but independently.
+
+**Before** — logging and tracing tangled into domain logic:
+
+```typescript
+const processOrder = (order: ValidatedOrder): TE.TaskEither<OrderError, PricedOrder> =>
+  pipe(
+    TE.rightIO(() => { logger.info('Pricing order', { orderId: order.id }) }),
+    TE.flatMap(() => priceOrder(order)),
+    TE.map((priced) => {
+      tracer.addSpan('priced', { total: priced.total })
+      return priced
+    }),
+  )
+```
+
+**After** — base layer is pure; metadata layers are independent wrappers:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RTE from 'fp-ts/ReaderTaskEither'
+
+interface Logger { readonly info: (msg: string) => void }
+interface Tracer { readonly startSpan: (name: string) => void; readonly endSpan: (name: string) => void }
+
+interface LoggerDeps { readonly logger: Logger }
+interface TracerDeps { readonly tracer: Tracer }
+
+// Base layer — pure domain, no awareness of logging or tracing
+const processOrder = (order: ValidatedOrder): RTE.ReaderTaskEither<PricingDeps, OrderError, PricedOrder> =>
+  priceOrder(order)
+
+// Logging layer — wraps any RTE computation; obtains Logger from the Reader environment
+const withLogging = <R extends LoggerDeps, E, A>(
+  label: string,
+) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
+  pipe(
+    RTE.Do,
+    RTE.bind('deps', () => RTE.ask<R>()),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.logger.info(`${label}: start`))),
+    RTE.bind('result', () => computation),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.logger.info(`${label}: done`))),
+    RTE.map(({ result }) => result),
+  )
+
+// Tracing layer — wraps any RTE computation; obtains Tracer from the Reader environment
+const withTracing = <R extends TracerDeps, E, A>(
+  spanName: string,
+) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
+  pipe(
+    RTE.Do,
+    RTE.bind('deps', () => RTE.ask<R>()),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.tracer.startSpan(spanName))),
+    RTE.bind('result', () => computation),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.tracer.endSpan(spanName))),
+    RTE.map(({ result }) => result),
+  )
+
+// Composition — layers are additive, base is unmodified:
+const processOrderWithMetadata = (order: ValidatedOrder) =>
+  pipe(
+    processOrder(order),
+    withLogging('processOrder'),
+    withTracing('process-order'),
+  )
+// Final type: RTE<PricingDeps & LoggerDeps & TracerDeps, OrderError, PricedOrder>
+```
+
+Base layer does not reference logging or tracing. Each metadata layer is self-contained and composable. Dependencies are obtained from the Reader environment via `RTE.ask`, not passed as direct parameters. Adding a new layer (metrics, audit) requires no changes to existing layers or the base.
+
+---
+
+### Generate-and-Test — Separate Generation from Evaluation
+
+From SDF Ch. 1 §1.4: generator and tester are independent; neither knows the other's implementation.
+
+**Before** — generation and validation interleaved:
+
+```typescript
+const findValidSchedule = (employees: ReadonlyArray<Employee>): Schedule | null => {
+  for (const perm of permutations(employees)) {
+    const schedule = buildSchedule(perm)
+    if (schedule.totalHours <= 40 && schedule.hasRequiredRoles && !schedule.hasConflicts) {
+      return schedule
+    }
+  }
+  return null
+}
+```
+
+**After** — generation and evaluation are independent pipelines:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as O from 'fp-ts/Option'
+import * as B from 'fp-ts/boolean'
+import { Predicate } from 'fp-ts/Predicate'
+
+// Generator — produces candidates, knows nothing about acceptance criteria
+const generateCandidates = (employees: ReadonlyArray<Employee>): ReadonlyArray<Schedule> =>
+  pipe(permutations(employees), RA.map(buildSchedule))
+
+// Tester — evaluates candidates, knows nothing about generation strategy
+type ScheduleRule = Predicate<Schedule>
+
+const maxHours = (limit: number): ScheduleRule => (s) => s.totalHours <= limit
+const hasRequiredRoles: ScheduleRule = (s) => s.hasRequiredRoles
+const noConflicts: ScheduleRule = (s) => !s.hasConflicts
+
+const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
+  (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
+
+// Composition — generator and tester combined independently
+const findValidSchedule = (employees: ReadonlyArray<Employee>): O.Option<Schedule> =>
+  pipe(
+    generateCandidates(employees),
+    RA.findFirst(allOf([maxHours(40), hasRequiredRoles, noConflicts])),
+  )
+```
+
+The generator can be replaced (e.g., with a heuristic generator) without touching the rules. New rules can be added without touching the generator.

@@ -509,3 +509,255 @@ const processOrder = (orderId: string): TE.TaskEither<Error, void> =>
 ```
 
 The domain logic (`calculateInvoiceAmount`) is pure, testable without mocks, and reusable.
+
+---
+
+## Flexibility Refactorings (SDF-Derived)
+
+### Extract Combinator
+
+**Before** — repeated composition pattern across multiple functions:
+
+```typescript
+const withRetry = (task: TE.TaskEither<Error, Response>): TE.TaskEither<Error, Response> =>
+  pipe(task, TE.orElse(() => task), TE.orElse(() => task))
+
+const fetchUser = (id: string): TE.TaskEither<Error, Response> =>
+  pipe(httpGet(`/users/${id}`), (t) => withRetry(t), TE.map(parseUser))
+
+const fetchOrder = (id: string): TE.TaskEither<Error, Response> =>
+  pipe(httpGet(`/orders/${id}`), (t) => withRetry(t), TE.map(parseOrder))
+
+const fetchProduct = (id: string): TE.TaskEither<Error, Response> =>
+  pipe(httpGet(`/products/${id}`), (t) => withRetry(t), TE.map(parseProduct))
+```
+
+**After** — combinator extracted; primitives and combinations share the same `Fetcher` type:
+
+```typescript
+type Fetcher<A> = (id: string) => TE.TaskEither<Error, A>
+
+const withRetry = <A>(fetcher: Fetcher<A>): Fetcher<A> =>
+  (id) => pipe(fetcher(id), TE.orElse(() => fetcher(id)), TE.orElse(() => fetcher(id)))
+
+const withParse = <A>(parse: (r: Response) => A) =>
+  (fetcher: Fetcher<Response>): Fetcher<A> =>
+    (id) => pipe(fetcher(id), TE.map(parse))
+
+const httpFetcher = (path: string): Fetcher<Response> =>
+  (id) => httpGet(`${path}/${id}`)
+
+const fetchUser: Fetcher<User> = pipe(httpFetcher('/users'), withRetry, withParse(parseUser))
+const fetchOrder: Fetcher<Order> = pipe(httpFetcher('/orders'), withRetry, withParse(parseOrder))
+const fetchProduct: Fetcher<Product> = pipe(httpFetcher('/products'), withRetry, withParse(parseProduct))
+```
+
+`withRetry` and `withParse` are combinators: they take a `Fetcher` and return a `Fetcher`. New combinators (e.g., `withCache`, `withTimeout`) compose the same way without touching existing code.
+
+---
+
+### Introduce Handler Registry
+
+**Before** — closed dispatch requires editing the function for each new format:
+
+```typescript
+const serialize = (format: string, data: unknown): E.Either<string, string> => {
+  switch (format) {
+    case 'json': return E.right(JSON.stringify(data))
+    case 'csv': return toCsv(data)
+    default: return E.left(`Unknown format: ${format}`)
+  }
+}
+```
+
+**After** — open registry; new formats are added by registration:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RM from 'fp-ts/ReadonlyMap'
+import * as Str from 'fp-ts/string'
+import * as O from 'fp-ts/Option'
+import * as E from 'fp-ts/Either'
+
+type Serializer = (data: unknown) => E.Either<string, string>
+type SerializerRegistry = ReadonlyMap<string, Serializer>
+
+const register = (
+  registry: SerializerRegistry,
+  format: string,
+  serializer: Serializer,
+): SerializerRegistry => pipe(registry, RM.upsertAt(Str.Eq)(format, serializer))
+
+const serialize = (registry: SerializerRegistry) =>
+  (format: string, data: unknown): E.Either<string, string> =>
+    pipe(
+      registry,
+      RM.lookup(Str.Eq)(format),
+      O.fold(
+        () => E.left(`Unknown format: ${format}`),
+        (s) => s(data),
+      ),
+    )
+
+// Adding XML never touches existing code:
+const registry: SerializerRegistry = pipe(
+  RM.empty,
+  RM.upsertAt(Str.Eq)('json', (d) => E.right(JSON.stringify(d))),
+  RM.upsertAt(Str.Eq)('csv', toCsv),
+  RM.upsertAt(Str.Eq)('xml', toXml),
+)
+```
+
+---
+
+### Separate Base from Metadata Layer
+
+**Before** — domain logic tangled with cross-cutting concerns:
+
+```typescript
+const transferFunds = (
+  from: AccountId, to: AccountId, amount: Amount,
+): TE.TaskEither<TransferError, TransferResult> =>
+  pipe(
+    TE.rightIO(() => { logger.info(`Transfer: ${from} -> ${to}, ${amount}`) }),
+    TE.flatMap(() => TE.rightIO(() => { metrics.increment('transfer.started') })),
+    TE.flatMap(() => getAccount(from)),
+    TE.flatMap((source) => pipe(
+      debit(source, amount),
+      TE.fromEither,
+      TE.map((debited) => { logger.debug('Debited', { account: from }); return debited }),
+    )),
+    TE.flatMap((debited) => getAccount(to)),
+    TE.flatMap((target) => credit(target, amount)),
+    TE.map((result) => { metrics.increment('transfer.completed'); return result }),
+  )
+```
+
+**After** — pure base layer + independent metadata wrappers:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RTE from 'fp-ts/ReaderTaskEither'
+
+interface LoggerDeps { readonly logger: { readonly info: (msg: string) => void } }
+interface MetricsDeps { readonly metrics: { readonly increment: (key: string) => void } }
+
+// Base layer — pure domain, no awareness of logging or metrics
+const transferFunds = (
+  from: AccountId, to: AccountId, amount: Amount,
+): RTE.ReaderTaskEither<TransferDeps, TransferError, TransferResult> =>
+  pipe(
+    RTE.Do,
+    RTE.bind('source', () => getAccount(from)),
+    RTE.bind('debited', ({ source }) => RTE.fromEither(debit(source, amount))),
+    RTE.bind('target', () => getAccount(to)),
+    RTE.bind('credited', ({ target }) => credit(target, amount)),
+    RTE.map(({ credited }) => credited),
+  )
+
+// Metadata layers — each independent, composable via RTE wrapping
+const withLogging = <R extends LoggerDeps, E, A>(
+  label: string,
+) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
+  pipe(
+    RTE.Do,
+    RTE.bind('deps', () => RTE.ask<R>()),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.logger.info(`${label}: start`))),
+    RTE.bind('result', () => computation),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.logger.info(`${label}: done`))),
+    RTE.map(({ result }) => result),
+  )
+
+const withMetrics = <R extends MetricsDeps, E, A>(
+  name: string,
+) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
+  pipe(
+    RTE.Do,
+    RTE.bind('deps', () => RTE.ask<R>()),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.metrics.increment(`${name}.started`))),
+    RTE.bind('result', () => computation),
+    RTE.tap(({ deps }) => RTE.fromIO(() => deps.metrics.increment(`${name}.done`))),
+    RTE.map(({ result }) => result),
+  )
+
+// Composition — layers wrap base without modifying it:
+const transferWithMetadata = (from: AccountId, to: AccountId, amount: Amount) =>
+  pipe(
+    transferFunds(from, to, amount),
+    withLogging('transfer'),
+    withMetrics('transfer'),
+  )
+// Final type: RTE<TransferDeps & LoggerDeps & MetricsDeps, TransferError, TransferResult>
+```
+
+---
+
+### Introduce Generate-and-Test
+
+**Before** — generation and validation interleaved in a loop:
+
+```typescript
+const findAvailableSlot = (
+  calendar: Calendar, duration: number, constraints: Constraints,
+): TimeSlot | null => {
+  for (const day of calendar.days) {
+    for (const slot of day.slots) {
+      if (slot.duration >= duration
+        && !slot.isBooked
+        && constraints.allowedDays.includes(day.name)
+        && slot.start >= constraints.earliestStart) {
+        return slot
+      }
+    }
+  }
+  return null
+}
+```
+
+**After** — independent generator and evaluator:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as O from 'fp-ts/Option'
+import * as B from 'fp-ts/boolean'
+import { Predicate } from 'fp-ts/Predicate'
+
+interface SlotEntry { readonly day: Day; readonly slot: TimeSlot }
+
+// Generator — produces all candidate slots, knows nothing about selection
+const allSlots = (calendar: Calendar): ReadonlyArray<SlotEntry> =>
+  pipe(
+    calendar.days,
+    RA.flatMap((day) => pipe(day.slots, RA.map((slot): SlotEntry => ({ day, slot })))),
+  )
+
+// Tester — independent composable predicates
+type SlotRule = Predicate<SlotEntry>
+
+const minDuration = (d: number): SlotRule => ({ slot }) => slot.duration >= d
+const notBooked: SlotRule = ({ slot }) => !slot.isBooked
+const onAllowedDay = (days: ReadonlyArray<string>): SlotRule =>
+  ({ day }) => pipe(days, RA.elem(Str.Eq)(day.name))
+const afterTime = (t: Time): SlotRule => ({ slot }) => slot.start >= t
+
+const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
+  (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
+
+// Composition — generator and tester combined independently
+const findAvailableSlot = (
+  calendar: Calendar, duration: number, constraints: Constraints,
+): O.Option<TimeSlot> =>
+  pipe(
+    allSlots(calendar),
+    RA.findFirst(allOf([
+      minDuration(duration),
+      notBooked,
+      onAllowedDay(constraints.allowedDays),
+      afterTime(constraints.earliestStart),
+    ])),
+    O.map(({ slot }) => slot),
+  )
+```
+
+Generator can be swapped (e.g., prioritized slot generation) without touching rules. Rules can be extended without touching the generator.

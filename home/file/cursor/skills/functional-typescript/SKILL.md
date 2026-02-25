@@ -63,6 +63,19 @@ When planning, designing, or reasoning about architecture:
 5. **Persistence at the Edges (Onion Architecture)** — Push I/O (database, network, file system) to the outermost layer. The core domain is pure functions on pure data. All dependencies point inward. Use `ReaderTaskEither` to thread infrastructure access without polluting domain logic.
 6. **Algebra / Interpreter Separation** — Define domain service APIs as abstract algebras (TypeScript interfaces with function signatures parameterized on abstract types). Provide concrete interpreters (implementations) separately. This enables testability (swap interpreters) and decouples contract from implementation.
 
+## Flexibility Design
+
+Principles from Hanson & Sussman's *Software Design for Flexibility* — design systems that evolve without rewriting.
+
+1. **Additive Programming** — New functionality must be addable by writing new code, not by modifying working code. Structure modules around extension points: discriminated unions give compiler-enforced exhaustiveness (when a new variant is added, every existing use site must consciously adapt); handler registries or interpreter swaps enable open-ended extension. Treat the need to edit an existing function to support a new case as a design smell.
+2. **Combinator Design** — When building a family of related operations, ensure primitives and combinations share the same type signature so a combination is usable wherever a primitive is. Use `pipe`/`flow` as the universal composition backbone; design domain functions so their input/output types chain naturally. Higher-order combinators (`(pred: Predicate<A>) => Predicate<A>`, `(f: Handler<A>) => Handler<A>`) let families of behaviors grow without changing the composition plumbing.
+3. **Postel's Law (Robustness Principle)** — Accept the widest reasonable input types; return the most precise output types. Prefer `ReadonlyArray<A>` over fixed tuples, accept unions over narrow literals at module boundaries. Narrow outputs suppress noise for downstream consumers — the same principle as the digital abstraction suppressing voltage noise across logic gates.
+4. **Degeneracy (Multiple Independent Paths)** — Provide more than one independent way to achieve critical results. Cross-check degenerate computations for reliability: verify algebraic laws from multiple angles in property-based tests; provide fallback interpreters for critical services; validate running totals against recomputed sums. Degeneracy is additive — each contributing path is self-contained and can produce a result alone.
+5. **Layering (Metadata Independence)** — Keep metadata processing independent from base computation. The core domain (base layer) must not reference logging, tracing, metrics, or audit layers. Metadata layers may observe base-layer values but must not mutate them, affect their behavior, or depend on each other. In TypeScript: compose metadata as middleware (`ReaderTaskEither` environments, wrapper functions) that decorates functions without altering their domain signatures.
+6. **Partial Information & Merging** — When combining data from multiple sources, merge rather than replace. Define a `Semigroup` or `Monoid` for each domain type that combines partial information (intersect intervals, union support sets, choose the more specific value). Use `RA.foldMap` or `concatAll` to merge collections. This is the propagation model: each cell accumulates evidence, and contradictions surface as explicit `Either.left` values rather than silently overwriting.
+7. **Generate-and-Test (Exploratory Behavior)** — Separate candidate generation from candidate evaluation. The generator is independent of the tester; neither needs to know how the other works. Model search as generation (`ReadonlyArray`, `Task<ReadonlyArray<A>>`) piped through independent `Predicate<A>` filter/validator stages composed with `RA.foldMap(B.MonoidAll)`. This separation enables evolving generation and evaluation independently.
+8. **Minimize Assumptions** — Defer decisions to runtime when possible. Prefer parameterized behavior (`Reader`, function arguments, configuration records) over hard-coded branching. Build each function to work correctly for a wider range of inputs than the immediate use case requires — this pays back when requirements shift and the existing code already handles the new case.
+
 ## Testing
 
 1. **Property-Based Testing** — Verify algebraic laws and domain invariants with property-based tests (e.g., fast-check). Generate domain data through composable generators using smart constructors. Properties encode business rules declaratively and are more exhaustive than example-based tests.
@@ -93,6 +106,10 @@ Recognize these smells during reviews or while working in a codebase. The "Prima
 | **Inappropriate Intimacy** | Circular imports or modules reaching into each other's internals | Move Function, Extract Module, break cycle |
 | **Data Module** | Module exporting only types with no behavior | Move behavior into the module |
 | **Comments as Deodorant** | Comment explains *what* unclear code does | Extract Function with intention-revealing name, Rename |
+| **Rigid Dispatch** | Adding a new case requires editing an existing `switch`/`if-else` function | Introduce Handler Registry, Widen Union |
+| **Tangled Layers** | Domain logic interleaved with logging, tracing, metrics, or audit code | Separate Base from Metadata Layer |
+| **Monolithic Generation** | Candidate generation and validation fused in one loop/function; can't evolve independently | Introduce Generate-and-Test |
+| **Repeated Composition Pattern** | Same wrap-dispatch or validate-transform shape duplicated across multiple functions | Extract Combinator |
 
 ## Constraints
 

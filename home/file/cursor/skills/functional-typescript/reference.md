@@ -723,14 +723,12 @@ type NotifyHandler = (msg: string) => TE.TaskEither<NotifyError, void>
 
 type NotifyRegistry = ReadonlyMap<string, NotifyHandler>
 
-const register = (
-  registry: NotifyRegistry,
-  channel: string,
-  handler: NotifyHandler,
-): NotifyRegistry => pipe(registry, RM.upsertAt(Str.Eq)(channel, handler))
+const register = (channel: string, handler: NotifyHandler) =>
+  (registry: NotifyRegistry): NotifyRegistry =>
+    pipe(registry, RM.upsertAt(Str.Eq)(channel, handler))
 
-const dispatch = (registry: NotifyRegistry) =>
-  (channel: string, msg: string): TE.TaskEither<NotifyError, void> =>
+const dispatch = (channel: string, msg: string) =>
+  (registry: NotifyRegistry): TE.TaskEither<NotifyError, void> =>
     pipe(
       registry,
       RM.lookup(Str.Eq)(channel),
@@ -743,9 +741,9 @@ const dispatch = (registry: NotifyRegistry) =>
 // Extension is additive — adding Slack never touches existing code:
 const registry: NotifyRegistry = pipe(
   RM.empty,
-  RM.upsertAt(Str.Eq)('email', sendEmail),
-  RM.upsertAt(Str.Eq)('sms', sendSms),
-  RM.upsertAt(Str.Eq)('slack', sendSlack),
+  register('email', sendEmail),
+  register('sms', sendSms),
+  register('slack', sendSlack),
 )
 ```
 

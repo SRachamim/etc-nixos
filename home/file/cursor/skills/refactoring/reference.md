@@ -582,14 +582,12 @@ import * as E from 'fp-ts/Either'
 type Serializer = (data: unknown) => E.Either<string, string>
 type SerializerRegistry = ReadonlyMap<string, Serializer>
 
-const register = (
-  registry: SerializerRegistry,
-  format: string,
-  serializer: Serializer,
-): SerializerRegistry => pipe(registry, RM.upsertAt(Str.Eq)(format, serializer))
+const register = (format: string, serializer: Serializer) =>
+  (registry: SerializerRegistry): SerializerRegistry =>
+    pipe(registry, RM.upsertAt(Str.Eq)(format, serializer))
 
-const serialize = (registry: SerializerRegistry) =>
-  (format: string, data: unknown): E.Either<string, string> =>
+const serialize = (format: string, data: unknown) =>
+  (registry: SerializerRegistry): E.Either<string, string> =>
     pipe(
       registry,
       RM.lookup(Str.Eq)(format),
@@ -602,9 +600,9 @@ const serialize = (registry: SerializerRegistry) =>
 // Adding XML never touches existing code:
 const registry: SerializerRegistry = pipe(
   RM.empty,
-  RM.upsertAt(Str.Eq)('json', (d) => E.right(JSON.stringify(d))),
-  RM.upsertAt(Str.Eq)('csv', toCsv),
-  RM.upsertAt(Str.Eq)('xml', toXml),
+  register('json', (d) => E.right(JSON.stringify(d))),
+  register('csv', toCsv),
+  register('xml', toXml),
 )
 ```
 
@@ -745,19 +743,18 @@ const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
   (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
 
 // Composition — generator and tester combined independently
-const findAvailableSlot = (
-  calendar: Calendar, duration: number, constraints: Constraints,
-): O.Option<TimeSlot> =>
-  pipe(
-    allSlots(calendar),
-    RA.findFirst(allOf([
-      minDuration(duration),
-      notBooked,
-      onAllowedDay(constraints.allowedDays),
-      afterTime(constraints.earliestStart),
-    ])),
-    O.map(({ slot }) => slot),
-  )
+const findAvailableSlot = (duration: number, constraints: Constraints) =>
+  (calendar: Calendar): O.Option<TimeSlot> =>
+    pipe(
+      allSlots(calendar),
+      RA.findFirst(allOf([
+        minDuration(duration),
+        notBooked,
+        onAllowedDay(constraints.allowedDays),
+        afterTime(constraints.earliestStart),
+      ])),
+      O.map(({ slot }) => slot),
+    )
 ```
 
 Generator can be swapped (e.g., prioritized slot generation) without touching rules. Rules can be extended without touching the generator.

@@ -42,6 +42,12 @@ When writing, modifying, or **reviewing** TypeScript code (including PR reviews)
 8. **Think in Expressions** — Every construct yields a value. Compose domain behaviors bottom-up from smaller expressions. Use `pipe` chains and `for`-comprehension style (`Do` notation in fp-ts) for sequencing.
 9. **Lenses for Immutable Updates** — Use `monocle-ts` for updating nested immutable structures. Define a lens per field; compose lenses for deep updates. Verify lens laws (identity, retention, double-set) in tests.
 10. **Skinny Domain Objects** — ADTs hold only data (structure). All behaviors live in module-level functions (services). Keep domain types lean; distribute functionality across composable service modules.
+11. **Curried Invocation Ordering** — When defining or calling curried functions, order parameter groups to minimize the number of invocations while enabling composition. Within that minimum, respect this precedence:
+    1. **Typeclass instances** (`Eq`, `Ord`, `Monoid`, …) — own invocation, first.
+    2. **Configuration / secondary parameters** — together in a single invocation, after instances.
+    3. **Main data structure** — own invocation, alone. Enables `pipe` / `flow` composition.
+    4. **Reader / environment / dependencies** — own invocation, last. Use the `Has*` intersection pattern (`HasRepo & HasLogger`) for composable capability requirements.
+    Skip categories that don't apply. Example: `RM.lookup(Eq)(key)(map)` — instance, selector, main data. Custom: `debit(amount)(account)` — configuration, main data for piping.
 
 ## Workflows and Pipelines
 
@@ -79,7 +85,7 @@ Principles from Hanson & Sussman's *Software Design for Flexibility* — design 
 ## Testing
 
 1. **Property-Based Testing** — Verify algebraic laws and domain invariants with property-based tests (e.g., fast-check). Generate domain data through composable generators using smart constructors. Properties encode business rules declaratively and are more exhaustive than example-based tests.
-2. **Algebra Laws** — When defining abstractions (e.g., a lens, a codec, a service algebra), state and verify their laws. Example: for any account, `credit(a, x) |> flatMap(debit(_, x))` must leave the balance unchanged.
+2. **Algebra Laws** — When defining abstractions (e.g., a lens, a codec, a service algebra), state and verify their laws. Example: for any account `a`, `pipe(a, credit(x), E.flatMap(debit(x)))` must leave the balance unchanged.
 3. **Custom Interpreters for Testing** — Provide in-memory or stub interpreters of domain service algebras for unit tests. The algebra/interpreter split makes domain logic testable without infrastructure.
 
 ## Code Smells

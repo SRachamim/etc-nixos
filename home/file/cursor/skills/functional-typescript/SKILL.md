@@ -10,6 +10,7 @@ description: Pure functional TypeScript with fp-ts — coding standards and arch
 Apply the principles and patterns from:
 
 - **"Structure and Interpretation of Computer Programs"** (Abelson & Sussman) - Build understanding from first principles; think in terms of abstraction and composition.
+- **"Software Design for Flexibility"** (Hanson & Sussman) - Additive programming, combinators, generic dispatch, layering, degeneracy, and Postel's law — design systems that evolve without rewriting.
 - **"Domain Modeling Made Functional"** (Scott Wlaschin) - Type-driven design, making illegal states unrepresentable.
 - **"Functional and Reactive Domain Modeling"** (Debasish Ghosh) - Event sourcing, CQRS, and reactive patterns in functional style.
 

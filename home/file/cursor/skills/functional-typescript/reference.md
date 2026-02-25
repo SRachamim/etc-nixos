@@ -295,21 +295,21 @@ type CreateEvents = (order: PricedOrder) => ReadonlyArray<PlaceOrderEvent>
 
 // --- Composed workflow ---
 
-const placeOrder = (
-  validateOrder: ValidateOrder,
-  priceOrder: PriceOrder,
-  createEvents: CreateEvents,
-) => (cmd: PlaceOrderCommand): TE.TaskEither<PlaceOrderError, ReadonlyArray<PlaceOrderEvent>> =>
+const placeOrder = (cmd: PlaceOrderCommand) => (deps: {
+  readonly validateOrder: ValidateOrder
+  readonly priceOrder: PriceOrder
+  readonly createEvents: CreateEvents
+}): TE.TaskEither<PlaceOrderError, ReadonlyArray<PlaceOrderEvent>> =>
   pipe(
     cmd.order,
-    validateOrder,
+    deps.validateOrder,
     TE.fromEither,
-    TE.flatMap(priceOrder),
-    TE.map(createEvents),
+    TE.flatMap(deps.priceOrder),
+    TE.map(deps.createEvents),
   )
 ```
 
-Dependencies are injected as function parameters. The core is pure composition.
+Main data flows first; dependencies are injected as a record in the last invocation position. The core is pure composition.
 
 ---
 
@@ -354,8 +354,8 @@ const transfer = (
     RTE.Do,
     RTE.bind('source', () => getAccount(from)),
     RTE.bind('target', () => getAccount(to)),
-    RTE.bind('debited', ({ source }) => RTE.fromEither(debit(source, amount))),
-    RTE.bind('credited', ({ target }) => RTE.fromEither(credit(target, amount))),
+    RTE.bind('debited', ({ source }) => pipe(source, debit(amount), RTE.fromEither)),
+    RTE.bind('credited', ({ target }) => pipe(target, credit(amount), RTE.fromEither)),
     RTE.flatMap(({ debited, credited }) =>
       pipe(
         RTE.ask<Deps>(),
@@ -381,9 +381,9 @@ From Ghosh Ch. 3 & 5: define the API as an algebra (interface), provide interpre
 
 interface AccountServiceAlgebra<F> {
   readonly open: (no: string, name: string, openDate: Date) => F
-  readonly close: (account: Account, closeDate: Date) => F
-  readonly debit: (account: Account, amount: Amount) => F
-  readonly credit: (account: Account, amount: Amount) => F
+  readonly close: (closeDate: Date) => (account: Account) => F
+  readonly debit: (amount: Amount) => (account: Account) => F
+  readonly credit: (amount: Amount) => (account: Account) => F
   readonly balance: (account: Account) => F
 }
 
@@ -398,12 +398,12 @@ const accountServiceInterpreter: AccountServiceAlgebra<TE.TaskEither<DomainError
       TE.fromEither,
     ),
 
-  debit: (account, amount) =>
+  debit: (amount) => (account) =>
     account.balance.amount < amount
       ? TE.left({ _tag: 'InsufficientBalance' as const, message: 'Insufficient funds' })
       : TE.right({ ...account, balance: { amount: account.balance.amount - amount } }),
 
-  credit: (account, amount) =>
+  credit: (amount) => (account) =>
     TE.right({ ...account, balance: { amount: account.balance.amount + amount } }),
 
   // ... close, balance
@@ -414,7 +414,7 @@ const accountServiceInterpreter: AccountServiceAlgebra<TE.TaskEither<DomainError
 const testAccountService: AccountServiceAlgebra<E.Either<DomainError, Account>> = {
   open: (no, name, openDate) =>
     E.right<DomainError, Account>({ id: no, holder: name, dateOfOpen: openDate, dateOfClose: O.none, balance: { amount: 0 } }),
-  debit: (account, amount) =>
+  debit: (amount) => (account) =>
     account.balance.amount < amount
       ? E.left({ _tag: 'InsufficientBalance' as const, message: 'Insufficient funds' })
       : E.right({ ...account, balance: { amount: account.balance.amount - amount } }),
@@ -465,10 +465,13 @@ const applyEvent = (state: AccountState, event: AccountEvent): AccountState => {
 }
 
 const buildState = (events: ReadonlyArray<AccountEvent>): AccountState =>
-  RA.reduce(
-    { id: '' as AccountId, name: '', balance: 0, status: 'Open' as const },
-    applyEvent,
-  )(events)
+  pipe(
+    events,
+    RA.reduce(
+      { id: '' as AccountId, name: '', balance: 0, status: 'Open' as const },
+      applyEvent,
+    ),
+  )
 ```
 
 ---
@@ -562,8 +565,9 @@ test('credit and debit of equal amount is identity on balance', () => {
       }
 
       const result = pipe(
-        credit(account, amount),
-        E.flatMap((credited) => debit(credited, amount)),
+        account,
+        credit(amount),
+        E.flatMap(debit(amount)),
       )
 
       expect(pipe(result, E.map((a) => a.balance.amount))).toEqual(
@@ -585,7 +589,7 @@ test('close on already closed account fails', () => {
         dateOfClose: O.some(new Date('2023-01-01')),
       }
 
-      const result = closeAccount(closedAccount, closeDate)
+      const result = pipe(closedAccount, closeAccount(closeDate))
       expect(E.isLeft(result)).toBe(true)
     }),
   )

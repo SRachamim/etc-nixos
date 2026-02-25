@@ -194,7 +194,7 @@ import * as L from 'monocle-ts/Lens'
 
 const cityLens = pipe(L.id<Company>(), L.prop('address'), L.prop('city'))
 
-const updateCity = (company: Company, city: string): Company =>
+const updateCity = (city: string) => (company: Company): Company =>
   pipe(cityLens, L.modify(() => city))(company)
 ```
 
@@ -235,7 +235,7 @@ const foldPriceCode = <A>(cases: {
   Childrens: () => A
 }) => (pc: PriceCode): A => cases[pc._tag]()
 
-const getCharge = (priceCode: PriceCode, daysRented: number): number =>
+const getCharge = (daysRented: number) => (priceCode: PriceCode): number =>
   pipe(
     priceCode,
     foldPriceCode({
@@ -402,7 +402,7 @@ const withdrawAndGetBalance = (account: Account, amount: number): Account => {
 ```typescript
 import * as IO from 'fp-ts/IO'
 
-const debit = (account: Account, amount: number): Account =>
+const debit = (amount: number) => (account: Account): Account =>
   ({ ...account, balance: account.balance - amount })
 
 const logWithdrawal = (amount: number): IO.IO<void> =>

@@ -39,7 +39,7 @@ A deployment that coincides with the incident start is the most common root caus
 
 ## Communication
 
-When sharing findings externally, follow the **message-formatting** skill and structure updates as:
+When sharing findings externally, follow the **external-communications** skill and structure updates as:
 
 - **What we know** — observed symptoms, confirmed impact, probable cause.
 - **What we are doing** — current mitigation steps, who is investigating.

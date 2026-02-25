@@ -53,12 +53,12 @@ Show the complete review to the user, including:
 - An overall summary (approve, request changes, or comment-only).
 - All comments grouped by severity.
 
-**Wait for user approval before posting** (per **require-message-approval** skill).
+**Wait for user approval before posting** (per **external-communications** skill).
 
 ### 7. Post the review
 
 - Create comment threads on the PR for each review comment, positioned on the relevant file and line range.
-- Follow the **message-formatting** skill for all comment content.
+- Follow the **external-communications** skill for all comment content.
 
 ### 8. Confirm completion
 

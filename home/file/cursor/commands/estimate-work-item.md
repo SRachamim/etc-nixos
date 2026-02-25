@@ -113,4 +113,4 @@ If appropriate, offer to:
 - Split the work item into smaller child items if sized XL.
 - Run the **plan-feature** command to produce a detailed commit plan.
 
-**Wait for user approval before taking any write action** (per **require-message-approval** skill).
+**Wait for user approval before taking any write action** (per **external-communications** skill).

@@ -80,7 +80,7 @@ Present a structured summary:
 
 If appropriate, offer to:
 
-- Post the summary to a Slack channel (per **require-message-approval** and **message-formatting** skills).
+- Post the summary to a Slack channel (per **external-communications** skill).
 - Create a work item to track the fix.
 - Schedule a Datadog downtime if the alert is expected during remediation.
 

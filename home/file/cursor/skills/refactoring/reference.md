@@ -1,0 +1,511 @@
+# Refactoring Reference — FP TypeScript Examples
+
+Detailed before/after examples for key refactorings from the catalog.
+All code uses fp-ts, `pipe`/`flow`, and immutable data.
+
+> **Scope**: Transformation mechanics — step-by-step before/after refactorings. For *target architecture patterns* (domain modeling, workflows, DI, event sourcing, codecs, testing), see the **functional-typescript** skill's [reference.md](../functional-typescript/reference.md).
+
+---
+
+## Composing Functions
+
+### Extract Function
+
+**Before** — inline logic with a comment explaining intent:
+
+```typescript
+const processOrder = (order: Order): string => {
+  // calculate total with discount
+  const base = order.items.reduce((s, i) => s + i.price * i.qty, 0)
+  const discount = base > 1000 ? base * 0.05 : 0
+  const total = base - discount
+
+  return `Order ${order.id}: $${total.toFixed(2)}`
+}
+```
+
+**After** — extracted into a named pure function:
+
+```typescript
+const calculateTotal = (items: ReadonlyArray<LineItem>): number => {
+  const base = items.reduce((s, i) => s + i.price * i.qty, 0)
+  const discount = base > 1000 ? base * 0.05 : 0
+  return base - discount
+}
+
+const processOrder = (order: Order): string =>
+  `Order ${order.id}: $${calculateTotal(order.items).toFixed(2)}`
+```
+
+---
+
+### Replace Temp with Pipeline
+
+**Before** — chain of intermediate `const` bindings:
+
+```typescript
+const getPrice = (quantity: number, itemPrice: number): number => {
+  const basePrice = quantity * itemPrice
+  const discountFactor = basePrice > 1000 ? 0.95 : 0.98
+  return basePrice * discountFactor
+}
+```
+
+**After** — pipeline with named steps:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+
+const basePrice = (quantity: number, itemPrice: number): number =>
+  quantity * itemPrice
+
+const discountFactor = (base: number): number =>
+  base > 1000 ? 0.95 : 0.98
+
+const getPrice = (quantity: number, itemPrice: number): number =>
+  pipe(
+    basePrice(quantity, itemPrice),
+    (base) => base * discountFactor(base)
+  )
+```
+
+---
+
+### Replace Loop with Pipeline
+
+**Before** — imperative loop:
+
+```typescript
+const getOverdueNames = (invoices: Invoice[]): string[] => {
+  const result: string[] = []
+  for (const inv of invoices) {
+    if (inv.dueDate < Date.now() && inv.balance > 0) {
+      result.push(inv.customerName)
+    }
+  }
+  return result
+}
+```
+
+**After** — declarative pipeline:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as A from 'fp-ts/ReadonlyArray'
+
+const isOverdue = (inv: Invoice): boolean =>
+  inv.dueDate < Date.now() && inv.balance > 0
+
+const getOverdueNames = (invoices: ReadonlyArray<Invoice>): ReadonlyArray<string> =>
+  pipe(invoices, A.filter(isOverdue), A.map((inv) => inv.customerName))
+```
+
+---
+
+## Organizing Data
+
+### Introduce Branded Type
+
+**Before** — primitive obsession:
+
+```typescript
+const sendEmail = (to: string, subject: string, body: string): void => { /* ... */ }
+
+sendEmail('not-an-email', 42 as any, '')  // no compile-time protection
+```
+
+**After** — branded types with smart constructor:
+
+```typescript
+import * as E from 'fp-ts/Either'
+
+type Email = string & { readonly _brand: unique symbol }
+
+const mkEmail = (s: string): E.Either<string, Email> =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)
+    ? E.right(s as Email)
+    : E.left(`Invalid email: ${s}`)
+
+const sendEmail = (to: Email, subject: string, body: string): void => { /* ... */ }
+```
+
+---
+
+### Replace Record with Discriminated Union
+
+**Before** — type code driving conditionals:
+
+```typescript
+interface Shape { kind: 'circle' | 'rect'; radius?: number; width?: number; height?: number }
+
+const area = (s: Shape): number => {
+  switch (s.kind) {
+    case 'circle': return Math.PI * s.radius! ** 2
+    case 'rect':   return s.width! * s.height!
+  }
+}
+```
+
+**After** — discriminated union with exhaustive fold:
+
+```typescript
+interface Circle { readonly _tag: 'Circle'; readonly radius: number }
+interface Rect { readonly _tag: 'Rect'; readonly width: number; readonly height: number }
+
+type Shape = Circle | Rect
+
+const fold = <A>(onCircle: (r: number) => A, onRect: (w: number, h: number) => A) =>
+  (shape: Shape): A => {
+    switch (shape._tag) {
+      case 'Circle': return onCircle(shape.radius)
+      case 'Rect':   return onRect(shape.width, shape.height)
+    }
+  }
+
+const area: (s: Shape) => number = fold(
+  (r) => Math.PI * r ** 2,
+  (w, h) => w * h
+)
+```
+
+No optional fields, no `!` assertions, compiler-enforced exhaustiveness.
+
+---
+
+### Encapsulate with Optics
+
+**Before** — deep immutable update is verbose:
+
+```typescript
+const updateCity = (company: Company, city: string): Company => ({
+  ...company,
+  address: {
+    ...company.address,
+    city,
+  },
+})
+```
+
+**After** — lens from `monocle-ts`:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as L from 'monocle-ts/Lens'
+
+const cityLens = pipe(L.id<Company>(), L.prop('address'), L.prop('city'))
+
+const updateCity = (company: Company, city: string): Company =>
+  pipe(cityLens, L.modify(() => city))(company)
+```
+
+Lenses compose: access the aggregate root, drill into nested value objects, update immutably. Verify lens laws (identity, retention, double-set) in property-based tests.
+
+---
+
+## Simplifying Conditional Expressions
+
+### Replace Conditional with Fold
+
+**Before** — switch on type code (OOP: Replace Conditional with Polymorphism):
+
+```typescript
+const getCharge = (movie: Movie, daysRented: number): number => {
+  switch (movie.priceCode) {
+    case 'regular':
+      return 2 + (daysRented > 2 ? (daysRented - 2) * 1.5 : 0)
+    case 'newRelease':
+      return daysRented * 3
+    case 'childrens':
+      return 1.5 + (daysRented > 3 ? (daysRented - 3) * 1.5 : 0)
+  }
+}
+```
+
+**After** — discriminated union with fold:
+
+```typescript
+type PriceCode =
+  | { readonly _tag: 'Regular' }
+  | { readonly _tag: 'NewRelease' }
+  | { readonly _tag: 'Childrens' }
+
+const foldPriceCode = <A>(cases: {
+  Regular: () => A
+  NewRelease: () => A
+  Childrens: () => A
+}) => (pc: PriceCode): A => cases[pc._tag]()
+
+const getCharge = (priceCode: PriceCode, daysRented: number): number =>
+  pipe(
+    priceCode,
+    foldPriceCode({
+      Regular:    () => 2 + (daysRented > 2 ? (daysRented - 2) * 1.5 : 0),
+      NewRelease: () => daysRented * 3,
+      Childrens:  () => 1.5 + (daysRented > 3 ? (daysRented - 3) * 1.5 : 0),
+    })
+  )
+```
+
+Adding a new price code variant causes a compile error everywhere `foldPriceCode` is used — no forgotten branches.
+
+---
+
+### Introduce Option
+
+**Before** — null checks (OOP: Introduce Null Object):
+
+```typescript
+const getDiscount = (customer: Customer): number => {
+  const membership = customer.membership
+  if (membership === null || membership === undefined) {
+    return 0
+  }
+  return membership.discountPercent
+}
+```
+
+**After** — `Option` with combinators:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+
+interface Customer { readonly membership: O.Option<Membership> }
+
+const getDiscount = (customer: Customer): number =>
+  pipe(
+    customer.membership,
+    O.map((m) => m.discountPercent),
+    O.getOrElse(() => 0)
+  )
+```
+
+---
+
+### Replace Nested Conditional with Guard + Pipeline
+
+**Before** — deeply nested:
+
+```typescript
+const processPayment = (payment: Payment): string => {
+  if (payment.amount > 0) {
+    if (payment.currency === 'USD') {
+      if (payment.verified) {
+        return `Processed $${payment.amount}`
+      } else {
+        return 'Unverified'
+      }
+    } else {
+      return 'Unsupported currency'
+    }
+  } else {
+    return 'Invalid amount'
+  }
+}
+```
+
+**After** — flat pipeline with `Either`:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const validateAmount = (p: Payment): E.Either<string, Payment> =>
+  p.amount > 0 ? E.right(p) : E.left('Invalid amount')
+
+const validateCurrency = (p: Payment): E.Either<string, Payment> =>
+  p.currency === 'USD' ? E.right(p) : E.left('Unsupported currency')
+
+const validateVerified = (p: Payment): E.Either<string, Payment> =>
+  p.verified ? E.right(p) : E.left('Unverified')
+
+const processPayment = (payment: Payment): string =>
+  pipe(
+    payment,
+    validateAmount,
+    E.flatMap(validateCurrency),
+    E.flatMap(validateVerified),
+    E.fold(
+      (err) => err,
+      (p) => `Processed $${p.amount}`
+    )
+  )
+```
+
+---
+
+## Making Function Calls Simpler
+
+### Introduce Parameter Object
+
+**Before** — long parameter list:
+
+```typescript
+const createEvent = (
+  title: string, start: Date, end: Date,
+  location: string, organizer: string, isPublic: boolean
+): Event => ({ /* ... */ })
+```
+
+**After** — single record parameter:
+
+```typescript
+interface CreateEventParams {
+  readonly title: string
+  readonly start: Date
+  readonly end: Date
+  readonly location: string
+  readonly organizer: string
+  readonly isPublic: boolean
+}
+
+const createEvent = (params: CreateEventParams): Event => ({ /* ... */ })
+```
+
+---
+
+### Replace Error Code with Either
+
+**Before** — error code or thrown exception:
+
+```typescript
+const divide = (a: number, b: number): number => {
+  if (b === 0) throw new Error('Division by zero')
+  return a / b
+}
+```
+
+**After** — explicit `Either`:
+
+```typescript
+import * as E from 'fp-ts/Either'
+
+const divide = (a: number, b: number): E.Either<string, number> =>
+  b === 0 ? E.left('Division by zero') : E.right(a / b)
+```
+
+---
+
+### Separate Query from Command
+
+**Before** — mixed read + write:
+
+```typescript
+const withdrawAndGetBalance = (account: Account, amount: number): Account => {
+  console.log(`Withdrawing ${amount}`)  // side effect
+  return { ...account, balance: account.balance - amount }
+}
+```
+
+**After** — pure query + effectful command:
+
+```typescript
+import * as IO from 'fp-ts/IO'
+
+const debit = (account: Account, amount: number): Account =>
+  ({ ...account, balance: account.balance - amount })
+
+const logWithdrawal = (amount: number): IO.IO<void> =>
+  () => console.log(`Withdrawing ${amount}`)
+```
+
+---
+
+## Dealing with Generalization
+
+### Form Higher-Order Function
+
+**Before** — two functions with identical structure, different details (OOP: Template Method):
+
+```typescript
+const sumPositive = (ns: ReadonlyArray<number>): number =>
+  ns.filter((n) => n > 0).reduce((a, b) => a + b, 0)
+
+const sumEven = (ns: ReadonlyArray<number>): number =>
+  ns.filter((n) => n % 2 === 0).reduce((a, b) => a + b, 0)
+```
+
+**After** — higher-order function parameterizing the varying step:
+
+```typescript
+const sumBy = (predicate: (n: number) => boolean) =>
+  (ns: ReadonlyArray<number>): number =>
+    pipe(ns, A.filter(predicate), A.reduce(0, (a, b) => a + b))
+
+const sumPositive = sumBy((n) => n > 0)
+const sumEven = sumBy((n) => n % 2 === 0)
+```
+
+---
+
+### Widen Union (Extract Subclass → Add Variant)
+
+**Before** — boolean flag driving behavior:
+
+```typescript
+interface Notification {
+  readonly message: string
+  readonly isUrgent: boolean
+  readonly urgentRecipient?: string  // only set when isUrgent
+}
+```
+
+**After** — discriminated union with a new variant:
+
+```typescript
+interface StandardNotification { readonly _tag: 'Standard'; readonly message: string }
+interface UrgentNotification { readonly _tag: 'Urgent'; readonly message: string; readonly recipient: string }
+
+type Notification = StandardNotification | UrgentNotification
+```
+
+No optional fields, no invalid states.
+
+---
+
+## Big Refactorings
+
+### Separate Domain from Infrastructure
+
+**Before** — mixed pure logic and side effects:
+
+```typescript
+const processOrder = async (orderId: string): Promise<void> => {
+  const order = await db.findOrder(orderId)
+  const total = order.items.reduce((s, i) => s + i.price * i.qty, 0)
+  const discount = total > 100 ? total * 0.1 : 0
+  await db.saveInvoice({ orderId, amount: total - discount })
+  await emailService.send(order.email, `Your total: $${total - discount}`)
+}
+```
+
+**After** — pure core + thin effectful shell:
+
+```typescript
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
+
+// Pure domain
+const calculateInvoiceAmount = (items: ReadonlyArray<LineItem>): number => {
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0)
+  return total > 100 ? total * 0.9 : total
+}
+
+// Effectful shell
+const processOrder = (orderId: string): TE.TaskEither<Error, void> =>
+  pipe(
+    findOrder(orderId),
+    TE.map((order) => ({
+      order,
+      amount: calculateInvoiceAmount(order.items),
+    })),
+    TE.flatMap(({ order, amount }) =>
+      pipe(
+        saveInvoice({ orderId, amount }),
+        TE.flatMap(() => sendEmail(order.email, `Your total: $${amount}`))
+      )
+    )
+  )
+```
+
+The domain logic (`calculateInvoiceAmount`) is pure, testable without mocks, and reusable.

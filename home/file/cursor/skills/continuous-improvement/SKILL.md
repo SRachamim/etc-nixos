@@ -50,10 +50,10 @@ Present the specific edit as a before/after diff against the source file.
 
 ### 4. Apply or present
 
-Determine where the source artifact lives:
+Locate the **source file** for the artifact. It may live in the current workspace even if it's deployed elsewhere at runtime (e.g. global skills managed from a dotfiles repo).
 
-- **In the current project** (e.g. under the workspace tree): apply the edit directly and ask the user before committing. Follow whichever commit conventions the project uses.
-- **Outside the current project** (e.g. `~/.cursor/skills/`, `~/.cursor/rules/`, user-global config): do **not** edit the file. Instead, present the diff and a short instruction explaining where and why to apply it, so the user can copy-paste it to the agent in the right project.
+- **Source is in the current workspace**: apply the edit directly and ask the user before committing. Follow whichever commit conventions the project uses.
+- **Source is truly external** (not managed from this workspace): present the diff and a short instruction explaining where and why to apply it, so the user can copy-paste it to the agent in the right project.
 
 ## Constraints
 

@@ -49,6 +49,7 @@ Common fields:
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
 | `System.IterationPath` | The current iteration path from step 2 |
+| `System.State` | `Triaged` |
 
 ### 5. Confirm success
 

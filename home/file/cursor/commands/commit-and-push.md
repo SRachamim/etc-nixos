@@ -29,11 +29,7 @@ Run `git diff --cached --stat` and show the user what will be committed.
 
 ### 3a. Commit (default mode)
 
-Draft one or more commit messages following the **commit-conventions** skill.
-
-**Present the commit message(s) to the user for approval before committing.**
-
-Create the commit(s).
+Draft one or more commit messages following the **commit-conventions** skill and commit immediately.
 
 ### 3b. Fixup into existing commits
 

@@ -59,3 +59,7 @@ Print a summary of everything that was done:
 - PR link
 - Work item link and new state
 - Slack message confirmation
+
+### 9. Evolve
+
+Follow the **continuous-improvement** skill.

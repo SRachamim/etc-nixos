@@ -61,3 +61,7 @@ Print a summary of what was cleaned up:
 - Number of branches deleted
 - Number of stale worktree entries pruned
 - Any branches that could not be deleted (and why)
+
+### 8. Evolve
+
+Follow the **continuous-improvement** skill.

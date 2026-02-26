@@ -67,3 +67,7 @@ Print a summary:
 - PR link
 - Number of comments posted by severity
 - Overall verdict (approved, changes requested, or commented)
+
+### 9. Evolve
+
+Follow the **continuous-improvement** skill.

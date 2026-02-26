@@ -100,3 +100,7 @@ Wait for approval, modifications, or questions before implementing.
 ### 7. Verify all changes are committed
 
 Follow the hygiene section of the **commit-conventions** skill. The working tree must be clean before considering the plan complete.
+
+### 8. Evolve
+
+Follow the **continuous-improvement** skill.

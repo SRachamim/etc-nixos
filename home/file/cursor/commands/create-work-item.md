@@ -54,3 +54,7 @@ Common fields:
 ### 5. Confirm success
 
 Print the created work item's **ID**, **title**, **type**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
+
+### 6. Evolve
+
+Follow the **continuous-improvement** skill.

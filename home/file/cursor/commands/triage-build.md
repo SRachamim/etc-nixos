@@ -79,3 +79,7 @@ If appropriate, offer to:
 - Open a bug work item for a genuine failure.
 
 Wait for user confirmation before taking any action.
+
+### 8. Evolve
+
+Follow the **continuous-improvement** skill.

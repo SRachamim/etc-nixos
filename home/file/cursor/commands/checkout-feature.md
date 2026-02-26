@@ -26,3 +26,7 @@ Create the worktree and branch atomically per the **worktree-layout** skill.
 Run `git worktree list` and show the output so the user can verify the new worktree appears.
 
 Print the full path to the new worktree so the user can open it.
+
+### 5. Evolve
+
+Follow the **continuous-improvement** skill.

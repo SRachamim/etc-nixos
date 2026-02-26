@@ -114,3 +114,7 @@ If appropriate, offer to:
 - Run the **plan-feature** command to produce a detailed commit plan.
 
 **Wait for user approval before taking any write action** (per **external-communications** skill).
+
+### 7. Evolve
+
+Follow the **continuous-improvement** skill.

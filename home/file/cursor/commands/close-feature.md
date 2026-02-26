@@ -53,3 +53,7 @@ Print a summary of what was cleaned up:
 - PR link and status
 - Work item link and new state
 - Worktree and branch removal confirmation
+
+### 8. Evolve
+
+Follow the **continuous-improvement** skill.

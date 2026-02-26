@@ -73,25 +73,16 @@ Follow the conventions for commands (title, description, steps) but frame the in
 - Specify what the subagent must return.
 - Specify any constraints (read-only, no external side effects, etc.).
 
-### 5. Present the artifact for review
+### 5. Create the artifact
 
-Show the complete artifact content to the user before writing it. Include:
+Write the file immediately. If the artifact is a skill, create the directory structure (`<name>/SKILL.md` and any supporting files).
 
-- The chosen file path.
-- The full markdown content.
-
-Wait for approval or modifications.
-
-### 6. Create the artifact
-
-Write the file to the agreed path. If the artifact is a skill, create the directory structure (`<name>/SKILL.md` and any supporting files).
-
-### 7. Verify
+### 6. Verify
 
 - Confirm the file was created at the correct path.
 - If it's a skill, verify the YAML frontmatter parses correctly.
 - Check that all referenced skills and commands exist.
 
-### 8. Evolve
+### 7. Evolve
 
 Follow the **continuous-improvement** skill.

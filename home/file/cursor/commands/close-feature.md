@@ -38,15 +38,25 @@ git worktree remove "<root-repo>/feature/<id>"
 
 If the current working directory is inside the worktree being removed, switch to the main worktree first.
 
-### 6. Delete the local branch
+### 6. Delete the local and remote branches
 
 ```sh
 git branch -d "feature/<id>"
+git push origin --delete "feature/<id>"
 ```
 
-Use `-d` (not `-D`) so git refuses if the branch has unmerged changes.
+Use `-d` (not `-D`) so git refuses if the branch has unmerged changes. If the remote branch was already deleted (e.g., by a server-side policy), ignore the push error.
 
-### 7. Confirm completion
+### 7. Prune worktrees and empty directories
+
+```sh
+git worktree prune
+rmdir "<root-repo>/feature" 2>/dev/null
+```
+
+Clean up stale worktree references that may linger from previous removals. Remove the `feature/` parent directory if it is now empty; `rmdir` is safe because it only succeeds on empty directories.
+
+### 8. Confirm completion
 
 Print a summary of what was cleaned up:
 
@@ -54,6 +64,6 @@ Print a summary of what was cleaned up:
 - Work item link and new state
 - Worktree and branch removal confirmation
 
-### 8. Evolve
+### 9. Evolve
 
 Follow the **continuous-improvement** skill.

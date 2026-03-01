@@ -53,7 +53,20 @@ Present the specific edit as a before/after diff against the source file.
 Locate the **source file** for the artifact. It may live in the current workspace even if it's deployed elsewhere at runtime (e.g. global skills managed from a dotfiles repo).
 
 - **Source is in the current workspace**: apply the edit directly and ask the user before committing. Follow whichever commit conventions the project uses.
-- **Source is truly external** (not managed from this workspace): present the diff and a short instruction explaining where and why to apply it, so the user can copy-paste it to the agent in the right project.
+- **Source is truly external** (not managed from this workspace): format the entire proposal as a ready-to-paste agent instruction inside a fenced code block (so the IDE renders a copy button). The block must be self-contained — everything another agent needs to apply the change without extra context:
+
+    ~~~text
+    The <command/skill/rule> at <runtime-path> needs an update.
+
+    What happened: <one sentence>
+    Category: <category>
+
+    Proposed change to <filename> — <brief scope>:
+
+    <unified diff or before/after snippet>
+
+    This file lives at <path-hint> — apply the diff there.
+    ~~~
 
 ## Constraints
 

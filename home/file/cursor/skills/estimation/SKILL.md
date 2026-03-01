@@ -5,7 +5,17 @@ description: Codebase-grounded estimation methodology. Use whenever the agent ne
 
 # Estimation
 
-Produce an effort estimate grounded in codebase evidence, not intuition.
+Produce an effort estimate **in hours** grounded in codebase evidence and historical calibration — not intuition.
+
+FundGuard ADO tracks effort with three fields on every Task and Bug:
+
+- `OriginalEstimate` — planned hours (what this skill produces)
+- `CompletedWork` — actual hours spent (filled during/after work)
+- `RemainingWork` — hours left (updated as work progresses)
+
+Plus a custom field:
+
+- `EstimationConfidenceLevel` — one of `1.0: Absolute`, `1.6: Medium`, `2.0: Very Low`
 
 ## Input
 
@@ -13,6 +23,20 @@ The caller provides one of:
 
 - An **ADO work item** (already fetched, with title, description, acceptance criteria).
 - A **free-text description** of the work.
+
+## Historical Calibration
+
+Before estimating, search ADO for 3–5 recently resolved work items that are structurally similar (same area path, same type, or similar keywords). For each, note:
+
+| Field | Purpose |
+|-------|---------|
+| `OriginalEstimate` | What was planned |
+| `CompletedWork` | What actually happened |
+| Overrun ratio | `CompletedWork / OriginalEstimate` |
+| `EstimationConfidenceLevel` | How confident the original estimator was |
+| Sprint spill tags | Whether the item carried `Planned and not completed` tags across sprints |
+
+Compute the **median overrun ratio** for the comparable set. Use this as a reality-check multiplier on your raw estimate.
 
 ## Codebase Reconnaissance
 
@@ -42,19 +66,33 @@ Evaluate the work across these dimensions:
 
 For each dimension, assign a severity: **low**, **moderate**, or **high**.
 
-## Sizing
+## Hour Estimate
 
-Using the complexity analysis, assign both a T-shirt size and Fibonacci story points:
+Derive a concrete hour estimate using the complexity analysis:
 
-| T-Shirt | Points | Indicators |
-|---------|--------|------------|
-| **XS** | 1–2 | Isolated single-file change. High existing test coverage. No schema changes. Established pattern exists to follow. |
-| **S** | 3 | Confined to a single component or module. Minimal new tests. No downstream consumer updates or API changes. |
-| **M** | 5 | Multi-file modification within a single bounded context. Moderate file-touch overhead. Requires integration test updates. |
-| **L** | 8–13 | Cross-module architectural changes. High coupling. Requires schema migrations or security audits. |
-| **XL** | 21+ | Spans multiple repositories or services. High regression risk. Ambiguous requirements needing significant R&D. Recommend splitting into smaller items. |
+| Band | Hours | Indicators |
+|------|-------|------------|
+| **Trivial** | 1–2 | Isolated single-file change. High existing test coverage. No schema changes. Established pattern to follow. |
+| **Small** | 3–5 | Confined to a single component or module. Minimal new tests. No downstream consumer updates. |
+| **Medium** | 6–15 | Multi-file modification within a single bounded context. Moderate file-touch overhead. Requires integration test updates. |
+| **Large** | 16–30 | Cross-module changes. High coupling. Requires schema migrations or security audits. May span more than one sprint. |
+| **Extra-Large** | 31+ | Spans multiple services or repositories. High regression risk. Ambiguous requirements needing R&D. **Recommend splitting into smaller items.** |
 
-Justify the estimate by referencing specific findings from the complexity analysis — not intuition.
+After deriving the raw hour estimate, apply the **historical overrun multiplier** from the calibration step. If the comparable set shows a median 1.5x overrun, inflate accordingly — or explicitly flag the gap as a risk.
+
+## Estimation Confidence Level
+
+Assign a confidence level based on the unknowns dimension and overall uncertainty:
+
+| Level | When to assign |
+|-------|---------------|
+| **1.0: Absolute** | Requirements are crystal clear, the pattern is well-established, no unknowns. |
+| **1.6: Medium** | Some ambiguity exists but the general approach is known; moderate unknowns. |
+| **2.0: Very Low** | Significant unknowns, undocumented behavior, new territory, or external dependencies. |
+
+## Sprint Fit
+
+FundGuard uses **2-week sprints** (~80 working hours per person). Flag if the estimate exceeds one sprint for a single assignee. If it does, recommend splitting into sprint-sized sub-tasks or note the expected spill.
 
 ## Output
 
@@ -62,10 +100,12 @@ The skill produces:
 
 | Field | Description |
 |-------|-------------|
-| **T-shirt size** | XS, S, M, L, or XL |
-| **Story points** | A single Fibonacci number (1, 2, 3, 5, 8, 13, 21) |
+| **Original Estimate** | A single number in hours, suitable for the `OriginalEstimate` ADO field |
+| **Estimation Confidence Level** | `1.0: Absolute`, `1.6: Medium`, or `2.0: Very Low` |
 | **Complexity breakdown** | Severity per dimension |
+| **Historical comparables** | The 3–5 similar items used for calibration, with their overrun ratios |
 | **Risks and open questions** | Any concerns surfaced during reconnaissance |
+| **Sprint fit** | Whether the work fits in one sprint, or how to split it |
 | **Recommendation** | Whether to proceed as-is, split the item, or address prerequisites first |
 
 The caller decides how to present or use these outputs.

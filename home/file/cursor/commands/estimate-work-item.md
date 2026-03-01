@@ -1,6 +1,6 @@
 # Estimate Work Item
 
-Given an Azure DevOps work item ID (or a free-text task description), perform codebase reconnaissance and produce a structured effort estimate with T-shirt sizing and Fibonacci story points.
+Given an Azure DevOps work item ID (or a free-text task description), perform codebase reconnaissance and produce a structured effort estimate in hours with a confidence level.
 
 ## Steps
 
@@ -34,11 +34,19 @@ Output the estimate in this format:
 ## Estimate: #<ID> — <Title>
 (or "## Estimate: <task description>" if no ADO item)
 
-**Type**: <type> | **T-Shirt**: <size> | **Story Points**: <points>
+**Type**: <type> | **Hours**: <N> | **Confidence**: <level>
 
 ### Summary
 
 <1–3 sentence summary of the task and why the estimate lands where it does>
+
+### Historical Comparables
+
+| ID | Title | Est (hrs) | Actual (hrs) | Ratio | Confidence |
+|----|-------|-----------|-------------|-------|------------|
+| <id> | <title> | <est> | <actual> | <ratio>x | <confidence> |
+
+Median overrun ratio: <X.Xx>
 
 ### Affected Areas
 
@@ -57,6 +65,10 @@ Output the estimate in this format:
 | Technical debt | <low/moderate/high> | <detail> |
 | Unknowns / risks | <low/moderate/high> | <detail> |
 
+### Sprint Fit
+
+<whether the work fits in one 2-week sprint, or how to split it>
+
 ### Risks and Open Questions
 
 - <risk or question>
@@ -71,8 +83,8 @@ Output the estimate in this format:
 
 If appropriate, offer to:
 
-- Update the ADO work item with the estimate (story points and/or T-shirt size).
-- Split the work item into smaller child items if sized XL.
+- Update the ADO work item with the estimate (`OriginalEstimate` and `EstimationConfidenceLevel`).
+- Split the work item into smaller child items if estimated at 31+ hours.
 - Run the **plan-feature** command to produce a detailed commit plan.
 
 **Wait for user approval before taking any write action** (per **external-communications** skill).

@@ -49,11 +49,14 @@ Common fields:
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
 | `System.IterationPath` | The current iteration path from step 2 |
-| `System.State` | `Triaged` |
 
-### 5. Confirm success
+### 5. Triage the work item
 
-Print the created work item's **ID**, **title**, **type**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
+Follow the **triage-work-item** command, passing the newly created work item's ID.
+
+### 6. Confirm success
+
+Print the created work item's **ID**, **title**, **type**, **state**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
 
 ### 6. Evolve
 

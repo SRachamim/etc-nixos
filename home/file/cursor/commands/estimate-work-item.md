@@ -34,19 +34,15 @@ Output the estimate in this format:
 ## Estimate: #<ID> — <Title>
 (or "## Estimate: <task description>" if no ADO item)
 
-**Type**: <type> | **Hours**: <N> | **Confidence**: <level>
+**Type**: <type> | **Hours**: <N> | **Band**: <band> | **Confidence**: <level>
 
 ### Summary
 
 <1–3 sentence summary of the task and why the estimate lands where it does>
 
-### Historical Comparables
+### Calibration Note
 
-| ID | Title | Est (hrs) | Actual (hrs) | Ratio | Confidence |
-|----|-------|-----------|-------------|-------|------------|
-| <id> | <title> | <est> | <actual> | <ratio>x | <confidence> |
-
-Median overrun ratio: <X.Xx>
+<which size band the estimate falls into, what the empirical data says about that band, and any adjustment applied>
 
 ### Affected Areas
 

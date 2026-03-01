@@ -53,6 +53,8 @@ Not every principle applies to every change. Call out the 2–3 that matter most
 
 Design a sequence of commits following the **commit-conventions** skill.
 
+Documentation updates must be included in the same commit that introduces the code change making them stale — never in a separate follow-up commit.
+
 For each proposed commit, specify:
 
 | Field | Description |

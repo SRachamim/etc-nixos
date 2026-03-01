@@ -22,49 +22,11 @@ When fetching from ADO, extract and note:
 
 If neither input path yields a starting point, ask the user and stop.
 
-### 2. Codebase reconnaissance
+### 2. Estimate
 
-Search the codebase to build a concrete understanding of the affected areas. Do not guess — read the code.
+Follow the **estimation** skill, passing the resolved work item details (or free-text description) as input.
 
-- Semantic-search using keywords from the work item description to locate relevant files, modules, and services.
-- Read key files to understand current implementation patterns and architecture.
-- Map the data flow through the affected components.
-- Identify cross-module dependencies and downstream consumers of any code that would change.
-- Check existing test coverage in the affected areas (test files, test helpers, coverage gaps).
-- Note whether the change implies schema migrations, API surface changes, or new third-party dependencies.
-
-Spend enough time here to form an accurate mental model of the blast radius.
-
-### 3. Complexity analysis
-
-Evaluate the work item across these dimensions:
-
-| Dimension | What to assess |
-|-----------|---------------|
-| **File-touch overhead** | How many files and modules need modification. |
-| **Coupling** | How many downstream consumers or cross-module boundaries are affected. |
-| **Test burden** | Volume of new tests needed; existing coverage gaps that must be filled first. |
-| **Schema / API changes** | Database migrations, contract changes, or breaking API modifications. |
-| **Technical debt** | Complexity of target files, code smells, monolithic modules in the blast radius. |
-| **Unknowns / risks** | Ambiguous requirements, undocumented behavior, external dependencies, security concerns. |
-
-For each dimension, assign a severity: **low**, **moderate**, or **high**.
-
-### 4. Generate the estimate
-
-Using the complexity analysis, assign both a T-shirt size and Fibonacci story points:
-
-| T-Shirt | Points | Indicators |
-|---------|--------|------------|
-| **XS** | 1–2 | Isolated single-file change. High existing test coverage. No schema changes. Established pattern exists to follow. |
-| **S** | 3 | Confined to a single component or module. Minimal new tests. No downstream consumer updates or API changes. |
-| **M** | 5 | Multi-file modification within a single bounded context. Moderate file-touch overhead. Requires integration test updates. |
-| **L** | 8–13 | Cross-module architectural changes. High coupling. Requires schema migrations or security audits. |
-| **XL** | 21+ | Spans multiple repositories or services. High regression risk. Ambiguous requirements needing significant R&D. Recommend splitting into smaller items. |
-
-Justify the estimate by referencing specific findings from the complexity analysis — not intuition.
-
-### 5. Present the report
+### 3. Present the report
 
 Output the estimate in this format:
 
@@ -105,7 +67,7 @@ Output the estimate in this format:
 <whether to proceed as-is, split the item, or address prerequisites first>
 ```
 
-### 6. Offer follow-up
+### 4. Offer follow-up
 
 If appropriate, offer to:
 
@@ -115,6 +77,6 @@ If appropriate, offer to:
 
 **Wait for user approval before taking any write action** (per **external-communications** skill).
 
-### 7. Evolve
+### 5. Evolve
 
 Follow the **continuous-improvement** skill.

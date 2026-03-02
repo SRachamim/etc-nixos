@@ -1,6 +1,6 @@
 ---
 name: external-communications
-description: Formatting and approval guidelines for external messages. Use whenever the agent composes or posts content to messaging platforms, pull request descriptions, work item comments, or other external communications.
+description: Approval, formatting, and multi-recipient guidelines for external messages. Use whenever the agent composes or posts content to messaging platforms, pull request descriptions, work item comments, or other external communications.
 ---
 
 # External Communications
@@ -21,6 +21,13 @@ Before posting:
 1. **Present the candidate text** — Show the complete message you intend to post, formatted as it will appear
 2. **Wait for approval** — Do not proceed until the user explicitly approves
 3. **Accept modifications** — If the user suggests changes, present the revised version and wait for approval again
+
+## Multi-Recipient Semantics
+
+Pay close attention to how the user phrases multi-recipient requests:
+
+- **"Send to X and Y"** — Post two independent messages with the same content, one to X and one to Y.
+- **"Send to X and also share it with Y"** — Post the message to X first, then share a reference to that original message in Y (platform-specific; see below).
 
 ## Formatting
 
@@ -63,3 +70,17 @@ Best practices:
 - Keep messages concise and scannable
 - Use bullet points for lists
 - Mention users with `@name` only when their attention is needed
+
+#### Sharing in Slack
+
+When the user asks to "share" a message with a second channel (as opposed to "sending" to both), post the original message first using `slack_post_message`, then construct a permalink from the response and post it to the second channel.
+
+Slack permalink format: `https://<workspace>.slack.com/archives/<channel_id>/p<ts_without_dot>`
+
+where `<ts_without_dot>` is the message timestamp with the period removed (e.g., `1234567890.123456` becomes `1234567890123456`).
+
+Example workflow for "Send to #team and share with #announcements":
+
+1. `slack_post_message` to `#team` → response includes `ts`
+2. Build permalink from the channel ID and `ts`
+3. `slack_post_message` to `#announcements` with the permalink as the message body (optionally with brief context)

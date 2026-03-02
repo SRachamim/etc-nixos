@@ -1,6 +1,6 @@
-# Add Cursor Artifact
+# Add Cursor Behavior
 
-Given a description of desired behavior, determine the correct artifact type (command, skill, or subagent prompt), then create it under `home/file/cursor/` following existing conventions.
+Given a description of desired behavior, determine whether it belongs in an existing artifact or a new one. Then create or amend the appropriate artifact (command, skill, or subagent prompt) under `home/file/cursor/` following existing conventions.
 
 ## Steps
 
@@ -32,13 +32,13 @@ If the requested type doesn't match the best fit, explain the distinction and re
 
 ### 3. Survey existing artifacts
 
-Before creating, check for overlap:
+Before creating, check whether an existing artifact could absorb the requested behavior:
 
 - List existing commands in `home/file/cursor/commands/`.
 - List existing skills in `home/file/cursor/skills/`.
 - List existing subagent prompts in `home/file/cursor/subagents/` (if the directory exists).
 
-If the new artifact overlaps with an existing one, suggest extending or modifying the existing artifact instead of creating a duplicate.
+For each existing artifact, consider whether the new behavior is a natural extension of it — even when the names or descriptions don't obviously overlap. Prefer amending an existing artifact over creating a new one. If amendment is viable, recommend it and wait for the user to confirm before proceeding.
 
 ### 4. Design the artifact
 

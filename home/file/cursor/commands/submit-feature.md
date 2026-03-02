@@ -35,14 +35,22 @@ Follow the **external-communications** skill for all formatting.
 ### 5. Create the pull request
 
 - Push the current branch to the remote if it has not been pushed yet (`git push -u origin HEAD`).
-- Create the PR targeting the default branch using the approved title and description.
-- Link the work item to the PR.
+- Create the PR targeting the default branch using the approved title and description. Pass the work item ID via the `workItems` parameter to link it at creation time.
 
 ### 6. Transition the work item
 
 Update the work item state to **Code Review**.
 
+When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched in step 3.
+
 ### 7. Notify the team on Slack
+
+Defaults:
+
+- Slack workspace: `fundguard.slack.com`
+- Permalink format: `https://fundguard.slack.com/archives/<channel_id>/p<ts_without_dot>`
+
+When the user asks to share/send a message to a person by name, look up their Slack user ID via `slack_get_users`. Paginate through all pages using the `cursor` parameter until the user is found or all pages are exhausted. Do not stop after the first page.
 
 Compose a message for the **#team-cinfra** Slack channel. The message should include:
 

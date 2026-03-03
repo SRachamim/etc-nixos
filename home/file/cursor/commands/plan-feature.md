@@ -69,6 +69,8 @@ For each step, specify:
 
 ### 5. Present the plan
 
+Apply the **writing-style** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
+
 Output the plan in this format:
 
 ```

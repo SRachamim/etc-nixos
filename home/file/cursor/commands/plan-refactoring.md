@@ -85,6 +85,8 @@ Order commits so that earlier refactorings enable later ones. Test-addition comm
 
 ### 6. Present the plan
 
+Apply the **writing-style** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
+
 Output the plan in this format:
 
 ```

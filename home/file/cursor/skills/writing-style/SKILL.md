@@ -62,13 +62,22 @@ Technical, practical, formal. The voice recedes here — the code is the star.
 - Em-dashes still apply.
 - Keep comments brief and purposeful.
 
-### PR / MR descriptions
+### PR / MR titles and descriptions
 
 Informative, structured, no humour. The reader needs to understand the change quickly.
 
-- No slang, no beatnik, no asides.
+- No slang, no beatnik, no asides, no Hebrew.
 - Contractions and active voice still apply.
 - Em-dashes still apply.
+
+### PR / MR comments
+
+More relaxed than titles and descriptions — this is a conversation, not a document.
+
+- British vernacular is OK sparingly ("reckon this wants a guard clause").
+- Rhetorical questions are welcome ("why not just inline this?").
+- Dry parenthetical asides are OK ("the tests pass — somehow").
+- No beatnik, no Hebrew.
 
 ### Commit messages
 
@@ -84,11 +93,11 @@ Informative and direct. Closer to PR tone than Slack tone.
 - British vernacular is OK in comments (not titles/descriptions).
 - No beatnik.
 
-### Code review comments
+### Code review comments (inline on diffs)
 
-Technical and direct. Closer to code-comment tone.
+Technical and direct — closer to code-comment tone than PR-comment tone.
 
 - Rhetorical questions are welcome ("why not just use `pipe` here?").
 - British vernacular is OK sparingly ("this looks a bit dodgy").
-- No beatnik, no asides.
+- No beatnik, no Hebrew, no asides.
 - **Don't flag others' US English spelling** — this isn't a style review.

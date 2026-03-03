@@ -35,10 +35,64 @@ These apply to **all** new prose unless overridden by a platform-specific rule b
 
 ### Never
 
-- **No exclamation marks for enthusiasm** — they're an LLM hallmark. Reserve them for genuine emphasis (rare).
-- **No "Hey!", "Hi there!", "Hello!"** openers — start with substance.
-- **No emoji as personality** — everyone does this; it's not distinctive. Use emoji only when the platform convention demands it (e.g. a team's Slack emoji-react culture).
-- **No hedging** — drop "I think maybe", "it might be worth considering", "perhaps we could". State it or qualify it with a reason, not with timidity.
+- **No exclamation marks for enthusiasm** -- they're an LLM hallmark. Reserve them for genuine emphasis (rare).
+- **No "Hey!", "Hi there!", "Hello!"** openers -- start with substance.
+- **No emoji as personality** -- everyone does this; it's not distinctive. Use emoji only when the platform convention demands it (e.g. a team's Slack emoji-react culture).
+- **No hedging** -- drop "I think maybe", "it might be worth considering", "perhaps we could". State it or qualify it with a reason, not with timidity.
+
+## LLM tells to avoid
+
+LLM-generated text has a recognisable smell. These rules exist to kill it.
+
+### Banned vocabulary
+
+Never use these words -- they appear 10-50x more often in LLM output than in human writing and instantly flag text as AI-generated:
+
+- **Overused verbs:** delve, leverage, harness, utilize, foster, embark, navigate, illuminate, empower, elevate, cultivate, spearhead, bolster, commence, endeavor, ascertain, elucidate, transcend, revolutionize, unpack
+- **Overused adjectives:** comprehensive, robust, nuanced, pivotal, multifaceted, intricate, seamless, transformative, cutting-edge, holistic, overarching, meticulous, commendable, paramount, unprecedented, quintessential
+- **Overused nouns:** landscape, tapestry, realm, paradigm, synergy, ecosystem, beacon, cornerstone, trajectory, confluence, discourse, plethora, myriad, kaleidoscope, enigma, interplay
+
+Use plain alternatives: "use" not "utilize", "improve" not "optimize", "many" not "a myriad of", "area" not "realm", "detailed" not "granular".
+
+### Banned filler phrases
+
+Delete these entirely or replace with the short form:
+
+- "It's important to note that" -- just state it
+- "In today's fast-paced world" -- delete
+- "In the realm of" -- "in"
+- "It goes without saying" -- then don't say it
+- "When it comes to" -- "for" / "with"
+- "At the end of the day" -- "ultimately" or cut it
+- "In order to" -- "to"
+- "A wide range of" -- "many" / "various"
+- "From a holistic perspective" -- "overall"
+- "This serves as a testament to" -- "this shows"
+- "A dynamic interplay" -- "the relationship between"
+
+### Banned sentence starters
+
+Don't open sentences with crutch transitions. Just start with the point.
+
+- "In conclusion," / "Furthermore," / "Moreover," / "Additionally,"
+- "It is crucial to" / "It is essential to" / "It is imperative that"
+- "One cannot overstate" / "Needless to say,"
+- "As we navigate" / "As we delve into" / "Let's explore"
+- "In light of" / "With that being said," / "That said,"
+
+### Banned "helpful assistant" patterns
+
+- "Absolutely!" / "Great question!" / "I'd be happy to help!" / "That's a fantastic point" -- skip the flattery, just answer
+- "Let me break this down" -- just break it down
+- "Here's the thing:" -- overused; state the thing
+- "The short answer is..." -- just give the answer
+
+### Structural tells to avoid
+
+- **The rule of three** -- LLMs obsessively group ideas in threes ("time, resources, and attention"). Vary list lengths. Two items is fine. Four is fine. Don't default to three.
+- **Uniform sentence length** -- vary rhythm. Mix short punchy fragments with longer compound sentences. Monotonous cadence is an LLM hallmark.
+- **Perfect antithesis** -- "not just X, but Y" is an LLM crutch. Vary the rhetorical structure, but don't compromise the logic or clarity of the argument.
+- **Mirrored paragraph structure** -- don't repeat the same shape (topic sentence, three supporting points, summary) in consecutive paragraphs.
 
 ## Platform-specific rules
 

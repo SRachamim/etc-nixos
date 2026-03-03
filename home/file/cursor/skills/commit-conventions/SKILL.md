@@ -14,7 +14,7 @@ description: Commit hygiene and structuring guidelines. Use whenever the agent c
 
 ## Ordering
 
-- **Refactors go first** -- if the change requires restructuring existing code, do that in an early commit before adding new behavior.
+- **Refactors go in a separate, preceding commit** -- if the change requires restructuring existing code, commit the refactoring on its own before committing the new fix or feature. This lets reviewers (and Git history readers) evaluate each change without the noise of the other.
 - **Tests belong with the code they test** -- unless there's a good reason to separate (e.g., adding test infrastructure first).
 
 ## Hygiene

@@ -30,6 +30,8 @@ Always state the severity explicitly so the author knows what requires action.
 
 ## Tone
 
+Apply the **writing-style** skill to all review comments, using the "Code review comments (inline on diffs)" register.
+
 - Be **constructive** — frame comments as improvements, not criticisms.
 - Be **specific** — reference the exact line, variable, or pattern. Avoid vague feedback.
 - Be **actionable** — explain *why* something is a problem and suggest a concrete alternative.

@@ -42,7 +42,7 @@ If neither yields a starting point, ask the user and stop.
 
 ### 7. Summarize findings
 
-Follow the **incident-response** skill for investigation structure.
+Follow the **incident-response** skill for investigation structure and the **writing-style** skill for all composed text.
 
 Present a structured summary:
 

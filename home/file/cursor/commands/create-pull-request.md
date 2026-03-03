@@ -27,7 +27,7 @@ This file is not a standalone command. It is referenced by the **submit-feature*
 
 Draft a PR description with a short summary of the change (derived from the work item and commits).
 
-Follow the **external-communications** skill for all formatting.
+Follow the **writing-style** skill (using the "PR / MR titles and descriptions" register) and the **external-communications** skill for formatting.
 
 **Present the PR title and description to the user for approval before creating the PR.**
 

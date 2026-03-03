@@ -46,6 +46,8 @@ Additionally:
 
 ### 5. Draft review comments
 
+Apply the **writing-style** skill (using the "Code review comments" register for inline comments and the "PR / MR comments" register for the overall summary).
+
 Structure comments by severity, following the **code-review** skill:
 
 - **Blocking** — must be resolved before merge.

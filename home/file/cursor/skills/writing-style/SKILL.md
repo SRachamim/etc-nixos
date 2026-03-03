@@ -1,6 +1,6 @@
 ---
 name: writing-style
-description: Voice, tone, and prose conventions for all non-code text the agent authors. Use whenever the agent writes comments, messages, descriptions, or any other natural-language text.
+description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, platform-specific register) for all non-code text the agent authors. Use whenever the agent writes or edits Slack messages, PR titles, PR descriptions, PR comments, code review comments, commit messages, work-item descriptions, code comments, documentation, or any other natural-language text.
 ---
 
 # Writing Style

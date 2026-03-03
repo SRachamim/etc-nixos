@@ -32,6 +32,8 @@ If the call fails because the team name is wrong, fall back to `work_list_iterat
 
 ### 3. Present the work item for approval
 
+Apply the **writing-style** skill (using the "Work-item descriptions and comments" register) when composing titles and descriptions.
+
 Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, and iteration. Ask for confirmation. If the user requests changes, revise and re-present.
 
 ### 4. Create the work item

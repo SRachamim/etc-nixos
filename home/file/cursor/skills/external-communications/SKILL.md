@@ -29,6 +29,10 @@ Pay close attention to how the user phrases multi-recipient requests:
 - **"Send to X and Y"** — Post two independent messages with the same content, one to X and one to Y.
 - **"Send to X and also share it with Y"** — Post the message to X first, then share a reference to that original message in Y (platform-specific; see below).
 
+## Voice and Tone
+
+Apply the **writing-style** skill to all composed text. It governs language (GB English), voice traits, LLM-tell avoidance, and platform-specific register.
+
 ## Formatting
 
 ### Code & Technical Terms

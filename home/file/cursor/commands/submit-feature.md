@@ -38,7 +38,7 @@ Defaults:
 
 When the user asks to share/send a message to a person by name, look up their Slack user ID via `slack_get_users`. Paginate through all pages using the `cursor` parameter until the user is found or all pages are exhausted. Do not stop after the first page.
 
-Compose a message for the **#team-cinfra** Slack channel. The message should include:
+Compose a message for the **#team-cinfra** Slack channel, following the **writing-style** skill (using the "Slack and casual messages" register). The message should include:
 
 - A link to the PR (linked on the PR number, per **external-communications** skill).
 - A link to the work item (linked on the work item ID).

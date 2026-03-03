@@ -5,6 +5,8 @@ description: Commit hygiene and structuring guidelines. Use whenever the agent c
 
 # Commit Conventions
 
+Apply the **writing-style** skill to all commit messages, using the "Commit messages" register.
+
 ## Structure
 
 - **Each commit is independently valid** -- the codebase compiles and passes tests after each one.

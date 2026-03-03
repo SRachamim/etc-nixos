@@ -49,22 +49,23 @@ Before drafting commits, evaluate every architectural choice through these princ
 
 Not every principle applies to every change. Call out the 2–3 that matter most and explain how the plan honors them.
 
-### 4. Draft the commit plan
+### 4. Draft the implementation plan
 
-Design a sequence of commits following the **commit-conventions** skill.
+Design a sequence of **steps** to ship the feature. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 7).
 
-Documentation updates must be included in the same commit that introduces the code change making them stale — never in a separate follow-up commit.
+Design commits following the **commit-conventions** skill. Documentation updates must be included in the same commit that introduces the code change making them stale — never in a separate follow-up commit.
 
-For each proposed commit, specify:
+For each step, specify:
 
 | Field | Description |
 |-------|-------------|
 | **#** | Sequence number |
-| **Title** | Commit message following the project's conventions (per workspace rules) |
-| **What** | Concise description of the change |
-| **Files** | Key files expected to be touched |
-| **Flexibility** | Which design-lens principle(s) this commit honors and how |
-| **Validation** | How to verify this commit is valid (per workspace rules and project tooling) |
+| **Type** | `commit` or `action` |
+| **Title** | Commit message (for commits) or short description (for actions) |
+| **What** | Concise description of the change or action |
+| **Files** | Key files expected to be touched (commits only; `—` for actions) |
+| **Flexibility** | Which design-lens principle(s) this step honors and how (optional for actions) |
+| **Validation** | How to verify this step is valid |
 
 ### 5. Present the plan
 
@@ -83,12 +84,13 @@ Output the plan in this format:
 
 <Which 2–3 flexibility principles matter most for this change and why>
 
-### Proposed Commits
+### Implementation Steps
 
-| # | Title | What | Key Files | Flexibility | Validation |
-|---|-------|------|-----------|-------------|------------|
-| 1 | `<message>` | ... | `src/...` | Additive — new variant | ... |
-| 2 | `<message>` | ... | `tests/...` | Postel's law — wider input | ... |
+| # | Type | Title | What | Key Files | Flexibility | Validation |
+|---|------|-------|------|-----------|-------------|------------|
+| 1 | commit | `<message>` | ... | `src/...` | Additive — new variant | ... |
+| 2 | commit | `<message>` | ... | `tests/...` | Postel's law — wider input | ... |
+| 3 | action | Create task for TODO comments | ... | — | — | Task exists in ADO |
 
 ### Notes
 
@@ -99,10 +101,31 @@ Output the plan in this format:
 
 Wait for approval, modifications, or questions before implementing.
 
-### 7. Verify all changes are committed
+### 7. Implement the plan
+
+Once the user approves, implement the plan **in the exact sequence presented**. Every item in the plan — commits *and* non-commit actions — becomes its own TODO item.
+
+#### Building the TODO list
+
+1. Add one TODO item per proposed commit, using the commit title as content.
+2. Add one TODO item for every non-commit action the plan calls for (e.g. "Create a task via `/create-task` for TODO comments", "Notify the team", "Update the work item state"). Use a short description of the action as content.
+3. Preserve the ordering from the plan. All items start as `pending`; mark the first as `in_progress`.
+
+#### Executing each item
+
+- **Commit items**: implement only the changes described for that commit — do not pull in work from later items. Run the commit's validation, stage the relevant files, and commit using the planned message. Follow the **commit-conventions** skill.
+- **Non-commit items**: execute the described action (run a command, create a work item, post a message, etc.).
+- After completing any item, mark it `completed` and advance the next item to `in_progress`.
+
+#### Constraints
+
+- **Do not batch** — never apply changes from multiple planned commits in a single real commit.
+- If a commit's scope needs to change during implementation (e.g. an unexpected file must be touched), update the TODO item's content to reflect the actual change before committing.
+
+### 8. Verify all changes are committed
 
 Follow the hygiene section of the **commit-conventions** skill. The working tree must be clean before considering the plan complete.
 
-### 8. Evolve
+### 9. Evolve
 
 Follow the **continuous-improvement** skill.

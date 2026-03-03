@@ -49,6 +49,20 @@ Common fields:
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
 | `System.IterationPath` | The current iteration path from step 2 |
+| `Microsoft.VSTS.Business.BusinessPriority` | The inferred business priority (see below) |
+
+#### Business Priority
+
+Default to **4- Technical** — the user is a Software Architect and most work items are technical bugs and tasks with no direct product-facing effect.
+
+Use a higher priority only when the work item clearly has direct business or product impact:
+
+| Value | When to use |
+|-------|-------------|
+| `1- Critical` | Critical production bugs: data loss, security breach, or complete service outage affecting customers |
+| `2- Important` | Major customer-facing feature broken or significant business risk |
+| `3- Standard` | Moderate product-facing impact or user-visible degradation |
+| `4- Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling |
 
 ### 5. Triage the work item
 

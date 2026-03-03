@@ -13,40 +13,23 @@ Determine the feature ID using one of the following, in priority order:
 
 If neither yields a feature ID, ask the user and stop.
 
-### 2. Identify the repository and default branch
+### 2. Create the pull request
 
-- List Azure DevOps projects and locate the repository that matches the current git remote (`git remote get-url origin`).
-- Determine the repository's **default branch** (this is the PR target).
+Follow the **create-pull-request** command, passing:
 
-### 3. Gather context for the PR
+- **workItemId**: the feature ID resolved in step 1.
 
-- Fetch the work item by ID to get its **title**, **description**, and **acceptance criteria**.
-- Run `git log --oneline <default-branch>..HEAD` to collect the commits that will be in the PR.
-- Run `git diff <default-branch>...HEAD --stat` to summarize changed files.
+The shared command will identify the repository, gather context, compose the description, and create the PR. **Do not compose or present the Slack message yet** — the user may want to verify the PR live before notifying the team.
 
-### 4. Compose the PR description
-
-Draft a PR description with a short summary of the change (derived from the work item and commits).
-
-Follow the **external-communications** skill for all formatting.
-
-**Present the PR title and description to the user for approval before creating the PR.**
-
-### 5. Create the pull request
-
-- Push the current branch to the remote if it has not been pushed yet (`git push -u origin HEAD`).
-- Create the PR targeting the default branch using the approved title and description. Pass the work item ID via the `workItems` parameter to link it at creation time.
-- **Present the PR link to the user.** Do NOT compose or present the Slack message yet — the user may want to verify the PR live before notifying the team.
-
-### 6. Transition the work item
+### 3. Transition the work item
 
 Update the work item state to **Code Review**.
 
-When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched in step 3.
+When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched during PR creation.
 
-### 7. Notify the team on Slack
+### 4. Notify the team on Slack
 
-**This step begins only after the PR has been created and the link presented in step 5.** Do not batch this approval with the PR approval — they are separate interactions.
+**This step begins only after the PR has been created and the link presented in step 2.** Do not batch this approval with the PR approval — they are separate interactions.
 
 Defaults:
 
@@ -63,7 +46,7 @@ Compose a message for the **#team-cinfra** Slack channel. The message should inc
 
 **Present the Slack message to the user for approval before posting.**
 
-### 8. Confirm completion
+### 5. Confirm completion
 
 Print a summary of everything that was done:
 
@@ -71,6 +54,6 @@ Print a summary of everything that was done:
 - Work item link and new state
 - Slack message confirmation
 
-### 9. Evolve
+### 6. Evolve
 
 Follow the **continuous-improvement** skill.

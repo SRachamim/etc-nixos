@@ -17,7 +17,10 @@ description: Conventions for git worktree paths and branch naming. Use whenever 
 ## Creation
 
 - Never overwrite an existing worktree or branch. If either exists, inform the user and stop.
-- Create atomically with `git worktree add -b "feature/<id>" "<root-repo>/feature/<id>"`.
+- Determine the repository's default branch (e.g. `main`, `master`) via `git remote show origin` or equivalent.
+- Fetch the latest state of that branch before branching: `git fetch origin <default-branch>`.
+- Create the worktree from the fetched ref: `git worktree add -b "feature/<id>" "<root-repo>/feature/<id>" "origin/<default-branch>"`.
+- If the user explicitly requests a different starting point, use that instead of the default branch.
 
 ## Cleanup
 

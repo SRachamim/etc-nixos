@@ -2,6 +2,14 @@
 
 Given a PR ID (or inferred from the current branch or a Slack message), perform a structured code review and post feedback.
 
+## Repository-specific scope
+
+Some repositories require reviewing only a subset of changed files. When the PR belongs to a scoped repository, **ignore** all files outside the listed paths — do not read, evaluate, or comment on them.
+
+| Repository | Included paths | Excluded (examples) |
+|---|---|---|
+| `fgrepo` | `client/` | `devops/`, `automation/`, `backend/`, and anything else outside `client/` |
+
 ## Steps
 
 ### 1. Resolve the PR
@@ -22,7 +30,8 @@ If none yields a PR, ask the user and stop.
 
 ### 3. Read the diff
 
-- Read the full diff, commit by commit.
+- If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
+- Read the remaining diff, commit by commit.
 - For each changed file, read enough surrounding context to understand the change.
 
 ### 4. Evaluate

@@ -36,6 +36,7 @@ Follow the **external-communications** skill for all formatting.
 
 - Push the current branch to the remote if it has not been pushed yet (`git push -u origin HEAD`).
 - Create the PR targeting the default branch using the approved title and description. Pass the work item ID via the `workItems` parameter to link it at creation time.
+- **Present the PR link to the user.** Do NOT compose or present the Slack message yet — the user may want to verify the PR live before notifying the team.
 
 ### 6. Transition the work item
 
@@ -44,6 +45,8 @@ Update the work item state to **Code Review**.
 When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched in step 3.
 
 ### 7. Notify the team on Slack
+
+**This step begins only after the PR has been created and the link presented in step 5.** Do not batch this approval with the PR approval — they are separate interactions.
 
 Defaults:
 

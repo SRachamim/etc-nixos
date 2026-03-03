@@ -5,6 +5,8 @@ description: Conventions for git worktree paths and branch naming. Use whenever 
 
 # Worktree Layout
 
+This skill operates within the broader **gitflow-branching** model. It overrides Gitflow's defaults for physical layout and starting-point branch.
+
 ## Branch Naming
 
 - Features: `feature/<work-item-id>`

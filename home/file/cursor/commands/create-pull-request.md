@@ -15,7 +15,7 @@ This file is not a standalone command. It is referenced by the **submit-feature*
 ### 1. Identify the repository and default branch
 
 - List Azure DevOps projects and locate the repository that matches the current git remote (`git remote get-url origin`).
-- Determine the repository's **default branch** (this is the PR target).
+- Determine the PR target branch. Consult the **gitflow-branching** skill: feature branches target `develop`, release and hotfix branches target `main`. Fall back to the repository's **default branch** if the branching model doesn't apply or `develop` does not exist.
 
 ### 2. Gather context for the PR
 

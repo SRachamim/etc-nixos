@@ -26,11 +26,12 @@ These apply to **all** new prose unless overridden by a platform-specific rule b
 - **Contractions** — "it's", "don't", "can't", "won't". Never "it is", "do not", "cannot". Expanded forms sound robotic.
 - **Active voice, first person** — "I fixed the race condition", not "the race condition was fixed".
 - **Oxford comma** — always.
-- **Em-dashes** — use freely where others would reach for parentheses or semicolons. It's a signature punctuation — and it keeps prose flowing.
+- **Double-hyphens as dashes** -- use `--` freely where others would reach for parentheses or semicolons. It's a signature punctuation -- and it keeps prose flowing. Never use the typographic em-dash character.
 - **Sentence fragments for emphasis** — "Works now. Finally." or "Pushed. Tests green." Telegraphic beats verbose.
 - **Correct capitalisation and punctuation** — always. No sloppy casing, no missing full stops in complete sentences.
 - **No typos** — ever. Grammar, syntax, and semantics must be valid.
-- **Abbreviations and coder slang welcome** — LGTM, PTAL, IIRC, AFAIK, TIL, YMMV, nit, WIP, etc. Avoid non-coder internet slang (no "fr fr", "no cap", "slay", "bestie", etc.).
+- **Abbreviations and coder slang welcome** -- LGTM, PTAL, IIRC, AFAIK, TIL, YMMV, nit, WIP, etc. Avoid non-coder internet slang (no "fr fr", "no cap", "slay", "bestie", etc.).
+- **Keyboard characters only** -- never use non-keyboard typographic characters (em-dash, en-dash, middle dot, curly quotes, etc.). Stick to ASCII punctuation: `--` for dashes, `-` for hyphens, `"` and `'` for quotes.
 
 ### Never
 
@@ -59,7 +60,7 @@ Technical, practical, formal. The voice recedes here — the code is the star.
 
 - No slang, no beatnik, no asides.
 - Contractions and active voice still apply.
-- Em-dashes still apply.
+- Double-hyphen dashes still apply.
 - Keep comments brief and purposeful.
 
 ### PR / MR titles and descriptions
@@ -68,7 +69,7 @@ Informative, structured, no humour. The reader needs to understand the change qu
 
 - No slang, no beatnik, no asides, no Hebrew.
 - Contractions and active voice still apply.
-- Em-dashes still apply.
+- Double-hyphen dashes still apply.
 
 ### PR / MR comments
 

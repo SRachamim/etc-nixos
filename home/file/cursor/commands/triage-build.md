@@ -77,6 +77,7 @@ If appropriate, offer to:
 - Retry the failed stage.
 - Quarantine a flaky test (via Currents action).
 - Open a bug work item for a genuine failure.
+- Submit a bypass request (follow the **submit-bypass-request** command).
 
 Wait for user confirmation before taking any action.
 

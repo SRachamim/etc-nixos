@@ -1,6 +1,6 @@
 ---
 name: writing-style
-description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, platform-specific register) for all non-code text the agent authors. Use whenever the agent writes or edits Slack messages, PR titles, PR descriptions, PR comments, code review comments, commit messages, work-item descriptions, code comments, documentation, technical designs, planning summaries, architecture discussions, or any other natural-language text.
+description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
 ---
 
 # Writing Style
@@ -19,7 +19,10 @@ Use **British English** spelling and grammar for all new prose: code comments, c
 
 ## Scope
 
-**LLM-facing artifacts are exempt** -- with one exception. Cursor rules, skills, commands, and subagent prompts are instructions *for* the LLM, not output *from* it. Clarity and effectiveness for the LLM reader come first; every rule in this skill is secondary in that context. The exception: the **keyboard characters only** rule (no em-dashes, curly quotes, etc.) still applies to LLM-facing artifacts.
+This skill applies **only to delivered text** -- text that will be committed, posted, published, or otherwise leave the agent-user conversation. It does NOT apply to:
+
+- **Agent-to-user chat** -- replies, explanations, plan discussions, clarifying questions in the IDE. Write naturally here; don't perform the voice.
+- **LLM-facing artifacts** -- Cursor rules, skills, commands, and subagent prompts are instructions *for* the LLM, not output *from* it. Clarity and effectiveness for the LLM reader come first; every rule in this skill is secondary in that context. The exception: the **keyboard characters only** rule (no em-dashes, curly quotes, etc.) still applies to LLM-facing artifacts.
 
 ## Voice traits
 

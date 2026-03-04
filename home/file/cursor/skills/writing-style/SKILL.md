@@ -46,6 +46,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule b
 - **No "Hey!", "Hi there!", "Hello!"** openers -- start with substance.
 - **No emoji as personality** -- everyone does this; it's not distinctive. Use emoji only when the platform convention demands it (e.g. a team's Slack emoji-react culture).
 - **No hedging** -- drop "I think maybe", "it might be worth considering", "perhaps we could". State it or qualify it with a reason, not with timidity.
+- **No semicolons** -- not part of the voice. Use a full stop, a `--` dash, or restructure the sentence.
 
 ## Operational concealment
 

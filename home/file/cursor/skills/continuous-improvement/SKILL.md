@@ -1,6 +1,6 @@
 ---
 name: continuous-improvement
-description: Suggest and apply improvements to Cursor commands, skills, rules, and subagent prompts after execution. Use proactively after running any command, skill, or subagent — especially when the execution required workarounds, discovered new information, or hit outdated instructions.
+description: Suggest and apply improvements to Cursor commands, skills, rules, and subagent prompts after execution. Use proactively after running any command, skill, or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
 ---
 
 # Continuous Improvement
@@ -19,7 +19,7 @@ Run this analysis whenever you finish executing (or observe the execution of) a 
 - **Performance**: a faster or cheaper approach was found (fewer API calls, better defaults, smarter ordering).
 - **Accuracy**: the output quality could improve with better prompts, examples, or constraints.
 
-If the execution went smoothly and matched the instructions perfectly, say nothing — don't suggest improvements for their own sake.
+If the execution went smoothly and matched the instructions perfectly, say nothing -- don't suggest improvements for their own sake.
 
 ## How to propose an improvement
 
@@ -27,7 +27,7 @@ If the execution went smoothly and matched the instructions perfectly, say nothi
 
 One sentence describing the discrepancy or discovery during execution.
 
-> Example: "`wit_create_work_item` now requires `System.AreaPath` — I had to look it up via `wit_get_work_item` on an existing item before I could create the task."
+> Example: "`wit_create_work_item` now requires `System.AreaPath` -- I had to look it up via `wit_get_work_item` on an existing item before I could create the task."
 
 ### 2. Categorize
 
@@ -53,7 +53,7 @@ Present the specific edit as a before/after diff against the source file.
 Locate the **source file** for the artifact. It may live in the current workspace even if it's deployed elsewhere at runtime (e.g. global skills managed from a dotfiles repo).
 
 - **Source is in the current workspace**: apply the edit directly and ask the user before committing. Follow whichever commit conventions the project uses.
-- **Source is truly external** (not managed from this workspace): format the entire proposal as a ready-to-paste agent instruction inside a fenced code block (so the IDE renders a copy button). The block must be self-contained — everything another agent needs to apply the change without extra context:
+- **Source is truly external** (not managed from this workspace): format the entire proposal as a ready-to-paste agent instruction inside a fenced code block (so the IDE renders a copy button). The block must be self-contained -- everything another agent needs to apply the change without extra context:
 
     ~~~text
     The <command/skill/rule> at <runtime-path> needs an update.
@@ -61,15 +61,15 @@ Locate the **source file** for the artifact. It may live in the current workspac
     What happened: <one sentence>
     Category: <category>
 
-    Proposed change to <filename> — <brief scope>:
+    Proposed change to <filename> -- <brief scope>:
 
     <unified diff or before/after snippet>
 
-    This file lives at <path-hint> — apply the diff there.
+    This file lives at <path-hint> -- apply the diff there.
     ~~~
 
 ## Constraints
 
-- **Evidence-based only** — every suggestion must trace back to something that actually happened during execution. Never speculate.
-- **Don't break existing behavior** — improvements must be backward-compatible. If unsure, present the change and ask.
-- **Minimal diff** — change only what is needed. Don't reformat or restructure surrounding content.
+- **Evidence-based only** -- every suggestion must trace back to something that actually happened during execution. Never speculate.
+- **Don't break existing behavior** -- improvements must be backward-compatible. If unsure, present the change and ask.
+- **Minimal diff** -- change only what is needed. Don't reformat or restructure surrounding content.

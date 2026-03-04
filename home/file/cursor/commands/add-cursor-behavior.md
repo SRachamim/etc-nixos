@@ -8,18 +8,18 @@ Given a description of desired behavior, determine whether it belongs in an exis
 
 Ask the user (or infer from context) what behavior they want to add. Gather:
 
-- **What it does** — the core task or workflow.
-- **When it triggers** — on explicit invocation, automatically during other work, or as a delegated sub-task.
-- **What tools or integrations it needs** — MCP servers, shell commands, file operations, external APIs.
+- **What it does** -- the core task or workflow.
+- **When it triggers** -- on explicit invocation, automatically during other work, or as a delegated sub-task.
+- **What tools or integrations it needs** -- MCP servers, shell commands, file operations, external APIs.
 
 ### 2. Classify the artifact type
 
-Determine which artifact type fits best. Consider the user's request, but always evaluate independently — the user may have asked for the wrong type.
+Determine which artifact type fits best. Consider the user's request, but always evaluate independently -- the user may have asked for the wrong type.
 
 | Type | When to use | Location |
 |------|-------------|----------|
 | **Command** | A discrete, user-invoked workflow with ordered steps (e.g. "review a PR", "create a work item", "plan a feature"). The user explicitly triggers it. | `home/file/cursor/commands/<name>.md` |
-| **Skill** | Reusable knowledge or standards applied *within* other workflows. Not invoked directly — referenced by commands and other skills (e.g. "code review standards", "commit conventions", "external communications guidelines"). | `home/file/cursor/skills/<name>/SKILL.md` |
+| **Skill** | Reusable knowledge or standards applied *within* other workflows. Not invoked directly -- referenced by commands and other skills (e.g. "code review standards", "commit conventions", "external communications guidelines"). | `home/file/cursor/skills/<name>/SKILL.md` |
 | **Subagent prompt** | A prompt template for a delegated sub-task that runs in a separate agent context. Use when the work is parallelizable, needs isolation, or benefits from a dedicated tool set. | `home/file/cursor/subagents/<name>.md` |
 
 If the requested type doesn't match the best fit, explain the distinction and recommend the correct type. Present your reasoning and wait for the user to confirm before proceeding.
@@ -38,7 +38,7 @@ Before creating, check whether an existing artifact could absorb the requested b
 - List existing skills in `home/file/cursor/skills/`.
 - List existing subagent prompts in `home/file/cursor/subagents/` (if the directory exists).
 
-For each existing artifact, consider whether the new behavior is a natural extension of it — even when the names or descriptions don't obviously overlap. Prefer amending an existing artifact over creating a new one. If amendment is viable, recommend it and wait for the user to confirm before proceeding.
+For each existing artifact, consider whether the new behavior is a natural extension of it -- even when the names or descriptions don't obviously overlap. Prefer amending an existing artifact over creating a new one. If amendment is viable, recommend it and wait for the user to confirm before proceeding.
 
 ### 4. Design the artifact
 
@@ -46,14 +46,14 @@ For each existing artifact, consider whether the new behavior is a natural exten
 
 Follow the conventions observed in existing commands:
 
-- **Title**: `# <Command Name>` — imperative, action-oriented.
+- **Title**: `# <Command Name>` -- imperative, action-oriented.
 - **Description**: one paragraph explaining what the command does.
 - **Input section** (if applicable): describe accepted inputs and resolution priority.
 - **Steps**: numbered `### N. <Step Name>` sections, imperative tone.
 - **Delegation**: reference skills by name in bold (e.g. "Apply the **code-review** skill").
 - **Shared commands**: if the new command shares steps with an existing command, extract the shared steps into a separate file (like `create-work-item.md`) and reference it from both.
 - **User approval**: require explicit approval before any external side effects.
-- **Final step**: `### N. Evolve` — "Follow the **continuous-improvement** skill."
+- **Final step**: `### N. Evolve` -- "Follow the **continuous-improvement** skill."
 
 #### For skills
 

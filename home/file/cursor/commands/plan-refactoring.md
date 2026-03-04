@@ -8,9 +8,9 @@ This is the "first hat" from Fowler's two-hats rule: refactor the code to make t
 
 Accept **any** of the following:
 
-1. **Ticket reference** — an Azure DevOps work item ID (e.g. `12345`) or full URL. Fetch it via MCP and extract title, type, description, acceptance criteria, state, assignee, iteration, children, linked PRs/commits, and comments.
-2. **Textual description** — a plain-language description of the target state or structural goal (e.g. "separate the pricing logic from the order module so we can reuse it in the subscription flow").
-3. **Tech design or plan** — a document, plan output, or inline specification describing the desired architecture.
+1. **Ticket reference** -- an Azure DevOps work item ID (e.g. `12345`) or full URL. Fetch it via MCP and extract title, type, description, acceptance criteria, state, assignee, iteration, children, linked PRs/commits, and comments.
+2. **Textual description** -- a plain-language description of the target state or structural goal (e.g. "separate the pricing logic from the order module so we can reuse it in the subscription flow").
+3. **Tech design or plan** -- a document, plan output, or inline specification describing the desired architecture.
 
 When multiple inputs are provided, they supplement each other.
 
@@ -20,7 +20,7 @@ When multiple inputs are provided, they supplement each other.
 
 - **If ticket**: fetch the work item with full details and relations. Extract child work items (batch), linked PRs/commits, and comments.
 - **If text or design**: restate the target structural state in your own words and confirm understanding before proceeding.
-- Identify what the code should look like **after** the refactoring — which modules exist, how responsibilities are distributed, what types and interfaces are in play.
+- Identify what the code should look like **after** the refactoring -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what behavior must remain unchanged) and the **degrees of freedom** (how the structure can vary).
 
 ### 2. Understand the current codebase
@@ -30,10 +30,10 @@ Based on the target state, search the codebase for the code that needs restructu
 - Locate files, modules, and functions in the affected area.
 - Read key files to understand the current implementation.
 - Identify the boundaries of the change: which modules, layers, or services are affected.
-- Map existing **extension points** — tagged unions, generic dispatch sites, combinator interfaces, layered data — that the refactoring should leverage rather than bypass.
+- Map existing **extension points** -- tagged unions, generic dispatch sites, combinator interfaces, layered data -- that the refactoring should leverage rather than bypass.
 - Identify the **gap** between the current structure and the target state.
 
-Spend enough time here to form a concrete mental model. Don't guess — read the code.
+Spend enough time here to form a concrete mental model. Don't guess -- read the code.
 
 ### 3. Apply the refactoring lens
 
@@ -43,14 +43,14 @@ Before drafting commits, evaluate the structural transformation through the **re
 |---|---|
 | **Preserve behavior** | Does every step keep the code doing exactly what it does today? |
 | **Small steps** | Is each transformation a single, testable change? |
-| **Two hats** | Are we purely restructuring — no new behavior mixed in? |
+| **Two hats** | Are we purely restructuring -- no new behavior mixed in? |
 | **Tests first** | Do adequate tests exist to catch regressions? If not, add them first. |
 
-Also apply the flexibility design lens from **plan-feature** — evaluate which of these principles matter most for the target state:
+Also apply the flexibility design lens from **plan-feature** -- evaluate which of these principles matter most for the target state:
 
 | Principle | Question to ask | FP / TypeScript idiom |
 |---|---|---|
-| **Additive programming** | Can this change be a pure addition — no modification to existing code? | New module, new union variant, new handler |
+| **Additive programming** | Can this change be a pure addition -- no modification to existing code? | New module, new union variant, new handler |
 | **Combinators** | Do the new parts share a uniform interface so they compose freely with existing parts? | `pipe`, `flow`, same `(input) => Output` shape |
 | **Generic dispatch** | Should this extend an existing discriminated union + `fold` rather than add conditionals? | Widen union, add match arm |
 | **Layering** | Can metadata travel alongside data without the core knowing? | Branded types, `Reader`, layered records |
@@ -110,8 +110,8 @@ Output the plan in this format:
 
 | # | Title | What | Key Files | Technique | Flexibility | Validation |
 |---|-------|------|-----------|-----------|-------------|------------|
-| 1 | `test: add missing tests for pricing module` | ... | `tests/...` | (prerequisite) | — | ... |
-| 2 | `refactor: extract pricing into dedicated module` | ... | `src/...` | Extract Module | Additive — new module | ... |
+| 1 | `test: add missing tests for pricing module` | ... | `tests/...` | (prerequisite) | -- | ... |
+| 2 | `refactor: extract pricing into dedicated module` | ... | `src/...` | Extract Module | Additive -- new module | ... |
 
 ### Notes
 

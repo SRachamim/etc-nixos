@@ -26,10 +26,10 @@ For each `feature/<id>` branch, query Azure DevOps:
 
 1. **List PRs** with source branch `refs/heads/feature/<id>` and status `All` to find any associated pull request.
 2. **Classify** each branch into one of:
-   - **Closeable** — at least one PR has status **Completed**.
-   - **Active PR** — a PR exists but is still **Active** (in review).
-   - **Abandoned PR** — the PR was abandoned.
-   - **No PR** — no pull request was ever created for this branch.
+   - **Closeable** -- at least one PR has status **Completed**.
+   - **Active PR** -- a PR exists but is still **Active** (in review).
+   - **Abandoned PR** -- the PR was abandoned.
+   - **No PR** -- no pull request was ever created for this branch.
 
 For branches classified as **Closeable**, also fetch the linked work item and record its current state (e.g. Resolved, Code Review, Active).
 

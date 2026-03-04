@@ -8,15 +8,15 @@ Given a build ID (or inferred from the current branch), diagnose a failed pipeli
 
 Determine the build using one of the following, in priority order:
 
-1. **Explicit argument** — the user provided a build ID directly.
-2. **Current branch** — find the latest build for the current branch (`git branch --show-current`).
+1. **Explicit argument** -- the user provided a build ID directly.
+2. **Current branch** -- find the latest build for the current branch (`git branch --show-current`).
 
 If neither yields a build, ask the user and stop.
 
 ### 2. Fetch build details
 
 - Fetch the build status and result.
-- If the build succeeded, inform the user and stop — nothing to triage.
+- If the build succeeded, inform the user and stop -- nothing to triage.
 - Fetch the build timeline to identify which stage and job failed.
 
 ### 3. Fetch build logs
@@ -41,13 +41,13 @@ If neither yields a build, ask the user and stop.
 Present a structured summary:
 
 ```
-## Build: <build number> — <result>
+## Build: <build number> -- <result>
 
 **Pipeline**: <name> | **Branch**: <branch> | **Duration**: <time>
 
 ### Failed Stage / Job
 
-<stage> → <job> — <failure reason>
+<stage> → <job> -- <failure reason>
 
 ### Error Summary
 

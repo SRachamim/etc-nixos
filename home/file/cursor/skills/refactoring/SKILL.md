@@ -3,21 +3,21 @@ name: refactoring
 description: Systematic refactoring of TypeScript code using techniques from Fowler's "Refactoring" book, adapted for pure functional programming with fp-ts. Use whenever the agent restructures, simplifies, or improves existing TypeScript code without changing its behavior.
 ---
 
-# Refactoring — Functional TypeScript Edition
+# Refactoring -- Functional TypeScript Edition
 
 Based on Martin Fowler's *Refactoring: Improving the Design of Existing Code*, translated from Java/OOP to pure functional TypeScript with fp-ts.
 
 ## Core Principles
 
-1. **Preserve behavior** — Refactoring never changes what the code does, only how it's structured.
-2. **Small steps** — Each refactoring is a single, testable transformation. Compile and test after every step.
-3. **Two hats** — Alternate between *adding function* and *refactoring*. Never do both simultaneously.
-4. **Rule of three** — Tolerate duplication once, wince twice, refactor on the third occurrence.
-5. **Tests first** — Solid tests are a precondition. If tests are missing, write them before refactoring.
+1. **Preserve behavior** -- Refactoring never changes what the code does, only how it's structured.
+2. **Small steps** -- Each refactoring is a single, testable transformation. Compile and test after every step.
+3. **Two hats** -- Alternate between *adding function* and *refactoring*. Never do both simultaneously.
+4. **Rule of three** -- Tolerate duplication once, wince twice, refactor on the third occurrence.
+5. **Tests first** -- Solid tests are a precondition. If tests are missing, write them before refactoring.
 
 ## Refactoring Catalog
 
-Each entry: **Name** — one-line description — when to use.
+Each entry: **Name** -- one-line description -- when to use.
 
 ### Composing Functions
 
@@ -27,7 +27,7 @@ Each entry: **Name** — one-line description — when to use.
 | **Inline Function** | Replace a function call with its body when the body is as clear as the name. |
 | **Replace Temp with Pipeline** | Convert a chain of `const` assignments into a `pipe(value, f, g, h)` expression. FP equivalent of *Replace Temp with Query*. |
 | **Introduce Explaining Binding** | Name a sub-expression with `const` for clarity when `pipe` would obscure intent. Inverse of the above; use sparingly. |
-| **Split Variable** | A `const` is conceptually assigned different meanings at different stages — split into separate bindings. |
+| **Split Variable** | A `const` is conceptually assigned different meanings at different stages -- split into separate bindings. |
 | **Substitute Algorithm** | Replace a function's implementation with a clearer or more efficient one that produces the same result. |
 | **Replace Loop with Pipeline** | Convert `for`/`while` into `pipe(array, A.map(...), A.filter(...), A.reduce(...))`. |
 | **Extract Combinator** | When several functions share a composition pattern (e.g., wrap-then-dispatch, validate-then-transform), extract the pattern into a higher-order combinator that takes the varying steps as parameters. Ensures primitives and combinations share the same type signature. |
@@ -113,12 +113,12 @@ Task Progress:
 - [ ] 4. Apply the transformation
 - [ ] 5. Compile and test (must stay green)
 - [ ] 6. Commit the refactoring (one refactoring per commit)
-- [ ] 7. Repeat — or stop if the smell is gone
+- [ ] 7. Repeat -- or stop if the smell is gone
 ```
 
 ## FP-Specific Guidance
 
-The coding standards, type-driven modeling rules, and architectural principles that govern *what good FP TypeScript looks like* live in the **functional-typescript** skill. This catalog focuses on the *mechanics* of getting there — the step-by-step transformations. Consult both skills together: functional-typescript tells you where to aim; this catalog tells you how to move.
+The coding standards, type-driven modeling rules, and architectural principles that govern *what good FP TypeScript looks like* live in the **functional-typescript** skill. This catalog focuses on the *mechanics* of getting there -- the step-by-step transformations. Consult both skills together: functional-typescript tells you where to aim; this catalog tells you how to move.
 
 ## Additional Resources
 

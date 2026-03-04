@@ -6,10 +6,10 @@ Observe the given input and produce a proposed list of commits to ship in a sing
 
 Accept **either** of the following:
 
-1. **Ticket reference** — an Azure DevOps work item ID (e.g. `12345`) or full URL. Fetch it via MCP and extract title, type, description, acceptance criteria, state, assignee, iteration, children, linked PRs/commits, and comments.
-2. **Textual description** — a plain-language description of the feature, bug, or task. Treat the text as the authoritative specification.
+1. **Ticket reference** -- an Azure DevOps work item ID (e.g. `12345`) or full URL. Fetch it via MCP and extract title, type, description, acceptance criteria, state, assignee, iteration, children, linked PRs/commits, and comments.
+2. **Textual description** -- a plain-language description of the feature, bug, or task. Treat the text as the authoritative specification.
 
-When both a ticket and additional text are provided, the text supplements the ticket — it does not replace it.
+When both a ticket and additional text are provided, the text supplements the ticket -- it does not replace it.
 
 ## Steps
 
@@ -26,9 +26,9 @@ Based on the requirement, search the codebase for relevant code:
 - Locate files, modules, and functions related to the change.
 - Read key files to understand the current implementation.
 - Identify the boundaries of the change: which modules, layers, or services are affected.
-- Map existing **extension points** — tagged unions, generic dispatch sites, combinator interfaces, layered data — that the change should leverage rather than bypass.
+- Map existing **extension points** -- tagged unions, generic dispatch sites, combinator interfaces, layered data -- that the change should leverage rather than bypass.
 
-Spend enough time here to form a concrete mental model. Don't guess — read the code.
+Spend enough time here to form a concrete mental model. Don't guess -- read the code.
 
 ### 3. Apply the flexibility design lens
 
@@ -36,7 +36,7 @@ Before drafting commits, evaluate every architectural choice through these princ
 
 | Principle | Question to ask | FP / TypeScript idiom |
 |---|---|---|
-| **Additive programming** | Can this change be a pure addition — no modification to existing code? | New module, new union variant, new handler |
+| **Additive programming** | Can this change be a pure addition -- no modification to existing code? | New module, new union variant, new handler |
 | **Combinators** | Do the new parts share a uniform interface so they compose freely with existing parts? | `pipe`, `flow`, same `(input) => Output` shape |
 | **Generic dispatch** | Should this extend an existing discriminated union + `fold` rather than add conditionals? | Widen union, add match arm |
 | **Domain-specific language** | Does this domain deserve its own set of primitives, combinators, and abstractions? | Builder functions, interpreter pattern |
@@ -53,7 +53,7 @@ Not every principle applies to every change. Call out the 2–3 that matter most
 
 Design a sequence of **steps** to ship the feature. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 7).
 
-Design commits following the **commit-conventions** skill. Documentation updates must be included in the same commit that introduces the code change making them stale — never in a separate follow-up commit.
+Design commits following the **commit-conventions** skill. Documentation updates must be included in the same commit that introduces the code change making them stale -- never in a separate follow-up commit.
 
 For each step, specify:
 
@@ -63,7 +63,7 @@ For each step, specify:
 | **Type** | `commit` or `action` |
 | **Title** | Commit message (for commits) or short description (for actions) |
 | **What** | Concise description of the change or action |
-| **Files** | Key files expected to be touched (commits only; `—` for actions) |
+| **Files** | Key files expected to be touched (commits only; `--` for actions) |
 | **Flexibility** | Which design-lens principle(s) this step honors and how (optional for actions) |
 | **Validation** | How to verify this step is valid |
 
@@ -90,9 +90,9 @@ Output the plan in this format:
 
 | # | Type | Title | What | Key Files | Flexibility | Validation |
 |---|------|-------|------|-----------|-------------|------------|
-| 1 | commit | `<message>` | ... | `src/...` | Additive — new variant | ... |
-| 2 | commit | `<message>` | ... | `tests/...` | Postel's law — wider input | ... |
-| 3 | action | Create task for TODO comments | ... | — | — | Task exists in ADO |
+| 1 | commit | `<message>` | ... | `src/...` | Additive -- new variant | ... |
+| 2 | commit | `<message>` | ... | `tests/...` | Postel's law -- wider input | ... |
+| 3 | action | Create task for TODO comments | ... | -- | -- | Task exists in ADO |
 
 ### Notes
 
@@ -105,7 +105,7 @@ Wait for approval, modifications, or questions before implementing.
 
 ### 7. Implement the plan
 
-Once the user approves, implement the plan **in the exact sequence presented**. Every item in the plan — commits *and* non-commit actions — becomes its own TODO item.
+Once the user approves, implement the plan **in the exact sequence presented**. Every item in the plan -- commits *and* non-commit actions -- becomes its own TODO item.
 
 #### Building the TODO list
 
@@ -115,13 +115,13 @@ Once the user approves, implement the plan **in the exact sequence presented**. 
 
 #### Executing each item
 
-- **Commit items**: implement only the changes described for that commit — do not pull in work from later items. Run the commit's validation, stage the relevant files, and commit using the planned message. Follow the **commit-conventions** skill.
+- **Commit items**: implement only the changes described for that commit -- do not pull in work from later items. Run the commit's validation, stage the relevant files, and commit using the planned message. Follow the **commit-conventions** skill.
 - **Non-commit items**: execute the described action (run a command, create a work item, post a message, etc.).
 - After completing any item, mark it `completed` and advance the next item to `in_progress`.
 
 #### Constraints
 
-- **Do not batch** — never apply changes from multiple planned commits in a single real commit.
+- **Do not batch** -- never apply changes from multiple planned commits in a single real commit.
 - If a commit's scope needs to change during implementation (e.g. an unexpected file must be touched), update the TODO item's content to reflect the actual change before committing.
 
 ### 8. Verify all changes are committed

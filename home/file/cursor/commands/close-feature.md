@@ -8,8 +8,8 @@ Given a feature ID (or inferred from the current branch name), verify the PR is 
 
 Determine the feature ID using one of the following, in priority order:
 
-1. **Explicit argument** — the user provided a feature ID directly.
-2. **Branch name** — parse the current branch (`git branch --show-current`). If it matches the pattern `feature/<id>`, extract `<id>`.
+1. **Explicit argument** -- the user provided a feature ID directly.
+2. **Branch name** -- parse the current branch (`git branch --show-current`). If it matches the pattern `feature/<id>`, extract `<id>`.
 
 If neither yields a feature ID, ask the user and stop.
 

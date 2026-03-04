@@ -10,8 +10,8 @@ This command can be invoked standalone (given a work item ID) or called from oth
 
 Use one of the following, in priority order:
 
-1. **Provided by calling command** — an ID passed programmatically after creation. Fetch the work item to get its title, description, and type.
-2. **Explicit argument** — the user provided a work item ID directly. Fetch it with full details.
+1. **Provided by calling command** -- an ID passed programmatically after creation. Fetch the work item to get its title, description, and type.
+2. **Explicit argument** -- the user provided a work item ID directly. Fetch it with full details.
 
 If neither is available, ask the user and stop.
 

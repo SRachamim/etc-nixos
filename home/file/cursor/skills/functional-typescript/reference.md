@@ -1,9 +1,9 @@
-# Functional TypeScript Reference — fp-ts Examples
+# Functional TypeScript Reference -- fp-ts Examples
 
 Concrete before/after examples for key patterns from the SKILL.md catalog.
 All code uses `fp-ts`, `io-ts`, `monocle-ts`, and immutable data.
 
-> **Scope**: Target architecture patterns — what good FP TypeScript looks like (domain modeling, workflows, DI, event sourcing, codecs, testing, flexibility design). For *transformation mechanics* (how to refactor from bad to good), see the **refactoring** skill's [reference.md](../refactoring/reference.md).
+> **Scope**: Target architecture patterns -- what good FP TypeScript looks like (domain modeling, workflows, DI, event sourcing, codecs, testing, flexibility design). For *transformation mechanics* (how to refactor from bad to good), see the **refactoring** skill's [reference.md](../refactoring/reference.md).
 
 ---
 
@@ -13,18 +13,18 @@ All code uses `fp-ts`, `io-ts`, `monocle-ts`, and immutable data.
 
 Primitives like `string` and `number` should never be used raw for domain concepts.
 
-**Before** — primitive obsession, nothing prevents mixing up ids:
+**Before** -- primitive obsession, nothing prevents mixing up ids:
 
 ```typescript
 const processOrder = (orderId: string, customerId: string): void => { /* ... */ }
 
-processOrder(customerId, orderId) // args swapped — compiles fine, bug at runtime
+processOrder(customerId, orderId) // args swapped -- compiles fine, bug at runtime
 ```
 
-**After** — branded types with smart constructors:
+**After** -- branded types with smart constructors:
 
 ```typescript
-// OrderId.ts — one module per branded type
+// OrderId.ts -- one module per branded type
 import * as E from 'fp-ts/Either'
 
 export type OrderId = string & { readonly _brand: unique symbol }
@@ -36,13 +36,13 @@ export const create = (s: string): E.Either<string, OrderId> =>
 ```
 
 ```typescript
-// Usage — consumers namespace via import
+// Usage -- consumers namespace via import
 import * as OrderId from './OrderId'
 import * as CustomerId from './CustomerId'
 
 const processOrder = (orderId: OrderId.OrderId, customerId: CustomerId.CustomerId): void => { /* ... */ }
 
-// processOrder(customerId, orderId) — now a compile error
+// processOrder(customerId, orderId) -- now a compile error
 ```
 
 ---
@@ -51,7 +51,7 @@ const processOrder = (orderId: OrderId.OrderId, customerId: CustomerId.CustomerI
 
 From Wlaschin's `UnitQuantity` and Ghosh's smart constructor idiom: never allow direct construction of constrained values.
 
-**Before** — unconstrained, invariants checked ad-hoc:
+**Before** -- unconstrained, invariants checked ad-hoc:
 
 ```typescript
 type UnitQuantity = number
@@ -62,7 +62,7 @@ const priceOrder = (qty: UnitQuantity): number => {
 }
 ```
 
-**After** — smart constructor guarantees the invariant once, trusted everywhere else:
+**After** -- smart constructor guarantees the invariant once, trusted everywhere else:
 
 ```typescript
 // UnitQuantity.ts
@@ -89,11 +89,11 @@ const priceOrder = (qty: UnitQuantity.UnitQuantity): number => UnitQuantity.valu
 
 ---
 
-### Make Illegal States Unrepresentable — Lifecycle States
+### Make Illegal States Unrepresentable -- Lifecycle States
 
 From Wlaschin: model each stage of an order as a separate type, not flags.
 
-**Before** — optional fields and booleans encode state:
+**Before** -- optional fields and booleans encode state:
 
 ```typescript
 interface Order {
@@ -106,7 +106,7 @@ interface Order {
 }
 ```
 
-**After** — distinct types per lifecycle state:
+**After** -- distinct types per lifecycle state:
 
 ```typescript
 interface UnvalidatedOrder {
@@ -135,11 +135,11 @@ Each type guarantees: an `UnvalidatedOrder` has no price, a `PricedOrder` always
 
 ---
 
-### Make Illegal States Unrepresentable — Business Rules as Unions
+### Make Illegal States Unrepresentable -- Business Rules as Unions
 
 From Wlaschin's "contact must have email or address" example.
 
-**Before** — two optional fields, both could be missing:
+**Before** -- two optional fields, both could be missing:
 
 ```typescript
 interface Contact {
@@ -149,7 +149,7 @@ interface Contact {
 }
 ```
 
-**After** — union enforces the rule at compile time:
+**After** -- union enforces the rule at compile time:
 
 ```typescript
 interface EmailOnly { readonly _tag: 'EmailOnly'; readonly email: EmailAddress }
@@ -196,7 +196,7 @@ interface Portfolio {
 
 From Ghosh Ch. 4 & 9: accumulate all validation errors instead of short-circuiting on the first.
 
-**Before** — monadic flatMap stops at first error:
+**Before** -- monadic flatMap stops at first error:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -216,7 +216,7 @@ const validateAccount = (
 // If accountNo AND name are both invalid, only the accountNo error is reported.
 ```
 
-**After** — applicative validation collects all errors:
+**After** -- applicative validation collects all errors:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -317,7 +317,7 @@ Main data flows first; dependencies are injected as a record in the last invocat
 
 From Wlaschin Ch. 9 and Ghosh Ch. 3: inject infrastructure at the edges using Reader.
 
-**Before** — direct import of infrastructure:
+**Before** -- direct import of infrastructure:
 
 ```typescript
 import { db } from './infrastructure/database'
@@ -326,7 +326,7 @@ const getAccount = (id: AccountId): TE.TaskEither<Error, Account> =>
   TE.tryCatch(() => db.findAccount(id), E.toError)
 ```
 
-**After** — dependencies as a Reader environment:
+**After** -- dependencies as a Reader environment:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -430,7 +430,7 @@ See the **Encapsulate with Optics** before/after example in the refactoring skil
 
 ---
 
-## Event Sourcing — Fold Events into State
+## Event Sourcing -- Fold Events into State
 
 From Ghosh Ch. 8: events are the source of truth; current state is a left fold.
 
@@ -486,7 +486,7 @@ import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as OrderId from './OrderId'
 
-// External DTO codec — what the outside world sends us
+// External DTO codec -- what the outside world sends us
 const OrderDTOCodec = t.type({
   orderId: t.string,
   customerName: t.string,
@@ -598,11 +598,11 @@ test('close on already closed account fails', () => {
 
 ---
 
-## Abstract Early, Evaluate Late — Do Notation
+## Abstract Early, Evaluate Late -- Do Notation
 
 From Ghosh's core principle: compose computations (not values) and commit to a result only at the boundary.
 
-**Before** — eagerly evaluated, hard to compose:
+**Before** -- eagerly evaluated, hard to compose:
 
 ```typescript
 const getBalance = async (accountNo: string): Promise<number> => {
@@ -612,7 +612,7 @@ const getBalance = async (accountNo: string): Promise<number> => {
 }
 ```
 
-**After** — composed computations, evaluated at the edge:
+**After** -- composed computations, evaluated at the edge:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -638,17 +638,17 @@ const getNetAssetValue = (accountNo: AccountId): TE.TaskEither<DomainError, numb
 
 ---
 
-## Flexibility Design — SDF Patterns
+## Flexibility Design -- SDF Patterns
 
 Concrete TypeScript examples for the Flexibility Design principles from Hanson & Sussman's *Software Design for Flexibility*.
 
 ---
 
-### Combinator Design — Self-Similar Composition
+### Combinator Design -- Self-Similar Composition
 
 From SDF Ch. 2: primitives and combinations share the same interface, so a combination is usable wherever a primitive is.
 
-**Before** — ad-hoc composition, each middleware has a different shape:
+**Before** -- ad-hoc composition, each middleware has a different shape:
 
 ```typescript
 const logRequest = (req: Request): void => { console.log(req.url) }
@@ -662,7 +662,7 @@ const processRequest = (req: Request): Response => {
 }
 ```
 
-**After** — uniform `Handler` interface; combinators produce new handlers from existing ones:
+**After** -- uniform `Handler` interface; combinators produce new handlers from existing ones:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -693,11 +693,11 @@ Every combinator takes a `Handler` and returns a `Handler`. Primitives and compo
 
 ---
 
-### Additive Programming — Extend Without Modifying
+### Additive Programming -- Extend Without Modifying
 
 From SDF Ch. 1 & 3: add new behavior by writing new code, not editing existing functions.
 
-**Before** — adding a new notification channel requires editing the existing function:
+**Before** -- adding a new notification channel requires editing the existing function:
 
 ```typescript
 const notify = (channel: string, msg: string): TE.TaskEither<Error, void> => {
@@ -710,7 +710,7 @@ const notify = (channel: string, msg: string): TE.TaskEither<Error, void> => {
 }
 ```
 
-**After** — handler registry; new channels are added by registering, never by modifying `dispatch`:
+**After** -- handler registry; new channels are added by registering, never by modifying `dispatch`:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -738,7 +738,7 @@ const dispatch = (channel: string, msg: string) =>
       ),
     )
 
-// Extension is additive — adding Slack never touches existing code:
+// Extension is additive -- adding Slack never touches existing code:
 const registry: NotifyRegistry = pipe(
   RM.empty,
   register('email', sendEmail),
@@ -749,11 +749,11 @@ const registry: NotifyRegistry = pipe(
 
 ---
 
-### Postel's Law — Wide Inputs, Narrow Outputs
+### Postel's Law -- Wide Inputs, Narrow Outputs
 
 From SDF Ch. 1 (Robustness Principle): accept a wider range of inputs than strictly needed; produce precise outputs.
 
-**Before** — function demands exact tuple input, produces broad union output:
+**Before** -- function demands exact tuple input, produces broad union output:
 
 ```typescript
 const summarize = (items: [Item, Item, Item]): string | number | null => {
@@ -763,7 +763,7 @@ const summarize = (items: [Item, Item, Item]): string | number | null => {
 }
 ```
 
-**After** — accepts any readonly array, returns a precise discriminated union:
+**After** -- accepts any readonly array, returns a precise discriminated union:
 
 ```typescript
 interface Summary { readonly _tag: 'Summary'; readonly total: number; readonly formatted: string }
@@ -780,11 +780,11 @@ const summarize = (items: ReadonlyArray<Item>): SummarizeResult =>
       )
 ```
 
-Wide input (`ReadonlyArray` — any length) suppresses noise; narrow output (discriminated union — no nulls, no mixed types) gives downstream consumers precise information.
+Wide input (`ReadonlyArray` -- any length) suppresses noise; narrow output (discriminated union -- no nulls, no mixed types) gives downstream consumers precise information.
 
 ---
 
-### Degeneracy — Multiple Independent Verification
+### Degeneracy -- Multiple Independent Verification
 
 From SDF Ch. 1 §1.3: multiple independent paths to the same result increase reliability.
 
@@ -814,7 +814,7 @@ test('line-item total equals pricing-service total for all valid orders', async 
   )
 })
 
-// Runtime cross-check (degeneracy as guard) — pure, no exceptions:
+// Runtime cross-check (degeneracy as guard) -- pure, no exceptions:
 interface DegenerateCheckFailed {
   readonly _tag: 'DegenerateCheckFailed'
   readonly serviceTotal: number
@@ -837,11 +837,11 @@ const verifiedTotal = (order: Order): TE.TaskEither<VerifiedTotalError, number> 
 
 ---
 
-### Layering — Metadata Independent of Base
+### Layering -- Metadata Independent of Base
 
 From SDF Ch. 6: metadata layers process alongside the base computation but independently.
 
-**Before** — logging and tracing tangled into domain logic:
+**Before** -- logging and tracing tangled into domain logic:
 
 ```typescript
 const processOrder = (order: ValidatedOrder): TE.TaskEither<OrderError, PricedOrder> =>
@@ -855,7 +855,7 @@ const processOrder = (order: ValidatedOrder): TE.TaskEither<OrderError, PricedOr
   )
 ```
 
-**After** — base layer is pure; metadata layers are independent wrappers:
+**After** -- base layer is pure; metadata layers are independent wrappers:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -867,11 +867,11 @@ interface Tracer { readonly startSpan: (name: string) => void; readonly endSpan:
 interface LoggerDeps { readonly logger: Logger }
 interface TracerDeps { readonly tracer: Tracer }
 
-// Base layer — pure domain, no awareness of logging or tracing
+// Base layer -- pure domain, no awareness of logging or tracing
 const processOrder = (order: ValidatedOrder): RTE.ReaderTaskEither<PricingDeps, OrderError, PricedOrder> =>
   priceOrder(order)
 
-// Logging layer — wraps any RTE computation; obtains Logger from the Reader environment
+// Logging layer -- wraps any RTE computation; obtains Logger from the Reader environment
 const withLogging = <R extends LoggerDeps, E, A>(
   label: string,
 ) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
@@ -884,7 +884,7 @@ const withLogging = <R extends LoggerDeps, E, A>(
     RTE.map(({ result }) => result),
   )
 
-// Tracing layer — wraps any RTE computation; obtains Tracer from the Reader environment
+// Tracing layer -- wraps any RTE computation; obtains Tracer from the Reader environment
 const withTracing = <R extends TracerDeps, E, A>(
   spanName: string,
 ) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
@@ -897,7 +897,7 @@ const withTracing = <R extends TracerDeps, E, A>(
     RTE.map(({ result }) => result),
   )
 
-// Composition — layers are additive, base is unmodified:
+// Composition -- layers are additive, base is unmodified:
 const processOrderWithMetadata = (order: ValidatedOrder) =>
   pipe(
     processOrder(order),
@@ -911,11 +911,11 @@ Base layer does not reference logging or tracing. Each metadata layer is self-co
 
 ---
 
-### Generate-and-Test — Separate Generation from Evaluation
+### Generate-and-Test -- Separate Generation from Evaluation
 
 From SDF Ch. 1 §1.4: generator and tester are independent; neither knows the other's implementation.
 
-**Before** — generation and validation interleaved:
+**Before** -- generation and validation interleaved:
 
 ```typescript
 const findValidSchedule = (employees: ReadonlyArray<Employee>): Schedule | null => {
@@ -929,7 +929,7 @@ const findValidSchedule = (employees: ReadonlyArray<Employee>): Schedule | null 
 }
 ```
 
-**After** — generation and evaluation are independent pipelines:
+**After** -- generation and evaluation are independent pipelines:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -938,11 +938,11 @@ import * as O from 'fp-ts/Option'
 import * as B from 'fp-ts/boolean'
 import { Predicate } from 'fp-ts/Predicate'
 
-// Generator — produces candidates, knows nothing about acceptance criteria
+// Generator -- produces candidates, knows nothing about acceptance criteria
 const generateCandidates = (employees: ReadonlyArray<Employee>): ReadonlyArray<Schedule> =>
   pipe(permutations(employees), RA.map(buildSchedule))
 
-// Tester — evaluates candidates, knows nothing about generation strategy
+// Tester -- evaluates candidates, knows nothing about generation strategy
 type ScheduleRule = Predicate<Schedule>
 
 const maxHours = (limit: number): ScheduleRule => (s) => s.totalHours <= limit
@@ -952,7 +952,7 @@ const noConflicts: ScheduleRule = (s) => !s.hasConflicts
 const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
   (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
 
-// Composition — generator and tester combined independently
+// Composition -- generator and tester combined independently
 const findValidSchedule = (employees: ReadonlyArray<Employee>): O.Option<Schedule> =>
   pipe(
     generateCandidates(employees),

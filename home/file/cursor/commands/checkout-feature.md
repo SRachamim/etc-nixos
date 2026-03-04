@@ -15,7 +15,7 @@ Run `git worktree list` to identify the **bare root** or **main worktree** path.
 - Confirm the branch `feature/<feature id>` does **not** already exist locally (`git branch --list`).
 - Confirm the worktree directory does **not** already exist.
 
-If either exists, inform the user and stop — do not overwrite.
+If either exists, inform the user and stop -- do not overwrite.
 
 ### 3. Create the worktree
 

@@ -8,15 +8,15 @@ Given an Azure DevOps work item ID (or a free-text task description), perform co
 
 Determine the work item using one of the following, in priority order:
 
-1. **Explicit ADO ID** — the user provided a work item ID directly. Fetch it with full details and relations.
-2. **Free-text description** — the user described a task. Use `search_workitem` to find a matching ADO item. If a match is found, fetch it. If not, proceed using the description alone.
+1. **Explicit ADO ID** -- the user provided a work item ID directly. Fetch it with full details and relations.
+2. **Free-text description** -- the user described a task. Use `search_workitem` to find a matching ADO item. If a match is found, fetch it. If not, proceed using the description alone.
 
 When fetching from ADO, extract and note:
 
 - **Title** and **Type** (Bug, Task, User Story, etc.)
 - **Description** and **Acceptance Criteria**
 - **State**, **Assigned To**, **Iteration Path**
-- **Child work items** (if any — fetch them in batch)
+- **Child work items** (if any -- fetch them in batch)
 - **Parent work item** (for broader context)
 - **Linked PRs or commits** (for context on prior work)
 
@@ -31,7 +31,7 @@ Follow the **estimation** skill, passing the resolved work item details (or free
 Output the estimate in this format:
 
 ```
-## Estimate: #<ID> — <Title>
+## Estimate: #<ID> -- <Title>
 (or "## Estimate: <task description>" if no ADO item)
 
 **Type**: <type> | **Hours**: <N> | **Band**: <band> | **Confidence**: <level>

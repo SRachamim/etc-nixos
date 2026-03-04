@@ -8,8 +8,8 @@ Given a Datadog incident ID (or a description of symptoms), gather observability
 
 Determine the incident using one of the following, in priority order:
 
-1. **Explicit argument** — the user provided an incident ID directly.
-2. **Description** — the user described symptoms. List recent incidents and find the best match, or proceed without an incident ID using the symptoms as search context.
+1. **Explicit argument** -- the user provided an incident ID directly.
+2. **Description** -- the user described symptoms. List recent incidents and find the best match, or proceed without an incident ID using the symptoms as search context.
 
 If neither yields a starting point, ask the user and stop.
 

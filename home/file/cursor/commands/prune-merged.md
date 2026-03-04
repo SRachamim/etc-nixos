@@ -18,8 +18,8 @@ Collect all local `feature/*` branches (per the worktree-layout skill naming con
 
 For each feature branch:
 
-1. **Fast-forward to remote** — if the branch has a remote tracking branch, fast-forward it so the local ref is up-to-date: `git fetch origin feature/<id>:feature/<id>` (this is safe for branches not currently checked out; for checked-out worktrees use `git -C <worktree> merge --ff-only`).
-2. **Compare by patch content** — use `git cherry <default-branch> feature/<id>` to check whether the branch's patches are already applied to the default branch. A branch is considered merged if `git cherry` produces no output or only lines starting with `-` (already upstream). If any line starts with `+`, the branch has unapplied patches and should be kept.
+1. **Fast-forward to remote** -- if the branch has a remote tracking branch, fast-forward it so the local ref is up-to-date: `git fetch origin feature/<id>:feature/<id>` (this is safe for branches not currently checked out; for checked-out worktrees use `git -C <worktree> merge --ff-only`).
+2. **Compare by patch content** -- use `git cherry <default-branch> feature/<id>` to check whether the branch's patches are already applied to the default branch. A branch is considered merged if `git cherry` produces no output or only lines starting with `-` (already upstream). If any line starts with `+`, the branch has unapplied patches and should be kept.
 
 ### 3. Identify associated worktrees
 

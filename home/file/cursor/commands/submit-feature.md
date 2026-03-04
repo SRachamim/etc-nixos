@@ -8,8 +8,8 @@ Given a feature ID (or inferred from the current branch name), open a pull reque
 
 Determine the feature ID using one of the following, in priority order:
 
-1. **Explicit argument** — the user provided a feature ID directly.
-2. **Branch name** — parse the current branch (`git branch --show-current`). If it matches the pattern `feature/<id>`, extract `<id>`.
+1. **Explicit argument** -- the user provided a feature ID directly.
+2. **Branch name** -- parse the current branch (`git branch --show-current`). If it matches the pattern `feature/<id>`, extract `<id>`.
 
 If neither yields a feature ID, ask the user and stop.
 
@@ -19,7 +19,7 @@ Follow the **create-pull-request** command, passing:
 
 - **workItemId**: the feature ID resolved in step 1.
 
-The shared command will identify the repository, gather context, compose the description, and create the PR. **Do not compose or present the Slack message yet** — the user may want to verify the PR live before notifying the team.
+The shared command will identify the repository, gather context, compose the description, and create the PR. **Do not compose or present the Slack message yet** -- the user may want to verify the PR live before notifying the team.
 
 ### 3. Transition the work item
 
@@ -29,7 +29,7 @@ When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty
 
 ### 4. Notify the team on Slack
 
-**This step begins only after the PR has been created and the link presented in step 2.** Do not batch this approval with the PR approval — they are separate interactions.
+**This step begins only after the PR has been created and the link presented in step 2.** Do not batch this approval with the PR approval -- they are separate interactions.
 
 Defaults:
 

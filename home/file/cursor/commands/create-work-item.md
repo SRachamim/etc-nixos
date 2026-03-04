@@ -1,4 +1,4 @@
-# Create Work Item — Shared Instructions
+# Create Work Item -- Shared Instructions
 
 Common steps for creating a new Azure DevOps work item in the **FundGuard** project.
 
@@ -55,7 +55,7 @@ Common fields:
 
 #### Business Priority
 
-Default to **4- Technical** — the user is a Software Architect and most work items are technical bugs and tasks with no direct product-facing effect.
+Default to **4- Technical** -- the user is a Software Architect and most work items are technical bugs and tasks with no direct product-facing effect.
 
 Use a higher priority only when the work item clearly has direct business or product impact:
 

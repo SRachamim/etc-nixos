@@ -1,4 +1,4 @@
-# Create Pull Request — Shared Instructions
+# Create Pull Request -- Shared Instructions
 
 Common steps for creating an Azure DevOps pull request, optionally linked to a work item.
 

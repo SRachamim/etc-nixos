@@ -21,18 +21,18 @@ If a Nix shell environment is detected:
 
 1. **Prefix commands** with `direnv exec .` to ensure the environment is loaded
 2. If `direnv` is unavailable, fall back to `nix-shell --run "<command>"` or `nix develop -c <command>`
-3. **Do not** install packages globally via `npm install -g`, `pip install`, etc. — the Nix shell provides them
+3. **Do not** install packages globally via `npm install -g`, `pip install`, etc. -- the Nix shell provides them
 
 ## Examples
 
 ```bash
-# BAD — runs outside the Nix environment
+# BAD -- runs outside the Nix environment
 npm test
 
-# GOOD — uses direnv to load the Nix shell
+# GOOD -- uses direnv to load the Nix shell
 direnv exec . npm test
 
-# GOOD — fallback without direnv
+# GOOD -- fallback without direnv
 nix-shell --run "npm test"
 nix develop -c npm test
 ```

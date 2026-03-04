@@ -4,7 +4,7 @@ Given a PR ID (or inferred from the current branch or a Slack message), perform 
 
 ## Repository-specific scope
 
-Some repositories require reviewing only a subset of changed files. When the PR belongs to a scoped repository, **ignore** all files outside the listed paths — do not read, evaluate, or comment on them.
+Some repositories require reviewing only a subset of changed files. When the PR belongs to a scoped repository, **ignore** all files outside the listed paths -- do not read, evaluate, or comment on them.
 
 | Repository | Included paths | Excluded (examples) |
 |---|---|---|
@@ -16,9 +16,9 @@ Some repositories require reviewing only a subset of changed files. When the PR 
 
 Determine the PR using one of the following, in priority order:
 
-1. **Explicit argument** — the user provided a PR ID directly.
-2. **Slack message** — the user shared a Slack message containing a review request. Extract the PR link or ID from the message.
-3. **Branch name** — find the active PR whose source branch matches the current branch.
+1. **Explicit argument** -- the user provided a PR ID directly.
+2. **Slack message** -- the user shared a Slack message containing a review request. Extract the PR link or ID from the message.
+3. **Branch name** -- find the active PR whose source branch matches the current branch.
 
 If none yields a PR, ask the user and stop.
 
@@ -50,10 +50,10 @@ Apply the **writing-style** skill (using the "Code review comments" register for
 
 Structure comments by severity, following the **code-review** skill:
 
-- **Blocking** — must be resolved before merge.
-- **Suggestion** — recommended improvement, non-blocking.
-- **Nit** — minor style or preference, non-blocking.
-- **Praise** — highlight good patterns worth reinforcing.
+- **Blocking** -- must be resolved before merge.
+- **Suggestion** -- recommended improvement, non-blocking.
+- **Nit** -- minor style or preference, non-blocking.
+- **Praise** -- highlight good patterns worth reinforcing.
 
 For each comment, reference the specific file and line range.
 

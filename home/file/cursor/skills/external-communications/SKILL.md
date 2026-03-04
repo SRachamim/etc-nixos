@@ -18,16 +18,16 @@ This applies to ALL external communications, including but not limited to:
 
 Before posting:
 
-1. **Present the candidate text** — Show the complete message you intend to post, formatted as it will appear
-2. **Wait for approval** — Do not proceed until the user explicitly approves
-3. **Accept modifications** — If the user suggests changes, present the revised version and wait for approval again
+1. **Present the candidate text** -- Show the complete message you intend to post, formatted as it will appear
+2. **Wait for approval** -- Do not proceed until the user explicitly approves
+3. **Accept modifications** -- If the user suggests changes, present the revised version and wait for approval again
 
 ## Multi-Recipient Semantics
 
 Pay close attention to how the user phrases multi-recipient requests:
 
-- **"Send to X and Y"** — Post two independent messages with the same content, one to X and one to Y.
-- **"Send to X and also share it with Y"** — Post the message to X first, then share a reference to that original message in Y (platform-specific; see below).
+- **"Send to X and Y"** -- Post two independent messages with the same content, one to X and one to Y.
+- **"Send to X and also share it with Y"** -- Post the message to X first, then share a reference to that original message in Y (platform-specific; see below).
 
 ## Voice and Tone
 

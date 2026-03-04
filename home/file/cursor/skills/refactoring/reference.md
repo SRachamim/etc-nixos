@@ -1,9 +1,9 @@
-# Refactoring Reference — FP TypeScript Examples
+# Refactoring Reference -- FP TypeScript Examples
 
 Detailed before/after examples for key refactorings from the catalog.
 All code uses fp-ts, `pipe`/`flow`, and immutable data.
 
-> **Scope**: Transformation mechanics — step-by-step before/after refactorings. For *target architecture patterns* (domain modeling, workflows, DI, event sourcing, codecs, testing), see the **functional-typescript** skill's [reference.md](../functional-typescript/reference.md).
+> **Scope**: Transformation mechanics -- step-by-step before/after refactorings. For *target architecture patterns* (domain modeling, workflows, DI, event sourcing, codecs, testing), see the **functional-typescript** skill's [reference.md](../functional-typescript/reference.md).
 
 ---
 
@@ -11,7 +11,7 @@ All code uses fp-ts, `pipe`/`flow`, and immutable data.
 
 ### Extract Function
 
-**Before** — inline logic with a comment explaining intent:
+**Before** -- inline logic with a comment explaining intent:
 
 ```typescript
 const processOrder = (order: Order): string => {
@@ -24,7 +24,7 @@ const processOrder = (order: Order): string => {
 }
 ```
 
-**After** — extracted into a named pure function:
+**After** -- extracted into a named pure function:
 
 ```typescript
 const calculateTotal = (items: ReadonlyArray<LineItem>): number => {
@@ -41,7 +41,7 @@ const processOrder = (order: Order): string =>
 
 ### Replace Temp with Pipeline
 
-**Before** — chain of intermediate `const` bindings:
+**Before** -- chain of intermediate `const` bindings:
 
 ```typescript
 const getPrice = (quantity: number, itemPrice: number): number => {
@@ -51,7 +51,7 @@ const getPrice = (quantity: number, itemPrice: number): number => {
 }
 ```
 
-**After** — pipeline with named steps:
+**After** -- pipeline with named steps:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -73,7 +73,7 @@ const getPrice = (quantity: number, itemPrice: number): number =>
 
 ### Replace Loop with Pipeline
 
-**Before** — imperative loop:
+**Before** -- imperative loop:
 
 ```typescript
 const getOverdueNames = (invoices: Invoice[]): string[] => {
@@ -87,7 +87,7 @@ const getOverdueNames = (invoices: Invoice[]): string[] => {
 }
 ```
 
-**After** — declarative pipeline:
+**After** -- declarative pipeline:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -106,7 +106,7 @@ const getOverdueNames = (invoices: ReadonlyArray<Invoice>): ReadonlyArray<string
 
 ### Introduce Branded Type
 
-**Before** — primitive obsession:
+**Before** -- primitive obsession:
 
 ```typescript
 const sendEmail = (to: string, subject: string, body: string): void => { /* ... */ }
@@ -114,7 +114,7 @@ const sendEmail = (to: string, subject: string, body: string): void => { /* ... 
 sendEmail('not-an-email', 42 as any, '')  // no compile-time protection
 ```
 
-**After** — branded types with smart constructor:
+**After** -- branded types with smart constructor:
 
 ```typescript
 import * as E from 'fp-ts/Either'
@@ -133,7 +133,7 @@ const sendEmail = (to: Email, subject: string, body: string): void => { /* ... *
 
 ### Replace Record with Discriminated Union
 
-**Before** — type code driving conditionals:
+**Before** -- type code driving conditionals:
 
 ```typescript
 interface Shape { kind: 'circle' | 'rect'; radius?: number; width?: number; height?: number }
@@ -146,7 +146,7 @@ const area = (s: Shape): number => {
 }
 ```
 
-**After** — discriminated union with exhaustive fold:
+**After** -- discriminated union with exhaustive fold:
 
 ```typescript
 interface Circle { readonly _tag: 'Circle'; readonly radius: number }
@@ -174,7 +174,7 @@ No optional fields, no `!` assertions, compiler-enforced exhaustiveness.
 
 ### Encapsulate with Optics
 
-**Before** — deep immutable update is verbose:
+**Before** -- deep immutable update is verbose:
 
 ```typescript
 const updateCity = (company: Company, city: string): Company => ({
@@ -186,7 +186,7 @@ const updateCity = (company: Company, city: string): Company => ({
 })
 ```
 
-**After** — lens from `monocle-ts`:
+**After** -- lens from `monocle-ts`:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -206,7 +206,7 @@ Lenses compose: access the aggregate root, drill into nested value objects, upda
 
 ### Replace Conditional with Fold
 
-**Before** — switch on type code (OOP: Replace Conditional with Polymorphism):
+**Before** -- switch on type code (OOP: Replace Conditional with Polymorphism):
 
 ```typescript
 const getCharge = (movie: Movie, daysRented: number): number => {
@@ -221,7 +221,7 @@ const getCharge = (movie: Movie, daysRented: number): number => {
 }
 ```
 
-**After** — discriminated union with fold:
+**After** -- discriminated union with fold:
 
 ```typescript
 type PriceCode =
@@ -246,13 +246,13 @@ const getCharge = (daysRented: number) => (priceCode: PriceCode): number =>
   )
 ```
 
-Adding a new price code variant causes a compile error everywhere `foldPriceCode` is used — no forgotten branches.
+Adding a new price code variant causes a compile error everywhere `foldPriceCode` is used -- no forgotten branches.
 
 ---
 
 ### Introduce Option
 
-**Before** — null checks (OOP: Introduce Null Object):
+**Before** -- null checks (OOP: Introduce Null Object):
 
 ```typescript
 const getDiscount = (customer: Customer): number => {
@@ -264,7 +264,7 @@ const getDiscount = (customer: Customer): number => {
 }
 ```
 
-**After** — `Option` with combinators:
+**After** -- `Option` with combinators:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -284,7 +284,7 @@ const getDiscount = (customer: Customer): number =>
 
 ### Replace Nested Conditional with Guard + Pipeline
 
-**Before** — deeply nested:
+**Before** -- deeply nested:
 
 ```typescript
 const processPayment = (payment: Payment): string => {
@@ -304,7 +304,7 @@ const processPayment = (payment: Payment): string => {
 }
 ```
 
-**After** — flat pipeline with `Either`:
+**After** -- flat pipeline with `Either`:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -338,7 +338,7 @@ const processPayment = (payment: Payment): string =>
 
 ### Introduce Parameter Object
 
-**Before** — long parameter list:
+**Before** -- long parameter list:
 
 ```typescript
 const createEvent = (
@@ -347,7 +347,7 @@ const createEvent = (
 ): Event => ({ /* ... */ })
 ```
 
-**After** — single record parameter:
+**After** -- single record parameter:
 
 ```typescript
 interface CreateEventParams {
@@ -366,7 +366,7 @@ const createEvent = (params: CreateEventParams): Event => ({ /* ... */ })
 
 ### Replace Error Code with Either
 
-**Before** — error code or thrown exception:
+**Before** -- error code or thrown exception:
 
 ```typescript
 const divide = (a: number, b: number): number => {
@@ -375,7 +375,7 @@ const divide = (a: number, b: number): number => {
 }
 ```
 
-**After** — explicit `Either`:
+**After** -- explicit `Either`:
 
 ```typescript
 import * as E from 'fp-ts/Either'
@@ -388,7 +388,7 @@ const divide = (a: number, b: number): E.Either<string, number> =>
 
 ### Separate Query from Command
 
-**Before** — mixed read + write:
+**Before** -- mixed read + write:
 
 ```typescript
 const withdrawAndGetBalance = (account: Account, amount: number): Account => {
@@ -397,7 +397,7 @@ const withdrawAndGetBalance = (account: Account, amount: number): Account => {
 }
 ```
 
-**After** — pure query + effectful command:
+**After** -- pure query + effectful command:
 
 ```typescript
 import * as IO from 'fp-ts/IO'
@@ -415,7 +415,7 @@ const logWithdrawal = (amount: number): IO.IO<void> =>
 
 ### Form Higher-Order Function
 
-**Before** — two functions with identical structure, different details (OOP: Template Method):
+**Before** -- two functions with identical structure, different details (OOP: Template Method):
 
 ```typescript
 const sumPositive = (ns: ReadonlyArray<number>): number =>
@@ -425,7 +425,7 @@ const sumEven = (ns: ReadonlyArray<number>): number =>
   ns.filter((n) => n % 2 === 0).reduce((a, b) => a + b, 0)
 ```
 
-**After** — higher-order function parameterizing the varying step:
+**After** -- higher-order function parameterizing the varying step:
 
 ```typescript
 const sumBy = (predicate: (n: number) => boolean) =>
@@ -440,7 +440,7 @@ const sumEven = sumBy((n) => n % 2 === 0)
 
 ### Widen Union (Extract Subclass → Add Variant)
 
-**Before** — boolean flag driving behavior:
+**Before** -- boolean flag driving behavior:
 
 ```typescript
 interface Notification {
@@ -450,7 +450,7 @@ interface Notification {
 }
 ```
 
-**After** — discriminated union with a new variant:
+**After** -- discriminated union with a new variant:
 
 ```typescript
 interface StandardNotification { readonly _tag: 'Standard'; readonly message: string }
@@ -467,7 +467,7 @@ No optional fields, no invalid states.
 
 ### Separate Domain from Infrastructure
 
-**Before** — mixed pure logic and side effects:
+**Before** -- mixed pure logic and side effects:
 
 ```typescript
 const processOrder = async (orderId: string): Promise<void> => {
@@ -479,7 +479,7 @@ const processOrder = async (orderId: string): Promise<void> => {
 }
 ```
 
-**After** — pure core + thin effectful shell:
+**After** -- pure core + thin effectful shell:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -516,7 +516,7 @@ The domain logic (`calculateInvoiceAmount`) is pure, testable without mocks, and
 
 ### Extract Combinator
 
-**Before** — repeated composition pattern across multiple functions:
+**Before** -- repeated composition pattern across multiple functions:
 
 ```typescript
 const withRetry = (task: TE.TaskEither<Error, Response>): TE.TaskEither<Error, Response> =>
@@ -532,7 +532,7 @@ const fetchProduct = (id: string): TE.TaskEither<Error, Response> =>
   pipe(httpGet(`/products/${id}`), (t) => withRetry(t), TE.map(parseProduct))
 ```
 
-**After** — combinator extracted; primitives and combinations share the same `Fetcher` type:
+**After** -- combinator extracted; primitives and combinations share the same `Fetcher` type:
 
 ```typescript
 type Fetcher<A> = (id: string) => TE.TaskEither<Error, A>
@@ -558,7 +558,7 @@ const fetchProduct: Fetcher<Product> = pipe(httpFetcher('/products'), withRetry,
 
 ### Introduce Handler Registry
 
-**Before** — closed dispatch requires editing the function for each new format:
+**Before** -- closed dispatch requires editing the function for each new format:
 
 ```typescript
 const serialize = (format: string, data: unknown): E.Either<string, string> => {
@@ -570,7 +570,7 @@ const serialize = (format: string, data: unknown): E.Either<string, string> => {
 }
 ```
 
-**After** — open registry; new formats are added by registration:
+**After** -- open registry; new formats are added by registration:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -610,7 +610,7 @@ const registry: SerializerRegistry = pipe(
 
 ### Separate Base from Metadata Layer
 
-**Before** — domain logic tangled with cross-cutting concerns:
+**Before** -- domain logic tangled with cross-cutting concerns:
 
 ```typescript
 const transferFunds = (
@@ -631,7 +631,7 @@ const transferFunds = (
   )
 ```
 
-**After** — pure base layer + independent metadata wrappers:
+**After** -- pure base layer + independent metadata wrappers:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -640,7 +640,7 @@ import * as RTE from 'fp-ts/ReaderTaskEither'
 interface LoggerDeps { readonly logger: { readonly info: (msg: string) => void } }
 interface MetricsDeps { readonly metrics: { readonly increment: (key: string) => void } }
 
-// Base layer — pure domain, no awareness of logging or metrics
+// Base layer -- pure domain, no awareness of logging or metrics
 const transferFunds = (
   from: AccountId, to: AccountId, amount: Amount,
 ): RTE.ReaderTaskEither<TransferDeps, TransferError, TransferResult> =>
@@ -653,7 +653,7 @@ const transferFunds = (
     RTE.map(({ credited }) => credited),
   )
 
-// Metadata layers — each independent, composable via RTE wrapping
+// Metadata layers -- each independent, composable via RTE wrapping
 const withLogging = <R extends LoggerDeps, E, A>(
   label: string,
 ) => (computation: RTE.ReaderTaskEither<R, E, A>): RTE.ReaderTaskEither<R, E, A> =>
@@ -678,7 +678,7 @@ const withMetrics = <R extends MetricsDeps, E, A>(
     RTE.map(({ result }) => result),
   )
 
-// Composition — layers wrap base without modifying it:
+// Composition -- layers wrap base without modifying it:
 const transferWithMetadata = (from: AccountId, to: AccountId, amount: Amount) =>
   pipe(
     transferFunds(from, to, amount),
@@ -692,7 +692,7 @@ const transferWithMetadata = (from: AccountId, to: AccountId, amount: Amount) =>
 
 ### Introduce Generate-and-Test
 
-**Before** — generation and validation interleaved in a loop:
+**Before** -- generation and validation interleaved in a loop:
 
 ```typescript
 const findAvailableSlot = (
@@ -712,7 +712,7 @@ const findAvailableSlot = (
 }
 ```
 
-**After** — independent generator and evaluator:
+**After** -- independent generator and evaluator:
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -723,14 +723,14 @@ import { Predicate } from 'fp-ts/Predicate'
 
 interface SlotEntry { readonly day: Day; readonly slot: TimeSlot }
 
-// Generator — produces all candidate slots, knows nothing about selection
+// Generator -- produces all candidate slots, knows nothing about selection
 const allSlots = (calendar: Calendar): ReadonlyArray<SlotEntry> =>
   pipe(
     calendar.days,
     RA.flatMap((day) => pipe(day.slots, RA.map((slot): SlotEntry => ({ day, slot })))),
   )
 
-// Tester — independent composable predicates
+// Tester -- independent composable predicates
 type SlotRule = Predicate<SlotEntry>
 
 const minDuration = (d: number): SlotRule => ({ slot }) => slot.duration >= d
@@ -742,7 +742,7 @@ const afterTime = (t: Time): SlotRule => ({ slot }) => slot.start >= t
 const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
   (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
 
-// Composition — generator and tester combined independently
+// Composition -- generator and tester combined independently
 const findAvailableSlot = (duration: number, constraints: Constraints) =>
   (calendar: Calendar): O.Option<TimeSlot> =>
     pipe(

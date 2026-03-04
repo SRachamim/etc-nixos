@@ -17,7 +17,7 @@ The user specifies (or the agent infers) the desired mode:
 
 Run `git status --porcelain` to list all uncommitted changes (staged and unstaged).
 
-Determine which changes belong to the current thread by reviewing the files you created or modified during this conversation. Only include changes that you made — leave unrelated modifications unstaged.
+Determine which changes belong to the current thread by reviewing the files you created or modified during this conversation. Only include changes that you made -- leave unrelated modifications unstaged.
 
 If no relevant changes are found, inform the user and stop.
 
@@ -33,7 +33,7 @@ Draft one or more commit messages following the **commit-conventions** skill and
 
 ### 3b. Fixup into existing commits
 
-Determine the merge base with the default branch (e.g. `git merge-base HEAD origin/main`). Only commits **after** the merge base are fixup candidates — never rewrite commits that are already in the default branch.
+Determine the merge base with the default branch (e.g. `git merge-base HEAD origin/main`). Only commits **after** the merge base are fixup candidates -- never rewrite commits that are already in the default branch.
 
 Run `git log --oneline <merge-base>..HEAD` to list candidate commits.
 

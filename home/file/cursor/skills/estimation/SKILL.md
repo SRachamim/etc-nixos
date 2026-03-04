@@ -5,17 +5,17 @@ description: Codebase-grounded estimation methodology. Use whenever the agent ne
 
 # Estimation
 
-Produce an effort estimate **in hours** grounded in codebase evidence and empirical calibration data — not intuition.
+Produce an effort estimate **in hours** grounded in codebase evidence and empirical calibration data -- not intuition.
 
 FundGuard ADO tracks effort with three fields on every Task and Bug:
 
-- `OriginalEstimate` — planned hours (what this skill produces)
-- `CompletedWork` — actual hours spent (filled during/after work)
-- `RemainingWork` — hours left (updated as work progresses)
+- `OriginalEstimate` -- planned hours (what this skill produces)
+- `CompletedWork` -- actual hours spent (filled during/after work)
+- `RemainingWork` -- hours left (updated as work progresses)
 
 Plus a custom field:
 
-- `EstimationConfidenceLevel` — a scale from `1.0: Absolute` to `2.0: Very Low`
+- `EstimationConfidenceLevel` -- a scale from `1.0: Absolute` to `2.0: Very Low`
 
 ## Input
 
@@ -42,7 +42,7 @@ The following bias data was computed from 94 resolved FundGuard work items (50 T
 
 | Confidence | N | Median | Std | Note |
 |-----------|---|--------|-----|------|
-| 1.0: Absolute | 46 | 1.00 | 0.72 | Most common value but has the **widest variance** — often a default rather than a thoughtful assessment. |
+| 1.0: Absolute | 46 | 1.00 | 0.72 | Most common value but has the **widest variance** -- often a default rather than a thoughtful assessment. |
 | 1.2–1.4 | 8 | 1.00 | 0.71 | Small sample; roughly accurate. |
 | 1.6: Medium | 3 | 1.00 | 0.00 | Perfect calibration in sample (small N). |
 | 2.0: Very Low | 36 | 0.80 | 0.49 | Items flagged as uncertain are actually **over-padded on average**. |
@@ -51,12 +51,12 @@ The following bias data was computed from 94 resolved FundGuard work items (50 T
 
 1. **Trivial / Medium / Large**: use the raw codebase-grounded estimate as-is.
 2. **Small (3–5 h)**: after codebase reconnaissance, ask whether the work truly fills 3–5 h or whether the scope is closer to 2 h. Prefer the lower end unless there are concrete unknowns.
-3. **Large (16–30 h)**: add an explicit **risk buffer of +25 %** or recommend splitting into sub-tasks — the 41 % overrun rate is the highest of any band.
+3. **Large (16–30 h)**: add an explicit **risk buffer of +25 %** or recommend splitting into sub-tasks -- the 41 % overrun rate is the highest of any band.
 4. **XL (31+ h)**: always recommend splitting. Do not ship a single estimate above 30 h without decomposition.
 
 ## Codebase Reconnaissance
 
-Search the codebase to build a concrete understanding of the affected areas. Do not guess — read the code.
+Search the codebase to build a concrete understanding of the affected areas. Do not guess -- read the code.
 
 - Semantic-search using keywords from the description to locate relevant files, modules, and services.
 - Read key files to understand current implementation patterns and architecture.
@@ -98,7 +98,7 @@ After deriving the raw hour estimate, apply the **adjustment rules** from the ca
 
 ## Estimation Confidence Level
 
-FundGuard ADO supports a six-point scale. Historical data shows "1.0: Absolute" is over-used as a default and carries just as much variance as "2.0: Very Low". **Be deliberate** — reserve 1.0 for genuinely trivial, pattern-following changes.
+FundGuard ADO supports a six-point scale. Historical data shows "1.0: Absolute" is over-used as a default and carries just as much variance as "2.0: Very Low". **Be deliberate** -- reserve 1.0 for genuinely trivial, pattern-following changes.
 
 | Level | When to assign |
 |-------|---------------|

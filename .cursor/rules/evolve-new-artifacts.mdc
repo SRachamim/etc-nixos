@@ -16,4 +16,4 @@ When creating or modifying a Cursor command, skill, or subagent prompt in this r
 Follow the **continuous-improvement** skill.
 ```
 
-- For commands that delegate to a shared command (like `create-work-item`), the shared command carries the step — don't duplicate it in the caller.
+- For commands that delegate to a shared command (like `create-work-item`), the shared command carries the step -- don't duplicate it in the caller.

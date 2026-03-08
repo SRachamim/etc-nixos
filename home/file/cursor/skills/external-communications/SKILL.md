@@ -33,6 +33,18 @@ Pay close attention to how the user phrases multi-recipient requests:
 
 Apply the **writing-style** skill to all composed text. It governs language (GB English), voice traits, LLM-tell avoidance, and platform-specific register.
 
+## Post-Action Linking
+
+After successfully posting or creating any external resource, **always** report its link back to the user in the chat. This applies to every external side effect, including but not limited to:
+
+- Slack messages (construct the permalink from the response `ts` and channel ID)
+- Pull requests (return the PR URL)
+- Azure DevOps work items (return the work item URL)
+- GitHub issues, comments, or releases
+- Pipeline runs or build triggers
+
+The link must appear in the very next message to the user after the post succeeds. Format it as a clickable markdown link with a meaningful label (apply the "Link nouns, not verbs" rule from the Formatting section below).
+
 ## Formatting
 
 ### Code & Technical Terms

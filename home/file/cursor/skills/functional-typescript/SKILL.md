@@ -105,6 +105,8 @@ Principles from Hanson & Sussman's *Software Design for Flexibility* -- design s
 2. **Algebra Laws** -- When defining abstractions (e.g., a lens, a codec, a service algebra), state and verify their laws. Example: for any account `a`, `pipe(a, credit(x), E.flatMap(debit(x)))` must leave the balance unchanged.
 3. **Custom Interpreters for Testing** -- Provide in-memory or stub interpreters of domain service algebras for unit tests. The algebra/interpreter split makes domain logic testable without infrastructure.
 
+For the full test-driven development workflow -- the Red/Green/Refactor cycle, strategies for getting to green (Fake It, Triangulation, Obvious Implementation), test list management, property-based testing patterns, and fp-ts-specific testing patterns -- see the **test-driven-development** skill.
+
 ## Code Smells
 
 Recognize these smells during reviews or while working in a codebase. The "Primary Remedies" column references the **refactoring** skill's catalog.

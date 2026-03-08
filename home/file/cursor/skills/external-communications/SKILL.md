@@ -18,7 +18,7 @@ This applies to ALL external communications, including but not limited to:
 
 Before posting:
 
-1. **Present the candidate text** -- Show the complete message you intend to post, formatted as it will appear
+1. **Present the candidate text** -- Show the complete message you intend to post, formatted as it will appear. Include a clickable link to the destination (Slack channel, Slack DM user, PR, work item, etc.) so the user can verify the target is correct.
 2. **Wait for approval** -- Do not proceed until the user explicitly approves
 3. **Accept modifications** -- If the user suggests changes, present the revised version and wait for approval again
 

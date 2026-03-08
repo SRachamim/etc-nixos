@@ -81,7 +81,7 @@ If appropriate, offer to:
 
 - Update the ADO work item with the estimate (`OriginalEstimate` and `EstimationConfidenceLevel`).
 - Split the work item into smaller child items if estimated at 31+ hours.
-- Run the **plan-feature** command to produce a detailed commit plan.
+- Run the **plan** command to produce a detailed commit plan.
 
 **Wait for user approval before taking any write action** (per **external-communications** skill).
 

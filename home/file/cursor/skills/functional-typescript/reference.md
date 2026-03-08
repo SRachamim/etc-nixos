@@ -961,3 +961,230 @@ const findValidSchedule = (employees: ReadonlyArray<Employee>): O.Option<Schedul
 ```
 
 The generator can be replaced (e.g., with a heuristic generator) without touching the rules. New rules can be added without touching the generator.
+
+---
+
+## Type-Driven Development -- Brady Patterns
+
+Concrete TypeScript adaptations of the core patterns from Brady's *Type-Driven Development with Idris*.
+
+---
+
+### State Machines as Types -- Protocol Enforcement
+
+From Brady Ch. 13--14: encode state transitions in types so invalid operation sequences fail to compile.
+
+**Before** -- state tracked with strings, protocol violations are runtime errors:
+
+```typescript
+interface Order {
+  readonly id: string
+  readonly status: 'placed' | 'paid' | 'shipped'
+  readonly items: ReadonlyArray<OrderLine>
+  readonly paymentRef?: string
+  readonly trackingCode?: string
+}
+
+const shipOrder = (order: Order): Order => {
+  if (order.status !== 'paid') throw new Error('Cannot ship unpaid order')
+  return { ...order, status: 'shipped', trackingCode: 'TRK-123' }
+}
+```
+
+**After** -- each state is a distinct type; transition functions accept only valid input states:
+
+```typescript
+import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
+
+interface PlacedOrder {
+  readonly _tag: 'PlacedOrder'
+  readonly id: OrderId
+  readonly items: ReadonlyArray<OrderLine>
+}
+
+interface PaidOrder {
+  readonly _tag: 'PaidOrder'
+  readonly id: OrderId
+  readonly items: ReadonlyArray<OrderLine>
+  readonly paymentRef: PaymentRef
+}
+
+interface ShippedOrder {
+  readonly _tag: 'ShippedOrder'
+  readonly id: OrderId
+  readonly items: ReadonlyArray<OrderLine>
+  readonly paymentRef: PaymentRef
+  readonly trackingCode: TrackingCode
+}
+
+// Each transition function enforces its precondition in its input type
+// and guarantees its postcondition in its output type.
+
+type PayOrder = (order: PlacedOrder) => TE.TaskEither<PaymentError, PaidOrder>
+type ShipOrder = (order: PaidOrder) => TE.TaskEither<ShipmentError, ShippedOrder>
+
+// shipOrder(placedOrder) -- compile error: PlacedOrder is not PaidOrder
+// The protocol is enforced at compile time.
+```
+
+---
+
+### Evidence Types (Phantom Proofs)
+
+From Brady Ch. 8--9: use types to carry proof that a condition has been verified, so downstream code need not re-check.
+
+**Before** -- authentication checked at runtime, every downstream function must re-check or trust the caller:
+
+```typescript
+const getProfile = (userId: string, isAuthenticated: boolean): TE.TaskEither<Error, Profile> => {
+  if (!isAuthenticated) return TE.left(new Error('Not authenticated'))
+  return fetchProfile(userId)
+}
+
+const updateProfile = (userId: string, isAuthenticated: boolean, data: ProfileUpdate): TE.TaskEither<Error, Profile> => {
+  if (!isAuthenticated) return TE.left(new Error('Not authenticated'))
+  return saveProfile(userId, data)
+}
+```
+
+**After** -- `Authenticated<UserId>` is evidence that authentication succeeded; it can only be constructed by the `authenticate` function:
+
+```typescript
+import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
+
+type Authenticated<A> = A & { readonly _evidence: unique symbol }
+
+type AuthError = { readonly _tag: 'AuthError'; readonly reason: string }
+
+const authenticate = (
+  token: string,
+): TE.TaskEither<AuthError, Authenticated<UserId>> =>
+  pipe(
+    verifyToken(token),
+    TE.map((userId) => userId as Authenticated<UserId>),
+  )
+
+// Downstream functions require the evidence type -- no re-checking needed.
+
+const getProfile = (userId: Authenticated<UserId>): TE.TaskEither<ProfileError, Profile> =>
+  fetchProfile(userId)
+
+const updateProfile = (userId: Authenticated<UserId>, data: ProfileUpdate): TE.TaskEither<ProfileError, Profile> =>
+  saveProfile(userId, data)
+
+// Usage at the boundary:
+// pipe(authenticate(token), TE.flatMap(getProfile))
+// getProfile('raw-id' as UserId) -- compile error: UserId is not Authenticated<UserId>
+```
+
+The `as Authenticated<UserId>` cast is confined to the single `authenticate` function (the smart constructor). All other code receives evidence through the type system.
+
+---
+
+### Type-Level Computation -- Schema-Driven Types
+
+From Brady Ch. 6: compute types from data so the type system adapts to runtime descriptions.
+
+**Before** -- hand-written types for every schema variant:
+
+```typescript
+interface UserRow { readonly id: number; readonly name: string; readonly email: string }
+interface ProductRow { readonly id: number; readonly title: string; readonly price: number }
+
+const queryUsers = (): TE.TaskEither<DbError, ReadonlyArray<UserRow>> => { /* ... */ }
+const queryProducts = (): TE.TaskEither<DbError, ReadonlyArray<ProductRow>> => { /* ... */ }
+```
+
+**After** -- a schema description computes the row type:
+
+```typescript
+interface SString { readonly _schemaTag: 'SString' }
+interface SNumber { readonly _schemaTag: 'SNumber' }
+interface SBoolean { readonly _schemaTag: 'SBoolean' }
+
+type SchemaField = SString | SNumber | SBoolean
+
+type SchemaToType<S extends SchemaField> =
+  S extends SString ? string :
+  S extends SNumber ? number :
+  S extends SBoolean ? boolean :
+  never
+
+type SchemaRecord<S extends Record<string, SchemaField>> = {
+  readonly [K in keyof S]: SchemaToType<S[K]>
+}
+
+// Schema as a value (const assertion preserves literal types)
+const userSchema = {
+  id: { _schemaTag: 'SNumber' } as SNumber,
+  name: { _schemaTag: 'SString' } as SString,
+  email: { _schemaTag: 'SString' } as SString,
+} as const
+
+type UserRow = SchemaRecord<typeof userSchema>
+// Computed: { readonly id: number; readonly name: string; readonly email: string }
+
+const query = <S extends Record<string, SchemaField>>(
+  table: string,
+  schema: S,
+): TE.TaskEither<DbError, ReadonlyArray<SchemaRecord<S>>> => { /* ... */ }
+
+// query('users', userSchema) returns TE.TaskEither<DbError, ReadonlyArray<UserRow>>
+// Adding a field to the schema automatically updates the row type.
+```
+
+This is the TypeScript analogue of Idris's `SchemaType` function that computes a concrete type from a schema description.
+
+---
+
+### Domain-Specific Capability Types
+
+From Brady Ch. 11 §11.3.2: restrict the set of permitted operations to exactly those needed.
+
+**Before** -- domain logic has access to full IO, can do anything:
+
+```typescript
+const processPayment = (orderId: OrderId): TE.TaskEither<Error, void> =>
+  pipe(
+    TE.tryCatch(() => db.query('SELECT ...'), E.toError),
+    TE.flatMap(() => TE.tryCatch(() => fs.unlink('/tmp/cache'), E.toError)),
+    TE.flatMap(() => TE.tryCatch(() => fetch('https://payment.api/charge'), E.toError)),
+  )
+```
+
+**After** -- a command algebra restricts operations to those the domain actually needs:
+
+```typescript
+import * as E from 'fp-ts/Either'
+
+// Only these operations are permitted in payment processing
+interface PaymentOps<A> {
+  readonly _tag: 'PaymentOps'
+}
+
+interface ChargeCard { readonly _tag: 'ChargeCard'; readonly amount: Amount; readonly cardToken: string }
+interface RecordPayment { readonly _tag: 'RecordPayment'; readonly orderId: OrderId; readonly ref: PaymentRef }
+interface LookupOrder { readonly _tag: 'LookupOrder'; readonly orderId: OrderId }
+
+type PaymentCommand = ChargeCard | RecordPayment | LookupOrder
+
+// Domain logic composes commands -- cannot delete files, open network connections, etc.
+const processPayment = (orderId: OrderId): ReadonlyArray<PaymentCommand> => [
+  { _tag: 'LookupOrder', orderId },
+  { _tag: 'ChargeCard', amount: /* from lookup */ 0 as Amount, cardToken: '' },
+  { _tag: 'RecordPayment', orderId, ref: '' as PaymentRef },
+]
+
+// Interpreter at the boundary executes commands against real infrastructure
+const interpret = (cmd: PaymentCommand): TE.TaskEither<PaymentError, unknown> => {
+  switch (cmd._tag) {
+    case 'LookupOrder': return orderRepo.find(cmd.orderId)
+    case 'ChargeCard': return paymentGateway.charge(cmd.amount, cmd.cardToken)
+    case 'RecordPayment': return paymentRepo.record(cmd.orderId, cmd.ref)
+  }
+}
+```
+
+The domain logic can only describe the operations listed in `PaymentCommand`. File deletion, arbitrary network access, and other unintended effects are impossible by construction.

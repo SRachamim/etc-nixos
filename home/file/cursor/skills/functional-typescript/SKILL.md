@@ -1,6 +1,6 @@
 ---
 name: functional-typescript
-description: Pure functional TypeScript with fp-ts -- coding standards and architectural principles. Use whenever the agent writes, modifies, or reviews TypeScript code (.ts, .tsx), or reasons about TypeScript architecture.
+description: Pure functional TypeScript with fp-ts -- type-driven development process, coding standards, and architectural principles. Use whenever the agent writes, modifies, or reviews TypeScript code (.ts, .tsx), or reasons about TypeScript architecture.
 ---
 
 # Functional TypeScript Standards
@@ -13,8 +13,19 @@ Apply the principles and patterns from:
 - **"Software Design for Flexibility"** (Hanson & Sussman) -- Additive programming, combinators, generic dispatch, layering, degeneracy, and Postel's law; design systems that evolve without rewriting.
 - **"Domain Modeling Made Functional"** (Scott Wlaschin) -- Type-driven design with algebraic data types; model workflows as pipelines; make illegal states unrepresentable; smart constructors; explicit effects in signatures; persistence at the edges.
 - **"Functional and Reactive Domain Modeling"** (Debasish Ghosh) -- Algebraic API design (algebra + interpreter separation); effectful computation with functors, applicatives, and monads; applicative validation; lenses for immutable updates; event sourcing and CQRS; property-based testing of domain laws; abstract early, evaluate late.
+- **"Type-Driven Development with Idris"** (Edwin Brady) -- Type, define, refine: an iterative process where types are written first as plans, functions are defined to satisfy them, and both are refined as understanding deepens; dependent types encode pre/postconditions; state machines verify protocols at compile time; first-class types compute types from values; totality guarantees progress.
 
 Draw on idioms from Haskell, PureScript, and Scala when modeling problems.
+
+## Type-Driven Development Process
+
+Follow the iterative cycle **Type → Define → Refine** for every function and module:
+
+1. **Type** -- Write the type signature first. The type is the plan. Name parameters with ubiquitous language. Use the most precise type you can: if a function preserves the length of a collection, say so in the types; if it requires a non-empty input, encode that constraint.
+2. **Define** -- Write a skeleton implementation that satisfies the type. Use `todo()` helpers or type-safe placeholders for unknown parts. Let the type checker confirm structural correctness before filling in logic.
+3. **Refine** -- Improve type or implementation as understanding deepens. If a function allows inputs that violate a business rule, tighten the type. If the return type is too broad (`string` where a discriminated union belongs), narrow it. Repeat until the type rejects every misuse you can think of.
+
+The cycle applies at every scale: individual functions, pipeline steps, entire bounded contexts. Types are not just checking tools -- they are the primary design tool.
 
 ## Type-Driven Domain Modeling
 
@@ -27,6 +38,9 @@ Model the domain with algebraic data types. The type system is the primary tool 
 5. **Make illegal states unrepresentable** -- Use distinct types for each lifecycle state (e.g., `UnvalidatedOrder`, `ValidatedOrder`, `PricedOrder`) rather than flags or optional fields. If a business rule says "X or Y but not both," model it as a union, not two optional fields.
 6. **Entities vs Value Objects** -- Value Objects have structural equality (all fields). Entities carry a persistent identity (`EntityId`) and are equal only by id. Reference entities from other aggregates by id, not by embedding.
 7. **Aggregates** -- An aggregate is a consistency boundary rooted at one entity. All mutations go through the root. An aggregate is the atomic unit of persistence and transactions.
+8. **State Machines as Types** -- When a domain entity follows a protocol (e.g., order: placed → paid → shipped), encode each operation's precondition (required input state) and postcondition (output state) in its type signature. A function that ships an order should accept only a `PaidOrder`, not a generic `Order`. Sequences of operations that violate the protocol must fail to compile. Use discriminated unions for states and typed transition functions between them.
+9. **Evidence Types (Phantom Proofs)** -- When two values must satisfy a relationship (e.g., a user is authenticated, a payment is authorised), introduce a branded or phantom type that can only be constructed by a function that verifies the relationship. Pass the evidence type through the call chain so downstream code can rely on the guarantee without re-checking. This is the TypeScript analogue of Idris equality proofs.
+10. **Type-Level Computation** -- Use TypeScript's conditional types, mapped types, and template literal types to compute types from values. A schema type can determine the shape of query results; a format descriptor can determine a function's arity and parameter types. When a type can be calculated from data, calculate it rather than writing it by hand.
 
 ## Coding Standards
 
@@ -48,6 +62,8 @@ When writing, modifying, or **reviewing** TypeScript code (including PR reviews)
     3. **Main data structure** -- own invocation, alone. Enables `pipe` / `flow` composition.
     4. **Reader / environment / dependencies** -- own invocation, last. Use the `Has*` intersection pattern (`HasRepo & HasLogger`) for composable capability requirements.
     Skip categories that don't apply. Example: `RM.lookup(Eq)(key)(map)` -- instance, selector, main data. Custom: `debit(amount)(account)` -- configuration, main data for piping.
+12. **Totality** -- Strive for total functions: every well-typed input produces a result in finite time, no exceptions thrown. Use `Option` for missing values, `Either`/`TaskEither` for failures, exhaustive `switch` with `never` for impossible cases. Mark any intentionally partial code (e.g., `assert`) prominently. A total function's type is a complete contract -- the caller need not read the implementation to know what can happen.
+13. **Domain-Specific Capability Types** -- Restrict effectful operations to the minimum required set. Rather than granting arbitrary `IO` (or `TaskEither<Error, A>`), define a command algebra listing only the permitted operations (e.g., `ConsoleOp = PutStr | GetLine`). Compose sequences of these commands and interpret them at the boundary. This ensures, by construction, that domain logic cannot perform unintended side effects.
 
 ## Workflows and Pipelines
 
@@ -57,6 +73,7 @@ Model business processes as typed function pipelines:
 2. **Pipeline Steps** -- Decompose each workflow into typed steps: `validate :: UnvalidatedOrder -> Either<ValidationError, ValidatedOrder>`, `price :: ValidatedOrder -> TaskEither<PricingError, PricedOrder>`, etc. Each step's output type is the next step's input type.
 3. **Dependency Injection via Reader** -- Inject infrastructure (database access, external services) as function parameters or via `ReaderTaskEither<Dependencies, Error, Result>`. The core domain never imports infrastructure directly.
 4. **Document Effects in Signatures** -- If a step can fail, its return type must be `Either` or `TaskEither`. If it's async, use `Task` or `TaskEither`. If it needs context, use `Reader*`. Effects are visible in the types, never hidden.
+5. **State Machine Workflows** -- When a workflow must follow a protocol with preconditions, model each step as a typed transition: `validate :: UnvalidatedOrder -> Either<ValidationError, ValidatedOrder>`, `pay :: ValidatedOrder -> TaskEither<PaymentError, PaidOrder>`, `ship :: PaidOrder -> TaskEither<ShipmentError, ShippedOrder>`. The compiler enforces the ordering -- you cannot call `ship` before `pay`. If an operation can fail and revert the state, encode both outcomes in the return type (e.g., `Either<StillCardInserted, ActiveSession>`).
 
 ## Architectural Principles
 
@@ -116,6 +133,9 @@ Recognize these smells during reviews or while working in a codebase. The "Prima
 | **Tangled Layers** | Domain logic interleaved with logging, tracing, metrics, or audit code | Separate Base from Metadata Layer |
 | **Monolithic Generation** | Candidate generation and validation fused in one loop/function; can't evolve independently | Introduce Generate-and-Test |
 | **Repeated Composition Pattern** | Same wrap-dispatch or validate-transform shape duplicated across multiple functions | Extract Combinator |
+| **Stringly-Typed State** | Domain state tracked with strings or booleans instead of distinct types per lifecycle stage | Introduce State Machine Types, Lifecycle States |
+| **Unchecked Precondition** | Function assumes but does not enforce a required input property at the type level | Tighten Input Type, Introduce Evidence Type |
+| **Overpowered Effect** | Code has access to full `IO`/`Task` when it only needs a narrow set of operations | Introduce Domain-Specific Capability Type |
 
 ## Constraints
 

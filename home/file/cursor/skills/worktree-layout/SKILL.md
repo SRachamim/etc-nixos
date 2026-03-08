@@ -19,9 +19,11 @@ This skill operates within the broader **gitflow-branching** model. It overrides
 ## Creation
 
 - Never overwrite an existing worktree or branch. If either exists, inform the user and stop.
-- Determine the repository's default branch (e.g. `main`, `master`) via `git remote show origin` or equivalent.
-- Fetch the latest state of that branch before branching: `git fetch origin <default-branch>`.
-- Create the worktree from the fetched ref: `git worktree add -b "feature/<id>" "<root-repo>/feature/<id>" "origin/<default-branch>"`.
+- Determine the **starting ref**:
+  - For the `fgrepo` repository, always use `origin/latest-stable`.
+  - For all other repositories, determine the default branch (e.g. `main`, `master`) via `git remote show origin` or equivalent and use `origin/<default-branch>`.
+- Fetch the latest state of that ref before branching: `git fetch origin <branch>`.
+- Create the worktree from the fetched ref: `git worktree add -b "feature/<id>" "<root-repo>/feature/<id>" "<starting-ref>"`.
 - If the user explicitly requests a different starting point, use that instead of the default branch.
 
 ## Cleanup

@@ -13,6 +13,10 @@ When both a ticket and additional text are provided, the text supplements the ti
 
 ## Steps
 
+### 0. Enter Plan mode
+
+Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). The planning phase (steps 1--6) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
+
 ### 1. Clarify the requirement
 
 - **If ticket**: fetch the work item with full details and relations. Extract child work items (batch), linked PRs/commits, and comments.

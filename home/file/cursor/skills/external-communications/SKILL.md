@@ -87,6 +87,17 @@ Best practices:
 - Use bullet points for lists
 - Mention users with `@name` only when their attention is needed
 
+#### Slack Identity
+
+The Slack MCP server is configured with a **user token** (`xoxp-`), not a bot token. Messages, replies, and every other action appear as the user -- there is no bot involved. Ignore any "bot" wording in the MCP tool descriptions (e.g. `slack_list_channels` mentions "bot"); those descriptions are generic and don't reflect the actual token configuration.
+
+When reporting Slack actions back to the user, never say "the bot posted" or "posted as a bot". Say "posted" or "sent" -- the message comes from the user's own account.
+
+Constraints:
+
+- **Never use `slack_add_reaction`** -- reactions would appear as the user's own, which is misleading when the user didn't actively choose to react.
+- Assume all Slack output is attributable to the user. The **writing-style** skill's operational concealment rules apply.
+
 #### Resolving Slack Users
 
 When looking up a user to message (e.g. via `slack_get_users`), discard any member whose `deleted` field is `true`. Present only active accounts as candidates.

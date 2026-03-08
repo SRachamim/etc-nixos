@@ -87,6 +87,10 @@ Best practices:
 - Use bullet points for lists
 - Mention users with `@name` only when their attention is needed
 
+#### Resolving Slack Users
+
+When looking up a user to message (e.g. via `slack_get_users`), discard any member whose `deleted` field is `true`. Present only active accounts as candidates.
+
 #### Sharing in Slack
 
 When the user asks to "share" a message with a second channel (as opposed to "sending" to both), post the original message first using `slack_post_message`, then construct a permalink from the response and post it to the second channel.

@@ -12,7 +12,7 @@ When reviewing code, assess each change against these dimensions:
 - **Correctness** -- Does the code do what it claims? Are edge cases handled?
 - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 - **Design** -- Is the abstraction level appropriate? Are responsibilities well-separated?
-- **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered?
+- **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered? Apply the **test-strategy** skill to evaluate whether tests target properties rather than examples, and whether coverage gaps are justified.
 - **Performance** -- Are there obvious inefficiencies, unnecessary allocations, or N+1 patterns?
 - **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?
 - **Flexibility** -- Is the code additive (new behavior can be added without modifying existing code)? Do functions follow Postel's law (wide inputs, narrow outputs)? Are cross-cutting concerns (logging, metrics) layered independently from domain logic? Are generation and evaluation separated where applicable? Are combinators used so that primitives and combinations share the same interface?

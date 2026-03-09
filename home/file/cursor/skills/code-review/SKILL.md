@@ -36,7 +36,7 @@ Apply the **writing-style** skill to all review comments, using the "Code review
 - Be **specific** -- reference the exact line, variable, or pattern. Avoid vague feedback.
 - Be **actionable** -- explain *why* something is a problem and suggest a concrete alternative.
 - **Ask questions** when intent is unclear rather than assuming a mistake.
-- Acknowledge good work -- praise is part of the review.
+- Note praiseworthy patterns during evaluation, but don't draft individual comments for them -- mention them in the overall summary instead.
 
 ## Verdicts
 

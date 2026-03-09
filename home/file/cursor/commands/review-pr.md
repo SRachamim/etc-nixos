@@ -48,12 +48,13 @@ Additionally:
 
 Apply the **writing-style** skill (using the "Code review comments" register for inline comments and the "PR / MR comments" register for the overall summary).
 
-Structure comments by severity, following the **code-review** skill:
+Draft a comment for **every** issue found, categorised by severity per the **code-review** skill:
 
 - **Blocking** -- must be resolved before merge.
 - **Suggestion** -- recommended improvement, non-blocking.
 - **Nit** -- minor style or preference, non-blocking.
-- **Praise** -- highlight good patterns worth reinforcing.
+
+Don't draft comments for praise -- note praiseworthy patterns in the overall summary instead (step 6).
 
 For each comment, reference the specific file and line range.
 

@@ -1,6 +1,6 @@
 ---
 name: nix-shell-direnv
-description: Detect and use Nix shell environments via direnv when running commands. Use whenever the agent runs shell commands in a project that may have a Nix shell or direnv environment.
+description: Detect and use Nix shell environments via direnv when running commands. Use BEFORE running any shell command -- the skill checks for Nix indicators and adjusts execution accordingly, so it is safe to run even in projects without Nix.
 ---
 
 # Nix Shell / direnv Awareness

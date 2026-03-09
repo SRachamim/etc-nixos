@@ -17,3 +17,5 @@ Follow the **continuous-improvement** skill.
 ```
 
 - For commands that delegate to a shared command (like `create-work-item`), the shared command carries the step -- don't duplicate it in the caller.
+
+- Consider whether the artifact benefits from a specific Cursor mode (Plan, Debug, Ask). If it does, add a Step 0 with the mode directive. See the **Cursor mode selection** section of the `add-cursor-behavior` command for the decision table.

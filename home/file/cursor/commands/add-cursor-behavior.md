@@ -4,6 +4,10 @@ Given a description of desired behavior, determine whether it belongs in an exis
 
 ## Steps
 
+### 0. Enter Plan mode
+
+Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). Steps 1--4 are classification and design -- Plan mode keeps the focus on discussion rather than premature file creation. The user will switch back to Agent mode for creation (step 5).
+
 ### 1. Understand the request
 
 Ask the user (or infer from context) what behavior they want to add. Gather:
@@ -72,6 +76,19 @@ Follow the conventions for commands (title, description, steps) but frame the in
 - Specify what context the subagent receives.
 - Specify what the subagent must return.
 - Specify any constraints (read-only, no external side effects, etc.).
+
+#### Cursor mode selection
+
+Determine whether the artifact benefits from running in a specific Cursor mode. Not every artifact needs a mode directive -- skills are passive reference material applied within other workflows, and the calling command determines the mode.
+
+| Mode | When to recommend | Mechanism |
+|------|------------------|-----------|
+| **Plan** | The core work is read-only analysis, design, or review -- no writes until the user approves. | Add a Step 0 that calls `SwitchMode` with `target_mode_id: "plan"`. Note when the user should switch back to Agent mode for write actions. |
+| **Debug** | The artifact investigates failures, bugs, or unexpected behaviour using runtime evidence. | Add a Step 0 that recommends Debug mode. The agent cannot switch to Debug programmatically -- recommend the user switch before proceeding. |
+| **Ask** | The artifact is purely informational -- it answers a question without any write actions. | Add a Step 0 that recommends Ask mode. The agent cannot switch to Ask programmatically -- recommend the user switch before proceeding. |
+| **Agent** | The artifact creates, modifies, or deletes resources as a core part of its workflow. | No mode directive needed -- Agent is the default. |
+
+If an artifact has distinct phases (e.g., analysis then implementation), use the restrictive mode for the analysis phase and note that Agent mode is needed for the implementation phase. The `plan` command is a good example: it uses Plan mode for steps 0--6, then the user switches to Agent mode for step 7 (implementation).
 
 ### 5. Create the artifact
 

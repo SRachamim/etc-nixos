@@ -4,6 +4,10 @@ Given a build ID (or inferred from the current branch), diagnose a failed pipeli
 
 ## Steps
 
+### 0. Recommended mode: Debug
+
+This command investigates a build failure -- Debug mode is the best fit. If not already in Debug mode, recommend the user switch before proceeding.
+
 ### 1. Resolve the build
 
 Determine the build using one of the following, in priority order:

@@ -46,8 +46,8 @@ Collect the information needed for the bypass request fields:
 - **Which branch am I rebased on?** -- the rebase source is *not* necessarily the PR target branch. Determine it by checking which well-known branch the current branch diverged from most recently:
   1. Run `git merge-base HEAD origin/latest-stable` and `git merge-base HEAD origin/develop`.
   2. The merge-base with the *newer* commit (higher timestamp) is the rebase source -- the branch whose history this branch most recently incorporated.
-  3. If the rebase source is `latest-stable` --> "Latest-stable"
-  4. If the rebase source is `develop` --> "Develop"
+  3. If the rebase source is `latest-stable` --> "Latest-stable :100:"
+  4. If the rebase source is `develop` --> "Develop :face_palm:"
   5. If neither merge-base is an ancestor of the other, or the branch targets a release branch, --> "A Release Branch"
   6. Otherwise, use the detected branch name verbatim.
 - **What changed** -- if triage-build already ran, use its "Changes in This Build" section. Otherwise, use the PR description if available, or list the commit messages (`git log --oneline <target>..HEAD`).
@@ -59,7 +59,19 @@ Collect the information needed for the bypass request fields:
 
 ### 4. Compose the bypass request message
 
-Format the message in Slack mrkdwn, matching the structure the workflow bot posts. The template below is **verbatim** -- field labels must be wrapped in `*` for bold rendering in Slack:
+Format the message in Slack mrkdwn, matching the structure the workflow bot posts.
+
+#### Formatting rules for free-text fields
+
+The **external-communications** skill governs all of these, but they're critical for this channel -- reinforce them here:
+
+- **Backticks** -- wrap branch names, file paths, class names, package names, spec file names, and any code identifiers in backticks (`` ` ``). Examples: `` `DtoForge` ``, `` `BrowseRepository.ts` ``, `` `all-change-requests.spec.ts` ``.
+- **Linking** -- link every resource mentioned in the free-text fields. Currents test instances (use the spec file name as link text, e.g. `<https://app.currents.dev/instance/abc123|all-change-requests.spec.ts>`), Azure DevOps PRs, pipeline builds, and Slack messages (using permalink format). If referencing a previous bypass request, link to the Slack message.
+- **Line breaks** -- the template line breaks below are exact. Do not add blank lines between sections and do not collapse newlines. Each bold heading sits on its own line, immediately followed by a newline and the value.
+
+#### Template
+
+The template below is **verbatim** -- field labels must be wrapped in `*` for bold rendering in Slack:
 
 ```
 Submitted by: <@SLACK_USER_ID>
@@ -79,7 +91,11 @@ Submitted by: <@SLACK_USER_ID>
 
 The "Submitted by" field should be the current user. Look up the user's Slack ID by matching their name or email (from `git config user.email`) via `slack_get_users`.
 
+#### Draft presentation
+
 Follow the **writing-style** skill (using the "Slack and casual messages" register) for the free-text fields (changes summary and test-failure explanation). Follow the **external-communications** skill: present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
+
+When presenting the draft, render it as a Slack mrkdwn code block so the user can see the exact message with line breaks, bold markers (`*...*`), backtick formatting, and link syntax. This is the literal text that will be posted -- the user must be able to verify line breaks and formatting at a glance.
 
 ### 5. Post to #pipeline-gated
 

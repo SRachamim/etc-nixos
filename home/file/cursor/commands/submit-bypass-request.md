@@ -95,7 +95,7 @@ The "Submitted by" field should be the current user. Look up the user's Slack ID
 
 Follow the **writing-style** skill (using the "Slack and casual messages" register) for the free-text fields (changes summary and test-failure explanation). Follow the **external-communications** skill: present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
 
-When presenting the draft, render it as a Slack mrkdwn code block so the user can see the exact message with line breaks, bold markers (`*...*`), backtick formatting, and link syntax. This is the literal text that will be posted -- the user must be able to verify line breaks and formatting at a glance.
+Present the draft following the **external-communications** skill's dual-presentation rule: first a formatted preview (with bold, links, etc. rendered), then the raw Slack mrkdwn in a fenced code block (copy-pastable).
 
 ### 5. Post to #pipeline-gated
 

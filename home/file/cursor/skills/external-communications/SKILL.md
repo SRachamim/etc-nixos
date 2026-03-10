@@ -18,7 +18,11 @@ This applies to ALL external communications, including but not limited to:
 
 Before posting:
 
-1. **Present the candidate text** -- Show the complete message you intend to post in a code block (or platform-appropriate preview) so the user can verify exact formatting -- line breaks, bold markers, links, backtick spans, emoji, and whitespace. The draft must be a faithful preview of what the recipient will see, not a paraphrase. Include a clickable link to the destination (Slack channel, Slack DM user, PR, work item, etc.) so the user can verify the target is correct.
+1. **Present the candidate text** -- show the draft twice, back-to-back:
+   - **Formatted preview** -- render the message with the platform's formatting applied (bold, italics, links, etc.) so the user can read it comfortably and judge tone and structure.
+   - **Copy-pastable raw block** -- repeat the exact text inside a fenced code block (`` ``` ``) so the IDE shows a copy button. This is the literal markup that will be posted -- line breaks, bold markers, links, backtick spans, emoji, and whitespace must all be present and correct.
+
+   Include a clickable link to the destination (Slack channel, Slack DM user, PR, work item, etc.) so the user can verify the target is correct.
 2. **Wait for approval** -- Do not proceed until the user explicitly approves
 3. **Accept modifications** -- If the user suggests changes, present the revised version and wait for approval again
 

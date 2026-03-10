@@ -31,10 +31,23 @@ Call `wit_update_work_item` with:
 ```json
 [
   { "op": "add", "path": "/fields/System.State", "value": "Triaged" },
-  { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.StoryPoints", "value": "<story points>" }
+  { "op": "add", "path": "/fields/Microsoft.VSTS.Common.Priority", "value": "4" },
+  { "op": "add", "path": "/fields/Custom.Version", "value": "<current version>" },
+  { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" },
+  { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.RemainingWork", "value": "<hours>" },
+  { "op": "add", "path": "/fields/Custom.EstimationConfidenceLevel", "value": "<confidence>" }
 ]
 ```
 
+#### Required fields
+
+- `Microsoft.VSTS.Common.Priority` -- ADO requires this when transitioning to Triaged. Default to `4` (lowest) unless the work item warrants higher priority.
+- `Custom.Version` -- the current release version (e.g. `26.2.1`). Infer from a recent work item in the same iteration if not known.
+
+#### Estimation fields
+
+The **estimation** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
+
 ### 4. Confirm
 
-Print the work item **ID**, new **state**, and assigned **story points**.
+Print the work item **ID**, new **state**, **estimate (hours)**, and **confidence level**.

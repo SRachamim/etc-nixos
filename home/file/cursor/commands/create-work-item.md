@@ -18,6 +18,8 @@ This file is not a standalone command. It is referenced by the **create-task** a
 
 Use `core_get_identity_ids` to look up the authenticated user's identity. Use the returned identity ID for assignment.
 
+If no identities are found, fall back to `wit_my_work_items` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value. Use that identity for assignment.
+
 ### 2. Find the current iteration
 
 Call `work_list_team_iterations` with:
@@ -51,20 +53,20 @@ Common fields:
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
 | `System.IterationPath` | The current iteration path from step 2 |
-| `Microsoft.VSTS.Business.BusinessPriority` | The inferred business priority (see below) |
+| `Custom.BusinessPriority` | The inferred business priority (see below) |
 
 #### Business Priority
 
-Default to **4- Technical** -- the user is a Software Architect and most work items are technical bugs and tasks with no direct product-facing effect.
+Default to **4: Technical** -- the user is a Software Architect and most work items are technical bugs and tasks with no direct product-facing effect.
 
 Use a higher priority only when the work item clearly has direct business or product impact:
 
 | Value | When to use |
 |-------|-------------|
-| `1- Critical` | Critical production bugs: data loss, security breach, or complete service outage affecting customers |
-| `2- Important` | Major customer-facing feature broken or significant business risk |
-| `3- Standard` | Moderate product-facing impact or user-visible degradation |
-| `4- Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling |
+| `1: Critical` | Critical production bugs: data loss, security breach, or complete service outage affecting customers |
+| `2: Important` | Major customer-facing feature broken or significant business risk |
+| `3: Standard` | Moderate product-facing impact or user-visible degradation |
+| `4: Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling |
 
 ### 5. Triage the work item
 

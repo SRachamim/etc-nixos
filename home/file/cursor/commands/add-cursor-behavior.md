@@ -26,6 +26,8 @@ Determine which artifact type fits best. Consider the user's request, but always
 | **Skill** | Reusable knowledge or standards applied *within* other workflows. Not invoked directly -- referenced by commands and other skills (e.g. "code review standards", "commit conventions", "external communications guidelines"). | `home/file/cursor/skills/<name>/SKILL.md` |
 | **Subagent prompt** | A prompt template for a delegated sub-task that runs in a separate agent context. Use when the work is parallelizable, needs isolation, or benefits from a dedicated tool set. | `home/file/cursor/subagents/<name>.md` |
 
+> **Note**: Cursor rules (`.cursor/rules/*.mdc`) are not a supported artifact type. All agent behaviour is managed through commands, skills, and subagent prompts under `home/file/cursor/`.
+
 If the requested type doesn't match the best fit, explain the distinction and recommend the correct type. Present your reasoning and wait for the user to confirm before proceeding.
 
 **Common misclassifications:**

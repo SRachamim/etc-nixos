@@ -139,29 +139,8 @@ Wait for approval, modifications, or questions before implementing.
 
 ### 7. Implement the plan
 
-Once the user approves, implement the plan **in the exact sequence presented**. Every item in the plan -- commits *and* non-commit actions -- becomes its own TODO item.
+Once the user approves, implement the plan **in the exact sequence presented**. Build the TODO list and execute each item following the **plan-execution** skill.
 
-#### Building the TODO list
-
-1. Add one TODO item per proposed commit, using the commit title as content.
-2. Add one TODO item for every non-commit action the plan calls for (e.g. "Create a task via `/create-task` for TODO comments", "Notify the team", "Update the work item state"). Use a short description of the action as content.
-3. Preserve the ordering from the plan. All items start as `pending`; mark the first as `in_progress`.
-
-#### Executing each item
-
-- **Commit items**: implement only the changes described for that commit -- do not pull in work from later items. Run the commit's validation, stage the relevant files, and commit using the planned message. Follow the **commit-conventions** skill.
-- **Non-commit items**: execute the described action (run a command, create a work item, post a message, etc.).
-- After completing any item, mark it `completed` and advance the next item to `in_progress`.
-
-#### Constraints
-
-- **Do not batch** -- never apply changes from multiple planned commits in a single real commit.
-- If a commit's scope needs to change during implementation (e.g. an unexpected file must be touched), update the TODO item's content to reflect the actual change before committing.
-
-### 8. Verify all changes are committed
-
-Follow the hygiene section of the **commit-conventions** skill. The working tree must be clean before considering the plan complete.
-
-### 9. Evolve
+### 8. Evolve
 
 Follow the **continuous-improvement** skill.

@@ -70,7 +70,7 @@ Use a higher priority only when the work item clearly has direct business or pro
 
 ### 5. Triage the work item
 
-Follow the **triage-work-item** command, passing the newly created work item's ID.
+Follow the **work-item-triage** skill, passing the newly created work item's ID.
 
 ### 6. Confirm success
 

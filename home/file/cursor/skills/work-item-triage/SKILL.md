@@ -1,8 +1,13 @@
-# Triage Work Item
+---
+name: work-item-triage
+description: Estimate and transition an Azure DevOps work item to the Triaged state. Use whenever the user asks to triage a work item, transition it from New to Triaged, or estimate and triage together -- whether invoked directly or from another command.
+---
+
+# Work Item Triage
 
 Estimate and transition an Azure DevOps work item to the **Triaged** state.
 
-This command can be invoked standalone (given a work item ID) or called from other commands (e.g. **create-task**, **create-bug**) that pass the ID programmatically.
+This skill can be invoked standalone (given a work item ID) or called from other skills and commands (e.g. **create-task**, **create-bug**) that pass the ID programmatically.
 
 ## Steps
 

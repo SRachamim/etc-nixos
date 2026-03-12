@@ -42,3 +42,7 @@ Follow the **create-work-item** shared instructions with:
 |-------|-------|-----------|
 | `Microsoft.VSTS.TCM.ReproSteps` | The crafted repro steps (HTML format) | Always |
 | `Microsoft.VSTS.Common.Severity` | The inferred severity | Always |
+
+### 4. Triage the work item
+
+Follow the **work-item-triage** skill, passing the newly created work item's ID.

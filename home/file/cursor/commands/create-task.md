@@ -31,3 +31,7 @@ Follow the **create-work-item** shared instructions with:
 | Field | Value | Condition |
 |-------|-------|-----------|
 | `System.Description` | The crafted description (HTML format) | Always |
+
+### 4. Triage the work item
+
+Follow the **work-item-triage** skill, passing the newly created work item's ID.

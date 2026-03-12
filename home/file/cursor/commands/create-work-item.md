@@ -2,7 +2,7 @@
 
 Common steps for creating a new Azure DevOps work item in the **FundGuard** project.
 
-This file is not a standalone command. It is referenced by the **create-task** and **create-bug** commands, which supply the work item type, crafted title, and type-specific fields.
+This file is not a standalone command. It is referenced by the **create-task**, **create-bug**, and **request-environment-access** commands, which supply the work item type, crafted title, and type-specific fields.
 
 ## Inputs (provided by the calling command)
 
@@ -11,14 +11,18 @@ This file is not a standalone command. It is referenced by the **create-task** a
 | **workItemType** | The ADO work item type (`Task`, `Bug`, etc.) |
 | **title** | A crafted title for the work item |
 | **typeFields** | Any type-specific fields (e.g. repro steps for bugs) |
+| **commonFieldOverrides** | *(optional)* Field/value pairs that override the defaults in the common fields table (e.g. `System.AssignedTo`, `System.AreaPath`). Omit to use the defaults. |
+| **skipTriage** | *(optional, default false)* When true, skip the triage step. Use for work items assigned to other teams. |
 
 ## Steps
 
 ### 1. Resolve the current user
 
-Use `core_get_identity_ids` to look up the authenticated user's identity. Use the returned identity ID for assignment.
+Use `core_get_identity_ids` to look up the authenticated user's identity. The resolved identity is used for assignment by default and is always available to callers that need the display name (e.g. for titles).
 
-If no identities are found, fall back to `wit_my_work_items` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value. Use that identity for assignment.
+If no identities are found, fall back to `wit_my_work_items` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value.
+
+If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for assignment instead of the resolved identity.
 
 ### 2. Find the current iteration
 
@@ -44,16 +48,18 @@ Call `wit_create_work_item` with:
 
 - **project**: `FundGuard`
 - **workItemType**: as provided by the calling command
-- **fields**: combine the common fields below with the type-specific fields from the calling command
+- **fields**: merge in this order -- common fields, then type-specific fields from the calling command, then `commonFieldOverrides`. Later values win.
 
-Common fields:
+Common field defaults:
 
-| Field | Value |
-|-------|-------|
+| Field | Default value |
+|-------|---------------|
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
 | `System.IterationPath` | The current iteration path from step 2 |
 | `Custom.BusinessPriority` | The inferred business priority (see below) |
+
+Any of these can be overridden via `commonFieldOverrides`.
 
 #### Business Priority
 
@@ -70,12 +76,12 @@ Use a higher priority only when the work item clearly has direct business or pro
 
 ### 5. Triage the work item
 
-Follow the **work-item-triage** skill, passing the newly created work item's ID.
+If `skipTriage` is true, skip this step. Otherwise, follow the **work-item-triage** skill, passing the newly created work item's ID.
 
 ### 6. Confirm success
 
 Print the created work item's **ID**, **title**, **type**, **state**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
 
-### 6. Evolve
+### 7. Evolve
 
 Follow the **continuous-improvement** skill.

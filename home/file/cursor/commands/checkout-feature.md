@@ -21,12 +21,16 @@ If either exists, inform the user and stop -- do not overwrite.
 
 Create the worktree and branch atomically per the **worktree-layout** skill.
 
-### 4. Confirm success
+### 4. Activate the work item
+
+Follow the **activate-work-item** command, passing the feature ID as the work item ID.
+
+### 5. Confirm success
 
 Run `git worktree list` and show the output so the user can verify the new worktree appears.
 
 Print the full path to the new worktree so the user can open it.
 
-### 5. Evolve
+### 6. Evolve
 
 Follow the **continuous-improvement** skill.

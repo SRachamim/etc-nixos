@@ -18,7 +18,7 @@ When multiple inputs are provided, they supplement each other. When both a ticke
 
 ### 0. Enter Plan mode
 
-Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). The planning phase (steps 1--6) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
+Require **Plan** mode following the **mode-gate** skill. The planning phase (steps 1--6) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
 
 ### 1. Clarify the goal
 

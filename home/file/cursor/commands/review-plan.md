@@ -16,7 +16,7 @@ The plan may use any format -- it need not follow the `/plan` output template. T
 
 ### 0. Enter Plan mode
 
-Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). The review is read-only analysis -- Plan mode keeps the focus on discussion rather than edits.
+Require **Plan** mode following the **mode-gate** skill. The review is read-only analysis -- Plan mode keeps the focus on discussion rather than edits.
 
 ### 1. Parse the plan
 

@@ -6,7 +6,7 @@ Given a Datadog incident ID (or a description of symptoms), gather observability
 
 ### 0. Recommended mode: Debug
 
-This command investigates a production incident -- Debug mode is the best fit. If not already in Debug mode, recommend the user switch before proceeding.
+Require **Debug** mode following the **mode-gate** skill. This command investigates a production incident -- Debug mode is the best fit.
 
 ### 1. Resolve the incident
 

@@ -15,7 +15,7 @@ When both a ticket and additional text are provided, the text supplements the ti
 
 ### 0. Recommended mode: Debug
 
-This command investigates a bug in the codebase -- Debug mode is the best fit for the investigation phase (steps 1--4). If not already in Debug mode, recommend the user switch before proceeding.
+Require **Debug** mode following the **mode-gate** skill. This command investigates a bug in the codebase -- Debug mode is the best fit for the investigation phase (steps 1--4).
 
 ### 1. Fetch the bug
 
@@ -80,7 +80,7 @@ Wait for the user to confirm the root-cause analysis before proceeding to fix pl
 
 ### 5. Enter Plan mode
 
-Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). The fix-planning phase (steps 6--8) is read-only design -- Plan mode keeps the focus on discussion rather than edits. If the switch does not succeed, ask the user to switch manually and stop until Plan mode is active.
+Require **Plan** mode following the **mode-gate** skill. The fix-planning phase (steps 6--8) is read-only design -- Plan mode keeps the focus on discussion rather than edits.
 
 ### 6. Design the fix
 

@@ -14,7 +14,7 @@ https://<workspace>.slack.com/archives/<channel_id>/p<ts_without_dot>
 
 ### 0. Recommended mode: Ask
 
-This command is primarily informational -- it researches a Slack conversation and presents findings without making changes. If not already in Ask mode, recommend the user switch before proceeding. If the user later wants to post a Slack reply (step 7), they should switch to Agent mode for that.
+Require **Ask** mode following the **mode-gate** skill. This command is primarily informational -- it researches a Slack conversation and presents findings without making changes. If the user later wants to post a Slack reply (step 7), they should switch to Agent mode for that.
 
 ### 1. Parse the Slack link
 

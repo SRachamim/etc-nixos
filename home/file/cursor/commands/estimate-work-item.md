@@ -6,7 +6,7 @@ Given an Azure DevOps work item ID (or a free-text task description), perform co
 
 ### 0. Enter Plan mode
 
-Switch to Cursor **Plan mode** (`SwitchMode` with `target_mode_id: "plan"`). The estimation (steps 1--3) is read-only analysis -- Plan mode keeps the focus on the assessment. If the user approves follow-up actions (step 4), they will switch back to Agent mode.
+Require **Plan** mode following the **mode-gate** skill. The estimation (steps 1--3) is read-only analysis -- Plan mode keeps the focus on the assessment. If the user approves follow-up actions (step 4), they will switch back to Agent mode.
 
 ### 1. Resolve the work item
 

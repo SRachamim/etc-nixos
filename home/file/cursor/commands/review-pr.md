@@ -25,7 +25,7 @@ If none yields a PR, ask the user and stop.
 ### 2. Gather context
 
 - Fetch the PR details (title, description, source and target branches).
-- Fetch linked work items to understand the intent, acceptance criteria, and scope.
+- For each linked work item, apply the **work-item-context** skill to gather the full picture -- relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary to understand the intent, acceptance criteria, and scope.
 - List the PR's commits and changed files.
 
 ### 3. Read the diff

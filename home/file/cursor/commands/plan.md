@@ -22,7 +22,7 @@ Require **Plan** mode following the **mode-gate** skill. The planning phase (ste
 
 ### 1. Clarify the goal
 
-- **If ticket**: fetch the work item with full details and relations. Extract child work items (batch), linked PRs/commits, and comments.
+- **If ticket**: apply the **work-item-context** skill to gather the full picture -- the work item itself, its relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary as the authoritative context for the rest of the plan.
 - **If text or design**: restate the target state or requirement in your own words and confirm understanding before proceeding.
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).

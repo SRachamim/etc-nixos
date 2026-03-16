@@ -51,38 +51,7 @@ Spend enough time here to form a concrete mental model. Don't guess -- read the 
 
 ### 4. Evaluate against design lenses
 
-Apply the same lenses from the `/plan` command.
-
-#### Refactoring lens
-
-For each restructuring commit, check:
-
-| Question | Red flag |
-|----------|----------|
-| Does it preserve behaviour? | Commit description implies new behaviour alongside restructuring |
-| Is it a single, testable transformation? | Commit bundles multiple refactoring techniques |
-| Does it name a recognised technique from the **refactoring** skill? | Technique column is blank or vague |
-| Are prerequisite tests in place before the refactoring commits? | Test commits come after the refactorings they protect |
-
-#### Flexibility lens
-
-Review the plan's design-lens commentary:
-
-- Are the chosen principles (2--3) genuinely the most relevant for this change?
-- Does the plan honour them in practice, or only name-drop them?
-- Are there principles the plan should have applied but didn't?
-
-#### Architecture lens
-
-Review the plan against the **architect-thinking** skill:
-
-| Question | Red flag |
-|----------|----------|
-| Are irreversible decisions minimised? | Plan locks in a technology, schema, or API shape that could have been deferred |
-| Are stated assumptions questioned? | Plan accepts "requirements" at face value without asking why |
-| Is the plan built top-down from a use case? | Plan starts with infrastructure or reusable components before a concrete consumer exists |
-| Is cost of delay considered in sequencing? | High-value steps are buried at the end behind preparatory work that could be parallelised |
-| Are systems effects acknowledged? | Plan changes a shared component without assessing downstream impact or feedback loops |
+Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture).
 
 ### 5. Evaluate commit structure
 

@@ -41,54 +41,7 @@ Spend enough time here to form a concrete mental model. Don't guess -- read the 
 
 ### 3. Apply the design lenses
 
-Two lenses guide the plan. Apply both; not every principle will be relevant to every change.
-
-#### Refactoring lens
-
-When the plan includes restructuring, evaluate the structural transformation through the **refactoring** skill's core principles:
-
-| Principle | Question to ask |
-|---|---|
-| **Preserve behavior** | Does every step keep the code doing exactly what it does today? |
-| **Small steps** | Is each transformation a single, testable change? |
-| **Two hats** | Are we purely restructuring -- no new behavior mixed in? |
-| **Tests first** | Do adequate tests exist to catch regressions? If not, add them first. |
-
-For each structural change needed to close the gap, select techniques from the **refactoring** skill catalog. Reference each technique by its catalog name (e.g. Extract Module, Move Function, Introduce Branded Type). Apply the **functional-typescript** skill to ensure the target structure aligns with fp-ts standards and architectural principles.
-
-#### Flexibility lens
-
-Evaluate every architectural choice through these principles (adapted from Hanson & Sussman, *Software Design for Flexibility*):
-
-| Principle | Question to ask | FP / TypeScript idiom |
-|---|---|---|
-| **Additive programming** | Can this change be a pure addition -- no modification to existing code? | New module, new union variant, new handler |
-| **Combinators** | Do the new parts share a uniform interface so they compose freely with existing parts? | `pipe`, `flow`, same `(input) => Output` shape |
-| **Generic dispatch** | Should this extend an existing discriminated union + `fold` rather than add conditionals? | Widen union, add match arm |
-| **Domain-specific language** | Does this domain deserve its own set of primitives, combinators, and abstractions? | Builder functions, interpreter pattern |
-| **Layering** | Can metadata (provenance, units, audit) travel alongside data without the core knowing? | Branded types, `Reader`, layered records |
-| **Degeneracy** | Are there independent paths to the same result that improve robustness or testability? | Multiple codec/strategy implementations |
-| **Postel's law** | Does each function accept the widest reasonable input and produce the narrowest output? | Validate with `io-ts` at the boundary; return precise types |
-| **Exploratory behavior** | Is generate-and-test more appropriate than imperative control flow? | Lazy `Task` pipelines, `Array.filter` chains |
-| **Propagation** | Can partial information from independent sources be merged for a better result? | `TaskEither` composition, `Semigroup` merge |
-| **Minimal assumptions** | What assumptions are we baking in? Can we parameterize instead? | Generic type params, function arguments over hard-coded values |
-
-Not every principle applies to every change. Call out the 2–3 that matter most and explain how the plan honours them.
-
-#### Architecture lens
-
-Evaluate every significant design choice through these principles from the **architect-thinking** skill:
-
-| Principle | Question to ask |
-|---|---|
-| **Options** | Does this design preserve future options? Are irreversible decisions deferred or minimised? |
-| **Rate of change** | Does this area change frequently? Does the plan reduce friction for future changes here? |
-| **Fit for purpose** | Is the architecture appropriate for the actual constraints, not just "good practice"? |
-| **Use before reuse** | Are we building from a concrete use case, or speculatively creating reusable infrastructure? |
-| **Systems effects** | Could this change trigger unintended feedback loops or system-level side effects? |
-| **Cost of delay** | Does the plan sequence work to deliver value early, or does it front-load infrastructure? |
-
-Not every principle applies to every change. Call out those that matter most and explain how the plan honours them.
+Apply the **design-lenses** skill using the **planning framing** for all three lenses (refactoring, flexibility, architecture). Not every principle will be relevant to every change.
 
 ### 4. Draft the plan
 

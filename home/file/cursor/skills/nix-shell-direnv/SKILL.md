@@ -1,6 +1,7 @@
 ---
 name: nix-shell-direnv
 description: Detect and use Nix shell environments via direnv when running commands. Use BEFORE running any shell command -- the skill checks for Nix indicators and adjusts execution accordingly, so it is safe to run even in projects without Nix.
+disable-model-invocation: true
 ---
 
 # Nix Shell / direnv Awareness

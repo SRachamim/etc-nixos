@@ -74,6 +74,11 @@ Present a structured summary:
 - **Metrics**: <notable metric deviations>
 - **Traces**: <relevant trace observations, if any>
 
+### Systemic Factors
+
+<factors that made the system fragile to the proximate trigger -- missing feedback loops,
+information gaps, organisational friction. "None identified" if the incident was truly isolated.>
+
 ### Suggested Actions
 
 - <immediate action>

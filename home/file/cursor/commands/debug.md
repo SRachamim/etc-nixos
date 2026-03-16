@@ -49,6 +49,10 @@ Work from symptoms inward:
    - Stale assumption about an upstream dependency.
    - Race condition or ordering issue.
 3. **Scope** -- assess whether the root cause affects other code paths beyond the reported bug. Note any collateral impact.
+4. **Five Whys** -- for each "why" answer, ask "why" again until you reach a root cause that is actionable and structural, not just a proximate trigger. Watch for:
+   - Assumptions that were valid when the code was written but no longer hold.
+   - Organisational or process causes (e.g., missing test coverage policy, absent monitoring).
+   - "Because we always did it this way" -- a signal that the environment has changed around the code.
 
 ### 4. Present findings
 

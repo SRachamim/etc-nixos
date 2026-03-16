@@ -37,6 +37,15 @@ Always check for **changes in the incident window**:
 
 A deployment that coincides with the incident start is the most common root cause.
 
+## Systems Thinking
+
+Apply the **architect-thinking** skill's systems-thinking principles during investigation:
+
+- **"Every system is perfect"** -- the system is behaving exactly as designed. Understand what it was optimised for before proposing changes.
+- **Feedback loops** -- identify whether the incident involves a runaway positive feedback loop (e.g., retry storms, cascading failures) or a missing negative feedback loop (e.g., no backpressure, no circuit breaker).
+- **Bounded rationality** -- operators and developers acted rationally given the information they had. Look for information gaps (missing dashboards, unclear runbooks) rather than blame.
+- **Root causes are systemic** -- the proximate trigger (a bad deploy, a config change) is rarely the only cause. Ask what made the system fragile to that trigger.
+
 ## Communication
 
 When sharing findings externally, follow the **external-communications** skill and structure updates as:

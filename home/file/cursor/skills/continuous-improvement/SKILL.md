@@ -18,6 +18,8 @@ Run this analysis whenever you finish executing (or observe the execution of) a 
 - **Missing error handling**: a failure case occurred that the artifact doesn't address.
 - **Performance**: a faster or cheaper approach was found (fewer API calls, better defaults, smarter ordering).
 - **Accuracy**: the output quality could improve with better prompts, examples, or constraints.
+- **Recurring friction**: the same painful step appears across multiple executions. "If it hurts, do it more often" -- automate or simplify it rather than working around it each time.
+- **Cost of inaction**: the artifact's current state causes repeated delay, confusion, or error. The cost of not improving accumulates -- flag it even if no single execution failed.
 
 If the execution went smoothly and matched the instructions perfectly, say nothing -- don't suggest improvements for their own sake.
 

@@ -12,7 +12,7 @@ When reviewing code, assess each change against these dimensions:
 - **Correctness** -- Does the code do what it claims? Are edge cases handled?
 - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 - **Design** -- Is the abstraction level appropriate? Are responsibilities well-separated?
-- **Architecture** -- Is the overall solution approach sound? Do component boundaries, module decomposition, and dependency directions make sense? Does the change align with (or intentionally evolve) the system's existing architectural patterns, or does it introduce unnecessary coupling?
+- **Architecture** -- Is the overall solution approach sound? Do component boundaries, module decomposition, and dependency directions make sense? Does the change align with (or intentionally evolve) the system's existing architectural patterns, or does it introduce unnecessary coupling? Apply the **architect-thinking** skill: does the change preserve options or lock in decisions unnecessarily? Does it increase or decrease the rate of future change in the affected area? Is configuration treated as code (version-controlled, validated, tested)? Are cross-boundary effects and feedback loops considered?
 - **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered?
 - **Performance** -- Are there obvious inefficiencies, unnecessary allocations, or N+1 patterns?
 - **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?

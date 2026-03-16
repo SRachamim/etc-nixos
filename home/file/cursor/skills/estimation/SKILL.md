@@ -113,6 +113,14 @@ FundGuard ADO supports a six-point scale. Historical data shows "1.0: Absolute" 
 
 FundGuard uses **2-week sprints** (~80 working hours per person). Flag if the estimate exceeds one sprint for a single assignee. If it does, recommend splitting into sprint-sized sub-tasks or note the expected spill.
 
+## Cost of Delay and Flow
+
+When the work item is tied to a revenue-generating feature or time-sensitive deliverable:
+
+- **Cost of delay** -- estimate the daily or weekly cost of not shipping. When cost of delay exceeds development cost, prioritise speed: consider splitting, deferring non-essential scope, or shipping an MVP.
+- **Flow efficiency** -- look for queues and wait time between activities (approvals, environment provisioning, review cycles). Flag bottlenecks that inflate elapsed time beyond effort hours.
+- **Splitting for speed** -- even when total effort is the same, smaller items flow faster through the system. Prefer two 8h items over one 16h item.
+
 ## Output
 
 The skill produces:

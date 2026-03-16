@@ -72,6 +72,18 @@ Review the plan's design-lens commentary:
 - Does the plan honour them in practice, or only name-drop them?
 - Are there principles the plan should have applied but didn't?
 
+#### Architecture lens
+
+Review the plan against the **architect-thinking** skill:
+
+| Question | Red flag |
+|----------|----------|
+| Are irreversible decisions minimised? | Plan locks in a technology, schema, or API shape that could have been deferred |
+| Are stated assumptions questioned? | Plan accepts "requirements" at face value without asking why |
+| Is the plan built top-down from a use case? | Plan starts with infrastructure or reusable components before a concrete consumer exists |
+| Is cost of delay considered in sequencing? | High-value steps are buried at the end behind preparatory work that could be parallelised |
+| Are systems effects acknowledged? | Plan changes a shared component without assessing downstream impact or feedback loops |
+
 ### 5. Evaluate commit structure
 
 Apply the **commit-conventions** skill:

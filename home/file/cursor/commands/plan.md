@@ -75,6 +75,21 @@ Evaluate every architectural choice through these principles (adapted from Hanso
 
 Not every principle applies to every change. Call out the 2–3 that matter most and explain how the plan honours them.
 
+#### Architecture lens
+
+Evaluate every significant design choice through these principles from the **architect-thinking** skill:
+
+| Principle | Question to ask |
+|---|---|
+| **Options** | Does this design preserve future options? Are irreversible decisions deferred or minimised? |
+| **Rate of change** | Does this area change frequently? Does the plan reduce friction for future changes here? |
+| **Fit for purpose** | Is the architecture appropriate for the actual constraints, not just "good practice"? |
+| **Use before reuse** | Are we building from a concrete use case, or speculatively creating reusable infrastructure? |
+| **Systems effects** | Could this change trigger unintended feedback loops or system-level side effects? |
+| **Cost of delay** | Does the plan sequence work to deliver value early, or does it front-load infrastructure? |
+
+Not every principle applies to every change. Call out those that matter most and explain how the plan honours them.
+
 ### 4. Draft the plan
 
 Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 7).

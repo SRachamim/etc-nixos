@@ -111,6 +111,16 @@ Don't open sentences with crutch transitions. Just start with the point.
 - **Perfect antithesis** -- "not just X, but Y" is an LLM crutch. Vary the rhetorical structure, but don't compromise the logic or clarity of the argument.
 - **Mirrored paragraph structure** -- don't repeat the same shape (topic sentence, three supporting points, summary) in consecutive paragraphs.
 
+## Technical communication
+
+These principles (from the **architect-thinking** skill) apply when composing technical explanations in PR descriptions, plan summaries, incident reports, and documentation.
+
+- **Build ramps, not cliffs** -- establish a basic mental model in plain vocabulary before introducing technical terms or acronyms. The audience should be able to reason about the decision at each step.
+- **Show the pirate ship** -- lead with purpose and value (the assembled ship), not components (the LEGO bricks). No one cares about assembly effort; they care about results.
+- **Emphasis over completeness** -- diagrams and documents are models. Scope them to be big enough to be meaningful, small enough to be comprehensible. Put blinders on when needed.
+- **Five-second test** -- if a reader sees the summary or diagram for five seconds, can they describe the main point? If not, restructure.
+- **Writing for busy people** -- use storytelling headings (not "Introduction" / "Conclusion"), the pyramid principle, and breadth-first disclosure. Aim for 20--30% word reduction in editing.
+
 ## Platform-specific rules
 
 ### Slack and casual messages

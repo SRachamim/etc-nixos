@@ -92,6 +92,16 @@ Determine whether the artifact benefits from running in a specific Cursor mode. 
 
 If an artifact has distinct phases (e.g., analysis then implementation), use the restrictive mode for the analysis phase and note that Agent mode is needed for the implementation phase. Apply the **mode-gate** skill at each transition point. The `plan` command is a good example: it uses Plan mode for steps 0--6, then the user switches to Agent mode for step 7 (implementation).
 
+#### Architectural alignment
+
+Apply the **architect-thinking** skill to evaluate whether the new artifact:
+
+- Preserves options and avoids locking in decisions unnecessarily.
+- Reduces friction and enables faster change (rate of change).
+- Starts from a concrete use case (use before reuse).
+- Includes feedback mechanisms (e.g. the Evolve step, validation steps).
+- Makes the right path the easy path (governance through inception).
+
 ### 5. Create the artifact
 
 Write the file immediately. If the artifact is a skill, create the directory structure (`<name>/SKILL.md` and any supporting files).

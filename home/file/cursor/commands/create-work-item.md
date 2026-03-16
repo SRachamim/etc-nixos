@@ -76,7 +76,12 @@ Use a higher priority only when the work item clearly has direct business or pro
 
 ### 5. Triage the work item
 
-If `skipTriage` is true, skip this step. Otherwise, follow the **work-item-triage** skill, passing the newly created work item's ID.
+Skip this step when any of the following are true:
+
+- `skipTriage` is true.
+- The effective `System.AssignedTo` (after applying `commonFieldOverrides`) differs from the current user resolved in step 1 — triaging is the assignee's responsibility.
+
+Otherwise, follow the **work-item-triage** skill, passing the newly created work item's ID.
 
 ### 6. Confirm success
 

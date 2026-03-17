@@ -18,11 +18,12 @@ When multiple inputs are provided, they supplement each other. When both a ticke
 
 ### 0. Enter Plan mode
 
-Require **Plan** mode following the **mode-gate** skill. The planning phase (steps 1--6) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
+Require **Plan** mode following the **mode-gate** skill. The planning phase (steps 1--7) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
 
 ### 1. Clarify the goal
 
 - **If ticket**: apply the **work-item-context** skill to gather the full picture -- the work item itself, its relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary as the authoritative context for the rest of the plan.
+  - **Successor awareness**: identify successor work items -- items whose Predecessor link points to this item, i.e. work blocked on the current item's completion. For each successor, fetch its description and acceptance criteria (batch-fetch via `wit_get_work_items_batch_by_ids` if not already retrieved). Note what each successor expects the current item to deliver: interfaces, modules, data shapes, or capabilities it will build upon. Treat these expectations as additional constraints on the target state.
 - **If text or design**: restate the target state or requirement in your own words and confirm understanding before proceeding.
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).
@@ -45,7 +46,7 @@ Apply the **design-lenses** skill using the **planning framing** for all three l
 
 ### 4. Draft the plan
 
-Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 7).
+Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 8).
 
 Design commits following the **commit-conventions** skill. Documentation updates must be included in the same commit that introduces the code change making them stale -- never in a separate follow-up commit. For restructuring commits, each commit applies one refactoring and must leave the codebase compiling and tests passing.
 
@@ -64,7 +65,17 @@ For each step, specify:
 | **Flexibility** | Which design-lens principle(s) this step honours and how (optional for actions) |
 | **Validation** | How to verify this step is correct (per workspace rules and project tooling) |
 
-### 5. Present the plan
+### 5. Validate against successors
+
+When successor work items were identified in step 1, verify that the planned design accommodates their needs:
+
+- For each successor, check that the plan's target state provides the interfaces, modules, data shapes, or capabilities the successor expects.
+- If the plan introduces an abstraction or API boundary, confirm the successor's requirements can be met through that boundary without requiring further restructuring.
+- If a gap is found, either adjust the plan to close it (e.g. widen an interface, add an extension point) or note it explicitly in the plan's Notes section as a known limitation.
+
+Skip this step when no successor work items exist or when the input was not a ticket.
+
+### 6. Present the plan
 
 Apply the **writing-style** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
 
@@ -101,14 +112,14 @@ Output the plan in this format:
 <Any risks, open questions, or alternatives worth mentioning>
 ```
 
-### 6. Iterate
+### 7. Iterate
 
 Wait for approval, modifications, or questions before implementing.
 
-### 7. Implement the plan
+### 8. Implement the plan
 
 Once the user approves, implement the plan **in the exact sequence presented**. Build the TODO list and execute each item following the **plan-execution** skill.
 
-### 8. Evolve
+### 9. Evolve
 
 Follow the **continuous-improvement** skill.

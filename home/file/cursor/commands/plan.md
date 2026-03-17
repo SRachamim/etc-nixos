@@ -52,6 +52,8 @@ Design commits following the **commit-conventions** skill. Documentation updates
 
 Order commits so that earlier refactorings enable later ones. Test-addition commits go first.
 
+When choosing between alternative approaches or orderings, apply the **decision-priorities** skill to select the stronger option.
+
 For each step, specify:
 
 | Field | Description |

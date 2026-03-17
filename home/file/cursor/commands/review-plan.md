@@ -51,7 +51,7 @@ Spend enough time here to form a concrete mental model. Don't guess -- read the 
 
 ### 4. Evaluate against design lenses
 
-Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture).
+Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture). Apply the **decision-priorities** skill to check whether the chosen approach respects the priority ordering (correctness > changeability > DX, governed by simplicity).
 
 ### 5. Evaluate commit structure
 

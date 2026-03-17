@@ -94,7 +94,7 @@ If an artifact has distinct phases (e.g., analysis then implementation), use the
 
 #### Architectural alignment
 
-Apply the **architect-thinking** skill to evaluate whether the new artifact:
+Apply the **architect-thinking** skill and the **decision-priorities** skill to evaluate whether the new artifact:
 
 - Preserves options and avoids locking in decisions unnecessarily.
 - Reduces friction and enables faster change (rate of change).

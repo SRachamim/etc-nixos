@@ -49,6 +49,7 @@ Call `wit_update_work_item` with:
 [
   { "op": "add", "path": "/fields/System.State", "value": "Triaged" },
   { "op": "add", "path": "/fields/Microsoft.VSTS.Common.Priority", "value": "4" },
+  { "op": "add", "path": "/fields/Custom.BusinessPriority", "value": "4: Technical" },
   { "op": "add", "path": "/fields/Custom.Version", "value": "<current version>" },
   { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" },
   { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.RemainingWork", "value": "<hours>" },
@@ -59,6 +60,7 @@ Call `wit_update_work_item` with:
 #### Required fields
 
 - `Microsoft.VSTS.Common.Priority` -- ADO requires this when transitioning to Triaged. Default to `4` (lowest) unless the work item warrants higher priority.
+- `Custom.BusinessPriority` -- also required for the Triaged transition. Default to `"4: Technical"` for internal/tooling tasks. Other values follow the pattern `"1: Must Have"`, `"2: Should Have"`, `"3: Nice to Have"`, `"4: Technical"`.
 - `Custom.Version` -- the current release version (e.g. `26.2.1`). Infer from a recent work item in the same iteration if not known.
 
 #### Estimation fields

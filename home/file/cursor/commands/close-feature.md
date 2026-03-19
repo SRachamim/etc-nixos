@@ -76,6 +76,18 @@ Print a summary of what was cleaned up:
 - Dependent work items that were unblocked (if any)
 - Worktree and branch removal confirmation
 
-### 10. Evolve
+### 10. Notify the team
+
+Consider whether the completed feature warrants a notification to `#full-stack`. Review the PR description, work item details, and the diff against the base branch to assess whether any changes fall into these categories (non-exhaustive):
+
+- **Infrastructure** -- changes that affect how the system is built, deployed, or operated.
+- **Productivity** -- changes that improve other developers' productivity (e.g. new shared utilities, CI improvements, dependency upgrades).
+- **Developer experience** -- changes that improve DX (e.g. better error messages, new dev tooling, simplified workflows).
+
+If nothing is notable, state that briefly and move on.
+
+If a notification is warranted, compose a message for `#full-stack` following the **external-communications** skill.
+
+### 11. Evolve
 
 Follow the **continuous-improvement** skill.

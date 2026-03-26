@@ -2,6 +2,8 @@
 
 Given a description of desired behavior, determine whether it belongs in an existing artifact or a new one. Then create or amend the appropriate artifact (command, skill, or subagent prompt) under `home/file/cursor/` following existing conventions.
 
+This command is designed for the dotfiles repository that manages personal Cursor artifacts. The artifacts it creates are deployed to `~/.cursor/` and available across all repositories.
+
 ## Steps
 
 ### 0. Enter Plan mode
@@ -91,6 +93,10 @@ Determine whether the artifact benefits from running in a specific Cursor mode. 
 | **Agent** | The artifact creates, modifies, or deletes resources as a core part of its workflow. | No mode directive needed -- Agent is the default. |
 
 If an artifact has distinct phases (e.g., analysis then implementation), use the restrictive mode for the analysis phase and note that Agent mode is needed for the implementation phase. Apply the **mode-gate** skill at each transition point. The `plan` command is a good example: it uses Plan mode for steps 0--6, then the user switches to Agent mode for step 7 (implementation).
+
+#### Tooling enforcement
+
+Apply the **tooling-enforcement** skill. If the target repository has testing or auditing tools (TypeScript compiler, linters, test frameworks, CI checks, pre-commit hooks), evaluate whether the convention the new artifact introduces can also be enforced mechanically -- and include or recommend the enforcement change alongside the Cursor artifact.
 
 #### Architectural alignment
 

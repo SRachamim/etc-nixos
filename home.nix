@@ -56,6 +56,7 @@ in
               args = [
                 "-p"
                 "nodejs"
+                "azure-cli"
                 "--run"
                 "NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @azure-devops/mcp@latest fundguard -a azcli"
               ];

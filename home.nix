@@ -17,6 +17,17 @@ in
       <catppuccin/modules/home-manager>
     ];
 
+    # TODO: remove after nixpkgs channel includes NixOS/nixpkgs#502769
+    nixpkgs.overlays = [
+      (final: prev: {
+        direnv = prev.direnv.overrideAttrs (old: {
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace GNUmakefile --replace-fail " -linkmode=external" ""
+          '';
+        });
+      })
+    ];
+
     catppuccin = {
       enable = true;
       flavor = "mocha";

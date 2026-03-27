@@ -223,6 +223,9 @@ EOF
       };
       git = {
         enable = true;
+        signing = {
+          format = "openpgp";
+        };
         settings = {
           alias = {
             br = "branch";
@@ -414,6 +417,15 @@ EOF
       };
       topgrade = {
         enable = true;
+        settings = {
+          misc = {
+            pre_sudo = true;
+            disable = [
+              "gem"
+              "ruby_gems"
+            ];
+          };
+        };
       };
       zsh = {
         enable = true;

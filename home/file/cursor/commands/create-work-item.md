@@ -56,6 +56,7 @@ Common field defaults:
 |-------|---------------|
 | `System.Title` | The crafted title |
 | `System.AssignedTo` | The identity resolved in step 1 |
+| `System.AreaPath` | `FundGuard\Platform\Web\CInfra` |
 | `System.IterationPath` | The current iteration path from step 2 |
 | `Custom.BusinessPriority` | The inferred business priority (see below) |
 

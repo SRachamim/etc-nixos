@@ -36,13 +36,17 @@ Use the iteration path from the result (e.g. `FundGuard\Sprint 42`).
 
 If the call fails because the team name is wrong, fall back to `work_list_iterations` for project `FundGuard`, then pick the iteration whose date range contains today's date.
 
-### 3. Present the work item for approval
+### 3. Format rich-text fields as markdown
+
+All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. Azure DevOps renders markdown natively in these fields -- prefer it for readability in both the web UI and API responses.
+
+### 4. Present the work item for approval
 
 Apply the **writing-style** skill (using the "Work-item descriptions and comments" register) when composing titles and descriptions.
 
 Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, and iteration. Ask for confirmation. If the user requests changes, revise and re-present.
 
-### 4. Create the work item
+### 5. Create the work item
 
 Call `wit_create_work_item` with:
 
@@ -75,7 +79,7 @@ Use a higher priority only when the work item clearly has direct business or pro
 | `3: Standard` | Moderate product-facing impact or user-visible degradation |
 | `4: Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling |
 
-### 5. Triage the work item
+### 6. Triage the work item
 
 Skip this step when any of the following are true:
 
@@ -84,10 +88,10 @@ Skip this step when any of the following are true:
 
 Otherwise, follow the **work-item-triage** skill, passing the newly created work item's ID.
 
-### 6. Confirm success
+### 7. Confirm success
 
 Print the created work item's **ID**, **title**, **type**, **state**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
 
-### 7. Evolve
+### 8. Evolve
 
 Follow the **continuous-improvement** skill.

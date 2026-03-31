@@ -30,7 +30,7 @@ Follow the **create-work-item** shared instructions with:
 
 | Field | Value | Condition |
 |-------|-------|-----------|
-| `System.Description` | The crafted description (HTML format) | Always |
+| `System.Description` | The crafted description (markdown) | Always |
 
 ### 4. Triage the work item
 

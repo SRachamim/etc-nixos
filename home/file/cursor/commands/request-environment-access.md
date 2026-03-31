@@ -20,7 +20,7 @@ The user provides an environment name and a reason for needing access. If either
 Apply the **writing-style** skill (using the "Work-item descriptions and comments" register).
 
 - **Title**: `Grant <Display Name> access to <environment>` -- where `<Display Name>` is the current user's name resolved by the shared instructions.
-- **Description**: an HTML paragraph stating who needs access, to which environment, and why. Keep it short and direct.
+- **Description**: a markdown paragraph stating who needs access, to which environment, and why. Keep it short and direct.
 
 ### 3. Create the work item
 
@@ -32,7 +32,7 @@ Follow the **create-work-item** shared instructions with:
 
 | Field | Value |
 |-------|-------|
-| `System.Description` | The crafted description (HTML) |
+| `System.Description` | The crafted description (markdown) |
 | `System.Tags` | `Security; user-access` |
 | `Microsoft.VSTS.Scheduling.OriginalEstimate` | `1` |
 | `Microsoft.VSTS.Scheduling.RemainingWork` | `1` |

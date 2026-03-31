@@ -13,7 +13,7 @@ The user provides a free-form description of a bug they encountered. If the desc
 From the user's input, produce:
 
 - **Title** -- a concise summary that identifies the broken behavior. Follow the pattern `<Component/Area>: <what is wrong>` (e.g. "Portfolio API: returns 500 when account ID contains special characters"). Keep it under 80 characters.
-- **Repro steps** -- structured HTML with these sections:
+- **Repro steps** -- structured markdown with these sections:
 
   - **Steps to reproduce**: numbered list of actions to trigger the bug. Omit if the user didn't describe a specific flow.
   - **Expected behavior**: what should happen.
@@ -40,7 +40,7 @@ Follow the **create-work-item** shared instructions with:
 
 | Field | Value | Condition |
 |-------|-------|-----------|
-| `Microsoft.VSTS.TCM.ReproSteps` | The crafted repro steps (HTML format) | Always |
+| `Microsoft.VSTS.TCM.ReproSteps` | The crafted repro steps (markdown) | Always |
 | `Microsoft.VSTS.Common.Severity` | The inferred severity | Always |
 
 ### 4. Triage the work item

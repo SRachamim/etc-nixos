@@ -1,17 +1,17 @@
-# Close Feature
+# Close Worktree
 
-Given a feature ID (or inferred from the current branch name), verify the PR is merged, confirm the work item transitioned, and clean up the worktree and branch.
+Given a work item ID (or inferred from the current branch name), verify the PR is merged, confirm the work item transitioned, and clean up the worktree and branch.
 
 ## Steps
 
-### 1. Resolve the feature ID
+### 1. Resolve the work item ID and prefix
 
-Determine the feature ID using one of the following, in priority order:
+Determine the work item ID and branch prefix using one of the following, in priority order:
 
-1. **Explicit argument** -- the user provided a feature ID directly.
-2. **Branch name** -- parse the current branch (`git branch --show-current`). If it matches the pattern `feature/<id>`, extract `<id>`.
+1. **Explicit argument** -- the user provided a work item ID directly. Determine the prefix by checking which branch exists: try `feature/<id>` then `hotfix/<id>`.
+2. **Branch name** -- parse the current branch (`git branch --show-current`). If it matches `feature/<id>` or `hotfix/<id>`, extract the `<prefix>` and `<id>`.
 
-If neither yields a feature ID, ask the user and stop.
+If neither yields a work item ID, ask the user and stop. Carry the detected `<prefix>` forward into all subsequent steps.
 
 ### 2. Identify the repository
 
@@ -19,14 +19,18 @@ List Azure DevOps projects and locate the repository that matches the current gi
 
 ### 3. Verify the PR is merged
 
-- List pull requests with source branch `refs/heads/feature/<id>`.
+- List pull requests with source branch `refs/heads/<prefix>/<id>`.
 - Confirm at least one PR has status **Completed**. If the PR is still active or abandoned, inform the user and stop.
 
 ### 4. Verify the work item state
 
 - Fetch the work item linked to the PR.
 - PR completion normally auto-transitions linked work items to **Resolved**. Verify this happened.
-- If the work item is still in **Code Review** or another pre-resolved state, warn the user and offer to transition it manually.
+- If the work item is still in **Code Review** or another pre-resolved state, transition it to **Resolved**.
+- Some work item types (notably **Escaped Defect**) require many mandatory fields for the Resolved state (Tech Domain, Is Regression, Custom Resolved Reason, Root Cause Description, Fix Description, Component, Reason for Defect Escape, Context for Chosen Reason, Task Number for Test Coverage, Blocker Reason). When transitioning these types:
+  1. Fetch a recently resolved work item of the same type and area path to discover the allowed field values.
+  2. Derive field values from the PR description (root cause, fix description) and the area path (tech domain, component).
+  3. If any required field's value cannot be determined, ask the user.
 
 ### 5. Unblock dependent work items
 
@@ -44,7 +48,7 @@ List Azure DevOps projects and locate the repository that matches the current gi
 Follow the **worktree-layout** skill to resolve the worktree path.
 
 ```sh
-git worktree remove "<root-repo>/feature/<id>"
+git worktree remove "<root-repo>/<prefix>/<id>"
 ```
 
 If the current working directory is inside the worktree being removed, switch to the main worktree first.
@@ -52,20 +56,20 @@ If the current working directory is inside the worktree being removed, switch to
 ### 7. Delete the local and remote branches
 
 ```sh
-git branch -d "feature/<id>"
-git push origin --delete "feature/<id>"
+git branch -d "<prefix>/<id>"
+git push origin --delete "<prefix>/<id>"
 ```
 
-Use `-d` (not `-D`) so git refuses if the branch has unmerged changes. If the remote branch was already deleted (e.g., by a server-side policy), ignore the push error.
+Use `-d` so git refuses if the branch has unmerged changes. If `-d` fails because the PR targeted a non-default branch (e.g. a release branch) or used squash merge, and the PR is confirmed **Completed** via the API, fall back to `-D`. If the remote branch was already deleted (e.g., by a server-side policy), ignore the push error.
 
 ### 8. Prune worktrees and empty directories
 
 ```sh
 git worktree prune
-rmdir "<root-repo>/feature" 2>/dev/null
+rmdir "<root-repo>/<prefix>" 2>/dev/null
 ```
 
-Clean up stale worktree references that may linger from previous removals. Remove the `feature/` parent directory if it is now empty; `rmdir` is safe because it only succeeds on empty directories.
+Clean up stale worktree references that may linger from previous removals. Remove the `<prefix>/` parent directory if it is now empty; `rmdir` is safe because it only succeeds on empty directories.
 
 ### 9. Confirm completion
 

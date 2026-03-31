@@ -18,7 +18,7 @@ From the user's input, produce:
   - **Context**: why it matters or what triggered it (if apparent from the user's input).
   - **Scope**: any boundaries or constraints mentioned.
 
-  Omit sections the user's input doesn't cover -- don't invent details.
+  Omit sections the user's input doesn't cover -- don't invent details. All task information lives exclusively in `System.Description` -- don't duplicate it into other fields.
 
 ### 3. Create the work item
 

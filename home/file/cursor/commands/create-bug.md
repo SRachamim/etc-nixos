@@ -16,11 +16,11 @@ From the user's input, produce:
 - **Repro steps** -- structured markdown with these sections:
 
   - **Steps to reproduce**: numbered list of actions to trigger the bug. Omit if the user didn't describe a specific flow.
-  - **Expected behavior**: what should happen.
-  - **Actual behavior**: what happens instead.
-  - **Additional context**: environment details, error messages, screenshots, or links the user mentioned.
+  - **Expected behavior**: what should happen. **Always include** -- infer from context if the user didn't state it explicitly.
+  - **Actual behavior**: what happens instead. **Always include** -- infer from context if the user didn't state it explicitly.
+  - **Additional context**: environment details, error messages, screenshots, or links the user mentioned. Omit if the user's input doesn't cover it.
 
-  Omit sections the user's input doesn't cover -- don't invent details.
+  All repro information lives exclusively in `Microsoft.VSTS.TCM.ReproSteps` -- don't duplicate it into `System.Description` or any other field.
 
 - **Severity** -- infer from the user's description:
   - `1 - Critical` -- data loss, security breach, or complete service outage.

@@ -40,6 +40,8 @@ If the call fails because the team name is wrong, fall back to `work_list_iterat
 
 All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `wit_create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
 
+Each piece of information belongs in exactly one field -- the field designated for it by the calling command. Don't duplicate content across fields (e.g. don't copy repro steps into `System.Description` on a Bug, or put task details outside `System.Description` on a Task).
+
 ### 4. Present the work item for approval
 
 Apply the **writing-style** skill (using the "Work-item descriptions and comments" register) when composing titles and descriptions.

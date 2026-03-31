@@ -38,7 +38,7 @@ If the call fails because the team name is wrong, fall back to `work_list_iterat
 
 ### 3. Format rich-text fields as markdown
 
-All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. Azure DevOps renders markdown natively in these fields -- prefer it for readability in both the web UI and API responses.
+All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `wit_create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
 
 ### 4. Present the work item for approval
 

@@ -17,17 +17,6 @@ in
       <catppuccin/modules/home-manager>
     ];
 
-    # TODO: remove after nixpkgs channel includes NixOS/nixpkgs#502769
-    nixpkgs.overlays = [
-      (final: prev: {
-        direnv = prev.direnv.overrideAttrs (old: {
-          postPatch = (old.postPatch or "") + ''
-            substituteInPlace GNUmakefile --replace-fail " -linkmode=external" ""
-          '';
-        });
-      })
-    ];
-
     catppuccin = {
       enable = true;
       flavor = "mocha";
@@ -311,8 +300,11 @@ EOF
         };
         enable = true;
         extraConfig = builtins.readFile ./home/programs/neovim/rc.vim;
+        withRuby = false;
+        withPython3 = false;
         plugins = with pkgs.vimPlugins; [
           {
+            type = "viml";
             config = ''
               set termguicolors
               colorscheme catppuccin-mocha
@@ -320,10 +312,12 @@ EOF
             plugin = catppuccin-nvim;
           }
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/coc-nvim.vim;
             plugin = coc-nvim;
           }
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/vim-closetag.vim;
             plugin = vim-closetag;
           }
@@ -339,16 +333,19 @@ EOF
           coc-tailwindcss
 
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/fzf-vim.vim;
             plugin = fzf-vim;
           }
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/vim-airline.vim;
             plugin = vim-airline;
           }
           vim-commentary
           vim-devicons
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/vim-html-template-literals.vim;
             plugin = vim-html-template-literals;
           }
@@ -357,6 +354,7 @@ EOF
           vim-highlightedyank
           git-messenger-vim
           {
+            type = "viml";
             config = builtins.readFile ./home/programs/neovim/vim-polyglot.vim;
             plugin = vim-polyglot;
           }
@@ -365,8 +363,8 @@ EOF
           vim-surround
           vim-unimpaired
           {
+            type = "lua";
             config = ''
-              lua << EOF
               require("agentic").setup({
                 provider = "cursor-acp",
                 debug = false,
@@ -384,7 +382,6 @@ EOF
                   },
                 },
               })
-              EOF
             '';
             plugin = agentic-nvim;
           }

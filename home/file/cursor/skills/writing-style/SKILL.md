@@ -1,7 +1,7 @@
 ---
-name: writing-style
+
+## name: writing-style
 description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
----
 
 # Writing Style
 
@@ -120,6 +120,24 @@ These principles (from the **architect-thinking** skill) apply when composing te
 - **Emphasis over completeness** -- diagrams and documents are models. Scope them to be big enough to be meaningful, small enough to be comprehensible. Put blinders on when needed.
 - **Five-second test** -- if a reader sees the summary or diagram for five seconds, can they describe the main point? If not, restructure.
 - **Writing for busy people** -- use storytelling headings (not "Introduction" / "Conclusion"), the pyramid principle, and breadth-first disclosure. Aim for 20--30% word reduction in editing.
+
+### Technical term formatting
+
+Wrap every code token in backticks -- identifiers, keywords, CLI flags, file paths, type names, and any other technical term that refers to something in code or configuration. The formatting *inside* the backticks carries a visual hint about what category of thing it is:
+
+
+| Category                | Convention                  | Examples                                | Visual signal                            |
+| ----------------------- | --------------------------- | --------------------------------------- | ---------------------------------------- |
+| DOM / JSX elements      | Self-closing tag            | `<div/>`, `<Option/>`, `<MyComponent/>` | Angle brackets = element                 |
+| Functions / methods     | With parens                 | `pipe()`, `A.map()`, `handleClick()`    | Parens = callable                        |
+| CSS classes             | Dot-prefixed                | `.highlighted`, `.red`, `.active`       | Dot = class selector                     |
+| CSS IDs                 | Hash-prefixed               | `#root`, `#my-element`                  | Hash = ID selector                       |
+| Types / interfaces      | Plain CapitalCase, no sigil | `Option`, `ReadonlyArray`, `TaskEither` | Capital case = type                      |
+| Variables / constants   | Original casing, no sigil   | `result`, `BATCH_SIZE`, `userId`        | Backticks alone mark it as code          |
+| Props / attributes      | `@`-prefixed                | `@disabled`, `@onClick`, `@aria-label`  | `@` = belongs to an element or component |
+| String / value literals | With quotes                 | `"foo"`, `'bar'`, `true`, `42`          | Quotes = literal value                   |
+| File paths              | As-is                       | `tsconfig.json`, `./src/index.ts`       | Slash or dot-extension = file            |
+
 
 ## Platform-specific rules
 

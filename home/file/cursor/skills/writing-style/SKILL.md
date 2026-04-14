@@ -1,7 +1,7 @@
 ---
 
 ## name: writing-style
-description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
+description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, concise confirmation replies, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
 
 # Writing Style
 
@@ -47,6 +47,16 @@ These apply to **all** new prose unless overridden by a platform-specific rule b
 - **No emoji as personality** -- everyone does this; it's not distinctive. Use emoji only when the platform convention demands it (e.g. a team's Slack emoji-react culture).
 - **No hedging** -- drop "I think maybe", "it might be worth considering", "perhaps we could". State it or qualify it with a reason, not with timidity.
 - **No semicolons** -- not part of the voice. Use a full stop, a `--` dash, or restructure the sentence.
+
+### Confirmation replies
+
+When affirming that a requested action was completed as described -- don't restate it. "Done.", "Fixed.", "Added.", "Sorted." is enough. The requester already knows what they asked for; restating it is noise.
+
+Elaborate only when:
+
+- The action was done **differently** from what was suggested.
+- The action was done **partly** -- state whichever is shorter: what was done or what wasn't.
+- Additional context is needed that the reader can't infer from the thread.
 
 ## Operational concealment
 

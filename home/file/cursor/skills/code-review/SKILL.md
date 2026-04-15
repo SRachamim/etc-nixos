@@ -37,6 +37,7 @@ Apply the **writing-style** skill to all review comments, using the "Code review
 - Be **constructive** -- frame comments as improvements, not criticisms.
 - Be **specific** -- reference the exact line, variable, or pattern. Avoid vague feedback.
 - Be **actionable** -- explain *why* something is a problem and suggest a concrete alternative.
+- When a suggestion involves refactoring (renaming, extracting, moving, restructuring existing code), **mention casually** that the change belongs in a preceding refactoring commit -- e.g. "Rename `processItems` to `applyTransformations` in a preceding refactoring commit." This reinforces the ordering rule from the **commit-conventions** skill without sounding prescriptive or formal.
 - **Ask questions** when intent is unclear rather than assuming a mistake.
 - Note praiseworthy patterns during evaluation, but don't draft individual comments for them -- mention them in the overall summary instead.
 

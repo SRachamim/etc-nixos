@@ -10,6 +10,10 @@ Some repositories require reviewing only a subset of changed files. When the PR 
 |---|---|---|
 | `fgrepo` | `client/` | `devops/`, `automation/`, `backend/`, and anything else outside `client/` |
 
+## Diff scope
+
+**Only files present in the PR's git diff are in scope for review.** Do not treat open editor tabs, recently viewed files, IDE-attached context, or any other workspace state as part of the PR. The git commands in step 2 are the sole authority on which files and commits belong to the PR.
+
 ## Steps
 
 ### 1. Resolve the PR
@@ -24,15 +28,20 @@ If none yields a PR, ask the user and stop.
 
 ### 2. Gather context
 
-- Fetch the PR details (title, description, source and target branches).
+- Fetch the PR details (title, description, source and target branches) via `repo_get_pull_request_by_id`.
 - For each linked work item, apply the **work-item-context** skill to gather the full picture -- relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary to understand the intent, acceptance criteria, and scope.
-- List the PR's commits and changed files.
+- Verify the current workspace is the PR's repository. If not, stop and ask the user to switch.
+- Run `git fetch origin` to ensure remote refs are current.
+- List PR commits: `git log --oneline origin/<target>..origin/<source>` (two-dot -- commits reachable from source but not target).
+- List changed files: `git diff --name-only origin/<target>...origin/<source>` (three-dot merge-base syntax -- only changes introduced by the source branch).
+- These commands are the sole authority on the PR's scope (see **Diff scope** above).
 
 ### 3. Read the diff
 
 - If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
-- Read the remaining diff, commit by commit.
-- For each changed file, read enough surrounding context to understand the change.
+- Read each PR commit individually using `git show <sha>` for a commit-by-commit view.
+- Alternatively, read the full PR diff using `git diff origin/<target>...origin/<source>` when a holistic view is more useful.
+- For each changed file, use `Read` to examine surrounding context beyond the diff hunks where needed to understand the change.
 
 ### 4. Evaluate design
 

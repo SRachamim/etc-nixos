@@ -89,9 +89,12 @@ If the user does not proactively provide the revised plan, ask for it before pro
 
 #### When following up on `/review-pr`
 
+- Run `git fetch origin` to pick up new commits pushed since the initial review.
+- List post-baseline commits: `git log --oneline <baseline-sha>..origin/<source>` where `<baseline-sha>` is the last commit reviewed and `<source>` is the PR's source branch.
 - If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
-- Read only the new commits (post-baseline).
-- For files touched by the delta, read enough surrounding context to understand the change.
+- Read each new commit individually using `git show <sha>`.
+- Only files touched by these post-baseline commits are in scope for the delta evaluation -- do not include files from IDE workspace state, open editors, or other context.
+- For files touched by the delta, use `Read` to examine surrounding context beyond the diff hunks where needed.
 
 #### When following up on `/review-plan`
 

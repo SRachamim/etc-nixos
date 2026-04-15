@@ -1,7 +1,8 @@
 ---
-name: code-review
+
+## name: code-review
+
 description: Standards for performing code reviews. Use whenever the agent reviews a pull request, diff, or code change.
----
 
 # Code Review Standards
 
@@ -38,6 +39,16 @@ Apply the **writing-style** skill to all review comments, using the "Code review
 - Be **actionable** -- explain *why* something is a problem and suggest a concrete alternative.
 - **Ask questions** when intent is unclear rather than assuming a mistake.
 - Note praiseworthy patterns during evaluation, but don't draft individual comments for them -- mention them in the overall summary instead.
+
+## Presenting Findings
+
+### Draft-first
+
+Every finding must include the literal text that will be posted externally, formatted inside a fenced code block so the user can review and approve it. Draft this on the first review iteration -- never wait for the user to ask "now draft the replies." The review output should be ready to post after a single approval step.
+
+### Inline diff context
+
+When a finding references a specific code modification, include the relevant diff hunk as a fenced code block with `diff` syntax highlighting. Show only the affected hunk (not the entire file diff) so the reader can see the exact context inline without navigating to the file.
 
 ## Verdicts
 

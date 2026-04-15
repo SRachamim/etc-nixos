@@ -76,6 +76,8 @@ Look for:
 
 Apply the **writing-style** skill to all review text.
 
+Each finding must include the literal draft reply text, ready for the user to approve and post, on this first pass -- don't wait for the user to request it. When the plan is part of a PR (invoked from a PR or anchored to a PR description) and a finding references a specific code change, include the relevant diff hunk as a fenced `diff` code block so the reader can see the context inline.
+
 Output the review in this format:
 
 ```

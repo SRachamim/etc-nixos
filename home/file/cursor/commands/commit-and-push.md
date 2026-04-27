@@ -53,6 +53,8 @@ where `<base>` is the parent of the earliest fixup target.
 
 If the rebase encounters conflicts, abort, inform the user, and stop.
 
+**Empty-commit edge case**: if the fixup fully reverts its target (i.e., the staged diff is the exact inverse of the target commit's diff), skip the fixup workflow entirely. Instead, drop the commit with `git reset HEAD~1`, discard the leftover unstaged changes with `git checkout -- <files>`, and note the dropped commit in the summary.
+
 ### 4. Push
 
 Run `git push` to push the current branch to the remote.

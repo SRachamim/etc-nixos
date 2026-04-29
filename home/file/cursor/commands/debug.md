@@ -35,6 +35,8 @@ Locate the code path that the reproduction steps exercise:
 - Trace the execution path from input to the point where the wrong result is produced.
 - If tests exist for the affected code, check whether they cover the failing scenario. If they do and pass, the bug may be in a different layer.
 
+If the bug is visual, UI-driven, or requires interacting with the running application to reproduce, apply the **browser-bug-reproduction** skill to verify the behaviour in the browser before proceeding to root-cause analysis.
+
 Spend enough time here to form a concrete understanding of what the code currently does. Don't guess -- read the code.
 
 ### 3. Isolate the root cause
@@ -43,16 +45,16 @@ Work from symptoms inward:
 
 1. **Where** -- narrow from service to module to function. Identify the smallest unit of code that produces the wrong result.
 2. **Why** -- determine why that code produces the wrong result for the given input. Common categories:
-   - Missing case in a discriminated union or conditional.
-   - Incorrect transformation or mapping.
-   - Boundary condition not handled (empty input, special characters, overflow).
-   - Stale assumption about an upstream dependency.
-   - Race condition or ordering issue.
+  - Missing case in a discriminated union or conditional.
+  - Incorrect transformation or mapping.
+  - Boundary condition not handled (empty input, special characters, overflow).
+  - Stale assumption about an upstream dependency.
+  - Race condition or ordering issue.
 3. **Scope** -- assess whether the root cause affects other code paths beyond the reported bug. Note any collateral impact.
 4. **Five Whys** -- for each "why" answer, ask "why" again until you reach a root cause that is actionable and structural, not just a proximate trigger. Watch for:
-   - Assumptions that were valid when the code was written but no longer hold.
-   - Organisational or process causes (e.g., missing test coverage policy, absent monitoring).
-   - "Because we always did it this way" -- a signal that the environment has changed around the code.
+  - Assumptions that were valid when the code was written but no longer hold.
+  - Organisational or process causes (e.g., missing test coverage policy, absent monitoring).
+  - "Because we always did it this way" -- a signal that the environment has changed around the code.
 
 ### 4. Present findings
 
@@ -100,12 +102,14 @@ Design a sequence of commits to fix the bug. The **test-driven-development** ski
 
 When the fix involves restructuring, evaluate through the **refactoring** skill's core principles:
 
-| Principle | Question to ask |
-|---|---|
-| **Preserve behaviour** | Does every preparatory step keep the code doing exactly what it does today? |
-| **Small steps** | Is each transformation a single, testable change? |
-| **Two hats** | Are we purely restructuring -- no new behaviour mixed in? |
-| **Tests first** | Do adequate tests exist to catch regressions? If not, the regression test commit addresses this. |
+
+| Principle              | Question to ask                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------ |
+| **Preserve behaviour** | Does every preparatory step keep the code doing exactly what it does today?                      |
+| **Small steps**        | Is each transformation a single, testable change?                                                |
+| **Two hats**           | Are we purely restructuring -- no new behaviour mixed in?                                        |
+| **Tests first**        | Do adequate tests exist to catch regressions? If not, the regression test commit addresses this. |
+
 
 For each structural change, select techniques from the **refactoring** skill catalogue. Apply the **functional-typescript** skill to ensure the fix aligns with fp-ts standards.
 

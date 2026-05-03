@@ -51,6 +51,8 @@ Spend enough time here to form a concrete mental model. Don't guess -- read the 
 
 ### 4. Evaluate against design lenses
 
+Apply the **prior-art-research** skill to check whether established patterns or approaches exist for the problem domain that the plan should have considered. Note any well-known patterns the plan aligns with or overlooks.
+
 Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture). Apply the **decision-priorities** skill to check whether the chosen approach respects the priority ordering (correctness > changeability > DX, governed by simplicity).
 
 ### 5. Evaluate commit structure

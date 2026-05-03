@@ -18,7 +18,7 @@ When multiple inputs are provided, they supplement each other. When both a ticke
 
 ### 0. Enter Plan mode
 
-Require **Plan** mode following the **mode-gate** skill. The planning phase (steps 1--7) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
+Require **Plan** mode following the **mode-gate** skill. The planning phase (steps 1--8) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
 
 ### 1. Clarify the goal
 
@@ -28,7 +28,11 @@ Require **Plan** mode following the **mode-gate** skill. The planning phase (ste
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).
 
-### 2. Understand the codebase
+### 2. Research prior art
+
+Apply the **prior-art-research** skill. Search the internet for established patterns and approaches that address the problem domain, with a preference for functional and DDD solutions. Summarize relevant findings and note which patterns are worth adopting. These findings inform how the codebase is examined in the next step and which design-lens principles matter most.
+
+### 3. Understand the codebase
 
 Based on the goal, search the codebase for relevant code:
 
@@ -40,13 +44,13 @@ Based on the goal, search the codebase for relevant code:
 
 Spend enough time here to form a concrete mental model. Don't guess -- read the code.
 
-### 3. Apply the design lenses
+### 4. Apply the design lenses
 
 Apply the **design-lenses** skill using the **planning framing** for all three lenses (refactoring, flexibility, architecture). Not every principle will be relevant to every change.
 
-### 4. Draft the plan
+### 5. Draft the plan
 
-Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 8).
+Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 9).
 
 Design commits following the **commit-conventions** skill. Documentation updates must be included in the same commit that introduces the code change making them stale -- never in a separate follow-up commit. For restructuring commits, each commit applies one refactoring and must leave the codebase compiling and tests passing.
 
@@ -67,7 +71,7 @@ For each step, specify:
 | **Flexibility** | Which design-lens principle(s) this step honours and how (optional for actions) |
 | **Validation** | How to verify this step is correct (per workspace rules and project tooling) |
 
-### 5. Validate against successors
+### 6. Validate against successors
 
 When successor work items were identified in step 1, verify that the planned design accommodates their needs:
 
@@ -77,7 +81,7 @@ When successor work items were identified in step 1, verify that the planned des
 
 Skip this step when no successor work items exist or when the input was not a ticket.
 
-### 6. Present the plan
+### 7. Present the plan
 
 Apply the **writing-style** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
 
@@ -114,14 +118,14 @@ Output the plan in this format:
 <Any risks, open questions, or alternatives worth mentioning>
 ```
 
-### 7. Iterate
+### 8. Iterate
 
 Wait for approval, modifications, or questions before implementing.
 
-### 8. Implement the plan
+### 9. Implement the plan
 
 Once the user approves, implement the plan **in the exact sequence presented**. Build the TODO list and execute each item following the **plan-execution** skill.
 
-### 9. Evolve
+### 10. Evolve
 
 Follow the **continuous-improvement** skill.

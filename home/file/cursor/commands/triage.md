@@ -130,6 +130,9 @@ Present the draft:
 <Brief explanation of how the estimate was derived, referencing the codebase evidence from steps 3--4>
 ```
 
+> **Business Priority** uses a picklist -- use the label format, not bare numbers:
+> `"1: Must Have"`, `"2: Should Have"`, `"3: Nice to Have"`, `"4: Technical"`.
+
 Ask the user to **approve**, **modify**, or **reject** before proceeding. Do not apply any changes until explicit approval is given.
 
 ### 6. Apply

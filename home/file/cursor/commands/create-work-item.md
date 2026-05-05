@@ -6,13 +6,15 @@ This file is not a standalone command. It is referenced by the **create-task**, 
 
 ## Inputs (provided by the calling command)
 
-| Input | Description |
-|-------|-------------|
-| **workItemType** | The ADO work item type (`Task`, `Bug`, etc.) |
-| **title** | A crafted title for the work item |
-| **typeFields** | Any type-specific fields (e.g. repro steps for bugs) |
+
+| Input                    | Description                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **workItemType**         | The ADO work item type (`Task`, `Bug`, etc.)                                                                                                                  |
+| **title**                | A crafted title for the work item                                                                                                                             |
+| **typeFields**           | Any type-specific fields (e.g. repro steps for bugs)                                                                                                          |
 | **commonFieldOverrides** | *(optional)* Field/value pairs that override the defaults in the common fields table (e.g. `System.AssignedTo`, `System.AreaPath`). Omit to use the defaults. |
-| **skipTriage** | *(optional, default false)* When true, skip the triage step. Use for work items assigned to other teams. |
+| **skipTriage**           | *(optional, default false)* When true, skip the triage step. Use for work items assigned to other teams.                                                      |
+
 
 ## Steps
 
@@ -24,31 +26,44 @@ If no identities are found, fall back to `wit_my_work_items` for project `FundGu
 
 If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for assignment instead of the resolved identity.
 
-### 2. Find the current iteration
+### 2. Find the next iteration
 
-Call `work_list_team_iterations` with:
+Determine the iteration that follows the current one:
 
-- **project**: `FundGuard`
-- **team**: `FundGuard Team`
-- **timeframe**: `current`
+1. Call `work_list_team_iterations` with **project** `FundGuard`, **team** `FundGuard Team`, **timeframe** `current` to identify the current iteration's end date and path.
+2. Call `work_list_iterations` with **project** `FundGuard` to retrieve all iterations.
+3. From the full list, pick the iteration whose start date is the earliest date **after** the current iteration's end date. This is the next iteration.
 
-Use the iteration path from the result (e.g. `FundGuard\Sprint 42`).
+Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item.
 
-If the call fails because the team name is wrong, fall back to `work_list_iterations` for project `FundGuard`, then pick the iteration whose date range contains today's date.
+If `work_list_team_iterations` fails, fall back to `work_list_iterations` alone -- find the iteration whose date range contains today (current), then pick the one immediately following it.
 
-### 3. Format rich-text fields as markdown
+### 3. Find the parent User Story
+
+Every work item must have a parent User Story -- orphan items are not allowed.
+
+1. Call `wit_query_by_wiql` with a query that returns active User Stories in the same area path and iteration (next iteration resolved in step 2). Order by changed date descending.
+2. If no results, broaden by removing the iteration filter (same area path, state Active or New).
+3. If still no results, broaden further to any active User Story under the root area path (`FundGuard`).
+4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a different story ID directly.
+
+A parent story must be selected before proceeding. Do not allow the user to skip this step.
+
+Store the selected parent story ID for use after creation.
+
+### 4. Format rich-text fields as markdown
 
 All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `wit_create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
 
 Each piece of information belongs in exactly one field -- the field designated for it by the calling command. Don't duplicate content across fields (e.g. don't copy repro steps into `System.Description` on a Bug, or put task details outside `System.Description` on a Task).
 
-### 4. Present the work item for approval
+### 5. Present the work item for approval
 
 Apply the **writing-style** skill (using the "Work-item descriptions and comments" register) when composing titles and descriptions.
 
-Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, and iteration. Ask for confirmation. If the user requests changes, revise and re-present.
+Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Ask for confirmation. If the user requests changes, revise and re-present.
 
-### 5. Create the work item
+### 6. Create the work item
 
 Call `wit_create_work_item` with:
 
@@ -58,13 +73,15 @@ Call `wit_create_work_item` with:
 
 Common field defaults:
 
-| Field | Default value |
-|-------|---------------|
-| `System.Title` | The crafted title |
-| `System.AssignedTo` | The identity resolved in step 1 |
-| `System.AreaPath` | `FundGuard\Platform\Web\CInfra` |
-| `System.IterationPath` | The current iteration path from step 2 |
+
+| Field                     | Default value                              |
+| ------------------------- | ------------------------------------------ |
+| `System.Title`            | The crafted title                          |
+| `System.AssignedTo`       | The identity resolved in step 1            |
+| `System.AreaPath`         | `FundGuard\Platform\Web\CInfra`            |
+| `System.IterationPath`    | The next iteration path resolved in step 2 |
 | `Custom.BusinessPriority` | The inferred business priority (see below) |
+
 
 Any of these can be overridden via `commonFieldOverrides`.
 
@@ -74,14 +91,25 @@ Default to **4: Technical** -- the user is a Software Architect and most work it
 
 Use a higher priority only when the work item clearly has direct business or product impact:
 
-| Value | When to use |
-|-------|-------------|
-| `1: Critical` | Critical production bugs: data loss, security breach, or complete service outage affecting customers |
-| `2: Important` | Major customer-facing feature broken or significant business risk |
-| `3: Standard` | Moderate product-facing impact or user-visible degradation |
-| `4: Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling |
 
-### 6. Triage the work item
+| Value          | When to use                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------- |
+| `1: Critical`  | Critical production bugs: data loss, security breach, or complete service outage affecting customers |
+| `2: Important` | Major customer-facing feature broken or significant business risk                                    |
+| `3: Standard`  | Moderate product-facing impact or user-visible degradation                                           |
+| `4: Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling   |
+
+
+### 7. Link to parent User Story
+
+Call `wit_work_items_link` with:
+
+- **project**: `FundGuard`
+- **updates**: `[{ "id": <new work item ID>, "linkToId": <parent story ID>, "type": "parent" }]`
+
+If the link fails (e.g. the story already has a conflicting hierarchy), inform the user and ask them to select a different parent story. Retry until the link succeeds.
+
+### 8. Triage the work item
 
 Skip this step when any of the following are true:
 
@@ -90,10 +118,10 @@ Skip this step when any of the following are true:
 
 Otherwise, follow the **work-item-triage** skill, passing the newly created work item's ID.
 
-### 7. Confirm success
+### 9. Confirm success
 
 Print the created work item's **ID**, **title**, **type**, **state**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
 
-### 8. Evolve
+### 10. Evolve
 
 Follow the **continuous-improvement** skill.

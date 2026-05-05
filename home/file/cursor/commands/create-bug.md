@@ -1,6 +1,6 @@
 # Create Bug
 
-Create a new **Bug** work item in Azure DevOps, assigned to the current user on the current iteration.
+Create a new **Bug** work item in Azure DevOps, assigned to the current user on the next iteration.
 
 ## Steps
 

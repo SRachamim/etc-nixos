@@ -1,6 +1,6 @@
 # Create Task
 
-Create a new **Task** work item in Azure DevOps, assigned to the current user on the current iteration.
+Create a new **Task** work item in Azure DevOps, assigned to the current user on the next iteration.
 
 ## Steps
 

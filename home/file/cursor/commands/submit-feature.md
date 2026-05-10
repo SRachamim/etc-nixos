@@ -13,7 +13,14 @@ Determine the feature ID using one of the following, in priority order:
 
 If neither yields a feature ID, ask the user and stop.
 
-### 2. Create the pull request
+### 2. Commit uncommitted changes
+
+Run `git status --porcelain` to check for uncommitted changes (staged or unstaged).
+
+- **If changes exist**: follow the **commit-and-push** command in **commit** mode. This stages thread-relevant files, commits them per commit conventions, and pushes. The PR in the next step will then include all work.
+- **If no changes exist**: skip this step silently and proceed to PR creation.
+
+### 3. Create the pull request
 
 Follow the **create-pull-request** command, passing:
 
@@ -21,15 +28,15 @@ Follow the **create-pull-request** command, passing:
 
 The shared command will identify the repository, gather context, compose the description, and create the PR. **Do not compose or present the Slack message yet** -- the user may want to verify the PR live before notifying the team.
 
-### 3. Transition the work item
+### 4. Transition the work item
 
 Update the work item state to **Code Review**.
 
 When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched during PR creation.
 
-### 4. Notify the team on Slack
+### 5. Notify the team on Slack
 
-**This step begins only after the PR has been created and the link presented in step 2.** Do not batch this approval with the PR approval -- they are separate interactions.
+**This step begins only after the PR has been created and the link presented in step 3.** Do not batch this approval with the PR approval -- they are separate interactions.
 
 Defaults:
 
@@ -46,7 +53,7 @@ Compose a message for the **#team-cinfra** Slack channel, following the **writin
 
 **Present the Slack message to the user for approval before posting.**
 
-### 5. Confirm completion
+### 6. Confirm completion
 
 Print a summary of everything that was done:
 
@@ -54,6 +61,6 @@ Print a summary of everything that was done:
 - Work item link and new state
 - Slack message confirmation
 
-### 6. Evolve
+### 7. Evolve
 
 Follow the **continuous-improvement** skill.

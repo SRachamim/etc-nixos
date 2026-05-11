@@ -6,10 +6,12 @@ Stage changes made in the current thread, commit them (as new commits or as fixu
 
 The user specifies (or the agent infers) the desired mode:
 
-| Mode | When to use |
-|------|-------------|
-| **commit** (default) | Create one or more new commits with the staged changes. |
-| **fixup** | Create fixup commits targeting relevant existing commits, then autosquash. |
+
+| Mode                 | When to use                                                                |
+| -------------------- | -------------------------------------------------------------------------- |
+| **commit** (default) | Create one or more new commits with the staged changes.                    |
+| **fixup**            | Create fixup commits targeting relevant existing commits, then autosquash. |
+
 
 ## Steps
 

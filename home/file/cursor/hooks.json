@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "type": "prompt",
+        "matcher": "git\\s+(commit|push)",
+        "timeout": 15,
+        "prompt": "You are a git commit/push validator. Evaluate the shell command below and decide whether to ALLOW or DENY it.\n\nThe command to evaluate:\n$ARGUMENTS\n\nApply these rules (canonical sources: commit-conventions, writing-style, and gitflow-branching skills):\n\n## Commit message rules (git commit only)\n1. AI trailers are handled by the git commit-msg hook (which strips IDE-injected ones). Do NOT check for AI trailers here -- the IDE injects them outside the agent's control.\n2. GB English spelling -- favour, colour, behaviour, organisation, etc. Reject US spellings in the message body.\n3. Active voice -- subject line uses imperative mood (\"Fix the bug\" not \"Fixed the bug\" or \"the bug was fixed\"). Body text uses first person where appropriate (\"I refactored...\" not \"was refactored...\").\n4. Contractions required -- \"don't\", \"can't\", \"it's\". Reject expanded forms like \"do not\", \"cannot\", \"it is\".\n5. No exclamation marks.\n6. No banned LLM vocabulary -- delve, leverage, utilize, robust, comprehensive, nuanced, pivotal, seamless, holistic, multifaceted, cutting-edge, transformative, foster, harness, empower, spearhead, bolster, landscape, tapestry, realm, paradigm, synergy, ecosystem, cornerstone, trajectory, confluence, plethora, myriad.\n7. Keyboard ASCII only -- no em-dash, en-dash, curly quotes, or other typographic characters. Use \"--\" for dashes.\n8. Each commit must be focused -- one logical change.\n\n## Push rules (git push only)\n9. Never force-push to protected branches (main, master, develop) -- deny any \"git push --force\" or \"git push --force-with-lease\" targeting these branches.\n\n## Decision\n- If ALL rules pass: ALLOW.\n- If ANY rule is violated: DENY, and explain which rules were violated so the agent can fix and retry."
+      }
+    ]
+  }
+}

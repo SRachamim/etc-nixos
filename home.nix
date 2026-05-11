@@ -94,6 +94,11 @@ in
         target = ".cursor";
         recursive = true;
       };
+      "git-hooks" = {
+        source = ./home/file/git-hooks;
+        target = ".config/git/hooks";
+        recursive = true;
+      };
       "ghostty-config" = {
         target = ".config/ghostty/config";
         source = ./home/file/ghostty/config;
@@ -231,6 +236,7 @@ EOF
             editor = "nvim";
             excludesfile = "~/.gitignore";
             fsmonitor = true;
+            hooksPath = "~/.config/git/hooks";
             untrackedCache = true;
           };
           column = {

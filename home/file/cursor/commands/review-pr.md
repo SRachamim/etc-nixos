@@ -45,7 +45,19 @@ If none yields a PR, ask the user and stop.
 
 ### 4. Evaluate design
 
-Skip this step when the PR is trivial -- a single commit touching one module with no restructuring. Apply the full design evaluation when any of the following hold:
+Skip this step entirely when:
+
+- The PR is trivial -- a single commit touching one module with no restructuring or design decisions.
+- An approved tech-design plan already exists for this work. Check the linked work item's relations (child/related work items, linked PRs, hyperlinks) for a plan document or `/review-plan` outcome that was approved. If the design was already reviewed and accepted, the PR review focuses on implementation correctness (step 5) rather than re-evaluating architecture.
+
+Apply the full design evaluation when the code (as read in step 3) exhibits architectural significance -- any of the following hold:
+
+- Introduces new architectural patterns, abstractions, or data flows not already present in the codebase.
+- Deviates from established codebase conventions (non-standard approaches to a problem the codebase already solves elsewhere).
+- Makes design decisions that set precedent -- future code will likely follow the pattern introduced here.
+- Changes how components interact, introduces new integration points, or reshapes domain boundaries.
+
+Supporting quantitative signals (not sufficient on their own, but reinforce the assessment):
 
 - The PR contains 3 or more commits.
 - Changes span 2 or more modules or packages.
@@ -60,9 +72,13 @@ From the commit sequence, infer:
 - The **ordering strategy** -- are refactorings separated from behaviour changes? Are tests added before the code they protect?
 - The **design decisions** -- what alternatives were implicitly rejected by the chosen approach.
 
+#### Research prior art
+
+Apply the **prior-art-research** skill to check whether established patterns or approaches exist for the problem domain the PR addresses. Compare the PR's approach against known patterns from the FP, DDD, and software design literature. Note whether the PR aligns with, adapts, or departs from established solutions.
+
 #### Apply the design lenses
 
-Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture).
+Apply the **design-lenses** skill using the **review framing** for all three lenses (refactoring, flexibility, architecture). Apply the **decision-priorities** skill to check whether the chosen approach respects the priority ordering (correctness > changeability > DX, governed by simplicity).
 
 #### Gap analysis
 

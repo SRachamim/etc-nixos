@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   nix-shell = "/nix/var/nix/profiles/default/bin/nix-shell";
   agentic-nvim = pkgs.vimUtils.buildVimPlugin {
@@ -30,6 +30,28 @@ in
     home.username = "sahar.rachamim";
     home.homeDirectory = "/Users/sahar.rachamim";
     home.stateVersion = "23.05";
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "vim-airline"
+      "vim-closetag"
+      "vim-commentary"
+      "vim-css-color"
+      "vim-devicons"
+      "vim-fugitive"
+      "vim-gitgutter"
+      "vim-hardtime"
+      "vim-highlightedyank"
+      "vim-html-template-literals"
+      "vim-orgmode"
+      "vim-polyglot"
+      "vim-repeat"
+      "vim-surround"
+      "vim-unimpaired"
+      "catppuccin-nvim"
+      "coc-nvim"
+      "fzf-vim"
+      "git-messenger-vim"
+      "orgmode"
+    ];
     home.file = {
       "zellij-layout-fg" = {
         target = ".config/zellij/layouts/fg.kdl";
@@ -88,9 +110,14 @@ in
           };
         };
       };
-      "cursor-config" = {
-        source = ./home/file/cursor;
+      "ai-config-cursor" = {
+        source = ./home/file/ai;
         target = ".cursor";
+        recursive = true;
+      };
+      "ai-config-claude" = {
+        source = ./home/file/ai;
+        target = ".claude";
         recursive = true;
       };
       "git-hooks" = {
@@ -171,9 +198,56 @@ EOF
       # Copy initial settings only if file doesn't exist
       if [ ! -f "$CURSOR_SETTINGS" ]; then
         cat > "$CURSOR_SETTINGS" << 'EOF'
-${builtins.readFile ./home/file/cursor/settings.json}
+${builtins.readFile ./home/file/ai/settings.json}
 EOF
       fi
+    '';
+    home.activation.installGeminiKnowledge = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      echo "Deploying Gemini Knowledge Items..."
+      KNOWLEDGE_DIR="$HOME/.gemini/antigravity/knowledge"
+      mkdir -p "$KNOWLEDGE_DIR/artifacts/commands"
+      mkdir -p "$KNOWLEDGE_DIR/artifacts/skills"
+
+      # Sync skills and generate metadata
+      for skill_dir in ${./home/file/ai/skills}/*; do
+        if [ -d "$skill_dir" ]; then
+          skill_name=$(basename "$skill_dir")
+          rm -f "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
+          cat "$skill_dir/SKILL.md" > "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
+          
+          mkdir -p "$KNOWLEDGE_DIR/$skill_name"
+          cat > "$KNOWLEDGE_DIR/$skill_name/metadata.json" << MEOF
+{
+  "summary": "Agent skill: $skill_name",
+  "references": ["$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"]
+}
+MEOF
+        fi
+      done
+
+      # Copy commands
+      for cmd_file in ${./home/file/ai/commands}/*.md; do
+        cmd_name=$(basename "$cmd_file")
+        rm -f "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"
+        cat "$cmd_file" > "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"
+      done
+
+      # Generate Commands Catalog KI
+      mkdir -p "$KNOWLEDGE_DIR/commands_catalog"
+      cat > "$KNOWLEDGE_DIR/commands_catalog/metadata.json" << MEOF
+{
+  "summary": "Agent Commands Catalog: lists all available commands for workflows like planning, reviewing, and investigating.",
+  "references": ["$KNOWLEDGE_DIR/artifacts/commands_catalog.md"]
+}
+MEOF
+
+      # Generate the actual catalog markdown
+      echo "# Agent Commands Catalog" > "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
+      echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
+      for cmd in "$KNOWLEDGE_DIR/artifacts/commands"/*.md; do
+        cmd_name=$(basename "$cmd" .md)
+        echo "- **$cmd_name**: $cmd" >> "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
+      done
     '';
     home.activation.installCursorCli = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       if ! [ -x "$HOME/.local/bin/cursor-agent" ]; then
@@ -397,13 +471,11 @@ EOF
       ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks = {
+        settings = {
           "ssh.dev.azure.com" = {
-            extraOptions = {
-              "HostkeyAlgorithms"  = "+ssh-rsa";
-              "PubkeyAcceptedAlgorithms" = "+ssh-rsa";
-              "User" = "git";
-            };
+            HostkeyAlgorithms = "+ssh-rsa";
+            PubkeyAcceptedAlgorithms = "+ssh-rsa";
+            User = "git";
           };
         };
       };

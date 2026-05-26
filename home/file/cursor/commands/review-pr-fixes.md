@@ -1,6 +1,6 @@
 # Review Fixes
 
-Follow up on a previous `/review-pr` or `/review-plan` review within the same conversation. Check whether the author addressed the original findings, evaluate any new content (commits or revised plan steps), and present follow-up feedback. This command must run in the same Cursor thread as the preceding review invocation -- the conversation context is the primary source of truth for what was reviewed and why.
+Follow up on a previous `/review-pr` or `/review-plan` review within the same conversation. Check whether the author addressed the original findings, evaluate any new content (commits or revised plan steps), and present follow-up feedback. This command must run in the same agent conversation as the preceding review invocation -- the conversation context is the primary source of truth for what was reviewed and why.
 
 ## Conversation-context requirement
 
@@ -165,7 +165,7 @@ Categorise by severity per the **code-review** skill:
 - **Suggestion** -- recommended improvement, non-blocking.
 - **Nit** -- minor style or preference, non-blocking.
 
-Don't draft comments for praise -- note praiseworthy patterns in the overall summary instead (step 8).
+Do not include praise. Every comment and summary item must be actionable.
 
 ### 8. Present the review
 

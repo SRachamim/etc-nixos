@@ -26,9 +26,15 @@ Categorize every review comment:
 - **Blocking** -- Must be resolved before merge. Correctness bugs, security issues, data loss risks.
 - **Suggestion** -- Recommended improvement. Better naming, clearer structure, missing test. Non-blocking.
 - **Nit** -- Minor style or preference. Formatting, word choice, import order. Non-blocking.
-- **Praise** -- Highlight good patterns worth reinforcing. Encourages good habits.
 
 Always state the severity explicitly so the author knows what requires action.
+
+## Comment Constraints
+
+Every review comment must be **actionable** and **line-anchored**:
+
+- **Actionable** -- the comment identifies a concrete problem, risk, or improvement and tells the author what to change. Comments that merely summarize what the code does, restate the PR description, or praise without requesting a change are not actionable and must not be drafted.
+- **Line-anchored** -- the comment references at least one specific line in at least one specific file in the diff. Free-floating observations that cannot be tied to a code location do not belong as review comments.
 
 ## Tone
 
@@ -39,7 +45,7 @@ Apply the **writing-style** skill to all review comments, using the "Code review
 - Be **actionable** -- explain *why* something is a problem and suggest a concrete alternative.
 - When a suggestion involves refactoring (renaming, extracting, moving, restructuring existing code), **mention casually** that the change belongs in a preceding refactoring commit -- e.g. "Rename `processItems` to `applyTransformations` in a preceding refactoring commit." This reinforces the ordering rule from the **commit-conventions** skill without sounding prescriptive or formal.
 - **Ask questions** when intent is unclear rather than assuming a mistake.
-- Note praiseworthy patterns during evaluation, but don't draft individual comments for them -- mention them in the overall summary instead.
+- Do not draft comments for praise or summary observations.
 
 ## Presenting Findings
 

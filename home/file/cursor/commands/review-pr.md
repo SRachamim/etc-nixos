@@ -106,7 +106,7 @@ Draft a comment for **every** issue found, categorised by severity per the **cod
 - **Suggestion** -- recommended improvement, non-blocking.
 - **Nit** -- minor style or preference, non-blocking.
 
-Don't draft comments for praise -- note praiseworthy patterns in the overall summary instead (step 7).
+Do not include praise. Every comment and summary item must be actionable.
 
 For each comment, reference the specific file and line range.
 

@@ -19,6 +19,7 @@ in
 
     catppuccin = {
       enable = true;
+      autoEnable = true;
       flavor = "mocha";
       bat.enable = true;
       fzf.enable = true;

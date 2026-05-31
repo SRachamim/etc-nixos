@@ -18,7 +18,7 @@ This applies to ALL external communications, including but not limited to:
 
 Before posting:
 
-1. **Present the candidate text** -- show the complete message inside a fenced code block (`` ``` ``) so the IDE renders a copy button. This is the literal markup that will be posted -- line breaks, bold markers, links, backtick spans, emoji, and whitespace must all be present and correct. Include a clickable link to the destination (Slack channel, Slack DM user, PR, work item, etc.) so the user can verify the target is correct.
+1. **Present the candidate text** -- show the complete message inside a fenced code block so the IDE renders a copy button. If the candidate text contains triple backticks (`` ``` ``), use four backticks (`` ```` ``) for the outer fenced block to prevent breaking the formatting. This is the literal markup that will be posted -- line breaks, bold markers, links, backtick spans, emoji, and whitespace must all be present and correct. Include a clickable link to the destination (Slack channel, Slack DM user, PR, work item, etc.) so the user can verify the target is correct.
 2. **Wait for approval** -- Do not proceed until the user explicitly approves
 3. **Accept modifications** -- If the user suggests changes, present the revised version and wait for approval again
 

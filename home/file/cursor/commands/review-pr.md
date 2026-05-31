@@ -30,6 +30,15 @@ If none yields a PR, ask the user and stop.
 
 - Fetch the PR details (title, description, source and target branches) via `repo_get_pull_request_by_id`.
 - For each linked work item, apply the **work-item-context** skill to gather the full picture -- relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary to understand the intent, acceptance criteria, and scope.
+- **If the PR was resolved from a Slack message** (step 1, option 2):
+  - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
+  - Call `slack_get_thread_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
+  - If there are no thread replies, call `slack_get_channel_history` scoped around the timestamp to capture surrounding messages for context.
+  - Scan the thread/surrounding messages for:
+    - **Reviewer notes** -- specific areas to focus on, known concerns, or questions.
+    - **Urgency signals** -- time pressure, blocking status, or deployment deadlines.
+    - **Related links** -- additional PRs, work items, or documents referenced in the conversation.
+  - Incorporate any findings into the review scope -- e.g. if the requester asks "please check the error handling in X", prioritise that area during steps 4-5.
 - Verify the current workspace is the PR's repository. If not, stop and ask the user to switch.
 - Run `git fetch origin` to ensure remote refs are current.
 - List PR commits: `git log --oneline origin/<target>..origin/<source>` (two-dot -- commits reachable from source but not target).

@@ -112,13 +112,14 @@ in
         };
       };
       "ai-config-cursor" = {
-        source = ./home/file/ai;
+        source = ./home/file/cursor;
         target = ".cursor";
         recursive = true;
+        force = true;
       };
-      "ai-config-claude" = {
-        source = ./home/file/ai;
-        target = ".claude";
+      "claude-commands" = {
+        source = ./home/file/cursor/commands;
+        target = ".claude/commands";
         recursive = true;
       };
       "git-hooks" = {
@@ -209,7 +210,7 @@ EOF
       mkdir -p "$KNOWLEDGE_DIR/artifacts/skills"
 
       # Sync skills and generate metadata
-      for skill_dir in ${./home/file/ai/skills}/*; do
+      for skill_dir in ${./home/file/cursor/skills}/*; do
         if [ -d "$skill_dir" ]; then
           skill_name=$(basename "$skill_dir")
           rm -f "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
@@ -226,7 +227,7 @@ MEOF
       done
 
       # Copy commands
-      for cmd_file in ${./home/file/ai/commands}/*.md; do
+      for cmd_file in ${./home/file/cursor/commands}/*.md; do
         cmd_name=$(basename "$cmd_file")
         rm -f "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"
         cat "$cmd_file" > "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"

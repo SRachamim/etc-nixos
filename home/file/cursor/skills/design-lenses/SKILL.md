@@ -86,3 +86,37 @@ Not every principle applies to every change. Call out those that matter most and
 | Is it built top-down from a use case? | Starts with infrastructure or reusable components before a concrete consumer exists |
 | Is cost of delay considered in sequencing? | High-value steps are buried behind preparatory work that could be parallelised |
 | Are systems effects acknowledged? | Changes a shared component without assessing downstream impact or feedback loops |
+
+## Microservices lens
+
+Evaluates changes involving microservice boundaries, inter-service communication, service decomposition, or distributed system concerns through principles from the **building-microservices** skill (Sam Newman, *Building Microservices* 2nd ed.).
+
+Activate this lens when the change touches service boundaries, APIs between services, data ownership, distributed workflows, or deployment independence. Not every principle applies to every change.
+
+### Planning framing
+
+| Principle | Question to ask |
+|---|---|
+| **Independent deployability** | Can this service be changed, deployed, and released without deploying any other service? |
+| **Information hiding** | Does the service boundary hide internal implementation (DB schema, data model, technology)? |
+| **Coupling type** | What type of coupling exists at each boundary (domain/temporal/pass-through/common/content)? Is it the loosest feasible? |
+| **Communication style** | Has the communication pattern been chosen before the technology? Is sync justified, or would async/events reduce temporal coupling? |
+| **Saga design** | Do cross-service state changes use sagas (not 2PC)? Are compensating transactions defined? |
+| **Observability** | Are correlation IDs propagated? Are SLOs defined? Is semantic monitoring in place? |
+| **Resiliency** | Are timeouts, circuit breakers, and bulkheads present on all external calls? Is degradation behaviour defined? |
+| **Consumer-first** | Are APIs designed for consumers (tolerant reader, explicit schemas, expand-and-contract versioning)? |
+
+### Review framing
+
+| Question | Red flag |
+|----------|---------|
+| Can each service deploy independently? | Lockstep deployment, shared CI build, metaversion |
+| Are databases shared? | Multiple services writing to same tables (common/content coupling) |
+| Are there long synchronous call chains? | 3+ sequential sync calls on critical path |
+| Is the communication style chosen before technology? | "We'll use Kafka" without discussing event-driven vs request-response |
+| Are sagas used for cross-service state? | 2PC/XA transactions across microservices |
+| Are circuit breakers and timeouts present? | Missing on any synchronous downstream call |
+| Is there a shared domain library across services? | Changes require coordinated multi-service redeploy |
+| Are correlation IDs propagated? | Missing from any service boundary crossing |
+
+Reference the **building-microservices** skill for detailed guidance on any flagged concern.

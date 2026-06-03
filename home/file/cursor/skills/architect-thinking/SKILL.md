@@ -17,6 +17,7 @@ Architecture sells options. The value of an option increases with uncertainty an
 - **Options have a cost** -- keeping an option available (e.g., supporting multiple backends) is not free. Evaluate the "strike price": what does it cost to maintain the option vs. committing now?
 - **Present technical options as business choices** -- translate architectural alternatives into cost, time, and risk trade-offs that stakeholders can evaluate.
 - **Evolutionary architecture** -- when the option space is unknown, use fitness functions (automated tests that verify architectural properties) instead of trying to predict the future.
+- In microservice contexts, **independent deployability** is the primary option to preserve -- it enables all other options (technology choice, scaling, team autonomy). See the **building-microservices** skill for microservice-specific options analysis.
 
 **FP/TypeScript adaptation**: discriminated unions keep the type system open for new variants (additive extension). `Reader` defers configuration choices to the boundary. `Either` models reversible choices where both paths remain available until evaluation.
 
@@ -31,6 +32,7 @@ Architecture exists because things change. The first derivative of a software sy
 - **"If it hurts, do it more often"** -- painful processes (deployments, upgrades, migrations) should be automated and run frequently, not avoided. Avoidance increases MTTR and risk.
 - **Planned obsolescence** -- when selecting dependencies, evaluate: can data be exported? Can business logic be extracted? How deep is the lock-in? Include upgrade and migration cost in the total cost of ownership.
 - **Multispeed architecture** -- different domains change at different rates. Separate fast-changing from slow-changing concerns so one doesn't constrain the other.
+- In microservice contexts, service boundaries should align with different rates of change -- Newman's guidance to extract volatile code into separate services is a direct application of multispeed architecture. See the **building-microservices** skill for decomposition drivers.
 
 **FP/TypeScript adaptation**: additive programming and combinator design (from the **functional-typescript** skill) are the structural enablers of high rate of change. Type-driven development provides the compiler as an instant feedback loop -- the fastest "test suite" available.
 
@@ -45,6 +47,7 @@ Structure is a means to achieve desired behaviour. Focus on behaviour, not just 
 - **Bounded rationality** -- people act rationally within the information available to them. When behaviour seems irrational, look for information gaps (missing dashboards, unclear documentation, invisible consequences) rather than assuming incompetence.
 - **Systems resist change** -- complex systems settle into local optima and actively resist perturbation. Small changes can make things worse before they improve. Anticipate resistance and plan for it.
 - **Organised complexity** -- real systems are neither simple (predictable) nor chaotic (purely statistical). Structure and interaction both matter. Model the relationships, not just the components.
+- Distributed microservice systems exhibit characteristic feedback loops: retry storms, cascading failures, circuit breaker dynamics, and timeout amplification. See the **building-microservices** skill Resiliency section for stability patterns that manage these loops.
 
 **FP/TypeScript adaptation**: bounded contexts and anti-corruption layers (from the **functional-typescript** skill) model system boundaries. Event-driven communication models feedback loops explicitly. Property-based testing verifies system invariants across many states.
 
@@ -86,6 +89,7 @@ Architects navigate organisations, not just codebases. Technical decisions exist
 - **Black markets indicate friction** -- when the official process is too slow, people route around it. The fix is a better "white market" (self-service, automation), not more control.
 - **Minimise sync points** -- meetings are synchronisation points and throughput killers. Prefer async communication, searchable knowledge bases, and self-service interfaces.
 - **Governance through inception** -- make the standard path clearly better than the alternatives. Innovate faster than the teams so guidance exists when need arises. Standards enforced by decree are brittle; standards enabled by infrastructure stick.
+- Conway's law is the primary driver of microservice boundary design -- loosely coupled organisations produce modular systems. See the **building-microservices** skill Organisation and Architecture section for team structure, strong ownership, and the paved-road platform model.
 
 **FP/TypeScript adaptation**: "use before reuse" maps directly to the Rule of Three in the **refactoring** skill -- tolerate duplication twice, extract on the third occurrence. Start with concrete types, extract abstractions only when patterns emerge.
 

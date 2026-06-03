@@ -497,8 +497,8 @@ MEOF
             pre_sudo = true;
             disable = [
               "gem"
+              "node"
               "nix"
-              "npm"
               "ruby_gems"
             ];
           };

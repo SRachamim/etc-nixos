@@ -142,11 +142,9 @@ in
       azure-cli
       fd
       gemini-cli
-      nodejs
       ripgrep
       volta
     ];
-    home.sessionPath = [ "$HOME/.local/bin" ];
     home.activation.createSecretsFile = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       if ! [ -f "$HOME/.secrets" ]; then
         cat > "$HOME/.secrets" << 'EOF'

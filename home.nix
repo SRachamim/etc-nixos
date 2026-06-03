@@ -198,7 +198,7 @@ EOF
       # Copy initial settings only if file doesn't exist
       if [ ! -f "$CURSOR_SETTINGS" ]; then
         cat > "$CURSOR_SETTINGS" << 'EOF'
-${builtins.readFile ./home/file/ai/settings.json}
+${builtins.readFile ./home/file/cursor/settings.json}
 EOF
       fi
     '';

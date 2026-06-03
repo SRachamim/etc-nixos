@@ -125,6 +125,7 @@ in
         source = ./home/file/git-hooks;
         target = ".config/git/hooks";
         recursive = true;
+        force = true;
       };
       "ghostty-config" = {
         target = ".config/ghostty/config";

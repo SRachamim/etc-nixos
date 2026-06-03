@@ -496,8 +496,13 @@ MEOF
             pre_sudo = true;
             disable = [
               "gem"
+              "nix"
+              "npm"
               "ruby_gems"
             ];
+          };
+          linux = {
+            home_manager_arguments = ["-b" "backup"];
           };
         };
       };

@@ -28,15 +28,22 @@ If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for a
 
 ### 2. Find the next iteration
 
-Determine the iteration that follows the current one:
+**Constraint: NEVER assign work items to the current iteration. Always use the iteration immediately following the current one.**
 
-1. Call `work_list_team_iterations` with **project** `FundGuard`, **team** `FundGuard Team`, **timeframe** `current` to identify the current iteration's end date and path.
-2. Call `work_list_iterations` with **project** `FundGuard` to retrieve all iterations.
-3. From the full list, pick the iteration whose start date is the earliest date **after** the current iteration's end date. This is the next iteration.
+1. **Identify the current iteration (so you can skip past it):**
+   Call `work_list_team_iterations` with **project** `FundGuard`, **team** `FundGuard Team`, **timeframe** `current` to get the current iteration's end date.
+   This iteration is NOT the one to use -- it only tells you where to start looking.
 
-Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item.
+2. **Find the next iteration:**
+   Call `work_list_iterations` with **project** `FundGuard` to retrieve all iterations.
+   Pick the iteration whose start date is the earliest date **after** the current iteration's end date.
+   This is the iteration to assign.
 
-If `work_list_team_iterations` fails, fall back to `work_list_iterations` alone -- find the iteration whose date range contains today (current), then pick the one immediately following it.
+3. **Verify:** confirm the selected iteration's start date is strictly after the current iteration's end date. If the selected iteration overlaps with or equals the current iteration, you have picked the wrong one -- go back to sub-step 2.
+
+Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item. Do NOT use the current iteration's path from sub-step 1.
+
+If `work_list_team_iterations` fails, fall back to `work_list_iterations` alone -- find the iteration whose date range contains today (current), then pick the one immediately following it. The same constraint applies: never use the iteration that contains today.
 
 ### 3. Find the parent User Story
 
@@ -61,7 +68,7 @@ Each piece of information belongs in exactly one field -- the field designated f
 
 Apply the **writing-style** skill (using the "Work-item descriptions and comments" register) when composing titles and descriptions.
 
-Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Ask for confirmation. If the user requests changes, revise and re-present.
+Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Confirm the iteration is **not** the current sprint -- it should be the one after it. Ask for confirmation. If the user requests changes, revise and re-present.
 
 ### 6. Create the work item
 

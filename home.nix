@@ -111,16 +111,52 @@ in
           };
         };
       };
-      "ai-config-cursor" = {
-        source = ./home/file/cursor;
-        target = ".cursor";
+      # --- Portable assets: skills + AGENTS.md to all agent paths ---
+      "ai-skills-agents" = {
+        source = ./home/file/agents/skills;
+        target = ".agents/skills";
+        recursive = true;
+      };
+      "ai-agents-md" = {
+        source = ./home/file/agents/AGENTS.md;
+        target = ".agents/AGENTS.md";
+      };
+      "ai-skills-cursor" = {
+        source = ./home/file/agents/skills;
+        target = ".cursor/skills";
         recursive = true;
         force = true;
       };
-      "claude-skills" = {
-        source = ./home/file/cursor/skills;
+      "ai-skills-claude" = {
+        source = ./home/file/agents/skills;
         target = ".claude/skills";
         recursive = true;
+      };
+      "ai-skills-gemini" = {
+        source = ./home/file/agents/skills;
+        target = ".gemini/skills";
+        recursive = true;
+      };
+      "ai-agents-md-gemini" = {
+        source = ./home/file/agents/AGENTS.md;
+        target = ".gemini/AGENTS.md";
+      };
+      "ai-gemini-settings" = {
+        target = ".gemini/settings.json";
+        text = builtins.toJSON {
+          context.fileName = [ "GEMINI.md" "AGENTS.md" ];
+        };
+      };
+      # --- Adapter: CLAUDE.md with @AGENTS.md import ---
+      "ai-claude-md" = {
+        source = ./home/file/agents/CLAUDE.md;
+        target = ".claude/CLAUDE.md";
+      };
+      # --- Agent-specific: Cursor hooks ---
+      "ai-cursor-hooks" = {
+        source = ./home/file/agents/hooks.json;
+        target = ".cursor/hooks.json";
+        force = true;
       };
       "git-hooks" = {
         source = ./home/file/git-hooks;
@@ -199,17 +235,20 @@ EOF
       # Copy initial settings only if file doesn't exist
       if [ ! -f "$CURSOR_SETTINGS" ]; then
         cat > "$CURSOR_SETTINGS" << 'EOF'
-${builtins.readFile ./home/file/cursor/settings.json}
+${builtins.readFile ./home/file/agents/settings.json}
 EOF
       fi
     '';
+    # NOTE: Gemini CLI now reads skills natively from ~/.gemini/skills/ (deployed
+    # via home.file above). This hook is kept only for Antigravity managed sandbox
+    # compatibility. Remove once Antigravity mounts ~/.agents/skills/ natively.
     home.activation.installGeminiKnowledge = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-      echo "Deploying Gemini Knowledge Items..."
+      echo "Deploying Gemini Antigravity Knowledge Items..."
       KNOWLEDGE_DIR="$HOME/.gemini/antigravity/knowledge"
       mkdir -p "$KNOWLEDGE_DIR/artifacts/skills"
 
       # Sync skills from all category directories and generate metadata
-      for category_dir in ${./home/file/cursor/skills}/workflows ${./home/file/cursor/skills}/knowledge ${./home/file/cursor/skills}/shared; do
+      for category_dir in ${./home/file/agents/skills}/workflows ${./home/file/agents/skills}/knowledge ${./home/file/agents/skills}/shared; do
         if [ -d "$category_dir" ]; then
           for skill_dir in "$category_dir"/*; do
             if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then

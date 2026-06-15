@@ -21,7 +21,7 @@ Architecture sells options. The value of an option increases with uncertainty an
 
 **FP/TypeScript adaptation**: discriminated unions keep the type system open for new variants (additive extension). `Reader` defers configuration choices to the boundary. `Either` models reversible choices where both paths remain available until evaluation.
 
-**When to apply**: `/plan` (Architecture lens), `/review-plan` (Architecture lens evaluation), code reviews (Architecture dimension), `/add-cursor-behavior` (Architectural alignment).
+**When to apply**: `/plan` (Architecture lens), `/review-plan` (Architecture lens evaluation), code reviews (Architecture dimension), `/add-agent-behavior` (Architectural alignment).
 
 ## Rate of Change
 
@@ -93,7 +93,7 @@ Architects navigate organisations, not just codebases. Technical decisions exist
 
 **FP/TypeScript adaptation**: "use before reuse" maps directly to the Rule of Three in the **refactoring** skill -- tolerate duplication twice, extract on the third occurrence. Start with concrete types, extract abstractions only when patterns emerge.
 
-**When to apply**: `/add-cursor-behavior` (Architectural alignment -- governance through inception), `/plan` (Use before reuse), code reviews (is speculative abstraction being introduced?).
+**When to apply**: `/add-agent-behavior` (Architectural alignment -- governance through inception), `/plan` (Use before reuse), code reviews (is speculative abstraction being introduced?).
 
 ## Flow and Transformation
 

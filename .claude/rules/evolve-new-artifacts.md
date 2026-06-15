@@ -1,7 +1,5 @@
 ---
-description: Ensure new skills and subagent prompts include continuous-improvement and agent-compatibility steps
-globs: home/file/agents/skills/**/SKILL.md
-alwaysApply: false
+paths: home/file/agents/skills/**/SKILL.md
 ---
 
 # Evolve new artifacts

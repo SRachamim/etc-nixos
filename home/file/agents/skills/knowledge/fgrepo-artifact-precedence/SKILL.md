@@ -1,11 +1,11 @@
 ---
 name: fgrepo-artifact-precedence
-description: User-level Cursor artifacts override conflicting repo-level artifacts outside `client/` in the fgrepo repository. Use whenever the agent operates in fgrepo and encounters competing instructions from repo-level rules, skills, or prompts.
+description: User-level agent artifacts override conflicting repo-level artifacts outside `client/` in the fgrepo repository. Use whenever the agent operates in fgrepo and encounters competing instructions from repo-level rules, skills, or prompts.
 ---
 
 # fgrepo Artifact Precedence
 
-When working in `fgrepo`, the `client/` directory is the user's workspace. The repository contains other top-level directories (`devops/`, `automation/`, `backend/`, etc.) that may carry their own Cursor artifacts (`.cursor/rules/`, `.cursor/skills/`, subagent prompts). Those artifacts are maintained by other teams and may conflict with the user's personal artifacts.
+When working in `fgrepo`, the `client/` directory is the user's workspace. The repository contains other top-level directories (`devops/`, `automation/`, `backend/`, etc.) that may carry their own agent artifacts (workspace rules, skills, subagent prompts). Those artifacts are maintained by other teams and may conflict with the user's personal artifacts.
 
 ## Detection
 
@@ -16,7 +16,7 @@ Identify `fgrepo` by any of:
 
 ## Precedence rule
 
-When a repo-level Cursor artifact found **outside** `client/` conflicts with a user-level artifact (user skill, command, or subagent prompt), the **user-level artifact wins**.
+When a repo-level agent artifact found **outside** `client/` conflicts with a user-level artifact (user skill, command, or subagent prompt), the **user-level artifact wins**.
 
 A "conflict" exists when the repo artifact instructs behaviour that contradicts or overrides the user's artifact. Examples of conflict:
 
@@ -27,7 +27,7 @@ A "conflict" exists when the repo artifact instructs behaviour that contradicts 
 ## Scope
 
 - **Outside `client/`** — repo-level artifacts at the repository root or under non-`client` directories are subject to this precedence rule. Ignore them when they conflict with user artifacts; follow them when they don't.
-- **Inside `client/`** — artifacts under `client/.cursor/` are workspace-local. They follow normal Cursor precedence and are not overridden by this skill.
+- **Inside `client/`** — artifacts under `client/` are workspace-local. They follow normal agent precedence and are not overridden by this skill.
 
 ## Behaviour
 

@@ -1,6 +1,6 @@
 ---
 name: continuous-improvement
-description: Suggest and apply improvements to Cursor commands, skills, rules, and subagent prompts after execution. Use proactively after running any command, skill, or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
+description: Suggest and apply improvements to agent skills, rules, and subagent prompts after execution. Use proactively after running any skill or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
 ---
 
 # Continuous Improvement
@@ -9,7 +9,7 @@ After executing a command, skill, rule, or subagent prompt, reflect on the execu
 
 ## When to trigger
 
-Run this analysis whenever you finish executing (or observe the execution of) a Cursor command, skill, rule, or subagent. Look for any of these signals:
+Run this analysis whenever you finish executing (or observe the execution of) a skill, rule, or subagent. Look for any of these signals:
 
 - **Discovery**: you had to figure something out at runtime that could have been encoded ahead of time (e.g. an MCP field name, a required parameter, a default value).
 - **Workaround**: you deviated from the instructions because they were wrong, incomplete, or outdated.

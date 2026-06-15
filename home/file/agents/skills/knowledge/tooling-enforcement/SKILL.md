@@ -1,13 +1,13 @@
 ---
 name: tooling-enforcement
-description: Check whether a Cursor convention can also be enforced with the project's existing tooling -- TypeScript compiler, linter rules, automated tests, CI checks, or pre-commit hooks. Use whenever the agent creates or modifies a Cursor artifact (command, skill, rule, subagent prompt) in any repository that has testing or auditing tools.
+description: Check whether a convention from an agent artifact can also be enforced with the project's existing tooling -- TypeScript compiler, linter rules, automated tests, CI checks, or pre-commit hooks. Use whenever the agent creates or modifies an artifact (skill, rule, or subagent prompt) in any repository that has testing or auditing tools.
 ---
 
 # Tooling Enforcement
 
-Conventions enforced by tooling are more durable than conventions enforced solely by AI instructions. Tooling catches violations mechanically -- regardless of whether the agent is involved, regardless of which IDE the developer uses, and regardless of whether the developer has read the Cursor artifact. This is "governance through inception" from the **architect-thinking** skill: make the right path the easy path.
+Conventions enforced by tooling are more durable than conventions enforced solely by AI instructions. Tooling catches violations mechanically -- regardless of whether the agent is involved, regardless of which IDE the developer uses, and regardless of whether the developer has read the agent artifact. This is "governance through inception" from the **architect-thinking** skill: make the right path the easy path.
 
-When creating or modifying a Cursor artifact that introduces or encodes a convention, always evaluate whether the convention can also be enforced with tools the project already uses (or could reasonably adopt).
+When creating or modifying an agent artifact that introduces or encodes a convention, always evaluate whether the convention can also be enforced with tools the project already uses (or could reasonably adopt).
 
 ## Survey the project's enforcement tooling
 
@@ -20,7 +20,7 @@ Before designing the artifact, check what enforcement tools the project has:
 - **Pre-commit hooks** -- Husky, lint-staged, lefthook, or similar.
 - **Other auditing tools** -- dependency scanners, licence checkers, bundlesize monitors, type-coverage tools.
 
-If the project has none of these, skip the rest of this skill -- the Cursor artifact is the sole guardrail, which is still valuable.
+If the project has none of these, skip the rest of this skill -- the agent artifact is the sole guardrail, which is still valuable.
 
 ## Enforcement tiers
 
@@ -38,11 +38,11 @@ Prefer the highest tier that fits the convention. Higher tiers provide faster, h
 
 **If enforcement is viable:**
 
-1. Include the enforcement change alongside the Cursor artifact -- add the linter rule, enable the compiler flag, write the architectural test, or adjust the CI script.
+1. Include the enforcement change alongside the agent artifact -- add the linter rule, enable the compiler flag, write the architectural test, or adjust the CI script.
 2. If adoption requires a user decision (e.g. adding a new ESLint plugin dependency), present it as an explicit recommendation and wait for confirmation before proceeding.
-3. Note the enforcement in the Cursor artifact itself so future readers understand that both the artifact and the tooling enforce the convention.
+3. Note the enforcement in the agent artifact itself so future readers understand that both the artifact and the tooling enforce the convention.
 
 **If no mechanical enforcement is possible:**
 
-- Note this explicitly in the Cursor artifact, e.g. "No linter rule or compiler flag covers this convention -- this skill is the sole guardrail."
-- This is still valuable -- not every convention can be encoded in tooling, and the Cursor artifact provides guidance the tooling cannot.
+- Note this explicitly in the agent artifact, e.g. "No linter rule or compiler flag covers this convention -- this skill is the sole guardrail."
+- This is still valuable -- not every convention can be encoded in tooling, and the agent artifact provides guidance the tooling cannot.

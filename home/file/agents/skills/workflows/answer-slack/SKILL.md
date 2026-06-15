@@ -1,12 +1,12 @@
 ---
 name: answer-slack
-description: Fetches Slack thread context, researches the topic using Cursor artifacts and MCP tools, and presents findings for the user to decide on a reply. Use when given a Slack message permalink to understand and respond to a conversation.
+description: Fetches Slack thread context, researches the topic using agent skills and MCP tools, and presents findings for the user to decide on a reply. Use when given a Slack message permalink to understand and respond to a conversation.
 disable-model-invocation: true
 ---
 
 # Answer Slack
 
-Given a Slack message link, fetch the conversation context, analyse the topic, research using relevant Cursor artifacts and MCP tools, and present findings to the user. The user digests the information and decides whether to ask for a Slack reply draft.
+Given a Slack message link, fetch the conversation context, analyse the topic, research using relevant agent skills and MCP tools, and present findings to the user. The user digests the information and decides whether to ask for a Slack reply draft.
 
 ## Input
 
@@ -65,7 +65,7 @@ Read the thread and determine:
 
 ### 5. Select and apply relevant artifacts
 
-Based on the domain identified in step 4, use the appropriate Cursor artifacts and MCP tools to research. Explain which artifacts were selected and why.
+Based on the domain identified in step 4, use the appropriate agent skills and MCP tools to research. Explain which skills were selected and why.
 
 | Domain | Artifacts / tools to consider |
 |--------|-------------------------------|

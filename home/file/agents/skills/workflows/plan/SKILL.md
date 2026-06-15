@@ -17,6 +17,7 @@ Accept **any** of the following:
 1. **Ticket reference** -- an Azure DevOps work item ID (e.g. `12345`) or full URL. Fetch it via MCP and extract title, type, description, acceptance criteria, state, assignee, iteration, children, linked PRs/commits, and comments.
 2. **Textual description** -- a plain-language description of the feature, bug, or task (e.g. "separate the pricing logic from the order module so we can reuse it in the subscription flow"). Treat the text as the authoritative specification.
 3. **Tech design or plan** -- a document, plan output, or inline specification describing the desired architecture.
+4. **Context inference** -- if no explicit input is provided, follow the **resolve-current-work-item** skill to derive the ticket from the current branch or ADO association. If resolved, treat it as a ticket reference and proceed with step 1.
 
 When multiple inputs are provided, they supplement each other. When both a ticket and additional text are provided, the text supplements the ticket -- it does not replace it.
 

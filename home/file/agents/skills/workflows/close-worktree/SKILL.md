@@ -12,12 +12,9 @@ Given a work item ID (or inferred from the current branch name), verify the PR i
 
 ### 1. Resolve the work item ID and prefix
 
-Determine the work item ID and branch prefix using one of the following, in priority order:
+Follow the **resolve-current-work-item** skill to determine the work item ID and prefix, passing any explicit ID the user provided.
 
-1. **Explicit argument** -- the user provided a work item ID directly. Determine the prefix by checking which branch exists: try `feature/<id>` then `hotfix/<id>`.
-2. **Branch name** -- parse the current branch (`git branch --show-current`). If it matches `feature/<id>` or `hotfix/<id>`, extract the `<prefix>` and `<id>`.
-
-If neither yields a work item ID, ask the user and stop. Carry the detected `<prefix>` forward into all subsequent steps.
+Carry the detected `<prefix>` forward into all subsequent steps.
 
 ### 2. Identify the repository
 

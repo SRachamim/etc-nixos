@@ -21,9 +21,7 @@ If no work item ID is provided, a new work item is created.
 
 ### 1. Resolve the current work item
 
-Extract the work item ID from the current branch name using the **worktree-layout** convention (`feature/<work-item-id>`).
-
-If the branch doesn't match that pattern, ask the user for the current work item ID.
+Follow the **resolve-current-work-item** skill to determine the current work item ID.
 
 ### 2. Resolve or create the fix work item
 

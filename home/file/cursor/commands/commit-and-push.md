@@ -59,6 +59,8 @@ If the rebase encounters conflicts, abort, inform the user, and stop.
 
 ### 4. Push
 
+Before pushing, verify the upstream is correct: run `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` and compare the upstream branch name to the local branch name. If the upstream points to a different branch (e.g., the local branch is `feature/123` but upstream is `origin/main`), treat it as a stale upstream -- unset it with `git branch --unset-upstream` and then use `git push -u origin HEAD`.
+
 Run `git push` to push the current branch to the remote.
 
 - If the branch has no upstream, use `git push -u origin HEAD`.

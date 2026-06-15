@@ -37,6 +37,9 @@ The prefix determines the branch name (`<prefix>/<id>`) and the worktree path (`
 - Determine the **prefix** from the starting ref using the table in **Choosing the Prefix** above.
 - Fetch the latest state of the starting ref before branching: `git fetch origin <branch>`.
 - Create the worktree from the fetched ref: `git worktree add -b "<prefix>/<id>" "<root-repo>/<prefix>/<id>" "<starting-ref>"`.
+- Unset the auto-configured upstream so the branch does not track the starting ref:
+  `git branch --unset-upstream "<prefix>/<id>"`.
+  This ensures the first push (with `-u`) sets the correct upstream to `origin/<prefix>/<id>`.
 
 ## Cleanup
 

@@ -117,9 +117,9 @@ in
         recursive = true;
         force = true;
       };
-      "claude-commands" = {
-        source = ./home/file/cursor/commands;
-        target = ".claude/commands";
+      "claude-skills" = {
+        source = ./home/file/cursor/skills;
+        target = ".claude/skills";
         recursive = true;
       };
       "git-hooks" = {
@@ -206,48 +206,44 @@ EOF
     home.activation.installGeminiKnowledge = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       echo "Deploying Gemini Knowledge Items..."
       KNOWLEDGE_DIR="$HOME/.gemini/antigravity/knowledge"
-      mkdir -p "$KNOWLEDGE_DIR/artifacts/commands"
       mkdir -p "$KNOWLEDGE_DIR/artifacts/skills"
 
-      # Sync skills and generate metadata
-      for skill_dir in ${./home/file/cursor/skills}/*; do
-        if [ -d "$skill_dir" ]; then
-          skill_name=$(basename "$skill_dir")
-          rm -f "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
-          cat "$skill_dir/SKILL.md" > "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
-          
-          mkdir -p "$KNOWLEDGE_DIR/$skill_name"
-          cat > "$KNOWLEDGE_DIR/$skill_name/metadata.json" << MEOF
+      # Sync skills from all category directories and generate metadata
+      for category_dir in ${./home/file/cursor/skills}/workflows ${./home/file/cursor/skills}/knowledge ${./home/file/cursor/skills}/shared; do
+        if [ -d "$category_dir" ]; then
+          for skill_dir in "$category_dir"/*; do
+            if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then
+              skill_name=$(basename "$skill_dir")
+              rm -f "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
+              cat "$skill_dir/SKILL.md" > "$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"
+
+              mkdir -p "$KNOWLEDGE_DIR/$skill_name"
+              cat > "$KNOWLEDGE_DIR/$skill_name/metadata.json" << MEOF
 {
   "summary": "Agent skill: $skill_name",
   "references": ["$KNOWLEDGE_DIR/artifacts/skills/$skill_name.md"]
 }
 MEOF
+            fi
+          done
         fi
       done
 
-      # Copy commands
-      for cmd_file in ${./home/file/cursor/commands}/*.md; do
-        cmd_name=$(basename "$cmd_file")
-        rm -f "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"
-        cat "$cmd_file" > "$KNOWLEDGE_DIR/artifacts/commands/$cmd_name"
-      done
-
-      # Generate Commands Catalog KI
-      mkdir -p "$KNOWLEDGE_DIR/commands_catalog"
-      cat > "$KNOWLEDGE_DIR/commands_catalog/metadata.json" << MEOF
+      # Generate Skills Catalog KI
+      mkdir -p "$KNOWLEDGE_DIR/skills_catalog"
+      cat > "$KNOWLEDGE_DIR/skills_catalog/metadata.json" << MEOF
 {
-  "summary": "Agent Commands Catalog: lists all available commands for workflows like planning, reviewing, and investigating.",
-  "references": ["$KNOWLEDGE_DIR/artifacts/commands_catalog.md"]
+  "summary": "Agent Skills Catalog: lists all available skills for workflows like planning, reviewing, and investigating.",
+  "references": ["$KNOWLEDGE_DIR/artifacts/skills_catalog.md"]
 }
 MEOF
 
       # Generate the actual catalog markdown
-      echo "# Agent Commands Catalog" > "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
-      echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
-      for cmd in "$KNOWLEDGE_DIR/artifacts/commands"/*.md; do
-        cmd_name=$(basename "$cmd" .md)
-        echo "- **$cmd_name**: $cmd" >> "$KNOWLEDGE_DIR/artifacts/commands_catalog.md"
+      echo "# Agent Skills Catalog" > "$KNOWLEDGE_DIR/artifacts/skills_catalog.md"
+      echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$KNOWLEDGE_DIR/artifacts/skills_catalog.md"
+      for skill in "$KNOWLEDGE_DIR/artifacts/skills"/*.md; do
+        skill_name=$(basename "$skill" .md)
+        echo "- **$skill_name**: $skill" >> "$KNOWLEDGE_DIR/artifacts/skills_catalog.md"
       done
     '';
     home.activation.installCursorCli = config.lib.dag.entryAfter [ "writeBoundary" ] ''

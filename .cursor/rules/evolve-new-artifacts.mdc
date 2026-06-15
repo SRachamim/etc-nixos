@@ -1,12 +1,12 @@
 ---
-description: Ensure new Cursor commands, skills, and subagent prompts include a continuous-improvement step
-globs: home/file/cursor/commands/*.md,home/file/cursor/skills/**/SKILL.md
+description: Ensure new Cursor skills and subagent prompts include a continuous-improvement step
+globs: home/file/cursor/skills/**/SKILL.md
 alwaysApply: false
 ---
 
 # Evolve new artifacts
 
-When creating or modifying a Cursor command, skill, or subagent prompt in this repository:
+When creating or modifying a Cursor skill or subagent prompt in this repository:
 
 - Add a final step that references the **continuous-improvement** skill, e.g.:
 
@@ -16,6 +16,6 @@ When creating or modifying a Cursor command, skill, or subagent prompt in this r
 Follow the **continuous-improvement** skill.
 ```
 
-- For commands that delegate to a shared command (like `create-work-item`), the shared command carries the step -- don't duplicate it in the caller.
+- For workflow skills that delegate to a shared skill (like `create-work-item`), the shared skill carries the step -- don't duplicate it in the caller.
 
-- Consider whether the artifact benefits from a specific Cursor mode (Plan, Debug, Ask). If it does, add a Step 0 that requires the mode following the **mode-gate** skill. See the **Cursor mode selection** section of the `add-cursor-behavior` command for the decision table.
+- Consider whether the artifact benefits from a specific Cursor mode (Plan, Debug, Ask). If it does, add a Step 0 that requires the mode following the **mode-gate** skill. See the **Cursor mode selection** section of the `add-cursor-behavior` skill for the decision table.

@@ -6,9 +6,9 @@ disable-model-invocation: true
 
 # Checkout Worktree
 
-Given a work item ID, create a new git worktree with a dedicated branch. The branch prefix (`feature/` or `hotfix/`) is determined by the starting ref per the **worktree-layout** skill.
+Given a work item ID and an optional starting ref, create a new git worktree with a dedicated branch. The branch prefix (`feature/` or `hotfix/`) is determined by the starting ref per the **worktree-layout** skill.
 
-Follow the **worktree-layout** skill for all path, branch naming, and prefix conventions.
+Follow the **worktree-layout** skill for all path, branch naming, and prefix conventions. When the user provides a starting ref, pass it through to the **worktree-layout** skill instead of using the repository default.
 
 ## Steps
 

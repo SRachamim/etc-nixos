@@ -31,7 +31,7 @@ The prefix determines the branch name (`<prefix>/<id>`) and the worktree path (`
 
 - Never overwrite an existing worktree or branch. If either exists, inform the user and stop.
 - Determine the **starting ref**:
-  - For the `fgrepo` repository, always use `origin/latest-stable`.
+  - For the `fgrepo` repository, always use `origin/develop`.
   - For all other repositories, determine the default branch (e.g. `main`, `master`) via `git remote show origin` or equivalent and use `origin/<default-branch>`.
 - If the user explicitly requests a different starting point, use that instead of the default branch.
 - Determine the **prefix** from the starting ref using the table in **Choosing the Prefix** above.

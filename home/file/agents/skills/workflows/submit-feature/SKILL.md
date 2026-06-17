@@ -59,13 +59,33 @@ Compose a message for the **#team-cinfra** Slack channel, following the **writin
 
 **Present the Slack message to the user for approval before posting.**
 
+#### Agent artifact notification (fgrepo only)
+
+After the channel message is posted, check whether the PR touches agent artifacts. **Skip this sub-step entirely if the repository is not fgrepo.**
+
+Run `git diff <default-branch>...HEAD --name-only` and review the changed file list. A file is an agent artifact if it matches any of the known patterns below **or** if it looks like an agent artifact by name or context.
+
+Known patterns:
+
+- `.cursor/**`
+- `.claude/**`
+- `**/AGENTS.md`, `**/CLAUDE.md`
+- `**/RULE-INDEX*`
+- `**/SKILL.md`
+- `.cursorrules`, `.github/copilot-instructions.md`, `.gemini/**`
+
+Also flag any file whose purpose is to instruct or configure an AI agent -- prompt templates, LLM system instructions, agent workflow definitions, MCP server configuration, AI-related config files, etc. Use judgment; when uncertain, include rather than exclude.
+
+If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **writing-style** skill and **external-communications** skill. **Present the DM for user approval before sending.**
+
 ### 6. Confirm completion
 
 Print a summary of everything that was done:
 
 - PR link
 - Work item link and new state
-- Slack message confirmation
+- Slack channel message confirmation
+- Yaakov Ellis DM confirmation (if sent)
 
 ### 7. Evolve
 

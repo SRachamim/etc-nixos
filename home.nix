@@ -111,10 +111,15 @@ in
           };
         };
       };
-      # --- Portable assets: skills + AGENTS.md to all agent paths ---
+      # --- Portable assets: skills, subagents, AGENTS.md to all agent paths ---
       "ai-skills-agents" = {
         source = ./home/file/agents/skills;
         target = ".agents/skills";
+        recursive = true;
+      };
+      "ai-subagents-agents" = {
+        source = ./home/file/agents/subagents;
+        target = ".agents/subagents";
         recursive = true;
       };
       "ai-agents-md" = {
@@ -127,14 +132,30 @@ in
         recursive = true;
         force = true;
       };
+      "ai-subagents-cursor" = {
+        source = ./home/file/agents/subagents;
+        target = ".cursor/subagents";
+        recursive = true;
+        force = true;
+      };
       "ai-skills-claude" = {
         source = ./home/file/agents/skills;
         target = ".claude/skills";
         recursive = true;
       };
+      "ai-subagents-claude" = {
+        source = ./home/file/agents/subagents;
+        target = ".claude/subagents";
+        recursive = true;
+      };
       "ai-skills-gemini" = {
         source = ./home/file/agents/skills;
         target = ".gemini/skills";
+        recursive = true;
+      };
+      "ai-subagents-gemini" = {
+        source = ./home/file/agents/subagents;
+        target = ".gemini/subagents";
         recursive = true;
       };
       "ai-agents-md-gemini" = {

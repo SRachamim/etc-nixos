@@ -643,3 +643,79 @@ test('no non-positive quantity is accepted', () => {
   )
 })
 ```
+
+---
+
+## SKILL.md Code Examples
+
+Code examples moved from SKILL.md for context efficiency. The agent reads these on demand.
+
+### Test List Example
+
+In functional TypeScript terms, a test list might look like:
+
+```
+- [ ] create branded OrderId from valid string → Right
+- [ ] create branded OrderId from empty string → Left
+- [ ] validate order collects all field errors (applicative)
+- [ ] price order with known product → Right PricedOrder
+- [ ] price order with unknown product → Left PricingError
+- [ ] full workflow: command → events
+```
+
+### Assert First Example
+
+```typescript
+// Start here:
+expect(result).toEqual(E.right(pricedOrder))
+// Then work backwards to set up `result`, `pricedOrder`, inputs, dependencies.
+```
+
+### Evident Data Example
+
+```typescript
+// Good -- relationship is visible
+expect(convert(Money.dollar(100), 'GBP', rate(2))).toEqual(Money.gbp(100 / 2))
+
+// Bad -- 50 is magic
+expect(convert(Money.dollar(100), 'GBP', rate(2))).toEqual(Money.gbp(50))
+```
+
+### Self Shunt Example
+
+```typescript
+const testDeps: Deps = {
+  findAccount: (id) => TE.right(testAccount),
+  saveAccount: (a) => TE.right(undefined),
+}
+```
+
+### Log String Example
+
+```typescript
+const log: string[] = []
+const deps: Deps = {
+  validate: (o) => { log.push('validate'); return E.right(validated) },
+  price:    (o) => { log.push('price');    return TE.right(priced) },
+}
+// After running the workflow:
+expect(log).toEqual(['validate', 'price'])
+```
+
+### Crash Test Dummy Example
+
+```typescript
+const failingDeps: Deps = {
+  ...happyDeps,
+  chargeCard: () => TE.left({ _tag: 'PaymentDeclined' as const }),
+}
+```
+
+### Composable Generators Example
+
+```typescript
+const orderIdArb: fc.Arbitrary<OrderId> = fc
+  .stringOf(fc.alphaNumeric(), { minLength: 1, maxLength: 36 })
+  .filter((s) => E.isRight(OrderId.create(s)))
+  .map((s) => pipe(OrderId.create(s), E.getOrElseW(() => { throw Error('unreachable') })))
+```

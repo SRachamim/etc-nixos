@@ -33,14 +33,7 @@ Before you begin, write down every test you know you will need. As you work:
 
 In functional TypeScript terms, a test list might look like:
 
-```
-- [ ] create branded OrderId from valid string → Right
-- [ ] create branded OrderId from empty string → Left
-- [ ] validate order collects all field errors (applicative)
-- [ ] price order with known product → Right PricedOrder
-- [ ] price order with unknown product → Left PricingError
-- [ ] full workflow: command → events
-```
+See [reference.md](reference.md) for an example test list.
 
 ## Strategies for Getting to Green
 
@@ -78,11 +71,7 @@ In fp-ts: start with the identity case -- `pipe(emptyOrder, validateOrder)` shou
 
 Write the assertion before writing the rest of the test. Work backwards: what is the expected result? Where does it come from? What input produces it?
 
-```typescript
-// Start here:
-expect(result).toEqual(E.right(pricedOrder))
-// Then work backwards to set up `result`, `pricedOrder`, inputs, dependencies.
-```
+See [reference.md](reference.md) for an assert-first example.
 
 ### Test Data
 
@@ -92,13 +81,7 @@ Use data that makes tests easy to read. If there is no conceptual difference bet
 
 Show the relationship between inputs and expected outputs in the test itself, not hidden behind constants:
 
-```typescript
-// Good -- relationship is visible
-expect(convert(Money.dollar(100), 'GBP', rate(2))).toEqual(Money.gbp(100 / 2))
-
-// Bad -- 50 is magic
-expect(convert(Money.dollar(100), 'GBP', rate(2))).toEqual(Money.gbp(50))
-```
+See [reference.md](reference.md) for good and bad examples.
 
 ### Child Test
 
@@ -131,37 +114,13 @@ The **functional-typescript** skill's algebra/interpreter separation provides th
 
 The test module itself can implement a dependency interface. In fp-ts, pass a record of functions as the `Reader` environment:
 
-```typescript
-const testDeps: Deps = {
-  findAccount: (id) => TE.right(testAccount),
-  saveAccount: (a) => TE.right(undefined),
-}
-```
-
 ### Log String
 
 When testing that operations occur in a specific order (e.g. pipeline steps), accumulate a log:
 
-```typescript
-const log: string[] = []
-const deps: Deps = {
-  validate: (o) => { log.push('validate'); return E.right(validated) },
-  price:    (o) => { log.push('price');    return TE.right(priced) },
-}
-// After running the workflow:
-expect(log).toEqual(['validate', 'price'])
-```
-
 ### Crash Test Dummy
 
 Override a single dependency function to return `E.left(...)` or `TE.left(...)`, exercising error paths without needing real failures:
-
-```typescript
-const failingDeps: Deps = {
-  ...happyDeps,
-  chargeCard: () => TE.left({ _tag: 'PaymentDeclined' as const }),
-}
-```
 
 ## Property-Based Testing with fast-check
 
@@ -183,12 +142,7 @@ Use both together: example tests as documentation, property tests as safety net.
 
 Build generators from the domain's smart constructors. This guarantees generated values satisfy invariants:
 
-```typescript
-const orderIdArb: fc.Arbitrary<OrderId> = fc
-  .stringOf(fc.alphaNumeric(), { minLength: 1, maxLength: 36 })
-  .filter((s) => E.isRight(OrderId.create(s)))
-  .map((s) => pipe(OrderId.create(s), E.getOrElseW(() => { throw Error('unreachable') })))
-```
+See [reference.md](reference.md) for a composable generator example.
 
 ### Verifying Algebraic Laws
 

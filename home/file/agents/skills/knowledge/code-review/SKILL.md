@@ -1,7 +1,5 @@
 ---
-
-## name: code-review
-
+name: code-review
 description: Standards for performing code reviews. Use whenever the agent reviews a pull request, diff, or code change.
 
 # Code Review Standards

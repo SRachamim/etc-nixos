@@ -1,6 +1,5 @@
 ---
-
-## name: browser-bug-reproduction
+name: browser-bug-reproduction
 description: Browser-based bug reproduction via localhost:3000 or direct gql-api requests. Covers environment setup, dev server management, login, repro step execution, error tracing, and evidence capture. Use whenever a command needs to visually verify or reproduce a bug in the running webapp or API.
 
 # Browser Bug Reproduction

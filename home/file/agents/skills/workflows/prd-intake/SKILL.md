@@ -98,7 +98,21 @@ If the workspace has a tech design skill or template (e.g. a workspace-level tec
 
 ### 7. Produce execution plan
 
-Draft a commit-by-commit breakdown using the same format as the `/plan` skill output:
+Group the work into **phases**, then break each phase into commits. This two-level structure -- phases containing commits -- gives the implementing agent both a high-level roadmap and granular steps.
+
+#### Phases
+
+Each phase is a bounded unit of work that ends with a verifiable gate -- a testable checkpoint the agent (or a human) can confirm before proceeding. Aim for 3--7 phases. A phase typically maps to one area of the codebase or one slice of functionality.
+
+For each phase, specify:
+
+- **Scope** -- what this phase delivers.
+- **Dependencies** -- which prior phases must be complete.
+- **Definition of done** -- a concrete, testable condition (e.g. "all tests pass", "endpoint returns 200 with correct shape", "type-checks clean"). This is the verification gate.
+
+#### Commits within phases
+
+Within each phase, list commits using the same format as the `/plan` skill output:
 
 | # | Type | Title | What | Key Files | Technique | Validation |
 |---|------|-------|------|-----------|-----------|------------|
@@ -128,7 +142,12 @@ This is a first draft -- less precise than what `/plan` produces after deep code
 
 Assemble all sections into a single self-contained markdown document. Apply the **writing-style** skill to all prose.
 
-The document must be complete enough that a fresh agent session (with no prior context) can pick it up and implement from it -- requirements, design decisions, test expectations, and execution steps are all in one place.
+The document must be complete enough that a fresh agent session (with no prior context) can pick it up and implement from it. Treat the reader as a newcomer to the repository. Concretely, the document must include:
+
+- The feature's goal and requirements (not just IDs -- the full text).
+- Key file paths, types, and interfaces the implementation will touch.
+- Exact validation commands (not "run tests" -- the specific command).
+- Decisions made during analysis, so a fresh session does not re-litigate them.
 
 Output format:
 
@@ -197,8 +216,23 @@ Output format:
 
 ### Execution Plan
 
+#### Phase 1: <Name>
+
+**Scope**: ...
+**Dependencies**: None
+**Definition of done**: <testable condition>
+
 | # | Type | Title | What | Key Files | Technique | Validation |
 |---|------|-------|------|-----------|-----------|------------|
+
+#### Phase N: <Name>
+
+...
+
+### Decision Log
+
+| # | Decision | Rationale | Alternatives considered |
+|---|----------|-----------|------------------------|
 
 ### Open Questions
 

@@ -95,7 +95,7 @@ When reporting Slack actions back to the user, never say "the bot posted" or "po
 
 Constraints:
 
-- **Never use `slack_add_reaction`** -- reactions would appear as the user's own, which is misleading when the user didn't actively choose to react.
+- **Do not use `slack_add_reaction` unless a workflow skill explicitly instructs it.** Unsolicited reactions appear as the user's own and misrepresent intent. When a workflow skill (e.g. **review-pr**) defines specific reaction signals that the user opts into by invoking the workflow, `slack_add_reaction` is permitted for those defined reactions only. Treat `already_reacted` errors as idempotent success.
 - Assume all Slack output is attributable to the user. The **writing-style** skill's operational concealment rules apply.
 
 #### Resolving Slack Users

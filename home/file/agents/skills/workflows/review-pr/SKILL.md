@@ -20,6 +20,18 @@ Some repositories require reviewing only a subset of changed files. When the PR 
 
 **Only files present in the PR's git diff are in scope for review.** Do not treat open editor tabs, recently viewed files, IDE-attached context, or any other workspace state as part of the PR. The git commands in step 2 are the sole authority on which files and commits belong to the PR.
 
+## Slack reaction signals
+
+When the PR was resolved from a Slack message, react to the original message at key milestones. These reactions appear as the user's own (the Slack token is a user token) and require no additional approval -- the user opted in by invoking the workflow with a Slack link.
+
+| Moment | Reaction | When it fires |
+|--------|----------|---------------|
+| Starting review | `eyes` | Immediately after parsing the Slack link (step 2) |
+| Approved | `white_check_mark` | After the PR is approved on the platform, or the user confirms they approved |
+| Reviewed with comments | `speech_balloon` | After review comments are posted to the PR, or the user confirms they posted |
+
+Treat `already_reacted` errors as idempotent success. Do not attempt to remove earlier reactions -- accumulating them tells the review lifecycle story.
+
 ## Steps
 
 ### 1. Resolve the PR
@@ -38,6 +50,7 @@ If none yields a PR, ask the user and stop.
 - For each linked work item, apply the **work-item-context** skill to gather the full picture -- relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary to understand the intent, acceptance criteria, and scope.
 - **If the PR was resolved from a Slack message** (step 1, option 2):
   - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
+  - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `slack_add_reaction` with the extracted `channel_id`, the message `timestamp`, and `reaction: "eyes"`.
   - Call `slack_get_thread_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
   - If there are no thread replies, call `slack_get_channel_history` scoped around the timestamp to capture surrounding messages for context.
   - Scan the thread/surrounding messages for:
@@ -141,6 +154,11 @@ Show the complete review to the user, including:
 
 - Create comment threads on the PR for each review comment, positioned on the relevant file and line range.
 - Follow the **external-communications** skill for all comment content.
+- **If the PR was resolved from a Slack message**, react to the original message based on the outcome (see **Slack reaction signals**):
+  - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `slack_add_reaction` with `reaction: "white_check_mark"`.
+  - If review comments were posted (or the user confirms they posted): call `slack_add_reaction` with `reaction: "speech_balloon"`.
+  - Fire these reactions only after the corresponding external action is confirmed -- never preemptively from step 7.
+  - If the user later confirms they took the action manually (e.g. "I approved" or "I posted the comments"), add the appropriate reaction at that point.
 
 ### 9. Confirm completion
 

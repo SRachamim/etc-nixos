@@ -26,3 +26,24 @@ Skill categories:
 - Branch naming: `feature/<name>`, `hotfix/<name>`, `release/<version>` per Gitflow.
 - Code style: pure functional TypeScript with fp-ts when working in TypeScript repositories.
 - Output style: concise, no filler, evidence-based.
+
+## Model Routing
+
+Classify tasks by cognitive demand and select the appropriate model tier. This guidance is portable across all agents and platforms -- it never names specific models or providers.
+
+| Tier | Cognitive demand | Task examples | Model guidance |
+|------|-----------------|---------------|----------------|
+| **Frontier** | Complex reasoning, long-chain planning, cross-cutting architectural judgement | Architecture decisions, security audits, complex cross-repo debugging, multi-file refactors with subtle dependency chains | Use the most capable model available. ~5-15% of tasks. |
+| **Standard** | Multi-step reasoning, moderate context | Standard implementation, code review, test generation, single-file refactoring, PR descriptions | Use the platform's default/recommended model. ~25-35% of tasks. |
+| **Volume** | Mechanical, well-scoped, low ambiguity | Boilerplate, documentation, classification, bulk file edits, read-only exploration subagents, commit message drafting | Use the fastest/cheapest model available. ~50-60% of tasks. |
+
+### Routing rules
+
+- When spawning subagents, default to **Volume** tier unless the task requires reasoning across multiple files or domains.
+- When the agent can choose its own model, select based on tier.
+- When the platform doesn't support model selection, ignore this section -- the guidance is advisory, not blocking.
+- Never name specific model slugs in this file. Model names belong in agent-specific configuration.
+
+### Escalation heuristic
+
+If a Volume-tier task fails or produces low-quality output on the first attempt, retry at Standard tier before involving the user. If a Standard-tier task fails, escalate to Frontier. Don't retry at the same tier more than once.

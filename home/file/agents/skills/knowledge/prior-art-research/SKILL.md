@@ -12,7 +12,7 @@ Before designing a solution, search the internet for established patterns, archi
 
 During planning, after the goal is clear but before examining the codebase or drafting a design. Prior-art findings should inform how you read the existing code and which design lenses matter most.
 
-Referenced by: `/plan` (step 2), `/review-plan` (step 4), `/review-pr` (step 4), and any command that designs or evaluates architecture.
+Referenced by: `/plan` (step 2), `/add-agent-behavior` (step 3), `/review-plan` (step 4), `/review-pr` (step 4), and any command that designs or evaluates architecture.
 
 ## Source priority
 

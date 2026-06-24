@@ -14,7 +14,7 @@ This skill is designed for the dotfiles repository that manages personal agent a
 
 ### 0. Enter Plan mode
 
-Require **Plan** mode following the **mode-gate** skill. Steps 1--4 are classification and design -- a read-only phase keeps the focus on discussion rather than premature file creation. The user will switch back to Agent mode for creation (step 5).
+Require **Plan** mode following the **mode-gate** skill. Steps 1--5 are classification and design -- a read-only phase keeps the focus on discussion rather than premature file creation. The user will switch back to Agent mode for creation (step 6).
 
 ### 1. Understand the request
 
@@ -46,7 +46,11 @@ If the requested type doesn't match the best fit, explain the distinction and re
 - "I want a skill to explore the codebase in parallel" -> likely a **subagent prompt** (it benefits from isolation and parallel execution).
 - "I want a workflow skill for creating work items" -> check whether it's a **shared skill** if it requires inputs from a calling skill and isn't meant for direct user invocation.
 
-### 3. Survey existing artifacts
+### 3. Research prior art
+
+Apply the **prior-art-research** skill. Search for established patterns and approaches for the behavior being added -- how agent frameworks, prompt engineering literature, and AI tooling ecosystems structure similar capabilities. Summarize relevant findings that should inform the artifact's design in step 5.
+
+### 4. Survey existing artifacts
 
 Before creating, check whether an existing artifact could absorb the requested behavior:
 
@@ -55,7 +59,7 @@ Before creating, check whether an existing artifact could absorb the requested b
 
 For each existing artifact, consider whether the new behavior is a natural extension of it -- even when the names or descriptions don't obviously overlap. Prefer amending an existing artifact over creating a new one. If amendment is viable, recommend it and wait for the user to confirm before proceeding.
 
-### 4. Design the artifact
+### 5. Design the artifact
 
 #### For workflow skills
 
@@ -135,17 +139,17 @@ Apply the **architect-thinking** skill and the **decision-priorities** skill to 
 - Includes feedback mechanisms (e.g. the Evolve step, validation steps).
 - Makes the right path the easy path (governance through inception).
 
-### 5. Create the artifact
+### 6. Create the artifact
 
 Write the file immediately. Create the directory structure (`<category>/<name>/SKILL.md` and any supporting files) under `home/file/agents/skills/`.
 
-### 6. Verify
+### 7. Verify
 
 - Confirm the file was created at the correct path under the right category directory.
 - Verify the YAML frontmatter parses correctly.
 - Check that all referenced skills exist.
 - Apply the **agent-compatibility** skill -- verify frontmatter portability, check for hard agent-specific references, confirm the canonical source path is `home/file/agents/`.
 
-### 7. Evolve
+### 8. Evolve
 
 Follow the **continuous-improvement** skill.

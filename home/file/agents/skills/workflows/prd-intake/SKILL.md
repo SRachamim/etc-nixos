@@ -96,6 +96,8 @@ Produce a draft tech design section with these fields:
 
 If the workspace has a tech design skill or template (e.g. a workspace-level tech design command), structure the output to be compatible with its expected input format. The skill does not depend on any workspace-level skill existing -- the tech design section is useful on its own.
 
+When the proposed approach has a credible alternative that would fundamentally change the execution plan structure, suggest invoking `/compare-approaches` to resolve the fork before finalising the execution plan in step 7.
+
 ### 7. Produce execution plan
 
 Group the work into **phases**, then break each phase into commits. This two-level structure -- phases containing commits -- gives the implementing agent both a high-level roadmap and granular steps.

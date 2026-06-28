@@ -34,6 +34,25 @@ Require **Debug** mode following the **mode-gate** skill. This command investiga
 
 ### 2. Reproduce the symptoms
 
+#### Parallel investigation
+
+When the agent supports parallel subagent execution, prefer this approach over sequential search:
+
+1. Decompose the investigation into 2-4 focused questions. Typical decomposition:
+   - Which entry points and code paths handle this input or trigger this behaviour?
+   - What transformation pipeline does the data flow through from input to output?
+   - What tests exist for this code path, and do they cover the failing scenario?
+   - What recent changes touched the affected area (git log)?
+2. Spawn one read-only **explorer** subagent per question, providing:
+   - The specific question to answer.
+   - A directory or file scope hint based on the bug description.
+3. Collect all subagent results before proceeding.
+4. Synthesise findings to narrow the investigation scope -- identify the most likely code path where the fault lies.
+
+If parallel execution is unavailable, proceed sequentially with the guidance below.
+
+#### Sequential fallback
+
 Locate the code path that the reproduction steps exercise:
 
 - Search the codebase for the affected area (endpoints, functions, modules).

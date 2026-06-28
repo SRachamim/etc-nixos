@@ -41,6 +41,26 @@ Apply the **prior-art-research** skill. Search the internet for established patt
 
 ### 3. Understand the codebase
 
+#### Parallel exploration
+
+When the agent supports parallel subagent execution, prefer this approach over sequential search:
+
+1. Decompose the goal (from step 1) into 3-5 focused questions. Typical decomposition:
+   - What modules and files own this responsibility today?
+   - What types, interfaces, or contracts define the boundary?
+   - What tests cover the affected area?
+   - What upstream/downstream consumers depend on this code?
+   - What extension points exist that the change should leverage?
+2. Spawn one read-only **explorer** subagent per question, providing:
+   - The specific question to answer.
+   - A directory or file scope hint (narrowest scope that plausibly contains the answer).
+3. Collect all subagent results before proceeding.
+4. Synthesise into a single mental model of the current state, the gap, and the extension points.
+
+If parallel execution is unavailable, proceed sequentially with the guidance below.
+
+#### Sequential fallback
+
 Based on the goal, search the codebase for relevant code:
 
 - Locate files, modules, and functions in the affected area.

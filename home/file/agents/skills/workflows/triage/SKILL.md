@@ -44,7 +44,25 @@ Inspect the fetched relations for a **predecessor** link. If one exists, the wor
 
 ### 3. Dry-debug
 
-Investigate the codebase to understand the issue **without making any changes**:
+Investigate the codebase to understand the issue **without making any changes**.
+
+#### Parallel investigation
+
+When the agent supports parallel subagent execution, prefer this approach over sequential search:
+
+1. Decompose the investigation into 2-3 focused questions. Typical decomposition:
+   - Where does this error or incorrect behaviour originate in the codebase?
+   - What code owns the responsibility described in the work item?
+   - What test coverage exists for the affected area?
+2. Spawn one read-only **explorer** subagent per question, providing:
+   - The specific question to answer.
+   - A directory or file scope hint derived from the work item's description and error details.
+3. Collect all subagent results before proceeding.
+4. Synthesise findings into the investigation output format below.
+
+If parallel execution is unavailable, proceed sequentially with the guidance below.
+
+#### Sequential fallback
 
 1. Based on the work item's description, repro steps, and error details, search the codebase for the affected area (endpoints, functions, modules).
 2. Read the relevant code to understand the current implementation.

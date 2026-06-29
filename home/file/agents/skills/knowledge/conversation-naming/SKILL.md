@@ -17,6 +17,22 @@ Example: `feature/123: Implement auth middleware`
 
 The title portion should be concise (3--6 words) and describe the work being done in the conversation.
 
+## Title specificity
+
+Titles must uniquely identify the conversation. When the work involves an external resource (PR, work item, incident, pipeline), include its identifier in the title.
+
+Good examples:
+- `feature/123: Review PR #456`
+- `feature/123: Fix PR #456 comments`
+- `hotfix/789: Investigate incident INC-42`
+
+Bad examples:
+- `feature/123: PR review discussion` (which PR?)
+- `feature/123: Fix review comments` (which review?)
+- `feature/123: Debug build failure` (which build?)
+
+When multiple conversations of the same type exist, each title must be distinguishable without opening the conversation.
+
 ## Skip conditions
 
 Omit the branch prefix when any of the following is true:

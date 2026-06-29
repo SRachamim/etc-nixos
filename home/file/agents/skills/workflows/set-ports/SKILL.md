@@ -27,14 +27,15 @@ For each service (gql-api and webapp), resolve the port using this priority:
 2. **Existing `.env` value** -- if the service's `.env` file already contains a `PORT=` line, reuse that value.
 3. **Auto-detect from default** -- try the default port (8080 for gql-api, 3000 for webapp). Check availability via `lsof -iTCP:<port> -sTCP:LISTEN`. If the default is in use, increment until an available port is found.
 
-### 2. Set PORT on gql-api
+### 2. Set PORT and FG_WEBAPP_URL on gql-api
 
-Locate `packages/apps/gql-api/.env` relative to the workspace root (the workspace is expected to be the `client` directory of an fgrepo worktree). If the file already contains a `PORT=` line, replace the value. Otherwise, append the line.
+Locate `packages/apps/gql-api/.env` relative to the workspace root (the workspace is expected to be the `client` directory of an fgrepo worktree). For each variable, if the file already contains a matching line, replace the value. Otherwise, append the line.
 
 Set:
 
 ```
 PORT=<gql-api-port>
+FG_WEBAPP_URL=http://localhost:<webapp-port>
 ```
 
 ### 3. Set PORT and FG_GQL_API_URL on webapp

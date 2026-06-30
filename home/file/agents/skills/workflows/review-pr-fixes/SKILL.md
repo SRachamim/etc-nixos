@@ -200,7 +200,7 @@ Use the same output format as step 7 of `/review-plan`:
 
 #### When following up on `/review-pr`
 
-- For thread follow-ups: use `repo_reply_to_comment` to reply and `repo_update_pull_request_thread` to change status where approved.
+- For thread follow-ups: use `repo_reply_to_comment` to reply. Do not change thread status -- the **code-review** skill's Thread Status rule applies.
 - For new issues: use `repo_create_pull_request_thread` to create new threads.
 - Follow the **external-communications** skill for all comment content.
 

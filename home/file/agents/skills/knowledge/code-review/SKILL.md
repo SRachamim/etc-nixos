@@ -67,6 +67,14 @@ Uncitable findings are gaps in the standards. This feeds into the **continuous-i
 
 **Precise location** -- the citation must include a line range, not just a filename. Read the artifact to identify the specific section or criterion that applies. If the artifact is already in context, use the known line numbers directly.
 
+## Thread Status
+
+The reviewer creates comments; the author resolves them. This separation ensures the author reads, considers, and addresses each comment on their own terms.
+
+- **Always create threads as Active.** Never set status to `Fixed`, `Closed`, `WontFix`, `ByDesign`, or any resolved state when creating a comment thread.
+- **Never change a thread's status.** Do not use `repo_update_pull_request_thread` (or any platform equivalent) to resolve, close, or transition a thread the reviewer created. The author owns the lifecycle.
+- **Follow-ups stay Active too.** When revisiting a thread (e.g. during `/review-pr-fixes`), reply with the evaluation -- acknowledge if the fix is adequate, push back if it isn't -- but leave the thread status unchanged. The author resolves the thread when they're satisfied.
+
 ## Tone
 
 Apply the **writing-style** skill to all review comments, using the "Code review comments (inline on diffs)" register.

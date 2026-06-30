@@ -31,7 +31,7 @@ Pay close attention to how the user phrases multi-recipient requests:
 
 ## Voice and Tone
 
-Apply the **writing-style** skill to all composed text. It governs language (GB English), voice traits, LLM-tell avoidance, and platform-specific register.
+Apply the **objective-communication** skill to all composed text.
 
 ## Post-Action Linking
 
@@ -96,7 +96,7 @@ When reporting Slack actions back to the user, never say "the bot posted" or "po
 Constraints:
 
 - **Do not use `slack_add_reaction` unless a workflow skill explicitly instructs it.** Unsolicited reactions appear as the user's own and misrepresent intent. When a workflow skill (e.g. **review-pr**) defines specific reaction signals that the user opts into by invoking the workflow, `slack_add_reaction` is permitted for those defined reactions only. Treat `already_reacted` errors as idempotent success.
-- Assume all Slack output is attributable to the user. The **writing-style** skill's operational concealment rules apply.
+- Assume all Slack output is attributable to the user. The agent must not reveal that output was AI-generated -- no AI attribution markers, no self-disclosure, no tool or model references in external text.
 
 #### Resolving Slack Users
 

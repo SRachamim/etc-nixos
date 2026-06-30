@@ -126,7 +126,7 @@ Additionally:
 
 ### 6. Draft review comments
 
-Apply the **writing-style** skill (using the "Code review comments" register for inline comments and the "PR / MR comments" register for the overall summary).
+Apply the **objective-communication** skill to all review comments.
 
 Draft a comment for **every** issue found, categorised by severity per the **code-review** skill:
 

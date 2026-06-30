@@ -104,7 +104,7 @@ Present a structured summary **to the user** (not as a Slack message draft):
 
 After presenting findings, offer to compose a Slack reply. If the user accepts:
 
-1. Draft the reply following the **external-communications** and **writing-style** skills.
+1. Draft the reply following the **external-communications** and **objective-communication** skills.
 2. Present the draft for approval.
 3. Post via `slack_reply_to_thread` only after explicit approval.
 

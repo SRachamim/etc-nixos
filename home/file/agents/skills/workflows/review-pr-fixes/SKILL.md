@@ -158,7 +158,7 @@ Apply the full `/review-plan` evaluation to added and changed steps:
 
 ### 7. Draft follow-up
 
-Apply the **writing-style** skill (using the "Code review comments" register for inline comments and the "PR / MR comments" register for summaries when on the PR path; using the standard prose register when on the plan path).
+Apply the **objective-communication** skill to all follow-up text.
 
 Two categories of output:
 

@@ -16,7 +16,7 @@ Standard (escalate to Frontier for security-sensitive reviews)
 
 - **code-review** -- review dimensions and severity standards.
 - **functional-typescript** -- verify fp-ts patterns, type safety, purity.
-- **writing-style** -- use the correct tone and register for review comments.
+- **objective-communication** -- communication principles for review comments.
 - **decision-priorities** -- weigh findings by simplicity > correctness > changeability > DX.
 
 ## Output format

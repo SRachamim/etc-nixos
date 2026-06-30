@@ -39,7 +39,7 @@ Follow the **block-work-item** skill with:
 
 Add a `todo` remark to the nearest relevant declaration (function, type, variable) in the code, containing the work item ID and a brief description of the deferred fix.
 
-Apply the **writing-style** skill (using the "Code comments" register) for tone and formatting. Follow whatever TSDoc / JSDoc conventions the surrounding code already uses -- don't impose a fixed template.
+Apply the **objective-communication** skill for tone and formatting. Follow whatever TSDoc / JSDoc conventions the surrounding code already uses -- don't impose a fixed template.
 
 ### 5. Confirm
 

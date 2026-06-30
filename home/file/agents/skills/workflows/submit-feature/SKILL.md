@@ -51,7 +51,7 @@ Defaults:
 
 When the user asks to share/send a message to a person by name, look up their Slack user ID via `slack_get_users`. Paginate through all pages using the `cursor` parameter until the user is found or all pages are exhausted. Do not stop after the first page.
 
-Compose a message for the **#team-cinfra** Slack channel, following the **writing-style** skill (using the "Slack and casual messages" register). The message should include:
+Compose a message for the **#team-cinfra** Slack channel, following the **objective-communication** skill. The message should include:
 
 - A link to the PR (linked on the PR number, per **external-communications** skill).
 - A link to the work item (linked on the work item ID).
@@ -76,7 +76,7 @@ Known patterns:
 
 Also flag any file whose purpose is to instruct or configure an AI agent -- prompt templates, LLM system instructions, agent workflow definitions, MCP server configuration, AI-related config files, etc. Use judgment; when uncertain, include rather than exclude.
 
-If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **writing-style** skill and **external-communications** skill. **Present the DM for user approval before sending.**
+If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **objective-communication** skill and **external-communications** skill. **Present the DM for user approval before sending.**
 
 ### 6. Confirm completion
 

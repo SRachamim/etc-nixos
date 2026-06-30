@@ -15,7 +15,7 @@ Skill categories:
 ## Conventions
 
 - Follow the **commit-conventions** skill for all git commits.
-- Follow the **writing-style** skill for external communications (PR descriptions, work item comments, Slack messages).
+- Follow the **objective-communication** skill for external communications (PR descriptions, work item comments, Slack messages).
 - Follow the **gitflow-branching** skill for branch operations, yielding to repository-specific guidelines.
 - Follow the **external-communications** skill before posting to any external platform.
 - Follow the **decision-priorities** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).

@@ -142,7 +142,7 @@ Design commits following the **commit-conventions** skill.
 
 ### 7. Present the fix plan
 
-Apply the **writing-style** skill to all plan text.
+Apply the **objective-communication** skill to all plan text.
 
 Output the fix plan in this format:
 

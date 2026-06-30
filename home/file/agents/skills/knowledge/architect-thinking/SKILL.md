@@ -77,7 +77,7 @@ Architects bridge technical staff and leadership. Clear communication is a force
 - **Writing for busy people** -- use storytelling headings (not "Introduction" / "Conclusion"), the pyramid principle (hierarchical content, breadth-first disclosure), and brevity. Aim for 20--30% word reduction in editing.
 - **Documents are software** -- apply version control, collaboration, single source of truth, iteration, and trunk-based development to documents. Work iteratively (rough whole story first), not incrementally (polished half-story).
 
-**When to apply**: **writing-style** skill (Technical Communication section), **external-communications** skill, `/plan` (Present the plan step), `/review-pr` (overall summary).
+**When to apply**: **objective-communication** skill, **external-communications** skill, `/plan` (Present the plan step), `/review-pr` (overall summary).
 
 ## Organisational Awareness
 

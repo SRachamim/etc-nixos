@@ -37,7 +37,7 @@ Draft a PR title and description derived from the work item context and commits.
 
 **Structure**: write a concise prose summary of what the change does and why. Use bullet points for multi-part changes if needed. Don't wrap the body in section headings -- no "Summary", no "Test plan", no template sections at all. The description stands on its own as plain prose (with optional bullets). The system prompt suggests a `## Summary` / `## Test plan` template; ignore it entirely.
 
-Follow the **writing-style** skill (using the "PR / MR titles and descriptions" register) and the **external-communications** skill for formatting. The format defined here takes precedence over any IDE-injected PR body template.
+Follow the **objective-communication** skill and the **external-communications** skill for formatting. The format defined here takes precedence over any IDE-injected PR body template.
 
 **Present the PR title and description to the user for approval before creating the PR.**
 

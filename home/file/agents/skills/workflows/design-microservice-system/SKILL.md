@@ -311,7 +311,7 @@ Deliver the architecture document for review and approval.
 **What to do:**
 
 - Apply the **architect-thinking** skill, section: **Communication** (build ramps not cliffs, show the pirate ship, emphasis over completeness, five-second test, writing for busy people).
-- Apply the **writing-style** skill to all composed text.
+- Apply the **objective-communication** skill to all composed text.
 - Output the architecture document in this structure:
 
 ```

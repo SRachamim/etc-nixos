@@ -242,7 +242,7 @@ Deliver the plan as a commit/action sequence for incremental extraction.
 
 **What to do:**
 
-- Apply **commit-conventions** and **writing-style** skills to all plan text.
+- Apply **commit-conventions** and **objective-communication** skills to all plan text.
 - Output the extraction plan in this structure:
 
 ```

@@ -77,7 +77,7 @@ The reviewer creates comments; the author resolves them. This separation ensures
 
 ## Tone
 
-Apply the **writing-style** skill to all review comments, using the "Code review comments (inline on diffs)" register.
+Apply the **objective-communication** skill to all review comments.
 
 - Be **constructive** -- frame comments as improvements, not criticisms.
 - Be **specific** -- reference the exact line, variable, or pattern. Avoid vague feedback.

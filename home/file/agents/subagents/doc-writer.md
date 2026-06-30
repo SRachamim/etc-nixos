@@ -14,7 +14,7 @@ Volume
 
 ## Apply these skills
 
-- **writing-style** -- distinctive voice, GB English, LLM-tell avoidance, platform-specific register.
+- **objective-communication** -- communication principles (motivation, delimitation, structure, concretisation, self-containment, objectivity).
 - **external-communications** -- approval and formatting guidelines for the target platform.
 
 ## Output format

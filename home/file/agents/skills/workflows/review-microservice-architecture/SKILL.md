@@ -341,7 +341,7 @@ Deliver the structured audit report.
 **What to do:**
 
 - Apply the **architect-thinking** skill, section: **Communication** (build ramps not cliffs, show the pirate ship, emphasis over completeness, five-second test).
-- Apply the **writing-style** skill to all composed text.
+- Apply the **objective-communication** skill to all composed text.
 - Output the audit report in this structure:
 
 ```

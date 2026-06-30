@@ -142,7 +142,7 @@ This is a first draft -- less precise than what `/plan` produces after deep code
 
 ### 8. Present the output document
 
-Assemble all sections into a single self-contained markdown document. Apply the **writing-style** skill to all prose.
+Assemble all sections into a single self-contained markdown document. Apply the **objective-communication** skill to all prose.
 
 The document must be complete enough that a fresh agent session (with no prior context) can pick it up and implement from it. Treat the reader as a newcomer to the repository. Concretely, the document must include:
 

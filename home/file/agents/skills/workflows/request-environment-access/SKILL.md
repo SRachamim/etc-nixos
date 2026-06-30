@@ -23,7 +23,7 @@ The user provides an environment name and a reason for needing access. If either
 
 ### 2. Craft title and description
 
-Apply the **writing-style** skill (using the "Work-item descriptions and comments" register).
+Apply the **objective-communication** skill.
 
 - **Title**: `Grant <Display Name> access to <environment>` -- where `<Display Name>` is the current user's name resolved by the shared instructions.
 - **Description**: a markdown paragraph stating who needs access, to which environment, and why. Keep it short and direct.

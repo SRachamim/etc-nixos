@@ -5,7 +5,7 @@ description: Commit hygiene and structuring guidelines. Use whenever the agent c
 
 # Commit Conventions
 
-Apply the **writing-style** skill to all commit messages, using the "Commit messages" register.
+Apply the **objective-communication** skill to all commit messages.
 
 ## Structure
 

@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: writing-style
 description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, concise confirmation replies, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
 

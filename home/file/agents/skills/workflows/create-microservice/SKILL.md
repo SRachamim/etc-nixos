@@ -24,6 +24,8 @@ When multiple inputs are provided, they supplement each other. If the scope is a
 
 Require **Plan** mode following the **mode-gate** skill. Steps 2–12 are read-only analysis, design, and planning — Plan mode keeps the focus on correct boundaries and interfaces before any code is written. Step 13 switches to **Agent** mode for implementation.
 
+Apply the **objective-communication** skill to all deliverable prose in steps 2–12.
+
 ### 2. Define scope
 
 Establish what business capability this microservice owns and the language the team will use to discuss it.

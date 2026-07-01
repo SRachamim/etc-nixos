@@ -24,6 +24,8 @@ When the change scope is ambiguous, ask clarifying questions before proceeding.
 
 Require **Plan** mode following the **mode-gate** skill. Steps 2–10 are read-only analysis, impact assessment, and migration planning. Step 11 switches to **Agent** mode for implementation of steps 5–9.
 
+Apply the **objective-communication** skill to all deliverable prose in steps 2–10.
+
 ### 2. Understand the change
 
 Determine exactly what is changing and whether it truly requires a breaking change.

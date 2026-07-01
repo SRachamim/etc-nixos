@@ -78,6 +78,8 @@ For each proposal, specify:
 
 ### 5. Present report
 
+Apply the **objective-communication** skill to all composed text.
+
 Output the retrospective in this format:
 
 ```

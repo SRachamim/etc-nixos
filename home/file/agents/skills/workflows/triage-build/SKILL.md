@@ -48,6 +48,8 @@ If neither yields a build, ask the user and stop.
 
 ### 6. Summarize
 
+Apply the **objective-communication** skill to all composed text.
+
 Present a structured summary:
 
 ```

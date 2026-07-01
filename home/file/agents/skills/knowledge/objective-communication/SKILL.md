@@ -93,6 +93,14 @@ Ground every chain of reasoning in observable reality. Rationalism -- deduction 
 | **Documentation / README** | Motivate, Structure, Concretise, Self-containment | Answer "why should I read this?" early. Structure for scanability. Every concept gets an example. Do not assume context the reader lacks. |
 | **Work-item description** | Motivate, Delimit, Self-containment | State why the work matters, scope it precisely, include enough context that the item stands on its own. |
 
+## Summarising Changes
+
+When describing a set of code changes (PR description, commit message, or a Slack message summarising a PR or commit), report only the **net effect** on the codebase -- the state the reader will encounter after the change lands. Do not narrate intermediate approaches, exploratory work, or abandoned paths that leave no trace in the final diff.
+
+Example: if the PR replaces a hand-rolled retry loop with a library call, describe the replacement. Do not mention that the author first tried a different library, found it unsuitable, and switched -- that journey is invisible in the delivered code and irrelevant to the reader.
+
+This is a direct application of **Delimit**: intermediate artefacts and abandoned approaches are not "indispensable by the logic of the topic" -- they are implementation noise that the reader cannot observe in the final diff.
+
 ## Arguing in Reviews
 
 When defending or challenging a position in PR reviews, design discussions, or technical debates, apply these principles from Peikoff's argumentation framework:

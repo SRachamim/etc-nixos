@@ -44,43 +44,10 @@ Always state the severity explicitly so the author knows what requires action.
 
 ## Comment Constraints
 
-Every review comment must be **actionable**, **line-anchored**, and **artifact-traced**:
+Every review comment must be **actionable** and **line-anchored**:
 
 - **Actionable** -- the comment identifies a concrete problem, risk, or improvement and tells the author what to change. Comments that merely summarize what the code does, restate the PR description, or praise without requesting a change are not actionable and must not be drafted.
 - **Line-anchored** -- the comment references at least one specific line in at least one specific file in the diff. Free-floating observations that cannot be tied to a code location do not belong as review comments.
-- **Artifact-traced** -- the comment cites the agent artifact(s) that govern the finding (the standard the code violates or should follow). This makes findings auditable, disputable, and gap-revealing -- analogous to how linters cite a rule ID for every diagnostic.
-
-### Artifact traceability
-
-Each review comment must end with a `Governed by:` line identifying the artifact(s) the finding derives from. Citable artifacts include knowledge skills, workspace rules (`.cursor/rules/*.mdc`, `.claude/rules/*.md`, `AGENTS.md`), workflow skills (when a workflow step defines the standard), and subagent prompts.
-
-**Citation format** -- use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range of the specific criterion:
-
-```
-Governed by: `knowledge/functional-typescript/SKILL.md` (lines 42–48)
-```
-
-```
-Governed by: `.cursor/rules/api-validation.mdc` (lines 12–18)
-```
-
-When multiple artifacts jointly govern a finding, list them:
-
-```
-Governed by:
-- `knowledge/code-review/SKILL.md` (lines 8–10)
-- `knowledge/functional-typescript/SKILL.md` (lines 42–48)
-```
-
-**Gap signal** -- when a finding is sound but no existing artifact covers it, note:
-
-```
-No governing artifact — candidate for a new standard.
-```
-
-Uncitable findings are gaps in the standards. This feeds into the **continuous-improvement** skill's "Discovery" signal so the gap can be addressed after the review.
-
-**Precise location** -- the citation must include a line range, not just a filename. Read the artifact to identify the specific section or criterion that applies. If the artifact is already in context, use the known line numbers directly.
 
 ## Thread Status
 

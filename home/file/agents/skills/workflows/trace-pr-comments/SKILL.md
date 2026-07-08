@@ -13,7 +13,7 @@ Given a PR, find comment threads authored by the user (not by other reviewers an
 The ADO MCP posts as the user (user token), so both human-typed and agent-posted comments share the same author identity. The workflow must separate them:
 
 - **In-conversation** (after `/review-pr`): the agent knows which thread IDs it created from conversation context. Exclude those threads.
-- **Standalone**: exclude threads whose root comment contains a `Governed by:` line or opens with a structured severity prefix (`**Blocking**:`, `**Suggestion**:`, `**Nit**:`). These patterns indicate agent-posted comments.
+- **Standalone**: exclude threads whose root comment opens with a structured severity prefix (`**Blocking**:`, `**Suggestion**:`, `**Nit**:`). These patterns indicate agent-posted comments.
 - **Confirmation**: always present the candidate list to the user before proceeding (step 3), so false positives can be removed.
 
 ## Steps
@@ -37,7 +37,7 @@ Fetch the PR details (title, repository, source and target branches) via `repo_g
 - **Filter to user-authored threads**: keep only threads whose root comment author matches the current user's identity (by email or display name). Discard threads authored by other reviewers or the PR author (if different from the user).
 - **Exclude agent-posted comments** (see **Distinguishing user vs. agent comments** above):
   - If a preceding `/review-pr` ran in this conversation, exclude thread IDs the agent created (known from conversation context).
-  - Otherwise, exclude threads whose root comment text contains `Governed by:` or starts with `**Blocking**:`, `**Suggestion**:`, or `**Nit**:`.
+  - Otherwise, exclude threads whose root comment text starts with `**Blocking**:`, `**Suggestion**:`, or `**Nit**:`.
 - If no candidate comments remain, report "no user-authored comments found" and stop.
 
 ### 3. Confirm scope
@@ -69,18 +69,18 @@ For each confirmed comment:
 
 Apply the **objective-communication** skill to all reply text.
 
-**Covered comments** -- draft a reply for each, using the `Governed by:` citation format from the **code-review** skill's artifact traceability section. Use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range:
+**Covered comments** -- draft a reply for each, citing the governing artifact(s). Use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range:
 
 Single artifact:
 
 ```
-Governed by: `knowledge/functional-typescript/SKILL.md` (lines 42–48)
+Covered by `knowledge/functional-typescript/SKILL.md` (lines 42–48)
 ```
 
 Multiple artifacts:
 
 ```
-Governed by:
+Covered by:
 - `knowledge/code-review/SKILL.md` (lines 8–10)
 - `knowledge/functional-typescript/SKILL.md` (lines 42–48)
 ```

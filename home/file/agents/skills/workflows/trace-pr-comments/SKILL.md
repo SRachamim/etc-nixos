@@ -67,6 +67,8 @@ For each confirmed comment:
 
 ### 5. Draft replies and gap tasks
 
+Apply the **objective-communication** skill to all reply text.
+
 **Covered comments** -- draft a reply for each, using the `Governed by:` citation format from the **code-review** skill's artifact traceability section. Use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range:
 
 Single artifact:

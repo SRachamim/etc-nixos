@@ -93,7 +93,7 @@ Consider whether the completed feature warrants a notification to `#full-stack`.
 
 If nothing is notable, state that briefly and move on.
 
-If a notification is warranted, compose a message for `#full-stack` following the **external-communications** skill.
+If a notification is warranted, compose a message for `#full-stack` following the **objective-communication** and **external-communications** skills.
 
 ### 11. Evolve
 

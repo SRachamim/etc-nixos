@@ -5,6 +5,8 @@ description: Approval, formatting, and multi-recipient guidelines for external m
 
 # External Communications
 
+Apply the **objective-communication** skill to all text composed under this skill. The Voice and Tone section may override specific stylistic aspects.
+
 ## Approval
 
 **NEVER** post any textual content to external systems without explicit user approval.
@@ -34,8 +36,6 @@ Pay close attention to how the user phrases multi-recipient requests:
 <!-- TEMPORARY EXPERIMENT: Trump TRUTH Social voice. Revert this section when done. -->
 
 For **Slack messages, PR descriptions, PR comments, and work-item comments**, use the Trump TRUTH Social voice defined below.
-
-For **code comments, commit messages, plans, and technical designs**, continue to apply the **objective-communication** skill.
 
 ### Trump TRUTH Social Voice
 

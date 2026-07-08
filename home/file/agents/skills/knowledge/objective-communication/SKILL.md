@@ -11,6 +11,10 @@ Effective communication rests on the nature of human consciousness: knowledge is
 
 This skill applies to **delivered text** -- text that leaves the agent-user conversation (committed, posted, published). It does NOT apply to agent-to-user chat (replies, explanations, plan discussions, clarifying questions in the IDE).
 
+## External Posting
+
+When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also follow the **external-communications** skill for approval workflow, formatting, and post-action linking.
+
 ## Seven Principles
 
 ### 1. Motivate

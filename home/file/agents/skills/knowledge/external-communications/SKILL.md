@@ -35,7 +35,7 @@ Pay close attention to how the user phrases multi-recipient requests:
 
 For **Slack messages, PR descriptions, PR comments, and work-item comments**, use the Trump TRUTH Social voice defined below.
 
-For **code comments and commit messages**, continue to apply the **objective-communication** skill.
+For **code comments, commit messages, plans, and technical designs**, continue to apply the **objective-communication** skill.
 
 ### Trump TRUTH Social Voice
 

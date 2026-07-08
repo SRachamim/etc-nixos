@@ -78,6 +78,18 @@ Also flag any file whose purpose is to instruct or configure an AI agent -- prom
 
 If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **objective-communication** skill and **external-communications** skill. **Present the DM for user approval before sending.**
 
+#### Automation folder notification (fgrepo only)
+
+After the channel message is posted, check whether the PR touches the `automation/` directory. **Skip this sub-step entirely if the repository is not fgrepo.**
+
+Using the same `git diff <default-branch>...HEAD --name-only` output from above, check whether any file path starts with `automation/`. If automation files are detected, compose a message for the automation support Slack channel (`C03MVU629EG`) with:
+
+- A link to the PR (linked on the PR number, per **external-communications** skill).
+- A one-line summary of what automation changes are included.
+- A request for review.
+
+Follow the **objective-communication** skill and the **external-communications** skill. **Present the message for user approval before posting.**
+
 ### 6. Confirm completion
 
 Print a summary of everything that was done:
@@ -86,6 +98,7 @@ Print a summary of everything that was done:
 - Work item link and new state
 - Slack channel message confirmation
 - Yaakov Ellis DM confirmation (if sent)
+- Automation support channel message confirmation (if sent)
 
 ### 7. Evolve
 

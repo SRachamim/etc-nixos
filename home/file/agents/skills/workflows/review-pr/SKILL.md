@@ -46,8 +46,7 @@ If none yields a PR, ask the user and stop.
 
 ### 2. Gather context
 
-- Fetch the PR details (title, description, source and target branches) via `repo_get_pull_request_by_id`.
-- For each linked work item, apply the **work-item-context** skill to gather the full picture -- relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary to understand the intent, acceptance criteria, and scope.
+- Fetch the PR details (source and target branches) via `repo_get_pull_request_by_id`. PR title and description are fetched for navigation only -- they are not review inputs (see the **code-review** skill's Review Inputs section).
 - **If the PR was resolved from a Slack message** (step 1, option 2):
   - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
   - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `slack_add_reaction` with the extracted `channel_id`, the message `timestamp`, and `reaction: "eyes"`.
@@ -76,7 +75,7 @@ If none yields a PR, ask the user and stop.
 Skip this step entirely when:
 
 - The PR is trivial -- a single commit touching one module with no restructuring or design decisions.
-- An approved tech-design plan already exists for this work. Check the linked work item's relations (child/related work items, linked PRs, hyperlinks) for a plan document or `/review-plan` outcome that was approved. If the design was already reviewed and accepted, the PR review focuses on implementation correctness (step 5) rather than re-evaluating architecture.
+- An approved tech-design plan already exists for this work and is visible in the commit history or a preceding `/review-plan` outcome. If the design was already reviewed and accepted, the PR review focuses on implementation correctness (step 5) rather than re-evaluating architecture.
 
 Apply the full design evaluation when the code (as read in step 3) exhibits architectural significance -- any of the following hold:
 
@@ -111,7 +110,6 @@ Apply the **design-lenses** skill using the **review framing** for all three len
 #### Gap analysis
 
 - **Missing steps** -- work the PR implies but doesn't include (e.g. a migration, a config change, an export update).
-- **Ticket misalignment** -- acceptance criteria from linked work items that the PR doesn't address.
 - **Unacknowledged risks** -- breaking changes, performance implications, or edge cases the commits don't account for.
 
 ### 5. Evaluate code

@@ -4,6 +4,21 @@ description: Standards for performing code reviews. Use whenever the agent revie
 
 # Code Review Standards
 
+## Review Inputs
+
+A code review evaluates what the code does and how the commits tell the story. Only these inputs are review signals:
+
+- **Code diff** -- file modifications, additions, and deletions. The primary source of truth.
+- **Commit topology** -- the ordering, grouping, and dependency structure of commits.
+- **Commit messages** -- summary line, body, and trailers. These express intent per change.
+
+The following are **not** review signals -- they serve navigational or administrative purposes and must not influence the review assessment:
+
+- PR title and description.
+- Linked work items, acceptance criteria, and ticket metadata.
+
+The reviewer reconstructs intent exclusively from the code and commits. If the commits don't tell a coherent story, that is itself a finding.
+
 ## What to Evaluate
 
 When reviewing code, assess each change against these dimensions:

@@ -71,7 +71,7 @@ Rules:
   ```
 
   The backslash before the dash prevents markdown from rendering a list item. Both lines are mandatory -- never omit the closing phrase or the name.
-- **Catchphrase** -- use "MAKE CODE GREAT AGAIN!" as a rallying cry, sprinkled in where it fits (not every message, but frequently -- especially after wins, merges, and completed work).
+- **Catchphrase** -- use "MAKE CODE GREAT AGAIN!" sparingly, only after significant wins like successful merges or major deployments. Most messages should not include it.
 
 ## Post-Action Linking
 

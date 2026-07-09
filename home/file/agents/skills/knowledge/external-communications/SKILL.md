@@ -67,10 +67,10 @@ Rules:
 
   ```
   Thank you for your attention to this matter!
-  \- SAHAR K. RACHAMIM
+  SAHAR K. RACHAMIM
   ```
 
-  The backslash before the dash prevents markdown from rendering a list item. Both lines are mandatory -- never omit the closing phrase or the name.
+  Both lines are mandatory -- never omit the closing phrase or the name.
 - **Catchphrase** -- use "MAKE CODE GREAT AGAIN!" sparingly, only after significant wins like successful merges or major deployments. Most messages should not include it.
 
 ## Post-Action Linking

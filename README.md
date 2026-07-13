@@ -1,37 +1,54 @@
 # etc-nixos
 
-Personal NixOS configuration and AI agent ecosystem. Manages system
-configuration for a Dell Precision 5530 / macOS workstation and deploys
-user-level agent artifacts (skills, subagent prompts, hooks, MCP config)
-to Cursor, Claude Code, and Gemini CLI via home-manager.
+Personal NixOS + nix-darwin configuration with home-manager. Manages system
+configuration for a Dell Precision 5530 (NixOS) and macOS workstation
+(nix-darwin), and deploys user-level agent artifacts (skills, subagent
+prompts, hooks, MCP config) to Cursor, Claude Code, and Gemini CLI.
 
 ## Repository structure
 
 ```
 .
-├── configuration.nix          NixOS entry point; imports all modules
-├── home.nix                   home-manager: agent deployment, shell, git, editor
-├── *.nix                      System modules (boot, hardware, networking, etc.)
+├── flake.nix                    Entry point; pins all inputs, defines hosts
+├── flake.lock                   Locked dependency versions
+│
+├── hosts/
+│   ├── nixos/
+│   │   ├── configuration.nix    NixOS entry point
+│   │   └── hardware-configuration.nix
+│   └── darwin/
+│       └── configuration.nix    nix-darwin entry point
+│
+├── modules/
+│   ├── shared/
+│   │   └── nix.nix              Shared Nix daemon settings
+│   ├── nixos/                   NixOS-only modules (boot, services, etc.)
+│   └── darwin/                  macOS-only modules (defaults, homebrew)
 │
 ├── home/
+│   ├── shared.nix               Shared home-manager config
+│   ├── darwin.nix               macOS-specific home additions
+│   ├── nixos.nix                NixOS-specific home additions
 │   ├── file/
-│   │   ├── agents/            Canonical source for all agent artifacts
-│   │   │   ├── AGENTS.md      Global agent instructions
-│   │   │   ├── CLAUDE.md      Claude Code adapter (imports AGENTS.md)
-│   │   │   ├── hooks.json     Cursor pre-commit/push hook
-│   │   │   ├── settings.json  Cursor IDE settings seed
-│   │   │   ├── skills/        Agent skills (see below)
-│   │   │   └── subagents/     Subagent prompt templates (see below)
-│   │   ├── git-hooks/         Global git commit-msg hook
-│   │   ├── zellij/layouts/    Terminal multiplexer layouts
-│   │   ├── ghostty/           Terminal emulator config
-│   │   └── aerospace/         macOS window manager config
+│   │   ├── agents/              Canonical source for all agent artifacts
+│   │   │   ├── AGENTS.md        Global agent instructions
+│   │   │   ├── CLAUDE.md        Claude Code adapter (imports AGENTS.md)
+│   │   │   ├── hooks.json       Cursor pre-commit/push hook
+│   │   │   ├── settings.json    Cursor IDE settings seed
+│   │   │   ├── skills/          Agent skills (see below)
+│   │   │   └── subagents/       Subagent prompt templates
+│   │   ├── git-hooks/           Global git commit-msg hook
+│   │   ├── zellij/layouts/      Terminal multiplexer layouts
+│   │   ├── ghostty/             Terminal emulator config
+│   │   └── aerospace/           macOS window manager config
 │   └── programs/
-│       ├── neovim/            Neovim plugins and agentic.nvim (Cursor ACP)
-│       └── .zshrc             Shell helpers and secrets sourcing
+│       └── neovim/              Neovim plugins and agentic.nvim
 │
-├── .cursor/rules/             Repo-local Cursor rules (for editing this repo)
-└── .claude/rules/             Repo-local Claude rules (for editing this repo)
+├── overlays/
+│   └── default.nix              Custom packages (agentic-nvim)
+│
+├── .cursor/rules/               Repo-local Cursor rules
+└── .claude/rules/               Repo-local Claude rules
 ```
 
 ## Agent artifacts
@@ -48,26 +65,20 @@ into three categories:
 | **knowledge/** | 26 | Standards and reference material loaded by context |
 | **shared/** | 4 | Helper sub-workflows called by other skills |
 
-Each skill is a directory containing a `SKILL.md` with YAML frontmatter
-(name, description) and optional companion files (e.g. `reference.md`).
-
 ### Subagent prompts
 
-Prompt templates for delegated sub-tasks that run in a separate agent
-context. Each subagent is a single Markdown file in
-`home/file/agents/subagents/`. See the
-[subagents README](home/file/agents/subagents/README.md) for conventions.
+Prompt templates for delegated sub-tasks. Each subagent is a single
+Markdown file in `home/file/agents/subagents/`.
 
 ### Hooks
 
-- **Cursor hook** (`hooks.json`): LLM-based pre-commit/push validator
-  enforcing GB English, commit conventions, and branch protection.
-- **Git hook** (`git-hooks/commit-msg`): Mechanical commit message
-  validation (length, banned vocabulary, AI trailer stripping).
+- **Cursor hook** (`hooks.json`): LLM-based pre-commit/push validator.
+- **Git hook** (`git-hooks/commit-msg`): Mechanical commit message validation.
 
 ### MCP servers
 
-Configured in `home.nix` and deployed to `~/.cursor/mcp.json`:
+Configured in `home/shared.nix` and deployed to `~/.cursor/mcp.json`,
+`~/.claude.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`:
 
 | Server | Purpose |
 |--------|---------|
@@ -78,7 +89,7 @@ Configured in `home.nix` and deployed to `~/.cursor/mcp.json`:
 
 ## Deployment
 
-`home.nix` deploys agent artifacts via home-manager to multiple targets:
+### Agent artifact deployment
 
 ```
 home/file/agents/skills/     ->  ~/.agents/skills/
@@ -90,33 +101,26 @@ home/file/agents/subagents/  ->  ~/.agents/subagents/
                                  ~/.cursor/subagents/
                                  ~/.claude/subagents/
                                  ~/.gemini/subagents/
-
-home/file/agents/AGENTS.md   ->  ~/.agents/AGENTS.md
-                                 ~/.gemini/AGENTS.md
-
-home/file/agents/CLAUDE.md   ->  ~/.claude/CLAUDE.md
 ```
 
-Apply changes with:
+### Apply changes
 
 ```sh
 # NixOS (full system + home-manager)
-sudo nixos-rebuild switch
+sudo nixos-rebuild switch --flake .#SaharRachamim
 
-# macOS (home-manager only)
-home-manager switch
+# macOS (nix-darwin + home-manager)
+darwin-rebuild switch --flake .#macbook
 ```
+
+## Secrets
+
+API keys and tokens are kept in `~/.secrets` (not tracked in this repo).
+The file is sourced by zsh on shell startup. A template is created
+automatically by home-manager if the file doesn't exist.
 
 ## Evolving the ecosystem
 
 Use the `/add-agent-behavior` skill to classify and create new artifacts.
-It determines whether new behaviour belongs in a workflow skill, knowledge
-skill, shared skill, or subagent prompt, checks for overlap with existing
-artifacts, and creates the file in the correct location.
-
 After any artifact change, the `continuous-improvement` skill evaluates
 whether the change warrants updates to related artifacts.
-
-Repo-local rules (`.cursor/rules/evolve-new-artifacts.mdc`) enforce
-that every new or modified skill includes an evolution step, a mode-gate
-assessment, and a portability check.

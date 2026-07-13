@@ -1,5 +1,4 @@
 { ... }:
-
 {
   virtualisation = {
     lxd = {

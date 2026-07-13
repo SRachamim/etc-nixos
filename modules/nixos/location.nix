@@ -2,4 +2,3 @@
 {
   location.provider = "geoclue2";
 }
-

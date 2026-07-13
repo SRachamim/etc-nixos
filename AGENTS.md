@@ -1,13 +1,13 @@
 # Declarative Nix only
 
-Every change to packages, services, programs, dotfiles, environment variables, shell aliases, fonts, or system settings **must** be made declaratively in this repository. Never perform or suggest imperative mutations that won't survive `nixos-rebuild switch`, `home-manager switch`, or porting to a new machine.
+Every change to packages, services, programs, dotfiles, environment variables, shell aliases, fonts, or system settings **must** be made declaratively in this repository. Never perform or suggest imperative mutations that won't survive `nixos-rebuild switch`, `darwin-rebuild switch`, or porting to a new machine.
 
 ## Banned imperative patterns
 
-- `brew install` / `brew cask install`
+- `brew install` / `brew cask install` (use `modules/darwin/homebrew.nix` instead)
 - `apt install` / `dnf install` / `pacman -S`
 - `npm install -g` / `pip install --user`
-- `defaults write` / `gsettings set`
+- `defaults write` / `gsettings set` (use `modules/darwin/defaults.nix` instead)
 - `systemctl enable` / `launchctl load`
 - Manually editing config files outside this repo (e.g. `~/.zshrc`, `~/.gitconfig`)
 
@@ -15,17 +15,23 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 
 | Change type | File(s) |
 |-------------|---------|
-| NixOS system packages | `environment.nix` |
-| home-manager packages / programs | `home.nix` |
-| Shell config (zsh) | `home/programs/.zshrc` |
+| Flake inputs / host definitions | `flake.nix` |
+| NixOS system packages | `modules/nixos/environment.nix` |
+| macOS system defaults | `modules/darwin/defaults.nix` |
+| macOS Homebrew casks | `modules/darwin/homebrew.nix` |
+| Shared home-manager packages / programs | `home/shared.nix` |
+| macOS-specific home config | `home/darwin.nix` |
+| NixOS-specific home config | `home/nixos.nix` |
+| Shell config (zsh) | `home/shared.nix` (programs.zsh.initContent) |
 | Dotfiles (ghostty, aerospace, zellij, etc.) | `home/file/<app>/` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
 | Neovim config | `home/programs/neovim/` |
-| Fonts | `fonts.nix` |
-| Services | `services.nix` |
-| Networking | `networking.nix` |
+| Fonts (NixOS) | `modules/nixos/fonts.nix` |
+| Services (NixOS) | `modules/nixos/services.nix` |
+| Networking (NixOS) | `modules/nixos/networking.nix` |
+| Custom packages / overlays | `overlays/default.nix` |
 
-Do **not** edit `hardware-configuration.nix` -- it is auto-generated.
+Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated.
 
 # Evolve new artifacts
 

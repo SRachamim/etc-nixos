@@ -20,6 +20,14 @@ in
           ripgrep
           fd
           lazygit
+          nodejs
+          tree-sitter
+          lua-language-server
+          nil
+          bash-language-server
+          typescript-language-server
+          vscode-langservers-extracted
+          pngpaste
         ];
       };
 

@@ -79,6 +79,7 @@ vim.cmd.colorscheme("catppuccin-mocha")
 require("snacks").setup({})
 require("plugins.treesitter")
 require("plugins.agentic")
+require("plugins.orgmode")
 
 -- Load lz.n for lazy loading optional plugins
 require("lz.n").load(require("plugins"))

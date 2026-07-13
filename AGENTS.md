@@ -33,6 +33,66 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 
 Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated.
 
+## Common patterns
+
+### Add a home-manager package
+
+In `home/shared.nix`, append to the `home.packages` list:
+
+```nix
+home.packages = with pkgs; [
+  # ... existing ...
+  new-package
+];
+```
+
+### Add a shell alias
+
+In `home/shared.nix`, append to `programs.zsh.shellAliases`:
+
+```nix
+shellAliases = {
+  # ... existing ...
+  ll = "lsd -la";
+};
+```
+
+### Add a Homebrew cask
+
+In `modules/darwin/homebrew.nix`, append to `homebrew.casks`. For third-party casks, also add the tap:
+
+```nix
+taps = [ "org/tap" ];
+casks = [ "org/tap/app" ];
+```
+
+### Add a dotfile
+
+Place the file under `home/file/<app>/`, then add a `home.file` entry in `home/shared.nix` (or `home/darwin.nix` for macOS-only):
+
+```nix
+home.file."my-config" = {
+  target = ".config/app/config.toml";
+  source = ./file/app/config.toml;
+};
+```
+
+### Add an MCP server
+
+In `home/shared.nix`, add to `mcpServers` using the `mkMcpServer` helper:
+
+```nix
+"Server Name" = {
+  command = mkMcpServer "mcp-server-name" "@org/mcp-pkg@latest";
+};
+```
+
+The server is automatically deployed to `~/.cursor/mcp.json`, `~/.claude.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`.
+
+### Apply changes
+
+After editing, the user must run `switch` (alias for `sudo darwin-rebuild switch --flake .#macbook` on macOS). Do **not** run this command as the agent -- inform the user to apply.
+
 # Evolve new artifacts
 
 Applies when creating or modifying files under `home/file/agents/skills/**/SKILL.md`.

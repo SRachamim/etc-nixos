@@ -106,12 +106,127 @@ home/file/agents/subagents/  ->  ~/.agents/subagents/
 ### Apply changes
 
 ```sh
+# macOS (nix-darwin + home-manager) -- or just: switch
+sudo darwin-rebuild switch --flake .#macbook
+
 # NixOS (full system + home-manager)
 sudo nixos-rebuild switch --flake .#SaharRachamim
-
-# macOS (nix-darwin + home-manager)
-darwin-rebuild switch --flake .#macbook
 ```
+
+## Common tasks
+
+### Update all packages
+
+```sh
+nix flake update          # updates flake.lock with latest versions
+switch                    # rebuild with new versions
+```
+
+To update a single input (e.g. only home-manager):
+
+```sh
+nix flake update home-manager
+switch
+```
+
+### Add a package
+
+Shared across both hosts -- append to `home.packages` in `home/shared.nix`:
+
+```nix
+home.packages = with pkgs; [
+  # ... existing packages ...
+  htop    # <-- add here
+];
+```
+
+For NixOS system packages, edit `modules/nixos/environment.nix` instead.
+For macOS GUI apps not in nixpkgs, add a Homebrew cask (see below).
+
+### Add a shell alias
+
+In `home/shared.nix`, append to `programs.zsh.shellAliases`:
+
+```nix
+shellAliases = {
+  # ... existing aliases ...
+  ll = "lsd -la";    # <-- add here
+};
+```
+
+### Add a macOS system default
+
+Edit `modules/darwin/defaults.nix`. Find the right namespace on the
+[nix-darwin options search](https://searchix.alanpearce.eu/options/darwin-unstable):
+
+```nix
+system.defaults = {
+  dock.tilesize = 48;              # <-- example
+  NSGlobalDomain.AppleShowScrollBars = "Always";
+};
+```
+
+### Add a Homebrew cask
+
+Edit `modules/darwin/homebrew.nix`. For third-party casks, add the tap first:
+
+```nix
+homebrew = {
+  taps = [
+    "some-org/tap"        # <-- needed for third-party casks
+  ];
+  casks = [
+    "some-org/tap/app"    # <-- fully qualified name
+    "vanilla-cask"        # <-- official casks need no tap
+  ];
+};
+```
+
+### Add a dotfile
+
+1. Place the config file in `home/file/<app>/` (e.g. `home/file/wezterm/wezterm.lua`).
+2. Add a `home.file` entry in `home/shared.nix` (or `home/darwin.nix` for macOS-only):
+
+```nix
+home.file."wezterm-config" = {
+  target = ".config/wezterm/wezterm.lua";
+  source = ./file/wezterm/wezterm.lua;
+};
+```
+
+### Add an MCP server
+
+In `home/shared.nix`, add an entry to `mcpServers` using the `mkMcpServer` helper:
+
+```nix
+mcpServers = {
+  # ... existing servers ...
+  "New Server" = {
+    command = mkMcpServer "mcp-new-server" "@org/mcp-server@latest";
+  };
+};
+```
+
+The server is automatically deployed to Cursor, Claude Code, Gemini CLI,
+and Codex configs.
+
+### Roll back
+
+```sh
+# macOS -- switch to the previous nix-darwin generation
+sudo darwin-rebuild switch --rollback
+
+# List home-manager generations
+home-manager generations
+```
+
+### Add a new host
+
+1. Create `hosts/<name>/configuration.nix` (and `hardware-configuration.nix`
+   for NixOS).
+2. Add a new entry in `flake.nix` under `nixosConfigurations` or
+   `darwinConfigurations`.
+3. Import the appropriate modules and home-manager config.
 
 ## Secrets
 

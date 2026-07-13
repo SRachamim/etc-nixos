@@ -31,28 +31,7 @@ in
     home.username = "sahar.rachamim";
     home.homeDirectory = "/Users/sahar.rachamim";
     home.stateVersion = "23.05";
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "vim-airline"
-      "vim-closetag"
-      "vim-commentary"
-      "vim-css-color"
-      "vim-devicons"
-      "vim-fugitive"
-      "vim-gitgutter"
-      "vim-hardtime"
-      "vim-highlightedyank"
-      "vim-html-template-literals"
-      "vim-orgmode"
-      "vim-polyglot"
-      "vim-repeat"
-      "vim-surround"
-      "vim-unimpaired"
-      "catppuccin-nvim"
-      "coc-nvim"
-      "fzf-vim"
-      "git-messenger-vim"
-      "orgmode"
-    ];
+    nixpkgs.config.allowUnfree = true;
     home.file = {
       "zellij-layout-fg" = {
         target = ".config/zellij/layouts/fg.kdl";

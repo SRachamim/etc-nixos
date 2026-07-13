@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+
+# Declarative Nix only
+
+Every change to packages, services, programs, dotfiles, environment variables, shell aliases, fonts, or system settings **must** be made declaratively in this repository. Never perform or suggest imperative mutations that won't survive `nixos-rebuild switch`, `home-manager switch`, or porting to a new machine.
+
+## Banned imperative patterns
+
+- `brew install` / `brew cask install`
+- `apt install` / `dnf install` / `pacman -S`
+- `npm install -g` / `pip install --user`
+- `defaults write` / `gsettings set`
+- `systemctl enable` / `launchctl load`
+- Manually editing config files outside this repo (e.g. `~/.zshrc`, `~/.gitconfig`)
+
+## Where to make changes
+
+| Change type | File(s) |
+|-------------|---------|
+| NixOS system packages | `environment.nix` |
+| home-manager packages / programs | `home.nix` |
+| Shell config (zsh) | `home/programs/.zshrc` |
+| Dotfiles (ghostty, aerospace, zellij, etc.) | `home/file/<app>/` |
+| Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
+| Neovim config | `home/programs/neovim/` |
+| Fonts | `fonts.nix` |
+| Services | `services.nix` |
+| Networking | `networking.nix` |
+
+Do **not** edit `hardware-configuration.nix` -- it is auto-generated.

@@ -141,6 +141,7 @@ in
       };
       "ai-antigravity-mcp" = {
         target = ".gemini/config/mcp_config.json";
+        force = true;
         text = builtins.toJSON { inherit mcpServers; };
       };
       "ai-agents-md-codex" = {

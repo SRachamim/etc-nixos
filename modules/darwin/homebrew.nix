@@ -9,6 +9,10 @@
     };
     taps = [
       "nikitabobko/tap"
+      "raine/workmux"
+    ];
+    brews = [
+      "raine/workmux/workmux"
     ];
     casks = [
       "nikitabobko/tap/aerospace"

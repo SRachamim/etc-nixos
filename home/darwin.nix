@@ -4,10 +4,6 @@
   home.homeDirectory = "/Users/sahar.rachamim";
 
   home.file = {
-    "ghostty-config" = {
-      target = ".config/ghostty/config";
-      source = ./file/ghostty/config;
-    };
     "aerospace-config" = {
       source = ./file/aerospace/aerospace.toml;
       target = ".aerospace.toml";
@@ -16,6 +12,24 @@
       target = "Library/Application Support/Cursor/User/settings.json";
       source = ./file/agents/settings.json;
       force = true;
+    };
+  };
+
+  programs.ghostty = {
+    enable = true;
+    package = null;
+    settings = {
+      font-family = "FiraCode Nerd Font Mono";
+      macos-option-as-alt = true;
+      shell-integration = "zsh";
+      keybind = [
+        "ctrl+h=goto_split:left"
+        "ctrl+j=goto_split:bottom"
+        "ctrl+k=goto_split:top"
+        "ctrl+l=goto_split:right"
+        "cmd+d=new_split:right"
+        "cmd+shift+d=new_split:down"
+      ];
     };
   };
 

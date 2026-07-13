@@ -1,6 +1,36 @@
 { config, pkgs, lib, ... }:
 let
   nix-shell = "/nix/var/nix/profiles/default/bin/nix-shell";
+  mcpServers = {
+    "Azure DevOps" = {
+      command = nix-shell;
+      args = [
+        "-p" "nodejs" "--run"
+        "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @azure-devops/mcp@latest fundguard -a pat"
+      ];
+    };
+    "Currents" = {
+      command = nix-shell;
+      args = [
+        "-p" "nodejs" "--run"
+        "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @currents/mcp@latest"
+      ];
+    };
+    "Slack" = {
+      command = nix-shell;
+      args = [
+        "-p" "nodejs" "--run"
+        "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @zencoderai/slack-mcp-server@latest"
+      ];
+    };
+    "Datadog" = {
+      command = nix-shell;
+      args = [
+        "-p" "nodejs" "--run"
+        "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @winor30/mcp-server-datadog@latest"
+      ];
+    };
+  };
   agentic-nvim = pkgs.vimUtils.buildVimPlugin {
     name = "agentic-nvim";
     src = pkgs.fetchFromGitHub {
@@ -40,46 +70,7 @@ in
       "cursor-mcp.json" = {
         target = ".cursor/mcp.json";
         force = true;
-        text = builtins.toJSON {
-          mcpServers = {
-            "Azure DevOps" = {
-              command = nix-shell;
-              args = [
-                "-p"
-                "nodejs"
-                "--run"
-                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @azure-devops/mcp@latest fundguard -a pat"
-              ];
-            };
-            "Currents" = {
-              command = nix-shell;
-              args = [
-                "-p"
-                "nodejs"
-                "--run"
-                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @currents/mcp@latest"
-              ];
-            };
-            "Slack" = {
-              command = nix-shell;
-              args = [
-                "-p"
-                "nodejs"
-                "--run"
-                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @zencoderai/slack-mcp-server@latest"
-              ];
-            };
-            "Datadog" = {
-              command = nix-shell;
-              args = [
-                "-p"
-                "nodejs"
-                "--run"
-                "source ~/.secrets 2>/dev/null; NPM_CONFIG_CACHE=/tmp/npm-mcp-cache npx -y @winor30/mcp-server-datadog@latest"
-              ];
-            };
-          };
-        };
+        text = builtins.toJSON { inherit mcpServers; };
       };
       "cursor-agent-acp-config" = {
         target = ".config/cursor-agent-acp/config.json";
@@ -145,11 +136,24 @@ in
         target = ".gemini/settings.json";
         text = builtins.toJSON {
           context.fileName = [ "GEMINI.md" "AGENTS.md" ];
+          inherit mcpServers;
         };
+      };
+      "ai-antigravity-mcp" = {
+        target = ".gemini/config/mcp_config.json";
+        text = builtins.toJSON { inherit mcpServers; };
       };
       "ai-agents-md-codex" = {
         source = ./home/file/agents/AGENTS.md;
         target = ".codex/AGENTS.md";
+      };
+      "ai-codex-config" = {
+        target = ".codex/config.toml";
+        source = (pkgs.formats.toml {}).generate "config.toml" {
+          mcp_servers = lib.mapAttrs' (name: value:
+            lib.nameValuePair (lib.toLower (builtins.replaceStrings [" "] ["-"] name)) value
+          ) mcpServers;
+        };
       };
       # --- Adapter: CLAUDE.md with @AGENTS.md import ---
       "ai-claude-md" = {
@@ -289,6 +293,16 @@ MEOF
         skill_name=$(basename "$skill" .md)
         echo "- **$skill_name**: $skill" >> "$KNOWLEDGE_DIR/artifacts/skills_catalog.md"
       done
+    '';
+    home.activation.installClaudeMcp = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      CLAUDE_JSON="$HOME/.claude.json"
+      MCP_JSON='${builtins.toJSON { inherit mcpServers; }}'
+      if [ -f "$CLAUDE_JSON" ]; then
+        ${pkgs.jq}/bin/jq --argjson mcp "$MCP_JSON" '. * {mcpServers: $mcp.mcpServers}' "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" \
+          && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
+      else
+        echo "$MCP_JSON" | ${pkgs.jq}/bin/jq '.' > "$CLAUDE_JSON"
+      fi
     '';
     home.activation.installCursorCli = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       if ! [ -x "$HOME/.local/bin/cursor-agent" ]; then

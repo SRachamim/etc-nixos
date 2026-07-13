@@ -147,6 +147,10 @@ in
           context.fileName = [ "GEMINI.md" "AGENTS.md" ];
         };
       };
+      "ai-agents-md-codex" = {
+        source = ./home/file/agents/AGENTS.md;
+        target = ".codex/AGENTS.md";
+      };
       # --- Adapter: CLAUDE.md with @AGENTS.md import ---
       "ai-claude-md" = {
         source = ./home/file/agents/CLAUDE.md;

@@ -177,6 +177,7 @@ in
       nerd-fonts.fira-code
       # aider-chat
       azure-cli
+      claude-code
       fd
       gemini-cli
       ripgrep

@@ -75,6 +75,7 @@ in
     flavor = "mocha";
     bat.enable = true;
     fzf.enable = true;
+    ghostty.enable = false;
     lsd.enable = true;
     starship.enable = true;
     zellij.enable = true;
@@ -94,6 +95,10 @@ in
     "zellij-layout-fg" = {
       target = ".config/zellij/layouts/fg.kdl";
       source = ./file/zellij/layouts/fg.kdl;
+    };
+    "zellij-layout-ai" = {
+      target = ".config/zellij/layouts/ai.kdl";
+      source = ./file/zellij/layouts/ai.kdl;
     };
     "cursor-mcp.json" = {
       target = ".cursor/mcp.json";
@@ -199,6 +204,17 @@ in
       force = true;
       text = builtins.toJSON { inherit mcpServers; };
     };
+    "ai-claude-settings" = {
+      target = ".claude/settings.json";
+      force = true;
+      text = builtins.toJSON {
+        preferences = {
+          terminal_emulator = "ghostty";
+          theme = "dark";
+          verbose = false;
+        };
+      };
+    };
     "ai-cursor-hooks" = {
       source = ./file/agents/hooks.json;
       target = ".cursor/hooks.json";
@@ -214,12 +230,17 @@ in
 
   home.packages = with pkgs; [
     nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
     azure-cli
+    btop
     claude-code
     fd
     gemini-cli
+    lazydocker
+    lazygit
     ripgrep
     volta
+    yazi
   ];
 
   # Secrets template -- will be replaced by agenix once host SSH keys are enrolled.
@@ -260,6 +281,20 @@ EOF
   '';
 
   programs = {
+    atuin = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
+        auto_sync = false;
+        update_check = false;
+        style = "compact";
+        inline_height = 20;
+        search_mode = "fuzzy";
+        filter_mode = "global";
+        filter_mode_shell_up_key_binding = "session";
+      };
+    };
+
     bat.enable = true;
 
     direnv = {
@@ -268,7 +303,10 @@ EOF
       nix-direnv.enable = true;
     };
 
-    fzf.enable = true;
+    fzf = {
+      enable = true;
+      historyWidget.command = "";
+    };
 
     zoxide = {
       enable = true;
@@ -336,104 +374,7 @@ EOF
 
     lsd.enable = true;
 
-    neovim = {
-      coc = {
-        enable = true;
-        settings = {
-          "eslint.autoFixOnSave" = true;
-          "tsserver.enableJavascript" = false;
-        };
-      };
-      enable = true;
-      extraConfig = builtins.readFile ./programs/neovim/rc.vim;
-      withRuby = false;
-      withPython3 = false;
-      plugins = with pkgs.vimPlugins; [
-        {
-          type = "viml";
-          config = ''
-            set termguicolors
-            colorscheme catppuccin-mocha
-          '';
-          plugin = catppuccin-nvim;
-        }
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/coc-nvim.vim;
-          plugin = coc-nvim;
-        }
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/vim-closetag.vim;
-          plugin = vim-closetag;
-        }
-        coc-css
-        vim-css-color
-        vim-hardtime
-        vim-orgmode
-        coc-html
-        coc-java
-        coc-json
-        coc-markdownlint
-        coc-sh
-        coc-tailwindcss
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/fzf-vim.vim;
-          plugin = fzf-vim;
-        }
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/vim-airline.vim;
-          plugin = vim-airline;
-        }
-        vim-commentary
-        vim-devicons
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/vim-html-template-literals.vim;
-          plugin = vim-html-template-literals;
-        }
-        vim-fugitive
-        vim-gitgutter
-        vim-highlightedyank
-        git-messenger-vim
-        {
-          type = "viml";
-          config = builtins.readFile ./programs/neovim/vim-polyglot.vim;
-          plugin = vim-polyglot;
-        }
-        orgmode
-        vim-repeat
-        vim-surround
-        vim-unimpaired
-        {
-          type = "lua";
-          config = ''
-            require("agentic").setup({
-              provider = "cursor-acp",
-              debug = false,
-              acp_providers = {
-                ["cursor-acp"] = {
-                  name = "Cursor Agent ACP",
-                  command = vim.fn.expand("~/.npm-global/bin/cursor-agent-acp"),
-                  args = { "-c", vim.fn.expand("~/.config/cursor-agent-acp/config.json") },
-                  env = {
-                    NODE_NO_WARNINGS = "1",
-                    IS_AI_TERMINAL = "1",
-                    PATH = vim.fn.expand("~/.npm-global/bin") .. ":" .. vim.fn.expand("~/.local/bin") .. ":" .. vim.env.PATH,
-                    HOME = vim.fn.expand("~"),
-                  },
-                },
-              },
-            })
-          '';
-          plugin = pkgs.agentic-nvim;
-        }
-      ];
-      vimAlias = true;
-      vimdiffAlias = true;
-    };
+    # Neovim is configured via nixCats in home/programs/neovim/default.nix
 
     ssh = {
       enable = true;
@@ -508,6 +449,7 @@ EOF
       shellAliases = {
         zj = "zellij";
         fg = "zellij --layout fg";
+        ai = "zellij --layout ai";
         switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos/main#macbook";
       };
     };

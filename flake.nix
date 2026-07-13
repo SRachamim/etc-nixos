@@ -18,9 +18,11 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
+    nixCats.url = "github:BirdeeHub/nixCats-nvim";
+
   };
 
-  outputs = inputs@{ self, nixpkgs, nixos-hardware, home-manager, nix-darwin, catppuccin, ... }:
+  outputs = inputs@{ self, nixpkgs, nixos-hardware, home-manager, nix-darwin, catppuccin, nixCats, ... }:
   let
     overlays = [ (import ./overlays) ];
   in
@@ -43,6 +45,7 @@
               catppuccin.homeModules.catppuccin
               ./home/shared.nix
               ./home/nixos.nix
+              ./home/programs/neovim
             ];
           };
         }
@@ -66,6 +69,7 @@
               catppuccin.homeModules.catppuccin
               ./home/shared.nix
               ./home/darwin.nix
+              ./home/programs/neovim
             ];
           };
         }
@@ -83,6 +87,7 @@
         catppuccin.homeModules.catppuccin
         ./home/shared.nix
         ./home/darwin.nix
+        ./home/programs/neovim
       ];
     };
   };

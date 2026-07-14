@@ -232,15 +232,12 @@ in
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
     azure-cli
-    btop
     claude-code
     fd
     gemini-cli
     lazydocker
-    lazygit
     ripgrep
     volta
-    yazi
   ];
 
   # Secrets template -- will be replaced by agenix once host SSH keys are enrolled.
@@ -297,6 +294,8 @@ EOF
 
     bat.enable = true;
 
+    btop.enable = true;
+
     direnv = {
       enable = true;
       enableZshIntegration = true;
@@ -311,6 +310,11 @@ EOF
     zoxide = {
       enable = true;
       enableZshIntegration = true;
+    };
+
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
     };
 
     git = {
@@ -372,6 +376,8 @@ EOF
 
     jq.enable = true;
 
+    lazygit.enable = true;
+
     lsd.enable = true;
 
     # Neovim is configured via nixCats in home/programs/neovim/default.nix
@@ -398,6 +404,11 @@ EOF
       settings = {
         theme = "catppuccin-mocha";
       };
+    };
+
+    yazi = {
+      enable = true;
+      shellWrapperName = "y";
     };
 
     topgrade = {

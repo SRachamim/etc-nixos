@@ -199,22 +199,6 @@ in
       source = ./file/agents/CLAUDE.md;
       target = ".claude/CLAUDE.md";
     };
-    "ai-claude-json" = {
-      target = ".claude.json";
-      force = true;
-      text = builtins.toJSON { inherit mcpServers; };
-    };
-    "ai-claude-settings" = {
-      target = ".claude/settings.json";
-      force = true;
-      text = builtins.toJSON {
-        preferences = {
-          terminal_emulator = "ghostty";
-          theme = "dark";
-          verbose = false;
-        };
-      };
-    };
     "ai-cursor-hooks" = {
       source = ./file/agents/hooks.json;
       target = ".cursor/hooks.json";
@@ -242,6 +226,29 @@ in
 
   # Secrets template -- will be replaced by agenix once host SSH keys are enrolled.
   # See secrets/README.md for migration instructions.
+  home.activation.seedClaudeConfig = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.claude"
+    if ! [ -f "$HOME/.claude/settings.json" ]; then
+      cat > "$HOME/.claude/settings.json" << 'SETTINGS'
+{
+  "preferences": {
+    "terminal_emulator": "ghostty",
+    "theme": "dark",
+    "verbose": false
+  }
+}
+SETTINGS
+    fi
+
+    mcpPayload='${builtins.toJSON { inherit mcpServers; }}'
+    if [ -f "$HOME/.claude.json" ]; then
+      ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$HOME/.claude.json" <(echo "$mcpPayload") > "$HOME/.claude.json.tmp"
+      mv "$HOME/.claude.json.tmp" "$HOME/.claude.json"
+    else
+      echo "$mcpPayload" > "$HOME/.claude.json"
+    fi
+  '';
+
   home.activation.createSecretsFile = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if ! [ -f "$HOME/.secrets" ]; then
       cat > "$HOME/.secrets" << 'EOF'

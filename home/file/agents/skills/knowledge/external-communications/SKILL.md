@@ -1,6 +1,6 @@
 ---
 name: external-communications
-description: Approval, formatting, and multi-recipient guidelines for external messages. Use whenever the agent composes or posts content to messaging platforms, pull request descriptions, work item comments, or other external communications.
+description: MANDATORY rules for all external messages -- approval workflow, voice and tone, formatting, post-action linking. MUST be read in full before composing ANY text for Slack, PR comments, work-item updates, or other external platforms. Content evolves; never assume from memory.
 ---
 
 # External Communications

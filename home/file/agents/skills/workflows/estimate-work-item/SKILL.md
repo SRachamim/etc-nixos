@@ -93,7 +93,7 @@ If appropriate, offer to:
 - Split the work item into smaller child items if estimated at 31+ hours.
 - Run the **plan** skill to produce a detailed commit plan.
 
-**Wait for user approval before taking any write action** (per **external-communications** skill).
+**Wait for user approval before taking any write action** (read and apply the **external-communications** skill).
 
 ### 5. Evolve
 

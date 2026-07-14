@@ -13,7 +13,7 @@ This skill applies to **delivered text** -- text that leaves the agent-user conv
 
 ## External Posting
 
-When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also follow the **external-communications** skill for approval workflow, formatting, and post-action linking.
+When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also read and apply the **external-communications** skill -- its voice, approval, and formatting rules evolve and must not be assumed from memory.
 
 ## Seven Principles
 

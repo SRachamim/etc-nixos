@@ -145,7 +145,7 @@ Document the change and migration expectations for all consumer teams before any
   - **How to raise concerns** — channel, contact person, escalation path.
   - **Support offered** — migration guide, office hours, SDK updates, test environment access.
   - **Deadline for old endpoint removal** — explicit date; never open-ended.
-- Apply the **external-communications** skill for drafting:
+- Read and apply the **external-communications** skill before composing the text below:
   - Present the complete message for user approval before posting to any channel.
   - Post to affected consumer team channels, work items, or mailing lists only after approval.
 - Version the social contract — update it if timeline or scope changes.

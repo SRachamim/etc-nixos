@@ -124,7 +124,7 @@ Additionally:
 
 ### 6. Draft review comments
 
-Apply the **objective-communication** skill to all review comments.
+Read and apply the **external-communications** skill before composing the text below. Apply the **objective-communication** skill to all review comments.
 
 Draft a comment for **every** issue found, categorised by severity per the **code-review** skill:
 
@@ -151,7 +151,6 @@ Show the complete review to the user, including:
 ### 8. Post the review
 
 - Create comment threads on the PR for each review comment, positioned on the relevant file and line range.
-- Follow the **external-communications** skill for all comment content.
 - **If the PR was resolved from a Slack message**, react to the original message based on the outcome (see **Slack reaction signals**):
   - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `slack_add_reaction` with `reaction: "white_check_mark"`.
   - If review comments were posted (or the user confirms they posted): call `slack_add_reaction` with `reaction: "speech_balloon"`.

@@ -67,7 +67,7 @@ For each confirmed comment:
 
 ### 5. Draft replies and gap tasks
 
-Apply the **objective-communication** skill to all reply text.
+Read and apply the **external-communications** skill before composing the text below. Apply the **objective-communication** skill to all reply text.
 
 **Covered comments** -- draft a reply for each, citing the governing artifact(s). Use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range:
 
@@ -103,7 +103,7 @@ Show two groups to the user:
 
 ### 7. Post replies
 
-For each approved covered comment, call `repo_reply_to_comment` with the citation text. Follow the **external-communications** skill for all posted content. Report each posted reply link back to the user.
+For each approved covered comment, call `repo_reply_to_comment` with the citation text. Report each posted reply link back to the user.
 
 ### 8. Create gap tasks
 

@@ -15,8 +15,7 @@ Skill categories:
 ## Conventions
 
 - Follow the **commit-conventions** skill for all git commits.
-- Follow the **objective-communication** skill for all delivered text (commit messages, PR descriptions, code comments, Slack messages, plans, documentation, work-item descriptions -- anything committed, posted, or published). When that text will be posted to an external platform, also follow the **external-communications** skill.
-- Follow the **external-communications** skill before posting to any external platform (Slack messages, PR comments, work-item updates, etc.). Apply the **objective-communication** skill to the composed content.
+- Follow the **objective-communication** skill for all delivered text (commit messages, PR descriptions, code comments, Slack messages, plans, documentation, work-item descriptions -- anything committed, posted, or published). When composing text for external platforms (Slack, PR comments, work-item updates), also read and apply the **external-communications** skill -- its voice, approval, and formatting rules evolve and must not be assumed from memory.
 - Follow the **gitflow-branching** skill for branch operations, yielding to repository-specific guidelines.
 - Follow the **decision-priorities** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).
 

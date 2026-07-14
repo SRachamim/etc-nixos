@@ -44,6 +44,8 @@ When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty
 
 **This step begins only after the PR has been created and the link presented in step 3.** Do not batch this approval with the PR approval -- they are separate interactions.
 
+Read and apply the **external-communications** skill before composing any message in this step.
+
 Defaults:
 
 - Slack workspace: `fundguard.slack.com`
@@ -51,7 +53,7 @@ Defaults:
 
 When the user asks to share/send a message to a person by name, look up their Slack user ID via `slack_get_users`. Paginate through all pages using the `cursor` parameter until the user is found or all pages are exhausted. Do not stop after the first page.
 
-Compose a message for the **#team-cinfra** Slack channel, following the **objective-communication** skill. The message should include:
+Compose a message for the **#team-cinfra** Slack channel, following the **objective-communication** and **external-communications** skills. The message should include:
 
 - A link to the PR (linked on the PR number, per **external-communications** skill).
 - A link to the work item (linked on the work item ID).

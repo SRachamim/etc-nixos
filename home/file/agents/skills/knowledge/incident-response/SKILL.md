@@ -48,7 +48,7 @@ Apply the **architect-thinking** skill's systems-thinking principles during inve
 
 ## Communication
 
-When sharing findings externally, follow the **external-communications** skill and structure updates as:
+When sharing findings externally, read and apply the **external-communications** skill, then structure updates as:
 
 - **What we know** -- observed symptoms, confirmed impact, probable cause.
 - **What we are doing** -- current mitigation steps, who is investigating.

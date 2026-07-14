@@ -158,7 +158,7 @@ Apply the full `/review-plan` evaluation to added and changed steps:
 
 ### 7. Draft follow-up
 
-Apply the **objective-communication** skill to all follow-up text.
+Read and apply the **external-communications** skill before composing the text below. Apply the **objective-communication** skill to all follow-up text.
 
 Two categories of output:
 
@@ -202,13 +202,11 @@ Use the same output format as step 7 of `/review-plan`:
 
 - For thread follow-ups: use `repo_reply_to_comment` to reply. Do not change thread status -- the **code-review** skill's Thread Status rule applies.
 - For new issues: use `repo_create_pull_request_thread` to create new threads.
-- Follow the **external-communications** skill for all comment content.
 
 #### When following up on `/review-plan`
 
 - If the original review was anchored to a ticket, post a summary comment on the work item via MCP.
 - Otherwise, the review is presented inline only -- no external posting needed.
-- Follow the **external-communications** skill for any posted content.
 
 ### 10. Confirm completion
 

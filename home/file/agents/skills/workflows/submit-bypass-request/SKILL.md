@@ -99,9 +99,9 @@ The "Submitted by" field should be the current user. Look up the user's Slack ID
 
 #### Draft presentation
 
-Follow the **objective-communication** skill for the free-text fields (changes summary and test-failure explanation). Follow the **external-communications** skill: present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
+Read and apply the **external-communications** skill before composing the text below. Follow the **objective-communication** skill for the free-text fields (changes summary and test-failure explanation). Present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
 
-Present the draft following the **external-communications** skill: the raw Slack mrkdwn in a fenced code block (copy-pastable, with a copy button).
+Present the draft as the raw Slack mrkdwn in a fenced code block (copy-pastable, with a copy button).
 
 ### 5. Post to #pipeline-gated
 

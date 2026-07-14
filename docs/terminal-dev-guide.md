@@ -20,15 +20,16 @@ Ghostty (terminal emulator)
 
 | Tool | Purpose | Config Location |
 |------|---------|-----------------|
+| AeroSpace | Tiling window manager (macOS) | `home/file/aerospace/aerospace.toml` |
 | Ghostty | GPU-accelerated terminal | `home/darwin.nix` (programs.ghostty) |
 | Zellij | Terminal multiplexer | `home/shared.nix` (programs.zellij) |
-| Neovim | Editor | `home/shared.nix` + `home/programs/neovim/` |
+| Neovim | Editor | `home/programs/neovim/` |
 | Claude Code | AI agent CLI | `home/shared.nix` (home.packages) |
 | Starship | Shell prompt | `home/shared.nix` (programs.starship) |
 | Atuin | Shell history with fuzzy search | `home/shared.nix` (programs.atuin) |
-| lazygit | Git TUI | `home/shared.nix` (home.packages) |
-| yazi | File manager TUI | `home/shared.nix` (home.packages) |
-| btop | System monitor TUI | `home/shared.nix` (home.packages) |
+| lazygit | Git TUI | `home/shared.nix` (programs.lazygit) |
+| yazi | File manager TUI | `home/shared.nix` (programs.yazi) |
+| btop | System monitor TUI | `home/shared.nix` (programs.btop) |
 | lazydocker | Docker TUI | `home/shared.nix` (home.packages) |
 | workmux | Git worktree + multiplexer orchestrator | `modules/darwin/homebrew.nix` |
 | Catppuccin Mocha | Color theme (all tools) | `home/shared.nix` (catppuccin module) |
@@ -58,16 +59,58 @@ This opens a Zellij session with three panes:
 
 ### 3. Navigate Between Panes
 
-In Ghostty (terminal-level splits):
-- `Ctrl+h/j/k/l` - Move between splits (Vim-style)
-- `Cmd+d` - New vertical split
-- `Cmd+Shift+d` - New horizontal split
+Use `Ctrl+h/j/k/l` everywhere. This single set of keys navigates Zellij panes, Neovim splits, and the boundary between them seamlessly. See the [Navigation Hierarchy](#navigation-hierarchy) section for details.
 
-In Zellij:
-- `Ctrl+h/j/k/l` - Move between panes (when not in Vim)
-- `Alt+n` - New pane
-- `Alt+[/]` - Switch tabs
-- `Ctrl+p` then arrow keys - Resize panes
+## Navigation Hierarchy
+
+Four layers process every keypress. Each layer owns a specific modifier to avoid conflicts:
+
+```
+Keypress (Ctrl+h)
+  │
+  ├── Layer 1: AeroSpace (macOS tiling WM)
+  │     Owns: Alt+h/j/k/l → focus adjacent OS window
+  │     Ctrl+h/j/k/l passes through
+  │
+  ├── Layer 2: Ghostty (terminal emulator)
+  │     No split keybinds — all keys pass through to Zellij
+  │
+  ├── Layer 3: Zellij (multiplexer)
+  │     Normal mode: Ctrl+h/j/k/l → navigate Zellij panes
+  │     Locked mode: passes through to the focused program
+  │
+  └── Layer 4: Neovim / Claude Code / shell
+        Neovim: Ctrl+h/j/k/l → navigate Vim splits;
+                at the edge, zellij.vim jumps to the adjacent Zellij pane
+        Claude Code / shell: Zellij auto-locks, so Ctrl keys reach the app
+```
+
+### How autolock works
+
+The `zellij-autolock` plugin watches the command running in each Zellij pane. When you focus a pane running Neovim, Claude Code, lazygit, fzf, or atuin, Zellij automatically switches to **Locked** mode -- letting all keybindings pass through to the application. When you switch to a plain shell pane, Zellij returns to **Normal** mode.
+
+You can manually toggle the lock with `Alt+z`.
+
+### Zellij keybinding reference
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `Ctrl+h/j/k/l` | Normal | Navigate panes |
+| `Alt+z` | Any | Toggle autolock (manual lock/unlock) |
+| `Alt+Shift+f` | Normal | Toggle floating panes |
+| `Alt+Shift+n` | Normal | New tab |
+| `Ctrl+Shift+o` | Normal | Session mode |
+| `Ctrl+y` | Normal | Keybinding cheatsheet (zellij-forgot) |
+| `Alt+[/]` | Normal | Switch tabs |
+| `Alt+n` | Normal | New pane |
+| `Ctrl+p` | Normal | Pane mode (resize etc.) |
+
+### Zellij plugins
+
+| Plugin | Purpose | Trigger |
+|--------|---------|---------|
+| `zellij-autolock` | Auto-lock/unlock based on focused command | Background (always running) |
+| `zellij-forgot` | Searchable keybinding cheatsheet | `Ctrl+y` |
 
 ## Neovim Keybindings
 
@@ -146,7 +189,7 @@ Avante provides an in-editor AI panel (like Cursor's sidebar). Select code, pres
 |-----|--------|
 | `<leader>yp` | Yank `filepath:line` to clipboard (normal mode) |
 | `<leader>yp` | Yank `filepath:startline-endline` to clipboard (visual mode) |
-| `Ctrl+l` | Clear search highlight + redraw |
+| `<leader>l` | Clear search highlight + redraw |
 
 The yank-path binding is useful for pasting file references into Claude Code's chat.
 
@@ -257,6 +300,12 @@ Multi-tab layout for the fgrepo project.
 
 Create new layouts in `home/file/zellij/layouts/` as KDL files. Register them in `home/shared.nix` under `home.file` and add a shell alias.
 
+### Zellij Plugins & Keybinding Config
+
+Plugin definitions and keybinding overrides live in `programs.zellij.extraConfig` in `home/shared.nix`. The `plugins {}` block defines plugin aliases, `load_plugins {}` starts background plugins, and `keybinds {}` configures per-mode key bindings.
+
+To add autolock triggers for a new TUI tool, find the `triggers` line in the autolock plugin config and append the command name (pipe-separated).
+
 ## TUI Tools
 
 ### lazygit
@@ -340,9 +389,12 @@ Ensure language servers are installed. The LSP config expects servers to be avai
 2. Both are in the same terminal session (Zellij/Ghostty)
 3. The `NVIM` environment variable is set (should be automatic)
 
-### Ghostty keybindings not working
+### Pane navigation not working
 
-If Ctrl+h/j/k/l conflict with Zellij, ensure you're in Ghostty split mode (not Zellij panes). In Zellij, use `Ctrl+p` to enter pane mode first.
+Ghostty does not have its own split keybindings -- all pane management is done by Zellij. If `Ctrl+h/j/k/l` isn't working:
+1. Check that `zellij-autolock` is loaded (`Ctrl+y` to open the keybinding cheatsheet).
+2. If stuck in Locked mode, press `Alt+z` to manually unlock.
+3. If Neovim is focused and `Ctrl+h/j/k/l` isn't crossing to a Zellij pane, ensure `zellij.vim` is loaded (`:checkhealth` in Neovim).
 
 ### Theme inconsistencies
 

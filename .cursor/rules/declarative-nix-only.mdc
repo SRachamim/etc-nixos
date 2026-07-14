@@ -35,5 +35,8 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | Services (NixOS) | `modules/nixos/services.nix` |
 | Networking (NixOS) | `modules/nixos/networking.nix` |
 | Custom packages / overlays | `overlays/default.nix` |
+| Workspace rules (Cursor) | `.cursor/rules/*.mdc` |
+| Workspace rules (Claude Code) | `.claude/rules/*.md` |
+| Workspace rules (all agents) | `AGENTS.md` |
 
 Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated.

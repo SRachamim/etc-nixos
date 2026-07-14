@@ -30,8 +30,22 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | Services (NixOS) | `modules/nixos/services.nix` |
 | Networking (NixOS) | `modules/nixos/networking.nix` |
 | Custom packages / overlays | `overlays/default.nix` |
+| Workspace rules (Cursor) | `.cursor/rules/*.mdc` |
+| Workspace rules (Claude Code) | `.claude/rules/*.md` |
+| Workspace rules (all agents) | `AGENTS.md` |
 
 Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated.
+
+## Workspace rules
+
+Project context (this file) lives in `AGENTS.md` and is read by all agents. Workflow triggers -- rules that fire when specific files are modified -- live in each agent's native rule system:
+
+| Agent | Rule location | Format |
+|-------|--------------|--------|
+| Cursor | `.cursor/rules/*.mdc` | YAML frontmatter with `globs:` |
+| Claude Code | `.claude/rules/*.md` | YAML frontmatter with `globs:` |
+
+When adding a new workflow trigger, create it in **every** rule directory above so all agents enforce it. When onboarding a new agent tool, replicate all existing triggers from `.cursor/rules/` and `.claude/rules/` into the new tool's native format.
 
 ## Common patterns
 

@@ -1,0 +1,14 @@
+---
+description: Keep docs/terminal-dev-guide.md in sync when configuration files change
+globs:
+  - home/darwin.nix
+  - home/shared.nix
+  - home/nixos.nix
+  - home/programs/neovim/**
+  - home/file/zellij/**
+  - home/file/aerospace/**
+  - home/file/ghostty/**
+  - overlays/default.nix
+---
+
+Follow the "Keep the terminal dev guide in sync" section in `AGENTS.md`.

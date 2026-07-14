@@ -30,7 +30,7 @@ if vim.fn.executable("rg") == 1 then
   vim.opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 end
 
-vim.keymap.set("n", "<C-l>", ":nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><C-l>", { silent = true })
+vim.keymap.set("n", "<leader>l", ":nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr>", { silent = true, desc = "Clear highlights and redraw" })
 
 -- Auto-reload files modified externally (e.g. by Claude Code or git)
 local auto_reload = vim.api.nvim_create_augroup("AutoReload", { clear = true })

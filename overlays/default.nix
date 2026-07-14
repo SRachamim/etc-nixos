@@ -10,6 +10,17 @@ final: prev: {
     doCheck = false;
   };
 
+  zellij-vim = prev.vimUtils.buildVimPlugin {
+    name = "zellij-vim";
+    src = prev.fetchFromGitHub {
+      owner = "fresh2dev";
+      repo = "zellij.vim";
+      rev = "main";
+      sha256 = "sha256-R4BYJNYwg4IpP06UcMN7ZbxbpiF711scuOZKBCDYwcs=";
+    };
+    doCheck = false;
+  };
+
   claudecode-nvim = prev.vimUtils.buildVimPlugin {
     name = "claudecode-nvim";
     src = prev.fetchFromGitHub {

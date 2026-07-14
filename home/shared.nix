@@ -411,6 +411,65 @@ EOF
       settings = {
         theme = "catppuccin-mocha";
       };
+      extraConfig = ''
+        plugins {
+            autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+                is_enabled true
+                triggers "nvim|vim|git|fzf|zoxide|atuin|lazygit|lazydocker|claude"
+                reaction_seconds "0.3"
+                print_to_log false
+            }
+        }
+
+        load_plugins {
+            autolock
+        }
+
+        keybinds {
+            normal {
+                unbind "Alt f"
+                unbind "Alt left"
+                unbind "Alt right"
+            }
+            locked {
+                bind "Alt z" {
+                    MessagePlugin "autolock" { payload "disable"; };
+                    SwitchToMode "Normal";
+                }
+            }
+            shared {
+                bind "Alt Z" {
+                    MessagePlugin "autolock" { payload "enable"; };
+                }
+            }
+            shared_except "locked" {
+                bind "Alt z" {
+                    MessagePlugin "autolock" { payload "disable"; };
+                    SwitchToMode "Locked";
+                }
+                bind "Alt F" { ToggleFloatingPanes; }
+                bind "Alt N" { NewTab; SwitchToMode "normal"; }
+                bind "Ctrl h" { MoveFocusOrTab "Left"; }
+                bind "Ctrl l" { MoveFocusOrTab "Right"; }
+                bind "Ctrl j" { MoveFocus "Down"; }
+                bind "Ctrl k" { MoveFocus "Up"; }
+                bind "Ctrl y" {
+                    LaunchOrFocusPlugin "https://github.com/karimould/zellij-forgot/releases/latest/download/zellij_forgot.wasm" {
+                        floating true
+                        "LOAD_ZELLIJ_BINDINGS" "true"
+                    }
+                }
+            }
+            session {
+                unbind "Ctrl o"
+                bind "Ctrl O" { SwitchToMode "normal"; }
+            }
+            shared_except "session" "locked" {
+                unbind "Ctrl o"
+                bind "Ctrl O" { SwitchToMode "session"; }
+            }
+        }
+      '';
     };
 
     yazi = {

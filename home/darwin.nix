@@ -48,12 +48,8 @@ in
       macos-option-as-alt = true;
       shell-integration = "zsh";
       keybind = [
-        "ctrl+h=goto_split:left"
-        "ctrl+j=goto_split:bottom"
-        "ctrl+k=goto_split:top"
-        "ctrl+l=goto_split:right"
-        "cmd+d=new_split:right"
-        "cmd+shift+d=new_split:down"
+        "alt+left=unbind"
+        "alt+right=unbind"
       ];
     };
   };

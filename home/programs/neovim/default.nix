@@ -68,6 +68,9 @@ in
           # Treesitter (grammars bundled via Nix)
           nvim-treesitter.withAllGrammars
 
+          # Zellij navigation (seamless Ctrl+h/j/k/l across Vim splits and Zellij panes)
+          pkgs.zellij-vim
+
           # AI (always loaded)
           pkgs.agentic-nvim
         ];

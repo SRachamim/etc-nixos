@@ -20,11 +20,19 @@
 
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = inputs@{ self, nixpkgs, nixos-hardware, home-manager, nix-darwin, catppuccin, nixCats, ... }:
+  outputs = inputs@{ self, nixpkgs, nixos-hardware, home-manager, nix-darwin, catppuccin, nixCats, nix-vscode-extensions, ... }:
   let
-    overlays = [ (import ./overlays) ];
+    overlays = [
+      (import ./overlays)
+      nix-vscode-extensions.overlays.default
+    ];
   in
   {
     nixosConfigurations.SaharRachamim = nixpkgs.lib.nixosSystem {

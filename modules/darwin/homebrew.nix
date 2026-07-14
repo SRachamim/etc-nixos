@@ -16,7 +16,12 @@
     ];
     casks = [
       "nikitabobko/tap/aerospace"
+      "antigravity"
+      "cursor"
       "ghostty"
+      "google-chrome"
+      "google-drive"
+      "signal"
     ];
   };
 }

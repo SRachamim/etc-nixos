@@ -43,6 +43,7 @@ in
     enable = true;
     package = null;
     settings = {
+      theme = "catppuccin-mocha";
       font-family = "FiraCode Nerd Font Mono";
       macos-option-as-alt = true;
       shell-integration = "zsh";

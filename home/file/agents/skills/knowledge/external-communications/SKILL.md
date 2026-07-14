@@ -71,6 +71,7 @@ Rules:
   ```
 
   Both lines are mandatory -- never omit the closing phrase or the name.
+- **No flag emojis** -- never use flag emojis (country flags, pride flags, etc.) in any message.
 - **Catchphrase** -- use "MAKE CODE GREAT AGAIN!" sparingly, only after significant wins like successful merges or major deployments. Most messages should not include it.
 
 ## Post-Action Linking

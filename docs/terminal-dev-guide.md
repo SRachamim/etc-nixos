@@ -71,7 +71,7 @@ Four layers process every keypress. Each layer owns a specific modifier to avoid
 Keypress (Ctrl+h)
   │
   ├── Layer 1: AeroSpace (macOS tiling WM)
-  │     Owns: Alt+h/j/k/l → focus adjacent OS window
+  │     Owns: ALL Option(Alt)+key combinations → workspaces, window management
   │     Ctrl+h/j/k/l passes through
   │
   ├── Layer 2: Ghostty (terminal emulator)
@@ -91,28 +91,33 @@ Keypress (Ctrl+h)
 
 The `zellij-autolock` plugin watches the command running in each Zellij pane. When you focus a pane running Neovim, Claude Code, lazygit, fzf, or atuin, Zellij automatically switches to **Locked** mode -- letting all keybindings pass through to the application. When you switch to a plain shell pane, Zellij returns to **Normal** mode.
 
-You can manually toggle the lock with `Alt+z`.
+`Ctrl+g` toggles between locked and normal mode **and** disables/enables autolock accordingly. Use it when you need Zellij commands while a TUI is focused:
+
+1. Press `Ctrl+g` -- autolock disables, Zellij switches to Normal
+2. Use Zellij commands (e.g. `Ctrl+p` then `f` for fullscreen)
+3. Press `Ctrl+g` again -- autolock re-enables, Zellij switches back to Locked
 
 ### Zellij keybinding reference
 
 | Key | Mode | Action |
 |-----|------|--------|
 | `Ctrl+h/j/k/l` | Normal | Navigate panes |
-| `Alt+z` | Any | Toggle autolock (manual lock/unlock) |
-| `Alt+Shift+f` | Normal | Toggle floating panes |
-| `Alt+Shift+n` | Normal | New tab |
-| `Ctrl+Shift+o` | Normal | Session mode |
-| `Ctrl+y` | Normal | Keybinding cheatsheet (zellij-forgot) |
-| `Alt+[/]` | Normal | Switch tabs |
-| `Alt+n` | Normal | New pane |
-| `Ctrl+p` | Normal | Pane mode (resize etc.) |
+| `Ctrl+g` | Any | Toggle lock/unlock (manual override for autolock) |
+| `Ctrl+p` | Normal | Pane mode (new pane, close, resize, float, etc.) |
+| `Ctrl+t` | Normal | Tab mode (new tab, rename, switch, etc.) |
+| `Ctrl+n` | Normal | Resize mode |
+| `Ctrl+s` | Normal | Scroll mode |
+| `Ctrl+o` | Normal | Session mode |
+| `Ctrl+b` | Normal | Tmux mode |
+| `Ctrl+q` | Normal | Quit |
+
+> **Note:** AeroSpace captures all `Option(Alt)+letter` combinations on macOS, so Zellij's default `Alt`-based shortcuts (like `Alt+n` for new pane) do not work. Use Zellij's mode-based keybinds instead: press `Ctrl+p` to enter Pane mode, then `n` for new pane, `x` to close, `f` for fullscreen, etc.
 
 ### Zellij plugins
 
 | Plugin | Purpose | Trigger |
 |--------|---------|---------|
 | `zellij-autolock` | Auto-lock/unlock based on focused command | Background (always running) |
-| `zellij-forgot` | Searchable keybinding cheatsheet | `Ctrl+y` |
 
 ## Neovim Keybindings
 
@@ -394,8 +399,8 @@ Ensure language servers are installed. The LSP config expects servers to be avai
 ### Pane navigation not working
 
 Ghostty does not have its own split keybindings -- all pane management is done by Zellij. If `Ctrl+h/j/k/l` isn't working:
-1. Check that `zellij-autolock` is loaded (`Ctrl+y` to open the keybinding cheatsheet).
-2. If stuck in Locked mode, press `Alt+z` to manually unlock.
+1. Check that `zellij-autolock` is loaded (look for the autolock indicator in the Zellij status bar).
+2. If stuck in Locked mode, press `Ctrl+g` to unlock.
 3. If Neovim is focused and `Ctrl+h/j/k/l` isn't crossing to a Zellij pane, ensure `zellij.vim` is loaded (`:checkhealth` in Neovim).
 
 ### Theme inconsistencies

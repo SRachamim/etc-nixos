@@ -1,6 +1,7 @@
 final: prev: {
   agentic-nvim = prev.vimUtils.buildVimPlugin {
-    name = "agentic-nvim";
+    pname = "agentic-nvim";
+    version = "0-unstable";
     src = prev.fetchFromGitHub {
       owner = "carlos-algms";
       repo = "agentic.nvim";
@@ -11,7 +12,8 @@ final: prev: {
   };
 
   zellij-vim = prev.vimUtils.buildVimPlugin {
-    name = "zellij-vim";
+    pname = "zellij-vim";
+    version = "0-unstable";
     src = prev.fetchFromGitHub {
       owner = "fresh2dev";
       repo = "zellij.vim";
@@ -22,7 +24,8 @@ final: prev: {
   };
 
   claudecode-nvim = prev.vimUtils.buildVimPlugin {
-    name = "claudecode-nvim";
+    pname = "claudecode-nvim";
+    version = "0-unstable";
     src = prev.fetchFromGitHub {
       owner = "coder";
       repo = "claudecode.nvim";

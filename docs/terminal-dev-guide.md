@@ -2,6 +2,8 @@
 
 A keyboard-driven, Vim-native development environment optimized for AI agent workflows, managed declaratively through Nix.
 
+> **macOS note:** Throughout this guide, `Alt` means the **Option** key. Ghostty is configured with `macos-option-as-alt = true`, so pressing Option sends Alt to all programs inside the terminal.
+
 ## Architecture Overview
 
 ```

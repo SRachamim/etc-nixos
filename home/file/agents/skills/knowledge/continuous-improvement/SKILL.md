@@ -29,7 +29,7 @@ If the execution went smoothly and matched the instructions perfectly, say nothi
 
 One sentence describing the discrepancy or discovery during execution.
 
-> Example: "`wit_create_work_item` now requires `System.AreaPath` -- I had to look it up via `wit_get_work_item` on an existing item before I could create the task."
+> Example: "`create_work_item` now requires `System.AreaPath` -- I had to look it up via `get_work_item` on an existing item before I could create the task."
 
 ### 2. Categorize
 

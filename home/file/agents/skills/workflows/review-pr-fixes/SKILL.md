@@ -72,7 +72,7 @@ The original review's findings list is the baseline. Each finding (with its seve
 
 #### When following up on `/review-pr`
 
-Fetch all threads on the PR via `repo_list_pull_request_threads`. For every thread the reviewer authored, fetch the full conversation (`repo_list_pull_request_thread_comments`) and record:
+Fetch all threads on the PR via `get_pr_threads`. For every thread the reviewer authored, review the full conversation and record:
 
 - **Current status**: Active, Fixed, WontFix, Closed, ByDesign, Pending.
 - **Author replies**: any responses added since the reviewer's last comment.
@@ -200,8 +200,8 @@ Use the same output format as step 7 of `/review-plan`:
 
 #### When following up on `/review-pr`
 
-- For thread follow-ups: use `repo_reply_to_comment` to reply. Do not change thread status -- the **code-review** skill's Thread Status rule applies.
-- For new issues: use `repo_create_pull_request_thread` to create new threads.
+- For thread follow-ups: use `reply_to_pr_thread` to reply. Do not change thread status -- the **code-review** skill's Thread Status rule applies.
+- For new issues: use `create_pr_comment` to create new threads.
 
 #### When following up on `/review-plan`
 

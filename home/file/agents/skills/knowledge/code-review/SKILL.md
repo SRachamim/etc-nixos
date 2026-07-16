@@ -54,7 +54,7 @@ Every review comment must be **actionable** and **line-anchored**:
 The reviewer creates comments; the author resolves them. This separation ensures the author reads, considers, and addresses each comment on their own terms.
 
 - **Always create threads as Active.** Never set status to `Fixed`, `Closed`, `WontFix`, `ByDesign`, or any resolved state when creating a comment thread.
-- **Never change a thread's status.** Do not use `repo_update_pull_request_thread` (or any platform equivalent) to resolve, close, or transition a thread the reviewer created. The author owns the lifecycle.
+- **Never change a thread's status.** Do not use `update_pr_thread_status` (or any platform equivalent) to resolve, close, or transition a thread the reviewer created. The author owns the lifecycle.
 - **Follow-ups stay Active too.** When revisiting a thread (e.g. during `/review-pr-fixes`), reply with the evaluation -- acknowledge if the fix is adequate, push back if it isn't -- but leave the thread status unchanged. The author resolves the thread when they're satisfied.
 
 ## Tone

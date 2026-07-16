@@ -46,7 +46,7 @@ If none yields a PR, ask the user and stop.
 
 ### 2. Gather context
 
-- Fetch the PR details (source and target branches) via `repo_get_pull_request_by_id`. PR title and description are fetched for navigation only -- they are not review inputs (see the **code-review** skill's Review Inputs section).
+- Fetch the PR details (source and target branches) via `get_pr_details`. PR title and description are fetched for navigation only -- they are not review inputs (see the **code-review** skill's Review Inputs section).
 - **If the PR was resolved from a Slack message** (step 1, option 2):
   - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
   - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `slack_add_reaction` with the extracted `channel_id`, the message `timestamp`, and `reaction: "eyes"`.

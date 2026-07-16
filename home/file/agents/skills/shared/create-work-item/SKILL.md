@@ -26,9 +26,9 @@ This file is a shared skill. It is referenced by the **create-task**, **create-b
 
 ### 1. Resolve the current user
 
-Use `core_get_identity_ids` to look up the authenticated user's identity. The resolved identity is used for assignment by default and is always available to callers that need the display name (e.g. for titles).
+Use `get_user_team_context` to look up the authenticated user's identity and team context (including iterations). The resolved identity is used for assignment by default and is always available to callers that need the display name (e.g. for titles).
 
-If no identities are found, fall back to `wit_my_work_items` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value.
+If no identities are found, fall back to `search_workitems` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value.
 
 If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for assignment instead of the resolved identity.
 
@@ -36,26 +36,17 @@ If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for a
 
 **Constraint: NEVER assign work items to the current iteration. Always use the iteration immediately following the current one.**
 
-1. **Identify the current iteration (so you can skip past it):**
-   Call `work_list_team_iterations` with **project** `FundGuard`, **team** `FundGuard Team`, **timeframe** `current` to get the current iteration's end date.
-   This iteration is NOT the one to use -- it only tells you where to start looking.
+Use the iteration data returned by `get_user_team_context` (called in step 1). Identify the current iteration (the one whose date range contains today) and pick the iteration whose start date is the earliest date **after** the current iteration's end date.
 
-2. **Find the next iteration:**
-   Call `work_list_iterations` with **project** `FundGuard` to retrieve all iterations.
-   Pick the iteration whose start date is the earliest date **after** the current iteration's end date.
-   This is the iteration to assign.
+**Verify:** confirm the selected iteration's start date is strictly after the current iteration's end date. If it overlaps or equals the current iteration, pick the next one.
 
-3. **Verify:** confirm the selected iteration's start date is strictly after the current iteration's end date. If the selected iteration overlaps with or equals the current iteration, you have picked the wrong one -- go back to sub-step 2.
-
-Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item. Do NOT use the current iteration's path from sub-step 1.
-
-If `work_list_team_iterations` fails, fall back to `work_list_iterations` alone -- find the iteration whose date range contains today (current), then pick the one immediately following it. The same constraint applies: never use the iteration that contains today.
+Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item. Do NOT use the current iteration's path.
 
 ### 3. Find the parent User Story
 
 Every work item must have a parent User Story -- orphan items are not allowed.
 
-1. Call `wit_query_by_wiql` with a query that returns active User Stories in the same area path and iteration (next iteration resolved in step 2). Order by changed date descending.
+1. Call `search_workitems` with a query that returns active User Stories in the same area path and iteration (next iteration resolved in step 2). Order by changed date descending.
 2. If no results, broaden by removing the iteration filter (same area path, state Active or New).
 3. If still no results, broaden further to any active User Story under the root area path (`FundGuard`).
 4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a different story ID directly.
@@ -66,7 +57,7 @@ Store the selected parent story ID for use after creation.
 
 ### 4. Format rich-text fields as markdown
 
-All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `wit_create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
+All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
 
 Each piece of information belongs in exactly one field -- the field designated for it by the calling skill. Don't duplicate content across fields (e.g. don't copy repro steps into `System.Description` on a Bug, or put task details outside `System.Description` on a Task).
 
@@ -78,7 +69,7 @@ Before creating, show the user the full work item that will be created: title, t
 
 ### 6. Create the work item
 
-Call `wit_create_work_item` with:
+Call `create_work_item` with:
 
 - **project**: `FundGuard`
 - **workItemType**: as provided by the calling skill
@@ -115,7 +106,7 @@ Use a higher priority only when the work item clearly has direct business or pro
 
 ### 7. Link to parent User Story
 
-Call `wit_work_items_link` with:
+Call `manage_work_item_links` with:
 
 - **project**: `FundGuard`
 - **updates**: `[{ "id": <new work item ID>, "linkToId": <parent story ID>, "type": "parent" }]`

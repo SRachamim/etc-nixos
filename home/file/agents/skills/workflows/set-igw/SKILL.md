@@ -19,7 +19,7 @@ Accept **any** of the following:
 
 ### 1. Fetch the work item
 
-Call `wit_get_work_item` with `project: "FundGuard"` and `fields`:
+Call `get_work_item` with `project: "FundGuard"` and `fields`:
 
 - `System.Title`
 - `Microsoft.VSTS.CMMI.FoundInEnvironment`

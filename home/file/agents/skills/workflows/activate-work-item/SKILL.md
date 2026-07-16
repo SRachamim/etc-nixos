@@ -16,7 +16,7 @@ The user provides a single work item ID, either explicitly or inferred from cont
 
 ### 1. Resolve the work item
 
-Fetch the work item using `wit_get_work_item` to retrieve its title, type, and current state.
+Fetch the work item using `get_work_item` to retrieve its title, type, and current state.
 
 If the ID does not exist, inform the user and stop.
 
@@ -26,7 +26,7 @@ If the work item is already in the **Active** state, inform the user and stop.
 
 ### 3. Transition to Active
 
-Call `wit_update_work_item` with:
+Call `update_work_item` with:
 
 - **id**: the work item's ID
 - **updates**:

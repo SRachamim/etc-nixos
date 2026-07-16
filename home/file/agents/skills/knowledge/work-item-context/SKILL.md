@@ -11,7 +11,7 @@ Given a work item ID, build a rich understanding of the item by fetching the ite
 
 ### 1. Fetch the root work item
 
-Call `wit_get_work_item` with `expand: "relations"` to retrieve fields, relations, and linked resources in a single call.
+Call `get_work_item` with `expand: "relations"` to retrieve fields, relations, and linked resources in a single call.
 
 Extract the core fields: title, type, state, description, acceptance criteria, repro steps (if present), assigned-to, iteration, and area path.
 
@@ -24,13 +24,13 @@ Extract IDs from the relations array, grouped by link type:
 - **Related**
 - **Predecessor / Successor**
 
-Batch-fetch all linked work items via `wit_get_work_items_batch_by_ids`. For each, note its ID, title, type, and state.
+Batch-fetch all linked work items via `search_workitems`. For each, note its ID, title, type, and state.
 
 Limit traversal to **one hop** -- do not recurse into the linked items' own relations.
 
 ### 3. Follow linked pull requests
 
-Extract pull-request links from the relations array (`vstfs:///Git/PullRequestId/...`). Fetch each via `repo_get_pull_request_by_id` and note the PR ID, title, status, source branch, and target branch.
+Extract pull-request links from the relations array (`vstfs:///Git/PullRequestId/...`). Fetch each via `get_pr_details` and note the PR ID, title, status, source branch, and target branch.
 
 ### 4. Follow hyperlinks
 
@@ -45,7 +45,7 @@ Skip URLs that clearly point to images, videos, or binary assets.
 
 ### 5. Read comments
 
-Call `wit_list_work_item_comments` and incorporate any decisions, clarifications, or additional context.
+Call `add_work_item_comment` and incorporate any decisions, clarifications, or additional context.
 
 ### 6. Summarise
 

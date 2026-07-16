@@ -41,7 +41,7 @@ Present the estimate summary (T-shirt size, story points, key risks) to the user
 
 ### 4. Update the work item
 
-Call `wit_update_work_item` with:
+Call `update_work_item` with:
 
 - **id**: the work item ID
 - **updates**:

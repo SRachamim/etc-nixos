@@ -28,12 +28,11 @@ Determine the PR using one of the following, in priority order:
 
 If none yields a PR, ask the user and stop.
 
-Fetch the PR details (title, repository, source and target branches) via `repo_get_pull_request_by_id`.
+Fetch the PR details (title, repository, source and target branches) via `get_pr_details`.
 
 ### 2. Gather user-authored comments
 
-- Call `repo_list_pull_request_threads` for the PR.
-- For each thread, call `repo_list_pull_request_thread_comments` to retrieve the root comment (first comment in the thread).
+- Call `get_pr_threads` for the PR to retrieve all threads and their comments.
 - **Filter to user-authored threads**: keep only threads whose root comment author matches the current user's identity (by email or display name). Discard threads authored by other reviewers or the PR author (if different from the user).
 - **Exclude agent-posted comments** (see **Distinguishing user vs. agent comments** above):
   - If a preceding `/review-pr` ran in this conversation, exclude thread IDs the agent created (known from conversation context).
@@ -103,7 +102,7 @@ Show two groups to the user:
 
 ### 7. Post replies
 
-For each approved covered comment, call `repo_reply_to_comment` with the citation text. Report each posted reply link back to the user.
+For each approved covered comment, call `reply_to_pr_thread` with the citation text. Report each posted reply link back to the user.
 
 ### 8. Create gap tasks
 

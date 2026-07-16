@@ -161,7 +161,7 @@ Ask the user to **approve**, **modify**, or **reject** before proceeding. Do not
 
 ### 6. Apply
 
-Once the user approves, require **Agent** mode following the **mode-gate** skill, then apply the triage updates via `wit_update_work_item` following the **triage-transition** skill's update format (step 4 of that skill).
+Once the user approves, require **Agent** mode following the **mode-gate** skill, then apply the triage updates via `update_work_item` following the **triage-transition** skill's update format (step 4 of that skill).
 
 Print the work item **ID**, new **state**, **estimate (hours)**, and **confidence level**.
 

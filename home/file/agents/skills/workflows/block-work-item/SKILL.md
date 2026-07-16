@@ -23,7 +23,7 @@ The user may phrase this as "block 12345 on 12346", "12345 is blocked by 12346",
 
 ### 1. Resolve both work items
 
-Fetch both work items in parallel using `wit_get_work_item` (with `expand: "relations"` on the blocked item so existing links are visible).
+Fetch both work items in parallel using `get_work_item` (with `expand: "relations"` on the blocked item so existing links are visible).
 
 If either ID does not exist, inform the user and stop.
 
@@ -35,7 +35,7 @@ If either ID does not exist, inform the user and stop.
 
 ### 3. Transition to Blocked
 
-Call `wit_update_work_item` with:
+Call `update_work_item` with:
 
 - **id**: the blocked work item's ID
 - **updates**:
@@ -50,7 +50,7 @@ Skip this step if the work item is already in the **Blocked** state.
 
 ### 4. Link as predecessor
 
-Call `wit_work_items_link` with:
+Call `manage_work_item_links` with:
 
 - **project**: `FundGuard`
 - **updates**:

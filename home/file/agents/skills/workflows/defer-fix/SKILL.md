@@ -25,7 +25,7 @@ Follow the **resolve-current-work-item** skill to determine the current work ite
 
 ### 2. Resolve or create the fix work item
 
-- **Work item ID provided** -- fetch it with `wit_get_work_item` to confirm it exists. Append a note to the description mentioning this fix if the existing description doesn't already cover it.
+- **Work item ID provided** -- fetch it with `get_work_item` to confirm it exists. Append a note to the description mentioning this fix if the existing description doesn't already cover it.
 - **No work item ID provided** -- determine whether the deferred fix is a defect or a planned improvement, then follow the **create-bug** or **create-task** skill accordingly. The work item title and description should capture the fix the user described.
 
 ### 3. Block the fix work item on the current task

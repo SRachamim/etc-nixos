@@ -30,7 +30,7 @@ Require **Plan** mode following the **mode-gate** skill. The planning phase (ste
 ### 1. Clarify the goal
 
 - **If ticket**: apply the **work-item-context** skill to gather the full picture -- the work item itself, its relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary as the authoritative context for the rest of the plan.
-  - **Successor awareness**: identify successor work items -- items whose Predecessor link points to this item, i.e. work blocked on the current item's completion. For each successor, fetch its description and acceptance criteria (batch-fetch via `wit_get_work_items_batch_by_ids` if not already retrieved). Note what each successor expects the current item to deliver: interfaces, modules, data shapes, or capabilities it will build upon. Treat these expectations as additional constraints on the target state.
+  - **Successor awareness**: identify successor work items -- items whose Predecessor link points to this item, i.e. work blocked on the current item's completion. For each successor, fetch its description and acceptance criteria (batch-fetch via `search_workitems` if not already retrieved). Note what each successor expects the current item to deliver: interfaces, modules, data shapes, or capabilities it will build upon. Treat these expectations as additional constraints on the target state.
 - **If text or design**: restate the target state or requirement in your own words and confirm understanding before proceeding.
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).

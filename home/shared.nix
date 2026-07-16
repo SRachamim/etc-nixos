@@ -1,5 +1,10 @@
 { config, pkgs, lib, ... }:
 let
+  zellij-autolock-wasm = pkgs.fetchurl {
+    url = "https://github.com/fresh2dev/zellij-autolock/releases/download/0.2.2/zellij-autolock.wasm";
+    hash = "sha256-aclWB7/ZfgddZ2KkT9vHA6gqPEkJ27vkOVLwIEh7jqQ=";
+  };
+
   mkMcpServer = name: npxArgs: lib.getExe (pkgs.writeShellApplication {
     inherit name;
     runtimeInputs = [ pkgs.nodejs ];
@@ -96,6 +101,10 @@ in
   ];
 
   home.file = {
+    "zellij-autolock" = {
+      target = ".config/zellij/plugins/zellij-autolock.wasm";
+      source = zellij-autolock-wasm;
+    };
     "zellij-layout-fg" = {
       target = ".config/zellij/layouts/fg.kdl";
       source = ./file/zellij/layouts/fg.kdl;
@@ -423,8 +432,8 @@ EOF
       };
       extraConfig = ''
         plugins {
-            autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
-                is_enabled true
+            autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+                is_enabled false
                 triggers "nvim|vim|git|fzf|zoxide|atuin|lazygit|lazydocker|claude"
                 reaction_seconds "0.3"
                 print_to_log false
@@ -436,47 +445,30 @@ EOF
         }
 
         keybinds {
-            normal {
-                unbind "Alt f"
-                unbind "Alt left"
-                unbind "Alt right"
+            shared_except "locked" {
+                unbind "Alt f" "Alt n"
+                unbind "Alt h" "Alt l" "Alt j" "Alt k"
+                unbind "Alt Left" "Alt Right" "Alt Down" "Alt Up"
+                unbind "Alt i" "Alt o"
+                unbind "Alt =" "Alt +" "Alt -"
+                unbind "Alt [" "Alt ]"
+                unbind "Alt p" "Alt Shift p"
+                bind "Ctrl g" {
+                    MessagePlugin "autolock" { payload "enable"; };
+                    SwitchToMode "Locked";
+                }
             }
             locked {
-                bind "Alt z" {
+                bind "Ctrl g" {
                     MessagePlugin "autolock" { payload "disable"; };
                     SwitchToMode "Normal";
                 }
             }
-            shared {
-                bind "Alt Z" {
-                    MessagePlugin "autolock" { payload "enable"; };
-                }
-            }
-            shared_except "locked" {
-                bind "Alt z" {
-                    MessagePlugin "autolock" { payload "disable"; };
-                    SwitchToMode "Locked";
-                }
-                bind "Alt F" { ToggleFloatingPanes; }
-                bind "Alt N" { NewTab; SwitchToMode "normal"; }
+            shared_except "move" "locked" {
                 bind "Ctrl h" { MoveFocusOrTab "Left"; }
                 bind "Ctrl l" { MoveFocusOrTab "Right"; }
                 bind "Ctrl j" { MoveFocus "Down"; }
                 bind "Ctrl k" { MoveFocus "Up"; }
-                bind "Ctrl y" {
-                    LaunchOrFocusPlugin "https://github.com/karimould/zellij-forgot/releases/latest/download/zellij_forgot.wasm" {
-                        floating true
-                        "LOAD_ZELLIJ_BINDINGS" "true"
-                    }
-                }
-            }
-            session {
-                unbind "Ctrl o"
-                bind "Ctrl O" { SwitchToMode "normal"; }
-            }
-            shared_except "session" "locked" {
-                unbind "Ctrl o"
-                bind "Ctrl O" { SwitchToMode "session"; }
             }
         }
       '';

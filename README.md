@@ -82,10 +82,8 @@ Configured in `home/shared.nix` and deployed to `~/.cursor/mcp.json`,
 
 | Server | Purpose |
 |--------|---------|
-| Azure DevOps | Work item lifecycle |
-| Currents | Test analytics |
+| fundguard | ADO, Datadog, Currents, Sunday, Gateway (80 tools via proxy) |
 | Slack | Messaging |
-| Datadog | Observability |
 
 ## Deployment
 

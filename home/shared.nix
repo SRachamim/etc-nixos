@@ -10,18 +10,22 @@ let
     '';
   });
 
+  mkLocalMcpServer = name: entrypoint: lib.getExe (pkgs.writeShellApplication {
+    inherit name;
+    runtimeInputs = [ pkgs.nodejs ];
+    excludeShellChecks = [ "SC1090" ];
+    text = ''
+      source ~/.secrets 2>/dev/null || true
+      exec node "${entrypoint}"
+    '';
+  });
+
   mcpServers = {
-    "Azure DevOps" = {
-      command = mkMcpServer "mcp-azure-devops" "@azure-devops/mcp@latest fundguard -a pat";
-    };
-    "Currents" = {
-      command = mkMcpServer "mcp-currents" "@currents/mcp@latest";
+    "fundguard" = {
+      command = mkLocalMcpServer "mcp-fundguard" "$HOME/.local/share/fundguard-mcp/mcp-proxy.js";
     };
     "Slack" = {
       command = mkMcpServer "mcp-slack" "@zencoderai/slack-mcp-server@latest";
-    };
-    "Datadog" = {
-      command = mkMcpServer "mcp-datadog" "@winor30/mcp-server-datadog@latest";
     };
   };
 
@@ -249,6 +253,23 @@ SETTINGS
     fi
   '';
 
+  home.activation.manageFundguardProxy = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    if [ -d "$HOME/.fundguard" ]; then
+      run rm -rf "$HOME/.fundguard"
+      verboseEcho "Removed old FundGuard proxy from ~/.fundguard"
+    fi
+
+    FGDIR="$HOME/.local/share/fundguard-mcp"
+    if [ ! -f "$FGDIR/mcp-proxy.js" ]; then
+      run mkdir -p "$FGDIR"
+      run ${pkgs.curl}/bin/curl -fsSL "https://mcp.fundguard.io/proxy/bundle.js" \
+        -o "$FGDIR/mcp-proxy.js"
+      run chmod +x "$FGDIR/mcp-proxy.js"
+      echo "https://mcp.fundguard.io" > "$FGDIR/server-url"
+      verboseEcho "Installed FundGuard MCP proxy to $FGDIR"
+    fi
+  '';
+
   home.activation.createSecretsFile = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if ! [ -f "$HOME/.secrets" ]; then
       cat > "$HOME/.secrets" << 'EOF'
@@ -256,28 +277,17 @@ SETTINGS
 # This file is sourced by your shell. Keep it secure!
 # Run: chmod 600 ~/.secrets
 
-# Cursor Agent API Key (get from cursor.com settings)
-# export CURSOR_API_KEY=""
-
-# OpenAI API Key
-# export OPENAI_API_KEY=""
-
-# Anthropic API Key
-# export ANTHROPIC_API_KEY=""
-
-# Currents.dev API Key (get from currents.dev dashboard)
-# export CURRENTS_API_KEY=""
+# FundGuard MCP Proxy
+# FG_USER: your FundGuard email (e.g. first.last@fundguard.com)
+# DD_APP_KEY: Datadog app key with logs_read_data scope (https://app.datadoghq.eu/organization-settings/application-keys)
+# ADO_PAT: Azure DevOps PAT with Code R/W, Build R, Work Items R/W, Wiki R/W (https://dev.azure.com/FundGuard/_usersSettings/tokens)
+# export FG_USER=""
+# export DD_APP_KEY=""
+# export ADO_PAT=""
 
 # Slack MCP Server (get from api.slack.com/apps)
 # export SLACK_BOT_TOKEN="xoxp-your-user-token"
 # export SLACK_TEAM_ID="T0123456789"
-
-# Datadog MCP Server (get from app.datadoghq.com/organization-settings/api-keys)
-# export DATADOG_API_KEY=""
-# export DATADOG_APP_KEY=""
-# export DATADOG_SITE="datadoghq.com"
-
-# Add other secrets below...
 EOF
       chmod 600 "$HOME/.secrets"
       echo "Created ~/.secrets template. Edit it with your API keys."

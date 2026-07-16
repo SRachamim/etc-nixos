@@ -13,7 +13,7 @@ Detailed setup instructions for each platform. Load this file when configuring a
 
 1. **Choose trigger(s)**: GitHub PR opened, PR pushed, CI completed, Slack message, webhook, cron schedule, Linear issue, PagerDuty incident.
 2. **Write the instruction**: reference the portable skill (e.g., "Follow the `/review-pr` skill against this PR's diff. Post findings as PR comments.").
-3. **Select tools**: enable MCP servers the automation needs (ADO, Slack, Datadog). Enable "Comment on PR" or "Send to Slack" built-in tools as appropriate.
+3. **Select tools**: enable MCP servers the automation needs (fundguard, Slack). Enable "Comment on PR" or "Send to Slack" built-in tools as appropriate.
 4. **Select repository**: single repo or multi-repo environment. For GitHub/GitLab triggers, a repo is required.
 5. **Select model**: match the tier from the automation catalogue.
 6. **Activate**.

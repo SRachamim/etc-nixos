@@ -43,30 +43,30 @@ Present the estimate summary (T-shirt size, story points, key risks) to the user
 
 Call `update_work_item` with:
 
-- **id**: the work item ID
-- **updates**:
+- **workItemId**: the work item ID
+- **state**: `"Triaged"`
+- **priority**: `4`
+- **additionalFields**:
 
 ```json
 [
-  { "op": "add", "path": "/fields/System.State", "value": "Triaged" },
-  { "op": "add", "path": "/fields/Microsoft.VSTS.Common.Priority", "value": "4" },
-  { "op": "add", "path": "/fields/Custom.BusinessPriority", "value": "4: Technical" },
-  { "op": "add", "path": "/fields/Custom.Version", "value": "<current version>" },
-  { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" },
-  { "op": "add", "path": "/fields/Microsoft.VSTS.Scheduling.RemainingWork", "value": "<hours>" },
-  { "op": "add", "path": "/fields/Custom.EstimationConfidenceLevel", "value": "<confidence>" }
+  { "name": "Custom.BusinessPriority", "value": "4: Technical" },
+  { "name": "Custom.Version", "value": "<current version>" },
+  { "name": "Microsoft.VSTS.Scheduling.OriginalEstimate", "value": "<hours>" },
+  { "name": "Microsoft.VSTS.Scheduling.RemainingWork", "value": "<hours>" },
+  { "name": "Custom.EstimationConfidenceLevel", "value": "<confidence>" }
 ]
 ```
 
 #### Required fields
 
-- `Microsoft.VSTS.Common.Priority` -- ADO requires this when transitioning to Triaged. Default to `4` (lowest) unless the work item warrants higher priority.
+- **priority** -- ADO requires this when transitioning to Triaged. Default to `4` (lowest) unless the work item warrants higher priority.
 - `Custom.BusinessPriority` -- also required for the Triaged transition. Default to `"4: Technical"` for internal/tooling tasks. Other values follow the pattern `"1: Must Have"`, `"2: Should Have"`, `"3: Nice to Have"`, `"4: Technical"`.
 - `Custom.Version` -- the current release version (e.g. `26.2.1`). Infer from a recent work item in the same iteration if not known.
 
 #### Estimation fields
 
-Only include the estimation operations (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) when estimation was performed in step 3. If the fields were already set on the work item, omit them from the update.
+Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If the fields were already set on the work item, omit them from the update.
 
 When included, the **estimation** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
 

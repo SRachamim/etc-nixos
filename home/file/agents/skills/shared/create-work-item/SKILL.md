@@ -36,19 +36,24 @@ If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for a
 
 **Constraint: NEVER assign work items to the current iteration. Always use the iteration immediately following the current one.**
 
-Use the iteration data returned by `get_user_team_context` (called in step 1). Identify the current iteration (the one whose date range contains today) and pick the iteration whose start date is the earliest date **after** the current iteration's end date.
+`get_user_team_context` (called in step 1) returns the **current** iteration per team. It does not return a list of all future iterations.
 
-**Verify:** confirm the selected iteration's start date is strictly after the current iteration's end date. If it overlaps or equals the current iteration, pick the next one.
+To find the next iteration:
 
-Use the next iteration's path (e.g. `FundGuard\Sprint 43`) as the iteration for the work item. Do NOT use the current iteration's path.
+1. From the `get_user_team_context` response, find the current iteration for the "FundGuard" team (or the team matching the target area path). Note its `finishDate` and iteration name pattern.
+2. Iteration names follow the pattern `<month>-<letter>-<year>` (e.g. `7-A-26`, `7-B-26`, `7-C-26`). Each month has three two-week sprints (A, B, C). Compute the next iteration name by advancing the letter (A->B, B->C) or rolling to the next month (C -> next month's A).
+3. Construct the next iteration path as `FundGuard\\<next iteration name>` (e.g. `FundGuard\\7-B-26`).
+4. If the computed name doesn't match the pattern or you're unsure, fall back to `search_workitems` with a WIQL query: `SELECT [System.Id] FROM WorkItems WHERE [System.IterationPath] UNDER 'FundGuard' AND [System.ChangedDate] > @Today - 30 ORDER BY [System.IterationPath] DESC` to discover recent iteration paths.
+
+Use the next iteration's path for the work item. Do NOT use the current iteration's path.
 
 ### 3. Find the parent User Story
 
 Every work item must have a parent User Story -- orphan items are not allowed.
 
-1. Call `search_workitems` with a query that returns active User Stories in the same area path and iteration (next iteration resolved in step 2). Order by changed date descending.
-2. If no results, broaden by removing the iteration filter (same area path, state Active or New).
-3. If still no results, broaden further to any active User Story under the root area path (`FundGuard`).
+1. Call `search_workitems` with `types: ["User Story"]`, `states: ["Active"]`, `areaPath` matching the target area, and `iterationPath` matching the next iteration resolved in step 2.
+2. If no results, broaden by removing the `iterationPath` filter (same area path, states `["Active", "New"]`).
+3. If still no results, broaden further with `areaPath: "FundGuard"` and `states: ["Active"]`.
 4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a different story ID directly.
 
 A parent story must be selected before proceeding. Do not allow the user to skip this step.
@@ -57,9 +62,9 @@ Store the selected parent story ID for use after creation.
 
 ### 4. Format rich-text fields as markdown
 
-All rich-text work item fields (`System.Description`, `Microsoft.VSTS.TCM.ReproSteps`, etc.) must use **markdown**, not HTML. When passing these fields to `create_work_item`, set `format` to `"Markdown"` on each rich-text field entry -- the API defaults to `"Html"` and won't render markdown correctly without it.
+The `create_work_item` tool defaults to markdown format for rich-text fields. Do not pass `format: "html"` -- the default is correct.
 
-Each piece of information belongs in exactly one field -- the field designated for it by the calling skill. Don't duplicate content across fields (e.g. don't copy repro steps into `System.Description` on a Bug, or put task details outside `System.Description` on a Task).
+Each piece of information belongs in exactly one field -- the field designated for it by the calling skill. Don't duplicate content across fields (e.g. don't copy repro steps into description on a Bug, or put task details outside description on a Task).
 
 ### 5. Present the work item for approval
 
@@ -67,27 +72,24 @@ Apply the **objective-communication** skill when composing titles and descriptio
 
 Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Confirm the iteration is **not** the current sprint -- it should be the one after it. Ask for confirmation. If the user requests changes, revise and re-present.
 
-### 6. Create the work item
+### 6. Create the work item and link to parent
 
 Call `create_work_item` with:
 
-- **project**: `FundGuard`
-- **workItemType**: as provided by the calling skill
-- **fields**: merge in this order -- common fields, then type-specific fields from the calling skill, then `commonFieldOverrides`. Later values win.
+- **title**: the crafted title
+- **type**: as provided by the calling skill (e.g. `"Task"`, `"Bug"`)
+- **assignedTo**: the email resolved in step 1 (overridable via `commonFieldOverrides`)
+- **areaPath**: `"FundGuard\\Platform\\Web\\CInfra"` (overridable via `commonFieldOverrides`)
+- **iterationPath**: the next iteration path resolved in step 2
+- **parentId**: the parent User Story ID from step 3
+- **description**: from calling skill's type-specific fields
+- **reproSteps**: from calling skill's type-specific fields (for Bug type)
+- **additionalFields**: `[{ "name": "Custom.BusinessPriority", "value": "<priority>" }]`
+- **idempotencyKey**: generate a unique key (e.g. `"create-<type>-<timestamp>"`) to prevent duplicates on retry
 
-Common field defaults:
+Merge fields in this order: common defaults, then type-specific fields from the calling skill, then `commonFieldOverrides`. Later values win.
 
-
-| Field                     | Default value                              |
-| ------------------------- | ------------------------------------------ |
-| `System.Title`            | The crafted title                          |
-| `System.AssignedTo`       | The identity resolved in step 1            |
-| `System.AreaPath`         | `FundGuard\Platform\Web\CInfra`            |
-| `System.IterationPath`    | The next iteration path resolved in step 2 |
-| `Custom.BusinessPriority` | The inferred business priority (see below) |
-
-
-Any of these can be overridden via `commonFieldOverrides`.
+If creation fails due to a parent hierarchy conflict, inform the user and ask them to select a different parent story. Retry until it succeeds.
 
 #### Business Priority
 
@@ -104,16 +106,7 @@ Use a higher priority only when the work item clearly has direct business or pro
 | `4: Technical` | **Default.** Internal improvements, technical debt, non-customer-facing bugs, refactoring, tooling   |
 
 
-### 7. Link to parent User Story
-
-Call `manage_work_item_links` with:
-
-- **project**: `FundGuard`
-- **updates**: `[{ "id": <new work item ID>, "linkToId": <parent story ID>, "type": "parent" }]`
-
-If the link fails (e.g. the story already has a conflicting hierarchy), inform the user and ask them to select a different parent story. Retry until the link succeeds.
-
-### 8. Triage the work item
+### 7. Triage the work item
 
 Skip this step when any of the following are true:
 
@@ -122,10 +115,10 @@ Skip this step when any of the following are true:
 
 Otherwise, follow the **triage-transition** skill, passing the newly created work item's ID.
 
-### 9. Confirm success
+### 8. Confirm success
 
 Print the created work item's **ID**, **title**, **type**, **state**, **assigned to**, **iteration**, and a direct link to the work item in Azure DevOps.
 
-### 10. Evolve
+### 9. Evolve
 
 Follow the **continuous-improvement** skill.

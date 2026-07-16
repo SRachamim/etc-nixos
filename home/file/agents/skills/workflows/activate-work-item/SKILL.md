@@ -28,14 +28,8 @@ If the work item is already in the **Active** state, inform the user and stop.
 
 Call `update_work_item` with:
 
-- **id**: the work item's ID
-- **updates**:
-
-```json
-[
-  { "op": "add", "path": "/fields/System.State", "value": "Active" }
-]
-```
+- **workItemId**: the work item's ID
+- **state**: `"Active"`
 
 ### 4. Confirm
 

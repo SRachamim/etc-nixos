@@ -25,7 +25,7 @@ Require **Debug** mode following the **mode-gate** skill. This command investiga
 
 ### 1. Fetch the bug
 
-- **If ticket**: fetch the work item with full details and relations. Extract repro steps, severity, acceptance criteria, child work items, linked PRs/commits, and comments.
+- **If ticket**: fetch the work item via `get_work_item` with `includeAnalysis: true` (parses inline images, lists attachments, and returns `suggestedFollowUps` with ready-to-use attachment calls). Extract repro steps, severity, acceptance criteria, child work items, linked PRs/commits, and comments.
 - **If text**: restate the defective behaviour in your own words and confirm understanding before proceeding.
 - Extract the key facts:
   - **What is broken** -- the observed (incorrect) behaviour.

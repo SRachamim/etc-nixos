@@ -150,7 +150,7 @@ Show the complete review to the user, including:
 
 ### 8. Post the review
 
-- Create comment threads on the PR for each review comment, positioned on the relevant file and line range.
+- Call `post_review_findings` to batch-post all review comments in one call. For each finding, provide `content`, `severity` (`"critical"` for Blocking, `"significant"` for Suggestion, `"minor"` for Nit), `filePath`, `lineNumber`, and `status: "Active"` (the tool defaults to `Closed`, but review threads must be Active per the **code-review** skill). Include a `summaryComment` with the overall verdict.
 - **If the PR was resolved from a Slack message**, react to the original message based on the outcome (see **Slack reaction signals**):
   - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `slack_add_reaction` with `reaction: "white_check_mark"`.
   - If review comments were posted (or the user confirms they posted): call `slack_add_reaction` with `reaction: "speech_balloon"`.

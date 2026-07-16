@@ -72,7 +72,7 @@ The original review's findings list is the baseline. Each finding (with its seve
 
 #### When following up on `/review-pr`
 
-Fetch all threads on the PR via `get_pr_threads`. For every thread the reviewer authored, review the full conversation and record:
+Fetch all threads on the PR via `get_pr_threads`. Use `baseIteration` to filter to threads from the iteration after the last reviewed push (this returns only threads created since the baseline, reducing noise). For every thread the reviewer authored, review the full conversation and record:
 
 - **Current status**: Active, Fixed, WontFix, Closed, ByDesign, Pending.
 - **Author replies**: any responses added since the reviewer's last comment.

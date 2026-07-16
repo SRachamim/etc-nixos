@@ -24,7 +24,7 @@ Extract IDs from the relations array, grouped by link type:
 - **Related**
 - **Predecessor / Successor**
 
-Batch-fetch all linked work items via `search_workitems`. For each, note its ID, title, type, and state.
+Batch-fetch all linked work items via `batch_search_workitems` (up to 15 parallel searches in one call). For each, note its ID, title, type, and state.
 
 Limit traversal to **one hop** -- do not recurse into the linked items' own relations.
 
@@ -45,7 +45,7 @@ Skip URLs that clearly point to images, videos, or binary assets.
 
 ### 5. Read comments
 
-Call `add_work_item_comment` and incorporate any decisions, clarifications, or additional context.
+Comments are already included in the `get_work_item` response from step 1 (`includeComments` defaults to true). Incorporate any decisions, clarifications, or additional context from the comments.
 
 ### 6. Summarise
 

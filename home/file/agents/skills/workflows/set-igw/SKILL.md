@@ -19,13 +19,7 @@ Accept **any** of the following:
 
 ### 1. Fetch the work item
 
-Call `get_work_item` with `project: "FundGuard"` and `fields`:
-
-- `System.Title`
-- `Microsoft.VSTS.CMMI.FoundInEnvironment`
-- `Custom.Org`
-- `Custom.EnvType`
-- `Custom.Customer`
+Call `get_work_item` with `workItemId: <ticket ID>`. The response includes custom fields under `customFields`.
 
 Extract:
 

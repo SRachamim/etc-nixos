@@ -37,14 +37,8 @@ If either ID does not exist, inform the user and stop.
 
 Call `update_work_item` with:
 
-- **id**: the blocked work item's ID
-- **updates**:
-
-```json
-[
-  { "op": "add", "path": "/fields/System.State", "value": "Blocked" }
-]
-```
+- **workItemId**: the blocked work item's ID
+- **state**: `"Blocked"`
 
 Skip this step if the work item is already in the **Blocked** state.
 
@@ -52,18 +46,9 @@ Skip this step if the work item is already in the **Blocked** state.
 
 Call `manage_work_item_links` with:
 
-- **project**: `FundGuard`
-- **updates**:
-
-```json
-[
-  {
-    "id": <blocked ID>,
-    "linkToId": <blocker ID>,
-    "type": "predecessor"
-  }
-]
-```
+- **workItemId**: the blocked work item's ID
+- **action**: `"add"`
+- **workItemLink**: `{ "targetId": <blocker ID>, "linkType": "predecessor" }`
 
 Skip this step if the predecessor link already exists.
 

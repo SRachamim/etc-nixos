@@ -36,6 +36,29 @@ let
 
   skillsDir = ./file/agents/skills;
 
+  # Claude Code only discovers skills ONE level deep: ~/.claude/skills/<name>/SKILL.md
+  # Our source uses categories (workflows/, knowledge/, shared/) which Cursor handles
+  # via recursive scanning, but Claude Code does not. Flatten for Claude deployment.
+  flatClaudeSkills = let
+    categories = builtins.attrNames (
+      lib.filterAttrs (_: type: type == "directory") (builtins.readDir skillsDir)
+    );
+  in builtins.listToAttrs (builtins.concatMap (cat:
+    let
+      catPath = skillsDir + "/${cat}";
+      skills = builtins.attrNames (
+        lib.filterAttrs (_: type: type == "directory") (builtins.readDir catPath)
+      );
+    in map (skill: {
+      name = "ai-claude-skill-${skill}";
+      value = {
+        source = catPath + "/${skill}";
+        target = ".claude/skills/${skill}";
+        recursive = true;
+      };
+    }) skills
+  ) categories);
+
   # Build the Antigravity knowledge directory at Nix evaluation time
   antigravityKnowledge = pkgs.runCommand "antigravity-knowledge" {} ''
     mkdir -p $out/artifacts/skills
@@ -154,11 +177,6 @@ in
       recursive = true;
       force = true;
     };
-    "ai-skills-claude" = {
-      source = ./file/agents/skills;
-      target = ".claude/skills";
-      recursive = true;
-    };
     "ai-subagents-claude" = {
       source = ./file/agents/subagents;
       target = ".claude/subagents";
@@ -223,7 +241,7 @@ in
       recursive = true;
       force = true;
     };
-  };
+  } // flatClaudeSkills;
 
   home.packages = with pkgs; [
     nerd-fonts.fira-code

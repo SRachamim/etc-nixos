@@ -97,7 +97,6 @@ in
 
         ai = with pkgs.vimPlugins; [
           pkgs.claudecode-nvim
-          avante-nvim
         ];
       };
     };

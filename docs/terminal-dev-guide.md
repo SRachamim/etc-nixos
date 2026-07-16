@@ -11,7 +11,6 @@ Ghostty (terminal emulator)
   └── Zellij (terminal multiplexer)
         ├── Neovim (editor)
         │     ├── claudecode.nvim  (send code to Claude Code)
-        │     ├── avante.nvim      (Cursor-like AI panel)
         │     ├── lazygit.nvim     (git TUI)
         │     └── native LSP + telescope + treesitter
         ├── Claude Code (AI agent CLI)
@@ -170,16 +169,6 @@ This is the terminal equivalent of Cursor's Cmd+L:
 1. Visual-select code in Neovim
 2. Press `<leader>as`
 3. The selection is sent to the Claude Code split
-
-### Avante.nvim (Cursor-like AI Panel)
-
-| Key | Action |
-|-----|--------|
-| `<leader>aa` | Ask AI about code |
-| `<leader>ae` | Edit code with AI |
-| `<leader>ar` | Refresh AI response |
-
-Avante provides an in-editor AI panel (like Cursor's sidebar). Select code, press `<leader>aa`, type an instruction, and get a diff to accept/reject.
 
 ### Git (lazygit + diffview)
 

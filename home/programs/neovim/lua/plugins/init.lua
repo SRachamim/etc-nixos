@@ -51,20 +51,6 @@ return {
     end,
   },
 
-  -- Avante
-  {
-    "avante.nvim",
-    cmd = { "AvanteAsk", "AvanteEdit" },
-    keys = {
-      { "<leader>aa", mode = "n" },
-      { "<leader>ae", mode = "n" },
-      { "<leader>ar", mode = "n" },
-    },
-    after = function()
-      require("plugins.avante")
-    end,
-  },
-
   -- lazygit
   {
     "lazygit.nvim",

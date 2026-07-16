@@ -1,0 +1,8 @@
+---
+description: Keep the Claude Code skill catalog in sync when skills are added, removed, or renamed
+globs:
+  - home/file/agents/skills/**/SKILL.md
+  - home/file/agents/CLAUDE.md
+---
+
+Follow the "Keep the Claude Code skill catalog in sync" section in `AGENTS.md`.

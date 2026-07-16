@@ -107,6 +107,15 @@ The server is automatically deployed to `~/.cursor/mcp.json`, `~/.claude.json`, 
 
 After editing, the user must run `switch` (alias for `sudo darwin-rebuild switch --flake .#macbook` on macOS). Do **not** run this command as the agent -- inform the user to apply.
 
+# Keep the Claude Code skill catalog in sync
+
+`home/file/agents/CLAUDE.md` contains a skill catalog that makes user-level skills discoverable in Claude Code. When adding, removing, or renaming a skill under `home/file/agents/skills/`, update the corresponding table in `home/file/agents/CLAUDE.md`:
+
+- **Workflow skills**: add/remove a row in the "Workflow skills" table with the `/command`, title (from the `# Title` heading), and `~/.claude/skills/workflows/<name>/SKILL.md` path.
+- **Knowledge skills**: add/remove a row in the "Knowledge skills" table with the skill name, title, and `~/.claude/skills/knowledge/<name>/SKILL.md` path.
+
+Apply the catalog update in the same commit as the skill change.
+
 # Evolve new artifacts
 
 Applies when creating or modifying files under `home/file/agents/skills/**/SKILL.md`.

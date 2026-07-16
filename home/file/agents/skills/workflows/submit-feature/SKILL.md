@@ -102,6 +102,10 @@ Print a summary of everything that was done:
 - Yaakov Ellis DM confirmation (if sent)
 - Automation support channel message confirmation (if sent)
 
-### 7. Evolve
+### 7. Surface artifact opportunities
+
+Follow the **artifact-discovery** skill. If the branch diff is non-trivial, present any suggestions to the user. The user can act on them later -- this step does not block submission.
+
+### 8. Evolve
 
 Follow the **continuous-improvement** skill.

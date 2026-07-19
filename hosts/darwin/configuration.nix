@@ -6,6 +6,10 @@
     ../../modules/darwin/homebrew.nix
   ];
 
+  security.pki.certificateFiles = [
+    ../../modules/darwin/certs/netskope-ca.pem
+  ];
+
   system.primaryUser = "sahar.rachamim";
 
   users.users."sahar.rachamim" = {

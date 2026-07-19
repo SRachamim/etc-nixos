@@ -30,7 +30,15 @@ let
       command = mkLocalMcpServer "mcp-fundguard" "$HOME/.local/share/fundguard-mcp/mcp-proxy.js";
     };
     "Slack" = {
-      command = mkMcpServer "mcp-slack" "@zencoderai/slack-mcp-server@latest";
+      command = lib.getExe (pkgs.writeShellApplication {
+        name = "mcp-slack";
+        runtimeInputs = [ pkgs.slack-mcp-server ];
+        excludeShellChecks = [ "SC1090" ];
+        text = ''
+          source ~/.secrets 2>/dev/null || true
+          exec slack-mcp-server -transport stdio
+        '';
+      });
     };
   };
 
@@ -308,9 +316,11 @@ SETTINGS
 # export DD_APP_KEY=""
 # export ADO_PAT=""
 
-# Slack MCP Server (get from api.slack.com/apps)
-# export SLACK_BOT_TOKEN="xoxp-your-user-token"
-# export SLACK_TEAM_ID="T0123456789"
+# Slack MCP Server (korotovsky/slack-mcp-server)
+# Use ONE of: xoxb (bot), xoxp (user), or xoxc+xoxd (browser session)
+# export SLACK_MCP_XOXB_TOKEN="xoxb-your-bot-token"
+# export SLACK_MCP_XOXP_TOKEN="xoxp-your-user-token"
+# export SLACK_MCP_ADD_MESSAGE_TOOL="true"
 EOF
       chmod 600 "$HOME/.secrets"
       echo "Created ~/.secrets template. Edit it with your API keys."

@@ -1,4 +1,23 @@
 final: prev: {
+  slack-mcp-server = prev.buildGoModule {
+    pname = "slack-mcp-server";
+    version = "1.3.0";
+    src = prev.fetchFromGitHub {
+      owner = "korotovsky";
+      repo = "slack-mcp-server";
+      tag = "v1.3.0";
+      hash = "sha256-I4f6yKV0BXtaxnqi/XNID+Pwl2mWjSqxIHhb07U7sc4=";
+    };
+    vendorHash = "sha256-+uQRODO9oL8mGKBmdghTxE6R9Fz+3GJFVTi17306gT8=";
+    subPackages = [ "cmd/slack-mcp-server" ];
+    meta = {
+      description = "MCP server for Slack workspaces";
+      homepage = "https://github.com/korotovsky/slack-mcp-server";
+      license = prev.lib.licenses.mit;
+      mainProgram = "slack-mcp-server";
+    };
+  };
+
   agentic-nvim = prev.vimUtils.buildVimPlugin {
     pname = "agentic-nvim";
     version = "0-unstable";

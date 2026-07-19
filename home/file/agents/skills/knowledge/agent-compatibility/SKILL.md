@@ -5,7 +5,7 @@ description: Verifies that a skill or workspace rule stays portable across AI ag
 
 # Agent Compatibility
 
-Skills authored in this repository are deployed to multiple agents via Nix (Cursor, Claude Code, Gemini CLI, Antigravity, Codex, Copilot, and any agent that scans `~/.agents/skills/`). This skill ensures new or modified artifacts remain portable.
+Skills authored in this repository are deployed to multiple agents via Nix (Cursor, Claude Code, Gemini CLI, Antigravity). This skill ensures new or modified artifacts remain portable.
 
 ## Portability checklist for SKILL.md files
 
@@ -45,7 +45,7 @@ See the **workspace-rules** skill for the full decision process and format examp
 After creating or modifying a skill in this dotfiles repo:
 
 - Verify the file is under `home/file/agents/skills/` (not a stale `home/file/cursor/` path).
-- Nix deployment fans out skills to: `~/.agents/skills/`, `~/.cursor/skills/`, `~/.claude/skills/`, `~/.gemini/skills/`. Codex reads `~/.agents/skills/` natively; Copilot reads `~/.copilot/skills/`.
+- Nix deployment fans out skills to: `~/.claude/skills/` and `~/.gemini/skills/`. Skills are NOT deployed to `~/.agents/skills/` or `~/.cursor/skills/` because Cursor scans all these paths but fails to deduplicate between them. Cursor discovers skills from `~/.claude/skills/` as the single source.
 - The `AGENTS.md` is deployed to: `~/.agents/AGENTS.md`, `~/.gemini/AGENTS.md`, `~/.codex/AGENTS.md`. Codex, Gemini CLI, and Antigravity read these at session start.
 - The `CLAUDE.md` at `~/.claude/CLAUDE.md` imports `@~/.agents/AGENTS.md` for Claude Code.
 - Copilot (Agent mode) reads `AGENTS.md` at repo root; no separate global deployment is needed beyond the repo-root file.

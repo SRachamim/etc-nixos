@@ -150,12 +150,11 @@ in
         };
       };
     };
-    # --- Portable assets: skills, subagents, AGENTS.md to all agent paths ---
-    "ai-skills-agents" = {
-      source = ./file/agents/skills;
-      target = ".agents/skills";
-      recursive = true;
-    };
+    # --- Portable assets: subagents, AGENTS.md to all agent paths ---
+    # Skills are deployed ONLY via flatClaudeSkills (~/.claude/skills/) and
+    # ~/.gemini/skills/. Cursor discovers skills from ~/.claude/skills/ as a
+    # compatibility path. Deploying to ~/.cursor/skills/ or ~/.agents/skills/
+    # causes Cursor to show duplicates (it scans all paths but fails to dedup).
     "ai-subagents-agents" = {
       source = ./file/agents/subagents;
       target = ".agents/subagents";
@@ -165,12 +164,9 @@ in
       source = ./file/agents/AGENTS.md;
       target = ".agents/AGENTS.md";
     };
-    "ai-skills-cursor" = {
-      source = ./file/agents/skills;
-      target = ".cursor/skills";
-      recursive = true;
-      force = true;
-    };
+    # Skills are NOT deployed to ~/.cursor/skills/ because Cursor also loads
+    # from ~/.claude/skills/ (compatibility) and fails to deduplicate between them.
+    # Cursor discovers skills from flatClaudeSkills (~/.claude/skills/) as the single source.
     "ai-subagents-cursor" = {
       source = ./file/agents/subagents;
       target = ".cursor/subagents";

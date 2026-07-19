@@ -90,9 +90,7 @@ Configured in `home/shared.nix` and deployed to `~/.cursor/mcp.json`,
 ### Agent artifact deployment
 
 ```
-home/file/agents/skills/     ->  ~/.agents/skills/
-                                 ~/.cursor/skills/
-                                 ~/.claude/skills/
+home/file/agents/skills/     ->  ~/.claude/skills/
                                  ~/.gemini/skills/
 
 home/file/agents/subagents/  ->  ~/.agents/subagents/

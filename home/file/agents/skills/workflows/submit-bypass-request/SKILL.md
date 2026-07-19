@@ -60,7 +60,7 @@ Collect the information needed for the bypass request fields:
 - **What tests failed** -- if triage-build already ran, use its "Failed Tests" and "Error Summary" sections as the basis. Otherwise, fetch the build timeline to find the failed stage/job, then fetch test results. If the project uses Currents, search for the corresponding run by branch name and time window. Either way, summarise which tests failed and include Currents links where available.
 - **Stability owner** -- the stability owner is the client FE user listed in the channel's topic. The topic follows the format `FE: <@USER_ID>` among other area entries. Resolve in priority order:
   1. **Explicit argument** -- the user provided a name or handle.
-  2. **Channel topic** -- call `slack_list_channels` (the channel is in `SLACK_CHANNEL_IDS`), find `C03R4T6L6J2`, and extract the user ID from the `FE:` line in the `topic` field.
+  2. **Channel topic** -- call `channels_list` with `channel_types: "public_channel,private_channel"`, find `C03R4T6L6J2`, and extract the user ID from the `FE:` line in the `topic` field.
   3. **Ask the user** -- if the topic doesn't contain an `FE:` entry.
 
 ### 4. Compose the bypass request message
@@ -95,7 +95,7 @@ Submitted by: <@SLACK_USER_ID>
 <@STABILITY_OWNER_SLACK_ID>
 ```
 
-The "Submitted by" field should be the current user. Look up the user's Slack ID by matching their name or email (from `git config user.email`) via `slack_get_users`.
+The "Submitted by" field should be the current user. Look up the user's Slack ID by matching their name or email (from `git config user.email`) via `users_search`.
 
 #### Draft presentation
 
@@ -105,7 +105,7 @@ Present the draft as the raw Slack mrkdwn in a fenced code block (copy-pastable,
 
 ### 5. Post to #pipeline-gated
 
-Post the approved message to channel `C03R4T6L6J2` using `slack_post_message`.
+Post the approved message to channel `C03R4T6L6J2` using `conversations_add_message`.
 
 Present a confirmation with a permalink to the posted message (`https://fundguard.slack.com/archives/C03R4T6L6J2/p<ts_without_dot>`).
 

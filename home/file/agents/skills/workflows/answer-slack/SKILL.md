@@ -33,9 +33,9 @@ If the link is malformed or missing, ask the user and stop.
 
 ### 2. Fetch message context
 
-- Call `slack_get_thread_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
-- If the message has no thread replies, fall back to `slack_get_channel_history` scoped around the timestamp to capture surrounding messages.
-- Resolve participant names by calling `slack_get_user_profile` for each unique user ID that appears in the messages.
+- Call `conversations_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
+- If the message has no thread replies, fall back to `conversations_history` scoped around the timestamp to capture surrounding messages.
+- Resolve participant names by calling `users_search` for each unique user ID that appears in the messages.
 
 ### 3. Follow embedded links
 
@@ -43,7 +43,7 @@ Scan the messages for links to external resources and fetch each one to build a 
 
 | Link type | How to resolve |
 |-----------|----------------|
-| Slack message permalink (`/archives/<channel>/p<ts>`) | Parse the link (same logic as step 1) and call `slack_get_thread_replies` to pull that thread |
+| Slack message permalink (`/archives/<channel>/p<ts>`) | Parse the link (same logic as step 1) and call `conversations_replies` to pull that thread |
 | Azure DevOps work item (`_workitems/edit/<id>`) | Extract the ID and fetch via `get_work_item` |
 | Azure DevOps pull request (`_git/<repo>/pullrequest/<id>`) | Extract the ID and fetch via `get_pr_details` |
 | Azure DevOps build / pipeline (`_build/results?buildId=<id>`) | Extract the ID and fetch via `get_build_details` |
@@ -106,7 +106,7 @@ After presenting findings, offer to compose a Slack reply. If the user accepts:
 
 1. Read and apply the **external-communications** skill, then draft the reply following it and the **objective-communication** skill.
 2. Present the draft for approval.
-3. Post via `slack_reply_to_thread` only after explicit approval.
+3. Post via `conversations_add_message` (with `thread_ts`) only after explicit approval.
 
 Wait for user confirmation before taking any action.
 

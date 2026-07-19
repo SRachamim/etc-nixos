@@ -51,7 +51,7 @@ Defaults:
 - Slack workspace: `fundguard.slack.com`
 - Permalink format: `https://fundguard.slack.com/archives/<channel_id>/p<ts_without_dot>`
 
-When the user asks to share/send a message to a person by name, look up their Slack user ID via `slack_get_users`. Paginate through all pages using the `cursor` parameter until the user is found or all pages are exhausted. Do not stop after the first page.
+When the user asks to share/send a message to a person by name, look up their Slack user ID via `users_search` with their name as the query.
 
 Compose a message for the **#team-cinfra** Slack channel, following the **objective-communication** and **external-communications** skills. The message should include:
 

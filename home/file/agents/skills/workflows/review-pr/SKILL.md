@@ -49,9 +49,9 @@ If none yields a PR, ask the user and stop.
 - Fetch the PR details (source and target branches) via `get_pr_details`. PR title and description are fetched for navigation only -- they are not review inputs (see the **code-review** skill's Review Inputs section).
 - **If the PR was resolved from a Slack message** (step 1, option 2):
   - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
-  - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `slack_add_reaction` with the extracted `channel_id`, the message `timestamp`, and `reaction: "eyes"`.
-  - Call `slack_get_thread_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
-  - If there are no thread replies, call `slack_get_channel_history` scoped around the timestamp to capture surrounding messages for context.
+  - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `reactions_add` with the extracted `channel_id`, the message `timestamp`, and `emoji: "eyes"`.
+  - Call `conversations_replies` with the extracted `channel_id` and `thread_ts` to retrieve the full thread.
+  - If there are no thread replies, call `conversations_history` scoped around the timestamp to capture surrounding messages for context.
   - Scan the thread/surrounding messages for:
     - **Reviewer notes** -- specific areas to focus on, known concerns, or questions.
     - **Urgency signals** -- time pressure, blocking status, or deployment deadlines.
@@ -152,8 +152,8 @@ Show the complete review to the user, including:
 
 - Call `post_review_findings` to batch-post all review comments in one call. For each finding, provide `content`, `severity` (`"critical"` for Blocking, `"significant"` for Suggestion, `"minor"` for Nit), `filePath`, `lineNumber`, and `status: "Active"` (the tool defaults to `Closed`, but review threads must be Active per the **code-review** skill). Include a `summaryComment` with the overall verdict.
 - **If the PR was resolved from a Slack message**, react to the original message based on the outcome (see **Slack reaction signals**):
-  - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `slack_add_reaction` with `reaction: "white_check_mark"`.
-  - If review comments were posted (or the user confirms they posted): call `slack_add_reaction` with `reaction: "speech_balloon"`.
+  - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `reactions_add` with `emoji: "white_check_mark"`.
+  - If review comments were posted (or the user confirms they posted): call `reactions_add` with `emoji: "speech_balloon"`.
   - Fire these reactions only after the corresponding external action is confirmed -- never preemptively from step 7.
   - If the user later confirms they took the action manually (e.g. "I approved" or "I posted the comments"), add the appropriate reaction at that point.
 

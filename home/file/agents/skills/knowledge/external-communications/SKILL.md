@@ -130,22 +130,22 @@ Best practices:
 
 #### Slack Identity
 
-The Slack MCP server is configured with a **user token** (`xoxp-`), not a bot token. Messages, replies, and every other action appear as the user -- there is no bot involved. Ignore any "bot" wording in the MCP tool descriptions (e.g. `slack_list_channels` mentions "bot"); those descriptions are generic and don't reflect the actual token configuration.
+The Slack MCP server is configured with a **user token** (`xoxp-`), not a bot token. Messages, replies, and every other action appear as the user -- there is no bot involved.
 
 When reporting Slack actions back to the user, never say "the bot posted" or "posted as a bot". Say "posted" or "sent" -- the message comes from the user's own account.
 
 Constraints:
 
-- **Do not use `slack_add_reaction` unless a workflow skill explicitly instructs it.** Unsolicited reactions appear as the user's own and misrepresent intent. When a workflow skill (e.g. **review-pr**) defines specific reaction signals that the user opts into by invoking the workflow, `slack_add_reaction` is permitted for those defined reactions only. Treat `already_reacted` errors as idempotent success.
+- **Do not use `reactions_add` unless a workflow skill explicitly instructs it.** Unsolicited reactions appear as the user's own and misrepresent intent. When a workflow skill (e.g. **review-pr**) defines specific reaction signals that the user opts into by invoking the workflow, `reactions_add` is permitted for those defined reactions only. Treat `already_reacted` errors as idempotent success.
 - Assume all Slack output is attributable to the user. The agent must not reveal that output was AI-generated -- no AI attribution markers, no self-disclosure, no tool or model references in external text.
 
 #### Resolving Slack Users
 
-When looking up a user to message (e.g. via `slack_get_users`), discard any member whose `deleted` field is `true`. Present only active accounts as candidates.
+When looking up a user to message, use `users_search` with their name or email as the query.
 
 #### Sharing in Slack
 
-When the user asks to "share" a message with a second channel (as opposed to "sending" to both), post the original message first using `slack_post_message`, then construct a permalink from the response and post it to the second channel.
+When the user asks to "share" a message with a second channel (as opposed to "sending" to both), post the original message first using `conversations_add_message`, then construct a permalink from the response and post it to the second channel.
 
 Slack permalink format: `https://<workspace>.slack.com/archives/<channel_id>/p<ts_without_dot>`
 
@@ -153,6 +153,6 @@ where `<ts_without_dot>` is the message timestamp with the period removed (e.g.,
 
 Example workflow for "Send to #team and share with #announcements":
 
-1. `slack_post_message` to `#team` → response includes `ts`
+1. `conversations_add_message` to `#team` → response includes `ts`
 2. Build permalink from the channel ID and `ts`
-3. `slack_post_message` to `#announcements` with the permalink as the message body (optionally with brief context)
+3. `conversations_add_message` to `#announcements` with the permalink as the message body (optionally with brief context)

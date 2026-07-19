@@ -321,6 +321,7 @@ SETTINGS
 # export SLACK_MCP_XOXB_TOKEN="xoxb-your-bot-token"
 # export SLACK_MCP_XOXP_TOKEN="xoxp-your-user-token"
 # export SLACK_MCP_ADD_MESSAGE_TOOL="true"
+# export SLACK_MCP_REACTION_TOOL="true"
 EOF
       chmod 600 "$HOME/.secrets"
       echo "Created ~/.secrets template. Edit it with your API keys."

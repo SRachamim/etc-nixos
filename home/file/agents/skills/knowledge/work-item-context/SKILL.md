@@ -38,7 +38,7 @@ Scan the description, acceptance criteria, and repro-steps fields for URLs. Cate
 
 | URL pattern | Action |
 |---|---|
-| ADO wiki link | Fetch via `wiki_get_page_content` |
+| ADO wiki link | Fetch via `get_wiki_page` |
 | Other HTTP(S) URL | Fetch via `WebFetch` (best-effort; skip on failure) |
 
 Skip URLs that clearly point to images, videos, or binary assets.

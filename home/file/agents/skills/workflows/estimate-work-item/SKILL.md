@@ -19,7 +19,7 @@ Require **Plan** mode following the **mode-gate** skill. The estimation (steps 1
 Determine the work item using one of the following, in priority order:
 
 1. **Explicit ADO ID** -- the user provided a work item ID directly. Fetch it with full details and relations.
-2. **Free-text description** -- the user described a task. Use `search_workitem` to find a matching ADO item. If a match is found, fetch it. If not, proceed using the description alone.
+2. **Free-text description** -- the user described a task. Use `search_workitems` to find a matching ADO item. If a match is found, fetch it. If not, proceed using the description alone.
 
 When fetching from ADO, extract and note:
 

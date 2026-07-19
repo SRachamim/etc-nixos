@@ -18,6 +18,27 @@ final: prev: {
     };
   };
 
+  azure-devops-mcp = prev.buildNpmPackage {
+    pname = "azure-devops-mcp";
+    version = "2.8.0";
+    src = prev.fetchFromGitHub {
+      owner = "microsoft";
+      repo = "azure-devops-mcp";
+      rev = "v2.8.0";
+      hash = "sha256-Ds/Kcr4xb9f7i9hPiunSTfn8rwgorqzpWvT1jIoSIYk=";
+    };
+    npmDepsHash = "sha256-tqAHcEl3mjHY5cI5rhSJa0SSvyvUHrwVxyN2CFdNMK4=";
+    postInstall = ''
+      mv $out/bin/mcp-server-azuredevops $out/bin/azure-devops-mcp
+    '';
+    meta = {
+      description = "Azure DevOps MCP Server (complement to FundGuard proxy)";
+      homepage = "https://github.com/microsoft/azure-devops-mcp";
+      license = prev.lib.licenses.mit;
+      mainProgram = "azure-devops-mcp";
+    };
+  };
+
   agentic-nvim = prev.vimUtils.buildVimPlugin {
     pname = "agentic-nvim";
     version = "0-unstable";

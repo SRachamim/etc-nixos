@@ -29,6 +29,19 @@ let
     "fundguard" = {
       command = mkLocalMcpServer "mcp-fundguard" "$HOME/.local/share/fundguard-mcp/mcp-proxy.js";
     };
+    "Azure DevOps" = {
+      command = lib.getExe (pkgs.writeShellApplication {
+        name = "mcp-azure-devops";
+        runtimeInputs = [ pkgs.azure-devops-mcp ];
+        excludeShellChecks = [ "SC1090" ];
+        text = ''
+          source ~/.secrets 2>/dev/null || true
+          export PERSONAL_ACCESS_TOKEN
+          PERSONAL_ACCESS_TOKEN=$(printf ':%s' "$ADO_PAT" | base64)
+          exec azure-devops-mcp fundguard -a pat -d core work repositories search test-plans advanced-security
+        '';
+      });
+    };
     "Slack" = {
       command = lib.getExe (pkgs.writeShellApplication {
         name = "mcp-slack";

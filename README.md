@@ -82,7 +82,8 @@ Configured in `home/shared.nix` and deployed to `~/.cursor/mcp.json`,
 
 | Server | Purpose |
 |--------|---------|
-| fundguard | ADO, Datadog, Currents, Sunday, Gateway (80 tools via proxy) |
+| fundguard | ADO work items/PRs/builds, Datadog, Currents, Sunday, Gateway (95 tools via proxy) |
+| Azure DevOps | ADO domains not covered by proxy: repositories (PR voting), search, test-plans, work (iterations), core, advanced-security |
 | Slack | Messaging |
 
 ## Deployment

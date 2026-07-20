@@ -43,6 +43,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/trace-pr-comments` | Trace PR Comments | `~/.claude/skills/workflows/trace-pr-comments/SKILL.md` |
 | `/triage-build` | Triage Build | `~/.claude/skills/workflows/triage-build/SKILL.md` |
 | `/triage` | Triage | `~/.claude/skills/workflows/triage/SKILL.md` |
+| `/write-repro-steps` | Write Repro Steps | `~/.claude/skills/workflows/write-repro-steps/SKILL.md` |
 
 ### Knowledge skills (loaded by context)
 

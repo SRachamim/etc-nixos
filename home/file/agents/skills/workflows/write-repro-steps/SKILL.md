@@ -122,6 +122,7 @@ Follow these authoring principles:
 
 - **One action per step.** Each numbered step describes a single, discrete user action. Do not combine navigation, input, and submission into one step.
 - **Use interface labels.** Reference buttons, fields, menus, and pages by their visible labels in the UI -- not by internal component names or CSS selectors.
+- **Spell out navigation paths.** Never write "Navigate to the X page." Instead, describe the exact clicks through the UI: "In the left sidebar, click **Settings**" → "Click **Configuration Bundles**." Each click in the navigation hierarchy is its own step. The reader should be able to follow the steps without knowing the application's menu structure.
 - **Start from a known state.** The first step must establish a clean starting point (e.g. "Log in as `<role>` user on `<org>`" or "Navigate to `<URL>` in a new browser session").
 - **Separate setup from trigger.** Mark which steps are setup (reaching the right state) and which are the trigger (the action that causes the bug).
 - **Be environment-specific.** If the bug depends on a particular org, environment, or data state, say so explicitly in the preconditions.

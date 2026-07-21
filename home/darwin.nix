@@ -53,6 +53,7 @@ in
           substituteInPlace $out/sketchybarrc \
             --replace-fail '#!/usr/bin/env lua' '#!${sketchybarLua}/bin/lua'
           chmod +x $out/sketchybarrc
+          chmod +x $out/helpers/media-stream.sh
 
           # Build event providers
           mkdir -p $out/helpers/event_providers/cpu_load/bin

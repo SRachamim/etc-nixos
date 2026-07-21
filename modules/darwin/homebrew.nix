@@ -13,6 +13,7 @@
       "raine/workmux"
     ];
     brews = [
+      "media-control"
       { name = "sketchybar"; start_service = true; restart_service = "changed"; }
       "raine/workmux/workmux"
     ];

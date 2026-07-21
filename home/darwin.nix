@@ -2,6 +2,8 @@
 let
   cursorCli = "/Applications/Cursor.app/Contents/Resources/app/bin/cursor";
 
+  sketchybarLua = pkgs.lua5_5.withPackages (lp: [ pkgs.sbarlua ]);
+
   cursorExtensions = [
     "asvetliakov.vscode-neovim"
     "catppuccin.catppuccin-vsc"
@@ -37,6 +39,33 @@ in
       source = ./file/agents/settings.json;
       force = true;
     };
+    "catppuccin-wallpaper" = {
+      source = ./file/wallpaper/catppuccin-mocha.png;
+      target = ".local/share/wallpaper/catppuccin-mocha.png";
+    };
+    "sketchybar-config" = {
+      target = ".config/sketchybar";
+      source = pkgs.runCommand "sketchybar-config"
+        { nativeBuildInputs = [ pkgs.clang ]; }
+        ''
+          cp -r ${./file/sketchybar} $out
+          chmod -R u+w $out
+          substituteInPlace $out/sketchybarrc \
+            --replace-fail '#!/usr/bin/env lua' '#!${sketchybarLua}/bin/lua'
+          chmod +x $out/sketchybarrc
+
+          # Build event providers
+          mkdir -p $out/helpers/event_providers/cpu_load/bin
+          clang -std=c99 -O3 \
+            $out/helpers/event_providers/cpu_load/cpu_load.c \
+            -o $out/helpers/event_providers/cpu_load/bin/cpu_load
+          mkdir -p $out/helpers/event_providers/network_load/bin
+          clang -std=c99 -O3 \
+            $out/helpers/event_providers/network_load/network_load.c \
+            -o $out/helpers/event_providers/network_load/bin/network_load
+        '';
+      recursive = true;
+    };
   };
 
   programs.ghostty = {
@@ -46,13 +75,37 @@ in
       theme = "catppuccin-mocha";
       font-family = "FiraCode Nerd Font Mono";
       macos-option-as-alt = true;
+      macos-titlebar-style = "hidden";
       shell-integration = "zsh";
+      window-padding-balance = true;
       keybind = [
         "alt+left=unbind"
         "alt+right=unbind"
       ];
     };
   };
+
+  home.activation.setWallpaper = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    /usr/bin/osascript -e '
+      tell application "System Events"
+        tell every desktop
+          set picture to "'$HOME'/.local/share/wallpaper/catppuccin-mocha.png"
+        end tell
+      end tell
+    ' 2>/dev/null || true
+  '';
+
+  home.activation.restartSketchybar = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    if /usr/bin/pgrep -q sketchybar 2>/dev/null; then
+      /opt/homebrew/bin/brew services restart sketchybar 2>/dev/null || true
+    fi
+  '';
+
+  home.activation.reloadAerospace = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    if /usr/bin/pgrep -q AeroSpace 2>/dev/null; then
+      /opt/homebrew/bin/aerospace reload-config 2>/dev/null || true
+    fi
+  '';
 
   home.activation.installCursorExtensions = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if [ -x "${cursorCli}" ]; then

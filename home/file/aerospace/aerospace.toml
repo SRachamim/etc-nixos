@@ -6,6 +6,11 @@ config-version = 2
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
 
+# Notify SketchyBar about workspace changes
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 # Start AeroSpace at login
 start-at-login = true
 
@@ -16,7 +21,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 30
+accordion-padding = 0
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -69,7 +74,7 @@ on-mode-changed = []
     inner.vertical =   0
     outer.left =       0
     outer.bottom =     0
-    outer.top =        0
+    outer.top =        10
     outer.right =      0
 
 # 'main' binding mode declaration

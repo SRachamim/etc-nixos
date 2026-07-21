@@ -8,10 +8,12 @@
       upgrade = true;
     };
     taps = [
+      { name = "FelixKratz/formulae"; trusted = true; }
       "nikitabobko/tap"
       "raine/workmux"
     ];
     brews = [
+      { name = "sketchybar"; start_service = true; restart_service = "changed"; }
       "raine/workmux/workmux"
     ];
     casks = [

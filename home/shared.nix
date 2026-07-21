@@ -263,6 +263,7 @@ in
   home.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
+    sketchybar-app-font
     azure-cli
     claude-code
     fd

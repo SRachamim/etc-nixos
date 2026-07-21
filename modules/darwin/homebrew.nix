@@ -24,6 +24,7 @@
       "ghostty"
       "google-chrome"
       "google-drive"
+      "sf-symbols"
       "signal"
     ];
   };

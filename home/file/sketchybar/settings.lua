@@ -2,7 +2,7 @@ return {
   paddings = 3,
   group_paddings = 5,
 
-  icons = "NerdFont",
+  icons = "sf_symbols",
 
   font = {
     text = "FiraCode Nerd Font",

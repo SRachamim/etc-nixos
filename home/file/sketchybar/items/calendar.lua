@@ -1,9 +1,7 @@
 local settings = require("settings")
 local colors = require("colors")
 
-sbar.add("item", { position = "right", width = settings.group_paddings })
-
-local cal = sbar.add("item", {
+local cal = sbar.add("item", "widgets.calendar", {
   icon = {
     color = colors.white,
     padding_left = 8,
@@ -19,7 +17,7 @@ local cal = sbar.add("item", {
     align = "right",
     font = { family = settings.font.numbers },
   },
-  position = "right",
+  position = "left",
   update_freq = 30,
   padding_left = 1,
   padding_right = 1,
@@ -31,7 +29,7 @@ local cal = sbar.add("item", {
   click_script = "open -a 'Calendar'",
 })
 
-sbar.add("bracket", { cal.name }, {
+sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
   background = {
     color = colors.transparent,
     height = 30,
@@ -39,7 +37,10 @@ sbar.add("bracket", { cal.name }, {
   },
 })
 
-sbar.add("item", { position = "right", width = settings.group_paddings })
+sbar.add("item", "widgets.calendar.padding", {
+  position = "left",
+  width = settings.group_paddings,
+})
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function()
   cal:set({ icon = os.date("%a. %d %b."), label = os.date("%H:%M") })

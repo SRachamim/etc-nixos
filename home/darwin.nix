@@ -55,7 +55,7 @@ in
           chmod +x $out/sketchybarrc
           chmod +x $out/helpers/media-stream.sh
           chmod +x $out/helpers/news/news-ticker.sh
-          chmod +x $out/helpers/news/parse_rss.py
+          chmod +x $out/helpers/news/fetch_i24.py
 
           # Build event providers
           mkdir -p $out/helpers/event_providers/cpu_load/bin

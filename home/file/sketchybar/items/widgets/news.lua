@@ -8,6 +8,18 @@ sbar.add("event", "news_update")
 
 local current_link = ""
 
+local function relative_time(epoch_str)
+  if not epoch_str or epoch_str == "" then return "" end
+  local epoch = tonumber(epoch_str)
+  if not epoch then return "" end
+  local diff = os.time() - epoch
+  if diff < 60 then return "now"
+  elseif diff < 3600 then return math.floor(diff / 60) .. "m"
+  elseif diff < 86400 then return math.floor(diff / 3600) .. "h"
+  else return math.floor(diff / 86400) .. "d"
+  end
+end
+
 local news_icon = sbar.add("item", "widgets.news.icon", {
   position = "right",
   icon = {
@@ -27,17 +39,17 @@ local news_label = sbar.add("item", "widgets.news.label", {
   position = "right",
   icon = { drawing = false },
   label = {
-    string = "Loading news...",
-    max_chars = 40,
+    string = "...טוען חדשות",
+    max_chars = 50,
     color = colors.white,
     font = {
       style = settings.font.style_map["Regular"],
       size = 13.0,
     },
+    align = "right",
   },
-  scroll_texts = true,
   padding_left = 0,
-  update_freq = 600,
+  update_freq = 30,
   updates = true,
 })
 
@@ -81,21 +93,22 @@ local recent_headlines = {}
 news_icon:subscribe("news_update", function(env)
   local title = env.title or ""
   local link = env.link or ""
-  local source = env.source or ""
+  local epoch = env.epoch or ""
 
   if title == "" then return end
 
   current_link = link
 
+  local time_str = relative_time(epoch)
   local display_text = title
-  if source ~= "" then
-    display_text = "[" .. source .. "] " .. title
+  if time_str ~= "" then
+    display_text = time_str .. " · " .. title
   end
 
   news_label:set({ label = { string = display_text } })
 
   -- Track in recent list
-  table.insert(recent_headlines, 1, { title = title, link = link, source = source })
+  table.insert(recent_headlines, 1, { title = title, link = link, epoch = epoch })
   if #recent_headlines > 5 then
     table.remove(recent_headlines, 6)
   end
@@ -104,9 +117,13 @@ news_icon:subscribe("news_update", function(env)
   for i = 1, 5 do
     local h = recent_headlines[i]
     if h then
+      local t = relative_time(h.epoch)
+      local popup_label = ""
+      if t ~= "" then popup_label = t .. " · " end
+      popup_label = popup_label .. h.title
       popup_items[i]:set({
         drawing = true,
-        label = { string = "[" .. h.source .. "] " .. h.title },
+        label = { string = popup_label },
         click_script = "open '" .. h.link:gsub("'", "'\\''") .. "'",
       })
     else
@@ -115,9 +132,15 @@ news_icon:subscribe("news_update", function(env)
   end
 end)
 
--- Routine refresh: fetch new headlines
+-- Routine: refresh every 60s (every 2nd tick), rotate between refreshes
+local tick_count = 0
 news_label:subscribe("routine", function()
-  sbar.exec(TICKER_SCRIPT .. " refresh")
+  tick_count = tick_count + 1
+  if tick_count % 2 == 0 then
+    sbar.exec(TICKER_SCRIPT .. " refresh")
+  else
+    sbar.exec(TICKER_SCRIPT .. " next")
+  end
 end)
 
 -- Also refresh on forced/wake

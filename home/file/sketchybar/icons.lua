@@ -41,6 +41,7 @@ local icons = {
       forward = "􀊌",
       play_pause = "􀊈",
     },
+    news = "􀤦",
   },
 
   nerdfont = {
@@ -83,6 +84,7 @@ local icons = {
       forward = "",
       play_pause = "",
     },
+    news = "",
   },
 }
 

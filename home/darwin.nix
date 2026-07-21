@@ -54,6 +54,8 @@ in
             --replace-fail '#!/usr/bin/env lua' '#!${sketchybarLua}/bin/lua'
           chmod +x $out/sketchybarrc
           chmod +x $out/helpers/media-stream.sh
+          chmod +x $out/helpers/news/news-ticker.sh
+          chmod +x $out/helpers/news/parse_rss.py
 
           # Build event providers
           mkdir -p $out/helpers/event_providers/cpu_load/bin

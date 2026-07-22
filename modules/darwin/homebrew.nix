@@ -14,7 +14,10 @@
     ];
     brews = [
       "media-control"
-      { name = "sketchybar"; start_service = true; restart_service = "changed"; }
+      # Disabled: kept installed & configured, but the service no longer runs
+      # (native macOS menu bar is used instead). Re-enable by restoring
+      # start_service = true; restart_service = "changed";
+      { name = "sketchybar"; start_service = false; }
       "raine/workmux/workmux"
     ];
     casks = [

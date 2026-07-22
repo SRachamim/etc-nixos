@@ -27,7 +27,7 @@
       NSAutomaticSpellingCorrectionEnabled = false;
       NSAutomaticWindowAnimationsEnabled = false;
       NSWindowResizeTime = 0.001;
-      _HIHideMenuBar = true;
+      _HIHideMenuBar = false;
     };
     CustomUserPreferences = {
       NSGlobalDomain = {

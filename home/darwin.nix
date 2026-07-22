@@ -98,9 +98,13 @@ in
     ' 2>/dev/null || true
   '';
 
-  home.activation.restartSketchybar = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+  # Sketchybar is kept installed & configured but disabled: stop the service
+  # on activation so the bar disappears and the native menu bar is used. To
+  # re-enable, restore start_service in homebrew.nix and switch this back to
+  # `brew services restart sketchybar`.
+  home.activation.stopSketchybar = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if /usr/bin/pgrep -q sketchybar 2>/dev/null; then
-      /opt/homebrew/bin/brew services restart sketchybar 2>/dev/null || true
+      /opt/homebrew/bin/brew services stop sketchybar 2>/dev/null || true
     fi
   '';
 

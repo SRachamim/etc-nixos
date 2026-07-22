@@ -46,4 +46,11 @@
       TrackpadThreeFingerDrag = true;
     };
   };
+
+  # macOS caches menu-bar prefs in SystemUIServer; on macOS 26 changes to
+  # _HIHideMenuBar aren't picked up until it restarts. Refresh it at the end
+  # of activation so menu-bar defaults apply on `switch` without a logout.
+  system.activationScripts.postActivation.text = ''
+    killall SystemUIServer 2>/dev/null || true
+  '';
 }

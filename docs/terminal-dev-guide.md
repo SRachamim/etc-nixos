@@ -60,7 +60,7 @@ This opens a Zellij session with three panes:
 
 ### 3. Navigate Between Panes
 
-Use `Ctrl+h/j/k/l` everywhere. This single set of keys navigates Zellij panes, Neovim splits, and the boundary between them seamlessly. See the [Navigation Hierarchy](#navigation-hierarchy) section for details.
+Navigate Zellij panes with the tmux-style prefix: press `Ctrl+B`, then `h/j/k/l`. Bare `Ctrl+h/j/k/l` are left free for the focused app -- Neovim splits and pickers such as Telescope. See the [Navigation Hierarchy](#navigation-hierarchy) section for details.
 
 ## Navigation Hierarchy
 
@@ -77,13 +77,14 @@ Keypress (Ctrl+h)
   │     No split keybinds — all keys pass through to Zellij
   │
   ├── Layer 3: Zellij (multiplexer)
-  │     Normal mode: Ctrl+h/j/k/l → navigate Zellij panes
+  │     Normal mode: Ctrl+B then h/j/k/l → navigate Zellij panes;
+  │                  bare Ctrl+h/j/k/l pass through to the focused program
   │     Locked mode: passes through to the focused program
   │
   └── Layer 4: Neovim / Claude Code / shell
         Neovim: Ctrl+h/j/k/l → navigate Vim splits;
                 at the edge, zellij.vim jumps to the adjacent Zellij pane
-        Claude Code / shell: Zellij auto-locks, so Ctrl keys reach the app
+        Claude Code / shell: Ctrl keys reach the app
 ```
 
 ### How autolock works
@@ -93,24 +94,27 @@ The `zellij-autolock` plugin watches the command running in each Zellij pane. Wh
 `Ctrl+g` toggles between locked and normal mode **and** disables/enables autolock accordingly. Use it when you need Zellij commands while a TUI is focused:
 
 1. Press `Ctrl+g` -- autolock disables, Zellij switches to Normal
-2. Use Zellij commands (e.g. `Ctrl+p` then `f` for fullscreen)
+2. Use Zellij commands (e.g. `Ctrl+w` then `f` for fullscreen)
 3. Press `Ctrl+g` again -- autolock re-enables, Zellij switches back to Locked
 
 ### Zellij keybinding reference
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `Ctrl+h/j/k/l` | Normal | Navigate panes |
+| `Ctrl+b` then `h/j/k/l` | Tmux | Navigate panes |
 | `Ctrl+g` | Any | Toggle lock/unlock (manual override for autolock) |
-| `Ctrl+p` | Normal | Pane mode (new pane, close, resize, float, etc.) |
+| `Ctrl+w` | Normal | Pane mode (new pane, close, resize, float, etc.) |
 | `Ctrl+t` | Normal | Tab mode (new tab, rename, switch, etc.) |
-| `Ctrl+n` | Normal | Resize mode |
+| `Ctrl+e` | Normal | Resize mode |
 | `Ctrl+s` | Normal | Scroll mode |
 | `Ctrl+o` | Normal | Session mode |
 | `Ctrl+b` | Normal | Tmux mode |
 | `Ctrl+q` | Normal | Quit |
+| `Ctrl+n` / `Ctrl+p` | -- | Unbound in Zellij; pass through to the focused app (e.g. Telescope next/prev) |
 
-> **Note:** AeroSpace captures all `Option(Alt)+letter` combinations on macOS, so Zellij's default `Alt`-based shortcuts (like `Alt+n` for new pane) do not work. Use Zellij's mode-based keybinds instead: press `Ctrl+p` to enter Pane mode, then `n` for new pane, `x` to close, `f` for fullscreen, etc.
+> **Note:** AeroSpace captures all `Option(Alt)+letter` combinations on macOS, so Zellij's default `Alt`-based shortcuts (like `Alt+n` for new pane) do not work. Use Zellij's mode-based keybinds instead: press `Ctrl+w` to enter Pane mode, then `n` for new pane, `x` to close, `f` for fullscreen, etc.
+>
+> **Note:** `Ctrl+n` (Resize) and `Ctrl+p` (Pane) are remapped to `Ctrl+e` and `Ctrl+w` so the originals pass through to the focused application -- Telescope uses `Ctrl+n`/`Ctrl+p` to move through results.
 
 ### Zellij plugins
 
@@ -134,7 +138,8 @@ The `zellij-autolock` plugin watches the command running in each Zellij pane. Wh
 | `<leader>s` | Document symbols |
 
 Inside Telescope:
-- `Ctrl+j/k` - Move up/down in results
+- `Ctrl+j/k` - Move up/down in results (Zellij no longer intercepts these -- pane navigation moved to the `Ctrl+B` prefix)
+- `Ctrl+n/p` - Move down/up in results (Zellij's Resize/Pane modes remapped to `Ctrl+e`/`Ctrl+w` so these pass through)
 - `Enter` - Open selection
 - `Ctrl+x` - Open in horizontal split
 - `Ctrl+v` - Open in vertical split
@@ -387,10 +392,11 @@ Ensure language servers are installed. The LSP config expects servers to be avai
 
 ### Pane navigation not working
 
-Ghostty does not have its own split keybindings -- all pane management is done by Zellij. If `Ctrl+h/j/k/l` isn't working:
-1. Check that `zellij-autolock` is loaded (look for the autolock indicator in the Zellij status bar).
-2. If stuck in Locked mode, press `Ctrl+g` to unlock.
-3. If Neovim is focused and `Ctrl+h/j/k/l` isn't crossing to a Zellij pane, ensure `zellij.vim` is loaded (`:checkhealth` in Neovim).
+Ghostty does not have its own split keybindings -- all pane management is done by Zellij. If `Ctrl+B` then `h/j/k/l` isn't moving between panes:
+1. Confirm you pressed the `Ctrl+B` prefix first -- bare `Ctrl+h/j/k/l` intentionally pass through to the focused app now.
+2. Check that `zellij-autolock` is loaded (look for the autolock indicator in the Zellij status bar).
+3. If stuck in Locked mode, press `Ctrl+g` to unlock.
+4. If Neovim is focused and `Ctrl+h/j/k/l` isn't crossing to a Zellij pane, ensure `zellij.vim` is loaded (`:checkhealth` in Neovim).
 
 ### Theme inconsistencies
 

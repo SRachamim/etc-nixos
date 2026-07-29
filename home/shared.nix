@@ -486,12 +486,16 @@ EOF
         keybinds {
             shared_except "locked" {
                 unbind "Alt f" "Alt n"
+                unbind "Ctrl h"
                 unbind "Alt h" "Alt l" "Alt j" "Alt k"
                 unbind "Alt Left" "Alt Right" "Alt Down" "Alt Up"
                 unbind "Alt i" "Alt o"
                 unbind "Alt =" "Alt +" "Alt -"
                 unbind "Alt [" "Alt ]"
                 unbind "Alt p" "Alt Shift p"
+                unbind "Ctrl n" "Ctrl p"
+                bind "Ctrl e" { SwitchToMode "Resize"; }
+                bind "Ctrl w" { SwitchToMode "Pane"; }
                 bind "Ctrl g" {
                     MessagePlugin "autolock" { payload "enable"; };
                     SwitchToMode "Locked";
@@ -502,12 +506,6 @@ EOF
                     MessagePlugin "autolock" { payload "disable"; };
                     SwitchToMode "Normal";
                 }
-            }
-            shared_except "move" "locked" {
-                bind "Ctrl h" { MoveFocusOrTab "Left"; }
-                bind "Ctrl l" { MoveFocusOrTab "Right"; }
-                bind "Ctrl j" { MoveFocus "Down"; }
-                bind "Ctrl k" { MoveFocus "Up"; }
             }
         }
       '';

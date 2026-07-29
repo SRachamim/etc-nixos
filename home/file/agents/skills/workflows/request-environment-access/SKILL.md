@@ -1,12 +1,12 @@
 ---
 name: request-environment-access
-description: Creates a Task work item in Azure DevOps requesting access to an environment, assigned to TechOps. Use when you need access to a specific environment and can provide a reason.
+description: Creates a Task work item in Azure DevOps requesting environment access (assigned to TechOps) and posts a support request to the #techops-support Slack channel. Use when you need access to a specific environment and can provide a reason.
 disable-model-invocation: true
 ---
 
 # Request Environment Access
 
-Create a **Task** work item in Azure DevOps requesting access to an environment, assigned to TechOps for fulfilment.
+Create a **Task** work item in Azure DevOps requesting access to an environment, assigned to TechOps for fulfilment, then post a structured support request to **#techops-support** (`C07UN1KPDSL`).
 
 ## Inputs
 
@@ -47,7 +47,50 @@ Follow the **create-work-item** shared instructions with:
 
 | Field | Value |
 |-------|-------|
-| `System.AssignedTo` | `sophia.andrianopoulos@fundguard.com` |
+| `System.AssignedTo` | `emmanuel.ikpe@fundguard.com` |
 | `System.AreaPath` | `FundGuard\TechOps\Production` |
 
 - **skipTriage**: `true`
+
+### 4. Compose the Slack message
+
+Read and apply the **external-communications** skill.
+
+Compose a message in Slack mrkdwn matching the template used by the "Request TechOps Support" workflow in **#techops-support**:
+
+```
+cc: <!subteam^S07RZUUG66A>
+
+*Production / UAT:*
+<ENV_TYPE>
+
+*Severity Level:*
+Sev 4 - Low (Cosmetic / General question)
+
+*ADO Ticket*:
+<ADO_WORK_ITEM_URL>
+
+*Description:*
+Task <WORK_ITEM_ID>: <TITLE_FROM_STEP_2>
+
+:point_right: *Emergency Video Sync (Optional: Only for Sev1):*
+N/A
+```
+
+Field resolution:
+
+- **ENV_TYPE** -- infer from the environment name: if it contains "prod" or "production" (case-insensitive), use "Production"; otherwise default to "UAT".
+- **ADO_WORK_ITEM_URL** -- the work item URL returned by step 3 (e.g. `https://dev.azure.com/FundGuard/FundGuard/_workitems/edit/12345`).
+- **WORK_ITEM_ID** and **TITLE_FROM_STEP_2** -- the ID and title from the work item created in step 3.
+
+Present the composed message in a fenced code block for user approval before posting.
+
+### 5. Post to #techops-support
+
+Post the approved message to channel `C07UN1KPDSL` using `conversations_add_message`.
+
+Report the permalink back to the user: `https://fundguard.slack.com/archives/C07UN1KPDSL/p<ts_without_dot>`.
+
+### 6. Evolve
+
+Follow the **continuous-improvement** skill.

@@ -49,6 +49,12 @@ Follow the **create-work-item** shared instructions with:
 | `Microsoft.VSTS.TCM.ReproSteps` | The crafted repro steps (markdown) | Always |
 | `Microsoft.VSTS.Common.Severity` | The inferred severity | Always |
 
+- **commonFieldOverrides**:
+
+| Field | Value |
+|-------|-------|
+| `System.AreaPath` | `FundGuard\Platform\Web\CInfra` |
+
 ### 4. Triage the work item
 
 If the work item is not assigned to the current user, skip this step — triaging is the assignee's responsibility.

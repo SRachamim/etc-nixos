@@ -56,7 +56,20 @@ Follow the **create-work-item** shared instructions with:
 
 Read and apply the **external-communications** skill.
 
-Compose a message in Slack mrkdwn matching the template used by the "Request TechOps Support" workflow in **#techops-support**:
+Compose a message in Slack mrkdwn matching the template used by the "Request TechOps Support" workflow in **#techops-support**.
+
+#### Formatting rules
+
+The **external-communications** skill governs tone and approval, but the structural rules below override its voice directives for this message -- the template must look identical to what the workflow bot posts:
+
+- **Bold markers** -- use `*` (Slack mrkdwn bold), never `_` (italic). Every field label is wrapped in `*`: `*Production / UAT:*`.
+- **Line breaks** -- the template line breaks below are exact. Do not collapse a label and its value onto the same line. Each `*Label:*` sits on its own line, immediately followed by a newline and the value.
+- **Blank lines** -- one blank line separates each field group. Do not add extra blank lines and do not remove existing ones.
+- **No sign-off** -- do not append a closing phrase or name signature. The template is the complete message.
+
+#### Template
+
+The template below is **verbatim** -- field labels must be wrapped in `*` for bold rendering in Slack:
 
 ```
 cc: <!subteam^S07RZUUG66A>
@@ -77,13 +90,15 @@ Task <WORK_ITEM_ID>: <TITLE_FROM_STEP_2>
 N/A
 ```
 
-Field resolution:
+#### Field resolution
 
 - **ENV_TYPE** -- infer from the environment name: if it contains "prod" or "production" (case-insensitive), use "Production"; otherwise default to "UAT".
 - **ADO_WORK_ITEM_URL** -- the work item URL returned by step 3 (e.g. `https://dev.azure.com/FundGuard/FundGuard/_workitems/edit/12345`).
 - **WORK_ITEM_ID** and **TITLE_FROM_STEP_2** -- the ID and title from the work item created in step 3.
 
-Present the composed message in a fenced code block for user approval before posting.
+#### Draft presentation
+
+Present the composed message in a fenced code block (copy-pastable) for user approval before posting.
 
 ### 5. Post to #techops-support
 

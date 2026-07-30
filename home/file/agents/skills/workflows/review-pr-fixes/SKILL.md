@@ -115,12 +115,11 @@ Diff the revised plan against the original normalised form from the conversation
 
 #### When following up on `/review-pr`
 
-For each thread the reviewer authored, assess the resolution against the **original intent** from the conversation context (not just the posted comment text):
+For each thread the reviewer authored, assess the resolution against the **original intent** from the conversation context (not just the posted comment text). Record a **status decision** for each thread -- every thread must end this step with a target status:
 
-- **Fixed / Closed**: verify the code at that location actually addresses the original concern. If the fix is adequate, accept. If not, draft a follow-up explaining what's still missing.
-- **WontFix / ByDesign**: evaluate the author's reasoning in their reply against the severity and rationale from the original review. If acceptable, acknowledge. If not, explain why and push back.
-- **Pending**: check if the author replied but didn't change status. Flag if action is needed.
-- **Active**: check if new code or a reply addresses it implicitly. Flag if still outstanding.
+- **Fixed / Closed**: verify the code at that location actually addresses the original concern. If adequate, mark for **resolution** (status -> `Fixed`). If not, draft a follow-up explaining what's still missing and mark for **reactivation** (status -> `Active`).
+- **WontFix / ByDesign**: evaluate the author's reasoning in their reply against the severity and rationale from the original review. If acceptable, acknowledge and leave status unchanged. If not, explain why, push back, and mark for **reactivation** (status -> `Active`).
+- **Pending / Active**: check if new code or a reply addresses the concern. If resolved, mark for **resolution** (status -> `Fixed`). If still outstanding, flag and keep `Active`.
 
 Apply the same review principles: **code-review** skill, **functional-typescript** skill (for TS files), **commit-conventions** skill.
 
@@ -139,7 +138,7 @@ Apply the same review principles: **design-lenses** skill, **decision-priorities
 
 #### When following up on `/review-pr`
 
-Apply the full `/review-pr` evaluation to the delta commits:
+Any post-baseline modification that was not part of the original review receives a **full from-scratch review** -- the same evaluation as the initial `/review-pr`, not a lighter delta check. This includes new files, new hunks in previously reviewed files, and entirely new commits. Apply the full `/review-pr` evaluation:
 
 - Code evaluation per the **code-review** skill.
 - Design evaluation (step 4 of `/review-pr`) if the delta warrants it -- consider the design context from the original review's evaluation if it was performed.
@@ -179,8 +178,8 @@ Show the complete follow-up review to the user.
 
 #### When following up on `/review-pr`
 
-- A summary of thread resolution outcomes (how many accepted, how many need follow-up, grouped by original severity).
-- Thread-level findings with the proposed reply and status change for each.
+- A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged -- grouped by original severity.
+- Thread-level findings with the proposed reply and target status change (`Fixed`, `Active`, or unchanged) for each.
 - New delta findings grouped by severity.
 - Overall verdict: approve, request further changes, or comment-only.
 
@@ -200,8 +199,12 @@ Use the same output format as step 7 of `/review-plan`:
 
 #### When following up on `/review-pr`
 
-- For thread follow-ups: use `reply_to_pr_thread` to reply. Do not change thread status -- the **code-review** skill's Thread Status rule applies.
-- For new issues: use `create_pr_comment` to create new threads.
+Thread status management is an explicit part of the follow-up review -- the reviewer has verified the fix and can authoritatively close the loop or reopen it. This overrides the **code-review** skill's default "author resolves" rule for this context.
+
+- For threads verified as adequately fixed: call `reply_to_pr_thread` to acknowledge the resolution, then call `update_pr_thread_status` with `status: "Fixed"`.
+- For threads verified as inadequately fixed or not addressed: call `reply_to_pr_thread` with the follow-up explanation, then call `update_pr_thread_status` with `status: "Active"`.
+- For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): call `reply_to_pr_thread` to acknowledge. Do not change the status.
+- For new issues in the delta: use `post_review_findings` with `status: "Active"` (same as initial review).
 
 #### When following up on `/review-plan`
 
@@ -215,7 +218,9 @@ Print a summary matching the context type.
 #### When following up on `/review-pr`
 
 - PR link
-- Threads reviewed and their outcomes (accepted, pushed back, re-activated)
+- Threads resolved (status -> `Fixed`) with count
+- Threads reactivated (status -> `Active`) with count
+- Threads unchanged with count
 - New comments posted by severity
 - Overall verdict (approved, changes requested, or commented)
 

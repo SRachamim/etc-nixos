@@ -161,7 +161,7 @@ Read and apply the **external-communications** skill before composing the text b
 
 Two categories of output:
 
-- **Finding follow-ups**: responses to original findings where the resolution is inadequate or needs acknowledgement.
+- **Finding follow-ups**: responses to original findings where the resolution is inadequate. Do not draft replies for adequately resolved threads -- only actionable follow-ups.
 - **New findings**: issues found in the delta that weren't caught before.
 
 Categorise by severity per the **code-review** skill:
@@ -179,7 +179,8 @@ Show the complete follow-up review to the user.
 #### When following up on `/review-pr`
 
 - A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged -- grouped by original severity.
-- Thread-level findings with the proposed reply and target status change (`Fixed`, `Active`, or unchanged) for each.
+- Threads requiring action: proposed reply and target status change (`Active`) for each inadequately resolved thread.
+- Threads resolved silently: list of thread IDs being set to `Fixed` (no reply).
 - New delta findings grouped by severity.
 - Overall verdict: approve, request further changes, or comment-only.
 
@@ -201,9 +202,9 @@ Use the same output format as step 7 of `/review-plan`:
 
 Thread status management is an explicit part of the follow-up review -- the reviewer has verified the fix and can authoritatively close the loop or reopen it. This overrides the **code-review** skill's default "author resolves" rule for this context.
 
-- For threads verified as adequately fixed: call `reply_to_pr_thread` to acknowledge the resolution, then call `update_pr_thread_status` with `status: "Fixed"`.
+- For threads verified as adequately fixed: call `update_pr_thread_status` with `status: "Fixed"`. No reply needed -- the status change is sufficient.
 - For threads verified as inadequately fixed or not addressed: call `reply_to_pr_thread` with the follow-up explanation, then call `update_pr_thread_status` with `status: "Active"`.
-- For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): call `reply_to_pr_thread` to acknowledge. Do not change the status.
+- For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): no action needed. Do not reply or change status.
 - For new issues in the delta: use `post_review_findings` with `status: "Active"` (same as initial review).
 
 #### When following up on `/review-plan`

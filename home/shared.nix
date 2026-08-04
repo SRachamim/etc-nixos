@@ -522,6 +522,8 @@ EOF
         misc = {
           pre_sudo = true;
           disable = [
+            "claude_code"
+            "cursor_agent"
             "gem"
             "node"
             "nix"

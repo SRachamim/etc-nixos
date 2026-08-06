@@ -54,6 +54,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | artifact-discovery | Artifact Discovery | `~/.claude/skills/knowledge/artifact-discovery/SKILL.md` |
 | browser-bug-reproduction | Browser Bug Reproduction | `~/.claude/skills/knowledge/browser-bug-reproduction/SKILL.md` |
 | building-microservices | Building Microservices | `~/.claude/skills/knowledge/building-microservices/SKILL.md` |
+| client-quality-focus | Client Quality Focus | `~/.claude/skills/knowledge/client-quality-focus/SKILL.md` |
 | code-review | Code Review Standards | `~/.claude/skills/knowledge/code-review/SKILL.md` |
 | commit-conventions | Commit Conventions | `~/.claude/skills/knowledge/commit-conventions/SKILL.md` |
 | context-engineering | Context Engineering | `~/.claude/skills/knowledge/context-engineering/SKILL.md` |

@@ -74,6 +74,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | objective-communication | Objective Communication | `~/.claude/skills/knowledge/objective-communication/SKILL.md` |
 | plan-execution | Plan Execution | `~/.claude/skills/knowledge/plan-execution/SKILL.md` |
 | prior-art-research | Prior Art Research | `~/.claude/skills/knowledge/prior-art-research/SKILL.md` |
+| professional-differentiation | Professional Differentiation | `~/.claude/skills/knowledge/professional-differentiation/SKILL.md` |
 | refactoring | Refactoring | `~/.claude/skills/knowledge/refactoring/SKILL.md` |
 | test-driven-development | Test-Driven Development | `~/.claude/skills/knowledge/test-driven-development/SKILL.md` |
 | tooling-enforcement | Tooling Enforcement | `~/.claude/skills/knowledge/tooling-enforcement/SKILL.md` |

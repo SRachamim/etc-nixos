@@ -124,17 +124,27 @@ Additionally:
 
 ### 6. Draft review comments
 
-Read and apply the **external-communications** skill before composing the text below. Apply the **objective-communication** skill to all review comments.
+**Before composing any text in this step**, read the following skills in full (their content evolves -- never assume from memory):
 
-Draft a comment for **every** issue found, categorised by severity per the **code-review** skill:
+1. **external-communications** -- approval workflow, formatting rules, link conventions.
+2. **writing-style** and its `reference.md` -- voice traits, banned vocabulary, LLM-tell avoidance, platform register.
+3. **objective-communication** -- what to say and how to organise it (motivate, delimit, structure, concretise).
+
+These govern ALL text produced in steps 6--9. Do not proceed to drafting until all three are loaded.
+
+---
+
+Draft the literal comment text for **every** issue identified in steps 4--5. No exceptions -- every finding becomes a comment. Do not summarise multiple issues into one comment, do not silently drop findings, and do not defer issues to "mention verbally."
+
+Categorise each by severity per the **code-review** skill:
 
 - **Blocking** -- must be resolved before merge.
 - **Suggestion** -- recommended improvement, non-blocking.
 - **Nit** -- minor style or preference, non-blocking.
 
-Do not include praise. Every comment and summary item must be actionable.
+Each comment must include the specific file path and line range. Do not include praise -- every comment must be actionable.
 
-For each comment, reference the specific file and line range.
+**Verification**: before proceeding to step 7, count drafted comments against findings from steps 4--5. If any finding lacks a corresponding comment, draft it now.
 
 ### 7. Present the review
 

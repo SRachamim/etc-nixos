@@ -28,7 +28,7 @@ This file is a shared skill. It is referenced by the **create-task**, **create-b
 
 Use `get_user_team_context` to look up the authenticated user's identity and team context (including iterations). The resolved identity is used for assignment by default and is always available to callers that need the display name (e.g. for titles).
 
-If no identities are found, fall back to `search_workitems` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value.
+If no identities are found, fall back to `search_workitem` for project `FundGuard`, fetch one of the returned work items, and extract the `System.AssignedTo` value.
 
 If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for assignment instead of the resolved identity.
 
@@ -43,7 +43,7 @@ To find the next iteration:
 1. From the `get_user_team_context` response, find the current iteration for the "FundGuard" team (or the team matching the target area path). Note its `finishDate` and iteration name pattern.
 2. Iteration names follow the pattern `<month>-<letter>-<year>` (e.g. `7-A-26`, `7-B-26`, `7-C-26`). Each month has three two-week sprints (A, B, C). Compute the next iteration name by advancing the letter (A->B, B->C) or rolling to the next month (C -> next month's A).
 3. Construct the next iteration path as `FundGuard\\<next iteration name>` (e.g. `FundGuard\\7-B-26`).
-4. If the computed name doesn't match the pattern or you're unsure, fall back to `search_workitems` with a WIQL query: `SELECT [System.Id] FROM WorkItems WHERE [System.IterationPath] UNDER 'FundGuard' AND [System.ChangedDate] > @Today - 30 ORDER BY [System.IterationPath] DESC` to discover recent iteration paths.
+4. If the computed name doesn't match the pattern or you're unsure, fall back to `search_workitem` with a WIQL query: `SELECT [System.Id] FROM WorkItems WHERE [System.IterationPath] UNDER 'FundGuard' AND [System.ChangedDate] > @Today - 30 ORDER BY [System.IterationPath] DESC` to discover recent iteration paths.
 
 Use the next iteration's path for the work item. Do NOT use the current iteration's path.
 
@@ -51,7 +51,7 @@ Use the next iteration's path for the work item. Do NOT use the current iteratio
 
 Every work item must have a parent User Story -- orphan items are not allowed.
 
-1. Call `search_workitems` with `types: ["User Story"]`, `states: ["Active"]`, `areaPath` matching the target area, and `iterationPath` matching the next iteration resolved in step 2.
+1. Call `search_workitem` with `types: ["User Story"]`, `states: ["Active"]`, `areaPath` matching the target area, and `iterationPath` matching the next iteration resolved in step 2.
 2. If no results, broaden by removing the `iterationPath` filter (same area path, states `["Active", "New"]`).
 3. If still no results, broaden further with `areaPath: "FundGuard"` and `states: ["Active"]`.
 4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a different story ID directly.

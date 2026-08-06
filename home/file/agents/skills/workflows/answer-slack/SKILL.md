@@ -45,7 +45,7 @@ Scan the messages for links to external resources and fetch each one to build a 
 |-----------|----------------|
 | Slack message permalink (`/archives/<channel>/p<ts>`) | Parse the link (same logic as step 1) and call `conversations_replies` to pull that thread |
 | Azure DevOps work item (`_workitems/edit/<id>`) | Extract the ID and fetch via `get_work_item` |
-| Azure DevOps pull request (`_git/<repo>/pullrequest/<id>`) | Extract the ID and fetch via `get_pr_details` |
+| Azure DevOps pull request (`_git/<repo>/pullrequest/<id>`) | Extract the ID and fetch via `repo_get_pull_request_by_id` |
 | Azure DevOps build / pipeline (`_build/results?buildId=<id>`) | Extract the ID and fetch via `get_build_details` |
 | Datadog incident or monitor URL | Extract the ID and fetch via the Datadog MCP tools |
 | GitHub PR or issue | Extract the owner/repo/number and fetch via `gh` CLI or GitHub MCP |

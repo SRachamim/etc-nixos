@@ -28,6 +28,7 @@ let
   mcpServers = {
     "fundguard" = {
       command = mkLocalMcpServer "mcp-fundguard" "$HOME/.local/share/fundguard-mcp/mcp-proxy.js";
+      customInstructions = "For Azure DevOps operations (PRs, work items, repos, branches, builds, test plans, wiki, code search), prefer the dedicated Azure DevOps MCP server. Use this server for Datadog, Currents, Sunday, DevTools, and DevOps Tools.";
     };
     "Azure DevOps" = {
       command = lib.getExe (pkgs.writeShellApplication {
@@ -41,6 +42,7 @@ let
           exec azure-devops-mcp fundguard -a pat -d core work repositories search test-plans advanced-security
         '';
       });
+      customInstructions = "Preferred server for all Azure DevOps operations. Use this over the FundGuard MCP proxy for PRs, work items, repos, branches, builds, test plans, wiki, and code search.";
     };
     "Slack" = {
       command = lib.getExe (pkgs.writeShellApplication {

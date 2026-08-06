@@ -30,7 +30,7 @@ Limit traversal to **one hop** -- do not recurse into the linked items' own rela
 
 ### 3. Follow linked pull requests
 
-Extract pull-request links from the relations array (`vstfs:///Git/PullRequestId/...`). Fetch each via `get_pr_details` and note the PR ID, title, status, source branch, and target branch.
+Extract pull-request links from the relations array (`vstfs:///Git/PullRequestId/...`). Fetch each via `repo_get_pull_request_by_id` and note the PR ID, title, status, source branch, and target branch.
 
 ### 4. Follow hyperlinks
 

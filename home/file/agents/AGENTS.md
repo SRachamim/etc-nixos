@@ -25,6 +25,7 @@ Skill categories:
 - Branch naming: `feature/<name>`, `hotfix/<name>`, `release/<version>` per Gitflow.
 - Code style: pure functional TypeScript with fp-ts when working in TypeScript repositories.
 - Output style: concise, no filler, evidence-based.
+- MCP server selection: prefer the dedicated Azure DevOps MCP server over the FundGuard MCP proxy for Azure DevOps operations. Use the FundGuard proxy only for tools it exclusively provides (Datadog, Currents, Sunday, DevTools, DevOps Tools).
 
 ## Model Routing
 

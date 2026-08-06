@@ -72,7 +72,7 @@ The original review's findings list is the baseline. Each finding (with its seve
 
 #### When following up on `/review-pr`
 
-Fetch all threads on the PR via `get_pr_threads`. Use `baseIteration` to filter to threads from the iteration after the last reviewed push (this returns only threads created since the baseline, reducing noise). For every thread the reviewer authored, review the full conversation and record:
+Fetch all threads on the PR via `repo_list_pull_request_threads`. Use `baseIteration` to filter to threads from the iteration after the last reviewed push (this returns only threads created since the baseline, reducing noise). For every thread the reviewer authored, review the full conversation and record:
 
 - **Current status**: Active, Fixed, WontFix, Closed, ByDesign, Pending.
 - **Author replies**: any responses added since the reviewer's last comment.
@@ -202,8 +202,8 @@ Use the same output format as step 7 of `/review-plan`:
 
 Thread status management is an explicit part of the follow-up review -- the reviewer has verified the fix and can authoritatively close the loop or reopen it. This overrides the **code-review** skill's default "author resolves" rule for this context.
 
-- For threads verified as adequately fixed: call `update_pr_thread_status` with `status: "Fixed"`. No reply needed -- the status change is sufficient.
-- For threads verified as inadequately fixed or not addressed: call `reply_to_pr_thread` with the follow-up explanation, then call `update_pr_thread_status` with `status: "Active"`.
+- For threads verified as adequately fixed: call `repo_update_pull_request_thread` with `status: "Fixed"`. No reply needed -- the status change is sufficient.
+- For threads verified as inadequately fixed or not addressed: call `repo_reply_to_comment` with the follow-up explanation, then call `repo_update_pull_request_thread` with `status: "Active"`.
 - For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): no action needed. Do not reply or change status.
 - For new issues in the delta: use `post_review_findings` with `status: "Active"` (same as initial review).
 

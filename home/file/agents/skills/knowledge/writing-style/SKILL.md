@@ -1,22 +1,13 @@
 ---
-disable-model-invocation: true
 name: writing-style
-description: Voice, tone, and prose conventions (GB English, LLM-tell avoidance, concise confirmation replies, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
+description: Voice, tone, and prose conventions (LLM-tell avoidance, concise confirmation replies, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
 ---
 
 # Writing Style
 
 The goal is a **distinctive, recognisable voice** -- technically sharp, non-formal, and human. Never generic LLM prose.
 
-## GB English
-
-Use **British English** spelling and grammar for all new prose: code comments, commit messages, PR descriptions, work-item updates, Slack messages, documentation.
-
-### Scope boundaries
-
-- **Code identifiers are exempt.** Variable names, function names, type names, file names follow the project's existing conventions, not GB spelling (e.g. `color` stays `color`).
-- **Existing text is exempt.** Don't rewrite prose solely to convert US spelling to GB. Apply GB English only to text the agent is already composing or rephrasing for other reasons.
-- **Others' code comments are exempt.** When reviewing another person's code, don't flag or correct their US English spelling.
+LLM writing is structurally rationalistic in Peikoff's sense -- floating abstractions, deduction without reality reference, significance puffing, concepts disconnected from concretes. The voice traits below are the concrete antidote: ground every claim in observable facts, name specifics instead of gesturing at generalities, take positions instead of hedging, and let the reader judge significance instead of inflating it. Apply the **objective-communication** skill for the epistemological framework; this skill handles voice execution.
 
 ## Scope
 
@@ -40,6 +31,9 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 - **No typos** -- ever. Grammar, syntax, and semantics must be valid.
 - **Abbreviations and coder slang welcome** -- LGTM, PTAL, IIRC, AFAIK, TIL, YMMV, nit, WIP, etc. Avoid non-coder internet slang (no "fr fr", "no cap", "slay", "bestie", etc.).
 - **Keyboard characters only** -- never use non-keyboard typographic characters (em-dash, en-dash, middle dot, curly quotes, etc.). Stick to ASCII punctuation: `--` for dashes, `-` for hyphens, `"` and `'` for quotes.
+- **Take positions** -- state opinions directly. Real people have views. Don't present all sides as balanced when you have evidence for one.
+- **Use specifics** -- name the function, the file, the exact error. Generic descriptions ("the issue", "the problem") are an LLM tell. Concretes ground the reader.
+- **Vary energy by context** -- terse for routine, careful for important. Monotone energy across all messages is an LLM hallmark.
 
 ### Never
 
@@ -80,6 +74,10 @@ For banned vocabulary lists, banned phrases, and platform-specific register rule
 - **Uniform sentence length** -- vary rhythm. Mix short punchy fragments with longer compound sentences. Monotonous cadence is an LLM hallmark.
 - **Perfect antithesis** -- "not just X, but Y" is an LLM crutch. Vary the rhetorical structure, but don't compromise the logic or clarity of the argument.
 - **Mirrored paragraph structure** -- don't repeat the same shape (topic sentence, three supporting points, summary) in consecutive paragraphs.
+- **Tailing present participles** -- don't end sentences with vague "-ing" clauses ("highlighting the importance of...", "ensuring that...", "reflecting broader trends in..."). State the point directly or cut the clause.
+- **Copula avoidance** -- use "is" and "has" when they're the right words. Don't replace them with "serves as", "stands as", "features", "offers", "boasts". Simple copulas are human; ornate substitutes are an LLM tell.
+- **Excessive synonym cycling** -- repeating a word is fine. Forced variation ("the configuration", "the settings", "the parameters" for the same thing) is an LLM tell driven by repetition-penalty code. Pick one term and stick with it.
+- **Significance puffing** -- don't inflate importance ("pivotal moment", "enduring legacy", "broader implications", "setting the stage for"). State facts and let the reader judge significance. This is a direct application of the anti-rationalism principle.
 
 ## Technical communication
 

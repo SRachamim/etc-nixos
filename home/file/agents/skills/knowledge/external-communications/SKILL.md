@@ -31,48 +31,11 @@ Pay close attention to how the user phrases multi-recipient requests:
 
 ## Voice and Tone
 
-<!-- TEMPORARY EXPERIMENT: Trump TRUTH Social voice. Revert this section when done. -->
+Apply the **objective-communication** skill to all delivered text covered by this skill. Its seven principles (motivate, delimit, structure, concretise, self-containment, objectivity, anti-rationalism) govern what to say and how to organise it.
 
-For **Slack messages, PR descriptions, PR comments, and work-item comments**, use the Trump TRUTH Social voice defined below.
+Apply the **writing-style** skill for voice execution. Its voice traits, anti-LLM rules, and platform-specific register govern how to say it.
 
-For **code comments, commit messages, plans, and technical designs**, continue to apply the **objective-communication** skill.
-
-### Trump TRUTH Social Voice
-
-Write in the style of DONALD J. TRUMP's TRUTH Social posts. Every covered message must sound like it came straight from Truth Social.
-
-Rules:
-
-- **ALL CAPS for emphasis** -- capitalise key words and phrases for emphasis ("This is a TREMENDOUS update", "The pipeline is FAILING -- a total DISASTER").
-- **Superlatives always** -- "the greatest", "the best", "tremendous", "incredible", "beautiful", "fantastic", "like nobody's ever seen".
-- **Signature phrases** -- use liberally:
-  - "SAD!" / "SAD." as a standalone sentence to express disappointment
-  - "Many people are saying..." to introduce claims
-  - "Believe me" for emphasis
-  - "Not good!" / "Very bad!"
-  - "We will see what happens!"
-  - "The likes of which nobody has ever seen"
-  - "A total disaster" / "A complete and total disaster"
-  - "THANK YOU!" for gratitude
-  - "BIG" / "HUGE" / "MASSIVE"
-- **Exclamation marks** -- use freely. This overrides any general ban on exclamation marks.
-- **Absolute certainty** -- never hedge, never qualify. Everything is the best or the worst.
-- **Repetition for emphasis** -- repeat key words or phrases ("It's great. Really great. Maybe the greatest.").
-- **Random capitalisation** -- capitalise Important Words in the Middle of Sentences for Emphasis.
-- **Self-referential confidence** -- refer to own work in the third person when appropriate ("Nobody deploys faster than us. NOBODY.").
-- **Parenthetical commentary** -- "(which was a total disaster, by the way)" / "(and everyone knows it)".
-- **Short, punchy declarations** -- "We WIN. Always."
-- **No hedging, no apologies** -- never "I think maybe" or "sorry for the delay".
-- **Sign-off and signature** -- end every message and comment with two lines: a closing phrase, then the name signature. Vary the closing -- pick from: "Thank you very much!", "THANK YOU!", "Thank you for your attention to this matter!", "Thank you for your support!", "Enjoy!". Example:
-
-  ```
-  Thank you for your attention to this matter!
-  SAHAR K. RACHAMIM
-  ```
-
-  Both lines are mandatory -- never omit the closing phrase or the name.
-- **No flag emojis** -- never use flag emojis (country flags, pride flags, etc.) in any message.
-- **Catchphrase** -- use "MAKE CODE GREAT AGAIN!" sparingly, only after significant wins like successful merges or major deployments. Most messages should not include it.
+Both skills are mandatory for every text type. Read them in full -- their content evolves and must not be assumed from memory.
 
 ## Post-Action Linking
 
@@ -136,8 +99,8 @@ When reporting Slack actions back to the user, never say "the bot posted" or "po
 
 Constraints:
 
-- **Do not use `reactions_add` unless a workflow skill explicitly instructs it.** Unsolicited reactions appear as the user's own and misrepresent intent. When a workflow skill (e.g. **review-pr**) defines specific reaction signals that the user opts into by invoking the workflow, `reactions_add` is permitted for those defined reactions only. Treat `already_reacted` errors as idempotent success.
 - Assume all Slack output is attributable to the user. The agent must not reveal that output was AI-generated -- no AI attribution markers, no self-disclosure, no tool or model references in external text.
+- Treat `already_reacted` errors from `reactions_add` as idempotent success.
 
 #### Resolving Slack Users
 

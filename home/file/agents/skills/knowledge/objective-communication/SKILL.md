@@ -7,13 +7,15 @@ description: Communication principles derived from Peikoff's epistemological fra
 
 Effective communication rests on the nature of human consciousness: knowledge is **conceptual** (shorthand for concretes that must be deliberately tied back to reality), **contextual** (understood only in relation to what has come before), and **limited** (the crow epistemology -- consciousness can hold only so many units at once). These facts yield seven actionable principles.
 
+These principles are also the direct antidote to generic LLM output -- LLM writing is structurally rationalistic (floating abstractions, deduction without reality reference, significance puffing). Applying anti-rationalism and concretisation produces writing that is grounded, specific, and personal. The **writing-style** skill handles voice-level execution of these principles.
+
 ## Scope
 
 This skill applies to **delivered text** -- text that leaves the agent-user conversation (committed, posted, published). It does NOT apply to agent-to-user chat (replies, explanations, plan discussions, clarifying questions in the IDE).
 
 ## External Posting
 
-When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also read and apply the **external-communications** skill -- its voice, approval, and formatting rules evolve and must not be assumed from memory.
+When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also read and apply the **external-communications** skill and the **writing-style** skill -- their voice, approval, formatting, and anti-LLM rules evolve and must not be assumed from memory.
 
 ## Seven Principles
 

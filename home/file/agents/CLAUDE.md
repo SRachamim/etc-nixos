@@ -50,6 +50,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | Skill | Title | Path |
 |-------|-------|------|
 | agent-compatibility | Agent Compatibility | `~/.claude/skills/knowledge/agent-compatibility/SKILL.md` |
+| agent-leverage | Agent Leverage | `~/.claude/skills/knowledge/agent-leverage/SKILL.md` |
 | architect-thinking | Architect Thinking | `~/.claude/skills/knowledge/architect-thinking/SKILL.md` |
 | artifact-discovery | Artifact Discovery | `~/.claude/skills/knowledge/artifact-discovery/SKILL.md` |
 | browser-bug-reproduction | Browser Bug Reproduction | `~/.claude/skills/knowledge/browser-bug-reproduction/SKILL.md` |

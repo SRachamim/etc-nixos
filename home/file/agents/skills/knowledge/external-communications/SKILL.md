@@ -91,6 +91,20 @@ Best practices:
 - Use bullet points for lists
 - Mention users with `@name` only when their attention is needed
 
+#### Content Type Selection
+
+The `conversations_add_message` tool defaults to `content_type: "text/markdown"`, which collapses newlines in multi-line messages.
+
+Use `content_type: "text/plain"` when the message contains any of:
+
+- Bullet lists (`*`, `-`, or `•`)
+- Multiple paragraphs separated by blank lines
+- Structured sections with bold pseudo-headers
+
+Slack's native mrkdwn rendering still applies in plain-text mode -- `*bold*`, `<url|text>` links, `` `code` ``, `_italic_`, `~strikethrough~`, and `>` quotes all work.
+
+Use `content_type: "text/markdown"` only for single-paragraph messages with no list formatting.
+
 #### Slack Identity
 
 The Slack MCP server is configured with a **user token** (`xoxp-`), not a bot token. Messages, replies, and every other action appear as the user -- there is no bot involved.

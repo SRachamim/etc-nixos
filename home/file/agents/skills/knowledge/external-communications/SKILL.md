@@ -133,3 +133,9 @@ Example workflow for "Send to #team and share with #announcements":
 1. `conversations_add_message` to `#team` → response includes `ts`
 2. Build permalink from the channel ID and `ts`
 3. `conversations_add_message` to `#announcements` with the permalink as the message body (optionally with brief context)
+
+#### Thread Reuse in Slack
+
+When sending a message to a person or channel, check whether an earlier message in the current session was already sent to the same destination about the same topic (e.g. the same PR, work item, or incident). If so, reply in that existing thread (`thread_ts`) rather than posting a new top-level message.
+
+This avoids fragmenting related updates into separate conversations and keeps the recipient's DM/channel history clean.

@@ -78,7 +78,7 @@ Known patterns:
 
 Also flag any file whose purpose is to instruct or configure an AI agent -- prompt templates, LLM system instructions, agent workflow definitions, MCP server configuration, AI-related config files, etc. Use judgment; when uncertain, include rather than exclude.
 
-If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **objective-communication** skill and **external-communications** skill. **Present the DM for user approval before sending.**
+If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **objective-communication** skill and **external-communications** skill. **Present the DM for user approval before sending.** If a DM thread already exists with this person for the same PR (e.g. from an earlier notification in this step), reply in that thread rather than sending a new top-level message.
 
 #### Automation folder notification (fgrepo only)
 

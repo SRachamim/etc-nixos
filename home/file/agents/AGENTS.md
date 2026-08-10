@@ -21,7 +21,7 @@ Skill categories:
 
 ## Preferences
 
-- Commit messages: imperative mood, conventional commits format, body explains why not what.
+- Commit messages: Beams' seven rules (capitalized imperative subject <=50 chars, body at 72 chars, why not how). Workspace conventions override when present.
 - Branch naming: `feature/<name>`, `hotfix/<name>`, `release/<version>` per Gitflow.
 - Code style: pure functional TypeScript with fp-ts when working in TypeScript repositories.
 - Output style: concise, no filler, evidence-based.

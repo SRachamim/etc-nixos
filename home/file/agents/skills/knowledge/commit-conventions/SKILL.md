@@ -7,6 +7,20 @@ description: Commit hygiene and structuring guidelines. Use whenever the agent c
 
 Apply the **objective-communication** skill to all commit messages.
 
+## Message format
+
+Follow the [seven rules](https://chris.beams.io/posts/git-commit/#seven-rules):
+
+1. **Separate subject from body with a blank line.**
+2. **Limit the subject line to 50 characters.**
+3. **Capitalize the subject line.**
+4. **Do not end the subject line with a period.**
+5. **Use the imperative mood in the subject line** -- "Fix bug" not "Fixed bug" or "Fixes bug."
+6. **Wrap the body at 72 characters.**
+7. **Use the body to explain what and why, not how** -- the diff shows how.
+
+Workspace-specific conventions (e.g., conventional commits `type(scope):` prefix) override these defaults when present.
+
 ## Structure
 
 - **Each commit is independently valid** -- the codebase compiles and passes tests after each one.

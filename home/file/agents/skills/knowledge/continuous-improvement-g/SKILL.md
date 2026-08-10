@@ -75,3 +75,7 @@ Locate the **source file** for the artifact. It may live in the current workspac
 - **Evidence-based only** -- every suggestion must trace back to something that actually happened during execution. Never speculate.
 - **Don't break existing behavior** -- improvements must be backward-compatible. If unsure, present the change and ask.
 - **Minimal diff** -- change only what is needed. Don't reformat or restructure surrounding content.
+
+## After improvement analysis
+
+After completing the improvement analysis above, apply the **suggest-next-g** skill to present relevant follow-up workflow skills to the user.

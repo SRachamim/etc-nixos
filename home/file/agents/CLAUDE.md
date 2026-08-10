@@ -79,6 +79,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | prior-art-research-g | Prior Art Research | `~/.claude/skills/prior-art-research-g/SKILL.md` |
 | professional-differentiation-g | Professional Differentiation | `~/.claude/skills/professional-differentiation-g/SKILL.md` |
 | refactoring-g | Refactoring | `~/.claude/skills/refactoring-g/SKILL.md` |
+| suggest-next-g | Suggest Next | `~/.claude/skills/suggest-next-g/SKILL.md` |
 | test-driven-development-g | Test-Driven Development | `~/.claude/skills/test-driven-development-g/SKILL.md` |
 | tooling-enforcement-g | Tooling Enforcement | `~/.claude/skills/tooling-enforcement-g/SKILL.md` |
 | weigh-feedback-g | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |

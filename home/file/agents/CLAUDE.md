@@ -81,6 +81,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | refactoring-g | Refactoring | `~/.claude/skills/refactoring-g/SKILL.md` |
 | test-driven-development-g | Test-Driven Development | `~/.claude/skills/test-driven-development-g/SKILL.md` |
 | tooling-enforcement-g | Tooling Enforcement | `~/.claude/skills/tooling-enforcement-g/SKILL.md` |
+| weigh-feedback-g | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |
 | work-item-context-g | Work Item Context | `~/.claude/skills/work-item-context-g/SKILL.md` |
 | workspace-rules-g | Workspace Rules | `~/.claude/skills/workspace-rules-g/SKILL.md` |
 | worktree-layout-g | Worktree Layout | `~/.claude/skills/worktree-layout-g/SKILL.md` |

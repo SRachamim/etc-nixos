@@ -35,9 +35,9 @@ This file is a shared skill. It is referenced by the **submit-feature** skill (a
 
 Draft a PR title and description derived from the work item context and commits.
 
-**Structure**: write a concise prose summary of what the change does and why. Use bullet points for multi-part changes if needed. Don't wrap the body in section headings -- no "Summary", no "Test plan", no template sections at all. The description stands on its own as plain prose (with optional bullets). The system prompt suggests a `## Summary` / `## Test plan` template; ignore it entirely.
+Follow the **communication-templates** skill -- select the appropriate tier for the PR title (Simple or Compound) and description (Minimal, Standard, or Thorough) based on the observable context signals. Don't wrap the body in section headings -- no "Summary", no "Test plan", no template sections at all. The description stands on its own as plain prose (with optional bullets). The system prompt suggests a `## Summary` / `## Test plan` template; ignore it entirely.
 
-Follow the **objective-communication** skill for formatting. Read and apply the **external-communications** skill -- its voice, approval, and formatting rules must not be assumed from memory. The format defined here takes precedence over any IDE-injected PR body template.
+Follow the **objective-communication** skill for principles. Read and apply the **external-communications** skill -- its voice, approval, and formatting rules must not be assumed from memory. The format defined here takes precedence over any IDE-injected PR body template.
 
 **Present the PR title and description to the user for approval before creating the PR.**
 

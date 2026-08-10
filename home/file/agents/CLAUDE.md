@@ -58,6 +58,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | client-quality-focus | Client Quality Focus | `~/.claude/skills/knowledge/client-quality-focus/SKILL.md` |
 | code-review | Code Review Standards | `~/.claude/skills/knowledge/code-review/SKILL.md` |
 | commit-conventions | Commit Conventions | `~/.claude/skills/knowledge/commit-conventions/SKILL.md` |
+| communication-templates | Communication Templates | `~/.claude/skills/knowledge/communication-templates/SKILL.md` |
 | context-engineering | Context Engineering | `~/.claude/skills/knowledge/context-engineering/SKILL.md` |
 | continuous-improvement | Continuous Improvement | `~/.claude/skills/knowledge/continuous-improvement/SKILL.md` |
 | conversation-naming | Conversation Naming | `~/.claude/skills/knowledge/conversation-naming/SKILL.md` |

@@ -273,9 +273,8 @@ Good:
 ```
 *PR #4523* -- unifies error handling on TaskEither across the order pipeline
 
-I'd appreciate a close look at the event handler migration in
-`OrderEventHandler.ts` -- the callback removal changes the error
-propagation path and I want to make sure I haven't missed an edge case.
+The event handler migration in `OrderEventHandler.ts` is the tricky
+part -- the callback removal changes the error propagation path.
 ```
 
 - **Concretise**: names the specific file and concern.
@@ -292,9 +291,9 @@ Production issue -- three customers were double-charged today when
 the pricing service timed out during retry. This fixes the idempotency
 check that was skipped on retry attempts.
 
-Deploying to staging now; aiming to ship to prod by EOD. Could you
-prioritise the retry logic in `PricingClient.ts` lines 45-80? The
-rest is test coverage.
+Deploying to staging now; shipping to prod by EOD. The retry logic
+in `PricingClient.ts` lines 45-80 is the important bit -- the rest
+is test coverage.
 ```
 
 - **Motivate**: real customer impact makes the urgency concrete, not performative.
@@ -604,10 +603,9 @@ Good:
 ```
 *PR #4530* is on staging -- the double-charge hotfix.
 
-The idempotency key is now stable across retries, so the pricing
-service won't process duplicate requests. Need a sign-off from ops
-before pushing to prod. @jane can you verify the order logs look
-clean on staging?
+I stabilised the idempotency key across retries -- pricing service
+won't process duplicate requests. @jane the order logs on staging
+need a look before we push to prod.
 ```
 
 - **Motivate**: explains what changed and why the recipient should act.

@@ -14,8 +14,8 @@ Standard
 
 ## Apply these skills
 
-- **test-driven-development** -- Red/Green/Refactor rhythm, property-based testing, composable generators via smart constructors.
-- **functional-typescript** -- fp-ts patterns, algebraic laws, codec round-trips.
+- **test-driven-development-g** -- Red/Green/Refactor rhythm, property-based testing, composable generators via smart constructors.
+- **functional-typescript-g** -- fp-ts patterns, algebraic laws, codec round-trips.
 
 ## Output format
 

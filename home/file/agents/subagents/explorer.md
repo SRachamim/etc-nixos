@@ -14,8 +14,8 @@ Volume
 
 ## Apply these skills
 
-- **context-engineering** -- select only relevant files; don't load everything in scope.
-- **functional-typescript** -- recognise fp-ts patterns, domain types, and pipeline structures when exploring TypeScript code.
+- **context-engineering-g** -- select only relevant files; don't load everything in scope.
+- **functional-typescript-g** -- recognise fp-ts patterns, domain types, and pipeline structures when exploring TypeScript code.
 
 ## Output format
 

@@ -4,20 +4,21 @@ Personal skills and conventions that apply across all projects and all agents.
 
 ## Skills
 
-Personal skills are installed globally. Use `/skill-name` to invoke workflow skills.
+Personal skills are installed globally and end with `-g` to distinguish them from repo-level skills. Use `/skill-name-g` to invoke workflow skills.
 Knowledge skills load automatically when the agent detects relevant context.
 
 Skill categories:
-- **workflows/** -- user-invoked procedures (e.g. `/plan`, `/create-task`, `/review-pr`)
+- **workflows/** -- user-invoked procedures (e.g. `/plan-g`, `/create-task-g`, `/review-pr-g`)
 - **knowledge/** -- standards and reference material loaded by context
 - **shared/** -- helper sub-workflows called by other skills, not invoked directly
 
 ## Conventions
 
-- Follow the **commit-conventions** skill for all git commits.
-- Follow the **objective-communication** skill as the epistemological framework for all delivered text -- it governs what to say and how to organise it. Follow the **writing-style** skill for voice execution -- it governs how to say it and kills LLM tells. When composing text for external platforms (Slack, PR comments, work-item updates), also read and apply the **external-communications** skill -- its approval, formatting, and platform rules evolve and must not be assumed from memory.
-- Follow the **gitflow-branching** skill for branch operations, yielding to repository-specific guidelines.
-- Follow the **decision-priorities** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).
+- Follow the **commit-conventions-g** skill for all git commits.
+- Follow the **objective-communication-g** skill as the epistemological framework for all delivered text -- it governs what to say and how to organise it. Follow the **writing-style-g** skill for voice execution -- it governs how to say it and kills LLM tells. When composing text for external platforms (Slack, PR comments, work-item updates), also read and apply the **external-communications-g** skill -- its approval, formatting, and platform rules evolve and must not be assumed from memory.
+- Follow the **gitflow-branching-g** skill for branch operations, yielding to repository-specific guidelines.
+- Follow the **decision-priorities-g** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).
+- Follow the **artifact-layering-g** skill when encountering repo-level skills that overlap with user-level (`-g`) skills.
 
 ## Preferences
 

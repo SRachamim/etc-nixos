@@ -14,9 +14,9 @@ Volume
 
 ## Apply these skills
 
-- **objective-communication** -- communication principles (motivation, delimitation, structure, concretisation, self-containment, objectivity).
-- **communication-templates** -- tiered structural templates for each output type (PR description, commit message, Slack message, work-item description, etc.). Select the appropriate tier based on context.
-- **external-communications** -- approval and formatting guidelines for the target platform.
+- **objective-communication-g** -- communication principles (motivation, delimitation, structure, concretisation, self-containment, objectivity).
+- **communication-templates-g** -- tiered structural templates for each output type (PR description, commit message, Slack message, work-item description, etc.). Select the appropriate tier based on context.
+- **external-communications-g** -- approval and formatting guidelines for the target platform.
 
 ## Output format
 

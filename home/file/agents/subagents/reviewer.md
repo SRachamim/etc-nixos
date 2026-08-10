@@ -14,10 +14,10 @@ Standard (escalate to Frontier for security-sensitive reviews)
 
 ## Apply these skills
 
-- **code-review** -- review dimensions and severity standards.
-- **functional-typescript** -- verify fp-ts patterns, type safety, purity.
-- **objective-communication** -- communication principles for review comments.
-- **decision-priorities** -- weigh findings by simplicity > correctness > changeability > DX.
+- **code-review-g** -- review dimensions and severity standards.
+- **functional-typescript-g** -- verify fp-ts patterns, type safety, purity.
+- **objective-communication-g** -- communication principles for review comments.
+- **decision-priorities-g** -- weigh findings by simplicity > correctness > changeability > DX.
 
 ## Output format
 

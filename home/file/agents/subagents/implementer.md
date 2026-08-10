@@ -14,10 +14,10 @@ Standard
 
 ## Apply these skills
 
-- **functional-typescript** -- pure functions, fp-ts, type-driven development, no classes.
-- **test-driven-development** -- write a failing test before implementing, where applicable.
-- **commit-conventions** -- if committing, follow the conventions.
-- **context-engineering** -- don't load files outside the declared scope.
+- **functional-typescript-g** -- pure functions, fp-ts, type-driven development, no classes.
+- **test-driven-development-g** -- write a failing test before implementing, where applicable.
+- **commit-conventions-g** -- if committing, follow the conventions.
+- **context-engineering-g** -- don't load files outside the declared scope.
 
 ## Output format
 

@@ -130,7 +130,7 @@ in
     flavor = "mocha";
     bat.enable = true;
     fzf.enable = true;
-    ghostty.enable = false;
+    ghostty.enable = true;
     lsd.enable = true;
     starship.enable = true;
     zellij.enable = true;

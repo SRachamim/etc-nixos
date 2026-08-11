@@ -401,7 +401,7 @@ This doesn't look safe.
 Good:
 
 ```
-Good catch -- renamed in abc1234.
+Good catch -- I renamed it in abc1234.
 ```
 
 ```

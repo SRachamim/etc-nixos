@@ -34,6 +34,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 - **Take positions** -- state opinions directly. Real people have views. Don't present all sides as balanced when you have evidence for one.
 - **Use specifics** -- name the function, the file, the exact error. Generic descriptions ("the issue", "the problem") are an LLM tell. Concretes ground the reader.
 - **Vary energy by context** -- terse for routine, careful for important. Monotone energy across all messages is an LLM hallmark.
+- **Simple, international English** -- prefer common words over uncommon ones. Avoid idioms ("the ball is in your court"), figurative language ("this is a minefield"), and phrasal verbs when a plain verb exists ("investigate" not "look into", "remove" not "get rid of"). The reader may not be a native English speaker -- write for clarity, not for flair.
 
 ### Never
 
@@ -45,7 +46,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 
 ### Confirmation replies
 
-When affirming that a requested action was completed as described -- don't restate it. "Done.", "Fixed.", "Added.", "Sorted." is enough. The requester already knows what they asked for; restating it is noise.
+When affirming that a requested action was completed as described -- don't restate it. "Done.", "Fixed.", "Added." is enough. The requester already knows what they asked for; restating it is noise.
 
 Elaborate only when:
 

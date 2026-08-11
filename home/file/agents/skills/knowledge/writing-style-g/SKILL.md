@@ -43,7 +43,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 
 ### Confirmation replies
 
-When affirming that a requested action was completed as described -- don't restate it. "Done.", "Fixed.", "Added." is enough. The requester already knows what they asked for; restating it is noise.
+When affirming that a requested action was completed as described -- don't restate it. "Done.", "Fixed.", "Added." is enough. The requester already knows what they asked for; restating it is noise. In PR review replies especially, don't describe the code change -- the reviewer sees the updated diff. Reasoning about why you agree is fine.
 
 Elaborate only when:
 

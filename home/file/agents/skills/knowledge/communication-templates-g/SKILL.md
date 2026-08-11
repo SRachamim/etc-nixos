@@ -274,10 +274,10 @@ or reproduction steps> (Anti-rationalism: grounded in facts)
 **When**: the reviewer's point is valid and you'll act on it.
 
 ```
-<What action was taken or will be taken>
+<Confirmation, optionally with reasoning -- why you agree or what you learned>
 ```
 
-Brief. Don't restate the reviewer's point -- they know what they said. "Fixed in <commit>." or "Good catch -- renamed." is enough.
+Don't describe the code change -- the reviewer sees the updated diff. Reasoning about *why* you agree or *why* the suggestion is better is welcome. "Fixed." or "Good point -- the old approach swallowed errors." are both fine.
 
 ### Disagree
 
@@ -308,6 +308,7 @@ Don't guess and defend against a misunderstood objection. Ask first.
 
 **Anti-patterns**:
 
+- Describing the code change ("Renamed `foo` to `bar` and updated the callers") -- the diff shows this; confirm and optionally reason, don't narrate
 - Responding to every comment with the same tone and length -- violates the crow epistemology (monotone energy is an LLM tell; vary by importance)
 - "I think maybe we could consider..." -- violates Objectivity (state your position or ask a question; don't hedge)
 - Conceding a premise for the sake of argument ("You're right that X, but...") when you don't believe X -- violates Anti-rationalism (per **objective-communication-g** > Arguing in Reviews)

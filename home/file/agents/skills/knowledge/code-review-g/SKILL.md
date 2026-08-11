@@ -22,16 +22,17 @@ The reviewer reconstructs intent exclusively from the code and commits. If the c
 
 ## What to Evaluate
 
-When reviewing code, assess each change against these dimensions:
+When reviewing code, assess each change against these dimensions. Dimensions are listed in priority order -- verify the change achieves its behavioral goal before assessing implementation quality. A syntactically correct implementation that doesn't produce the intended behavioral effect is a blocking finding, not a style nit.
 
-- **Correctness** -- Does the code do what it claims? Are edge cases handled?
-- **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
+- **Behavioral effect** -- Does the change achieve its claimed goal? Before examining code quality, trace the data/control flow from the change site through its callers to the observable outcome. Ask: "If I'm the caller, what do I experience after this change?" For example: does an async operation fire-and-forget or block? Does an error propagate or get swallowed? Does a cache write happen before or after the response? If the answer contradicts the stated intent, stop -- nothing else matters until this is resolved.
+- **Correctness** -- Given that the behavioral goal is met, is the implementation free of bugs? Are edge cases handled? Are error paths covered at every level of the call stack?
+- **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?
 - **Design** -- Is the abstraction level appropriate? Are responsibilities well-separated?
 - **Architecture** -- Is the overall solution approach sound? Do component boundaries, module decomposition, and dependency directions make sense? Does the change align with (or intentionally evolve) the system's existing architectural patterns, or does it introduce unnecessary coupling? Apply the **architect-thinking-g** skill: does the change preserve options or lock in decisions unnecessarily? Does it increase or decrease the rate of future change in the affected area? Is configuration treated as code (version-controlled, validated, tested)? Are cross-boundary effects and feedback loops considered?
 - **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered?
 - **Performance** -- Are there obvious inefficiencies, unnecessary allocations, or N+1 patterns?
-- **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?
 - **Flexibility** -- Is the code additive (new behavior can be added without modifying existing code)? Do functions follow Postel's law (wide inputs, narrow outputs)? Are cross-cutting concerns (logging, metrics) layered independently from domain logic? Are generation and evaluation separated where applicable? Are combinators used so that primitives and combinations share the same interface?
+- **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 
 ## Comment Severity
 

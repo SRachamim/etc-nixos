@@ -1,6 +1,6 @@
 ---
 name: commit-conventions-g
-description: Commit hygiene and structuring guidelines. Use whenever the agent creates git commits.
+description: "Commit hygiene and structuring guidelines. Sub-skill of **delivered-text-g** -- handles commit domain (layer 5). Loaded conditionally when composing commits."
 ---
 
 # Commit Conventions

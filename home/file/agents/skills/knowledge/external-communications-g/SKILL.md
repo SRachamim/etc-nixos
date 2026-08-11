@@ -1,6 +1,6 @@
 ---
 name: external-communications-g
-description: MANDATORY rules for all external messages -- approval workflow, voice and tone, formatting, post-action linking. MUST be read in full before composing ANY text for Slack, PR comments, work-item updates, or other external platforms. Content evolves; never assume from memory.
+description: "MANDATORY rules for all external messages -- approval workflow, formatting, post-action linking, Slack mechanics. Sub-skill of **delivered-text-g** -- handles operations (layer 4). Loaded conditionally when posting to an external platform. Content evolves; never assume from memory."
 ---
 
 # External Communications
@@ -31,11 +31,7 @@ Pay close attention to how the user phrases multi-recipient requests:
 
 ## Voice and Tone
 
-Apply the **objective-communication-g** skill to all delivered text covered by this skill. Its seven principles (motivate, delimit, structure, concretise, self-containment, objectivity, anti-rationalism) govern what to say and how to organise it.
-
-Apply the **writing-style-g** skill for voice execution. Its voice traits, anti-LLM rules, and platform-specific register govern how to say it.
-
-Both skills are mandatory for every text type. Read them in full -- their content evolves and must not be assumed from memory.
+See **delivered-text-g** for the full skill stack. The orchestrator loads **objective-communication-g** and **writing-style-g** unconditionally alongside this skill.
 
 ## Post-Action Linking
 

@@ -1,21 +1,13 @@
 ---
 name: communication-templates-g
-description: Exact structural templates for recurring delivered text, grounded in objective-communication principles. Provides tiered skeletons for PR titles, PR descriptions, commit messages, review comments, review requests, Slack messages, and work-item titles/descriptions. Use whenever the agent composes delivered text -- the templates bridge the gap between abstract principles and concrete output.
+description: "Exact structural templates for recurring delivered text, grounded in objective-communication principles. Sub-skill of **delivered-text-g** -- handles structure (layer 3). Loaded conditionally when a matching template exists for the text type."
 ---
 
 # Communication Templates
 
 Structural templates for every recurring external communication type. Each template is a fill-in-the-blank skeleton grounded in specific **objective-communication-g** principles.
 
-This skill provides the **structure** layer. It does not duplicate:
-
-- **objective-communication-g** -- the epistemological principles (what to say, how to organise)
-- **writing-style-g** -- the voice execution (how to say it, LLM-tell avoidance)
-- **external-communications-g** -- the operational rules (approval, formatting, Slack API)
-- **commit-conventions-g** -- the commit hygiene rules (ordering, independence, focus)
-- **code-review-g** -- the review standards (severity definitions, actionability, thread status)
-
-Reference all five when composing. This skill adds the missing piece: what goes where.
+This skill provides the **structure** layer (layer 3 in **delivered-text-g**). It adds fill-in-the-blank skeletons -- what goes where -- on top of the principles and voice provided by the other sub-skills. See **delivered-text-g** for the full routing table.
 
 ## Tier selection
 
@@ -300,7 +292,7 @@ Not "I think" or "I feel" -- point to facts.>
 <Proposed resolution -- keep as-is with stated reason, or offer a compromise>
 ```
 
-Never concede a premise you reject. If the reviewer says "this pattern is always bad" and you believe it's appropriate here, challenge the premise with evidence -- don't say "I agree it's bad, but..."
+Apply the argumentation rules from **objective-communication-g** > Arguing in Reviews -- especially "do not concede premises you reject."
 
 ### Clarify
 
@@ -318,7 +310,7 @@ Don't guess and defend against a misunderstood objection. Ask first.
 
 - Responding to every comment with the same tone and length -- violates the crow epistemology (monotone energy is an LLM tell; vary by importance)
 - "I think maybe we could consider..." -- violates Objectivity (state your position or ask a question; don't hedge)
-- Conceding a premise for the sake of argument ("You're right that X, but...") when you don't believe X -- violates Anti-rationalism (you lose the ability to appeal to the facts that settle the question)
+- Conceding a premise for the sake of argument ("You're right that X, but...") when you don't believe X -- violates Anti-rationalism (per **objective-communication-g** > Arguing in Reviews)
 
 ---
 

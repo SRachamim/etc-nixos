@@ -1,6 +1,6 @@
 ---
 name: code-review-g
-description: Standards for performing code reviews. Use whenever the agent reviews a pull request, diff, or code change.
+description: "Standards for performing code reviews. Sub-skill of **delivered-text-g** -- handles review domain (layer 5). Loaded conditionally when reviewing code."
 ---
 
 # Code Review Standards

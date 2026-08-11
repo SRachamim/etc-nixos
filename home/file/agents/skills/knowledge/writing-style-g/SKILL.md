@@ -1,20 +1,17 @@
 ---
 name: writing-style-g
-description: Voice, tone, and prose conventions (LLM-tell avoidance, concise confirmation replies, platform-specific register) for text the agent delivers to an external destination. Use whenever the agent composes text that will be committed, posted, or published -- commit messages, PR titles, PR descriptions, PR comments, code review comments, Slack messages, work-item descriptions, code comments, documentation. Do NOT use for agent-to-user conversation in the IDE (chat replies, plan discussions, clarifying questions, explanations).
+description: "Voice, tone, and prose conventions (LLM-tell avoidance, concise confirmation replies, platform-specific register) for delivered text. Sub-skill of **delivered-text-g** -- handles voice execution (layer 2). Loaded unconditionally for all delivered text."
 ---
 
 # Writing Style
 
 The goal is a **distinctive, recognisable voice** -- technically sharp, non-formal, and human. Never generic LLM prose.
 
-LLM writing is structurally rationalistic in Peikoff's sense -- floating abstractions, deduction without reality reference, significance puffing, concepts disconnected from concretes. The voice traits below are the concrete antidote: ground every claim in observable facts, name specifics instead of gesturing at generalities, take positions instead of hedging, and let the reader judge significance instead of inflating it. Apply the **objective-communication-g** skill for the epistemological framework; this skill handles voice execution.
+The **objective-communication-g** skill explains why LLM writing fails epistemologically (anti-rationalism). This skill handles the voice-level execution: the concrete traits that kill the LLM smell.
 
 ## Scope
 
-This skill applies **only to delivered text** -- text that will be committed, posted, published, or otherwise leave the agent-user conversation. It does NOT apply to:
-
-- **Agent-to-user chat** -- replies, explanations, plan discussions, clarifying questions in the IDE. Write naturally here; don't perform the voice.
-- **LLM-facing artifacts** -- Cursor rules, skills, commands, and subagent prompts are instructions *for* the LLM, not output *from* it. Clarity and effectiveness for the LLM reader come first; every rule in this skill is secondary in that context. The exception: the **keyboard characters only** rule (no em-dashes, curly quotes, etc.) still applies to LLM-facing artifacts.
+See **delivered-text-g** for scope, priority ladder, and routing.
 
 ## Voice traits
 

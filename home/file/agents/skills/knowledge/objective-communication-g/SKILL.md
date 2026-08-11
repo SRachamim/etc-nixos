@@ -1,6 +1,6 @@
 ---
 name: objective-communication-g
-description: Communication principles derived from Peikoff's epistemological framework -- motivation, delimitation, structure, concretisation, self-containment, objectivity, and anti-rationalism. Use whenever the agent composes text that will be committed, posted, or published -- PR descriptions, commit messages, Slack messages, plans, technical designs, PRDs, documentation, READMEs, code comments, work-item descriptions, review comments, wiki pages. Do NOT use for agent-to-user conversation in the IDE.
+description: "Communication principles derived from Peikoff's epistemological framework -- motivation, delimitation, structure, concretisation, self-containment, objectivity, and anti-rationalism. Sub-skill of **delivered-text-g** -- handles epistemology (layer 1). Loaded unconditionally for all delivered text."
 ---
 
 # Objective Communication
@@ -11,11 +11,7 @@ These principles are also the direct antidote to generic LLM output -- LLM writi
 
 ## Scope
 
-This skill applies to **delivered text** -- text that leaves the agent-user conversation (committed, posted, published). It does NOT apply to agent-to-user chat (replies, explanations, plan discussions, clarifying questions in the IDE).
-
-## External Posting
-
-When the composed text will be posted to an external platform (Slack, Azure DevOps, GitHub, etc.), also read and apply the **external-communications-g** skill and the **writing-style-g** skill -- their voice, approval, formatting, and anti-LLM rules evolve and must not be assumed from memory.
+See **delivered-text-g** for scope, priority ladder, and routing to the right sub-skills by text type.
 
 ## Seven Principles
 

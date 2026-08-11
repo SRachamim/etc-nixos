@@ -15,7 +15,7 @@ Skill categories:
 ## Conventions
 
 - Follow the **commit-conventions-g** skill for all git commits.
-- Follow the **objective-communication-g** skill as the epistemological framework for all delivered text -- it governs what to say and how to organise it. Follow the **writing-style-g** skill for voice execution -- it governs how to say it and kills LLM tells. When composing text for external platforms (Slack, PR comments, work-item updates), also read and apply the **external-communications-g** skill -- its approval, formatting, and platform rules evolve and must not be assumed from memory.
+- Follow the **delivered-text-g** skill for all delivered text (committed, posted, published). It defines scope, priority ladder, and routes to the right sub-skills (**objective-communication-g**, **writing-style-g**, **communication-templates-g**, **external-communications-g**) by text type.
 - Follow the **gitflow-branching-g** skill for branch operations, yielding to repository-specific guidelines.
 - Follow the **decision-priorities-g** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).
 - Follow the **artifact-layering-g** skill when encountering repo-level skills that overlap with user-level (`-g`) skills.

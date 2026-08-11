@@ -133,6 +133,7 @@ More relaxed than titles and descriptions -- this is a conversation, not a docum
 - First person for actions -- "I renamed it in abc1234" not "renamed in abc1234" or "it was renamed." Fragments like "Fixed." are fine.
 - Rhetorical questions are welcome ("why not just inline this?").
 - Dry parenthetical asides are OK ("the tests pass -- somehow").
+- **No politeness softeners** -- same rule as Slack. Drop "please", "could you", "would you mind". Describe the situation or state the position directly.
 
 ### Commit messages
 

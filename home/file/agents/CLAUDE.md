@@ -64,6 +64,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | continuous-improvement-g | Continuous Improvement | `~/.claude/skills/continuous-improvement-g/SKILL.md` |
 | conversation-naming-g | Conversation Naming | `~/.claude/skills/conversation-naming-g/SKILL.md` |
 | decision-priorities-g | Decision Priorities | `~/.claude/skills/decision-priorities-g/SKILL.md` |
+| delivered-text-g | Delivered Text | `~/.claude/skills/delivered-text-g/SKILL.md` |
 | design-lenses-g | Design Lenses | `~/.claude/skills/design-lenses-g/SKILL.md` |
 | estimation-g | Estimation | `~/.claude/skills/estimation-g/SKILL.md` |
 | event-driven-automations-g | Event-Driven Automations | `~/.claude/skills/event-driven-automations-g/SKILL.md` |

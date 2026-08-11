@@ -27,7 +27,7 @@ When the PR was resolved from a Slack message, react to the original message at 
 | Moment | Reaction | When it fires |
 |--------|----------|---------------|
 | Starting review | `eyes` | Immediately after parsing the Slack link (step 2) |
-| Approved | `white_check_mark` | After the PR is approved on the platform, or the user confirms they approved |
+| Approved | `white_check_mark` | After the approval vote is cast (step 9) |
 | Reviewed with comments | `speech_balloon` | After review comments are posted to the PR, or the user confirms they posted |
 
 Treat `already_reacted` errors as idempotent success. Do not attempt to remove earlier reactions -- accumulating them tells the review lifecycle story.
@@ -130,7 +130,7 @@ Additionally:
 2. **writing-style-g** and its `reference.md` -- voice traits, banned vocabulary, LLM-tell avoidance, platform register.
 3. **objective-communication-g** -- what to say and how to organise it (motivate, delimit, structure, concretise).
 
-These govern ALL text produced in steps 6--9. Do not proceed to drafting until all three are loaded.
+These govern ALL text produced in steps 6--10. Do not proceed to drafting until all three are loaded.
 
 ---
 
@@ -161,20 +161,27 @@ Show the complete review to the user, including:
 ### 8. Post the review
 
 - Call `post_review_findings` to batch-post all review comments in one call. For each finding, provide `content`, `severity` (`"critical"` for Blocking, `"significant"` for Suggestion, `"minor"` for Nit), `filePath`, `lineNumber`, and `status: "Active"` (the tool defaults to `Closed`, but review threads must be Active per the **code-review-g** skill). Do not include a `summaryComment` -- only actionable, line-anchored findings are posted.
-- **If the PR was resolved from a Slack message**, react to the original message based on the outcome (see **Slack reaction signals**):
-  - If the overall verdict is **approve** (PR approved on the platform, or the user confirms they approved): call `reactions_add` with `emoji: "white_check_mark"`.
-  - If review comments were posted (or the user confirms they posted): call `reactions_add` with `emoji: "speech_balloon"`.
-  - Fire these reactions only after the corresponding external action is confirmed -- never preemptively from step 7.
-  - If the user later confirms they took the action manually (e.g. "I approved" or "I posted the comments"), add the appropriate reaction at that point.
+- **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`.
 
-### 9. Confirm completion
+### 9. Vote
+
+When the overall verdict is **approve** (no blocking findings):
+
+1. Ask the user whether to cast the approval vote on the PR.
+2. If the user confirms, follow the **vote-pr-g** shared skill with vote value `approve`.
+3. **If the PR was resolved from a Slack message** and the vote succeeds: call `reactions_add` with `emoji: "white_check_mark"` (see **Slack reaction signals**).
+
+When the verdict is **request changes** or **comment-only**, skip this step -- voting is not appropriate.
+
+### 10. Confirm completion
 
 Print a summary:
 
 - PR link
 - Number of comments posted by severity
+- Whether the approval vote was cast
 - Overall verdict (approved, changes requested, or commented)
 
-### 10. Evolve
+### 11. Evolve
 
 Follow the **continuous-improvement-g** skill.

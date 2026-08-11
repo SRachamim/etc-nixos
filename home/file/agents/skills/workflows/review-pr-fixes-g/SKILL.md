@@ -212,7 +212,16 @@ Thread status management is an explicit part of the follow-up review -- the revi
 - If the original review was anchored to a ticket, post a summary comment on the work item via MCP.
 - Otherwise, the review is presented inline only -- no external posting needed.
 
-### 10. Confirm completion
+### 10. Vote
+
+Applies only **when following up on `/review-pr`** and the overall verdict is **approve** (no blocking findings, all prior threads resolved or accepted):
+
+1. Ask the user whether to cast the approval vote on the PR.
+2. If the user confirms, follow the **vote-pr-g** shared skill with vote value `approve`.
+
+When the verdict is **request changes** or **comment-only**, or when following up on `/review-plan`, skip this step.
+
+### 11. Confirm completion
 
 Print a summary matching the context type.
 
@@ -223,6 +232,7 @@ Print a summary matching the context type.
 - Threads reactivated (status -> `Active`) with count
 - Threads unchanged with count
 - New comments posted by severity
+- Whether the approval vote was cast
 - Overall verdict (approved, changes requested, or commented)
 
 #### When following up on `/review-plan`
@@ -232,6 +242,6 @@ Print a summary matching the context type.
 - New findings by severity
 - Overall verdict (approved, changes requested, or commented)
 
-### 11. Evolve
+### 12. Evolve
 
 Follow the **continuous-improvement-g** skill.

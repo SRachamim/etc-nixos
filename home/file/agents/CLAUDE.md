@@ -86,6 +86,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | tooling-enforcement-g | Tooling Enforcement | `~/.claude/skills/tooling-enforcement-g/SKILL.md` |
 | weigh-feedback-g | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |
 | work-item-context-g | Work Item Context | `~/.claude/skills/work-item-context-g/SKILL.md` |
+| workflow-catalog-g | Workflow Catalog | `~/.claude/skills/workflow-catalog-g/SKILL.md` |
 | workspace-rules-g | Workspace Rules | `~/.claude/skills/workspace-rules-g/SKILL.md` |
 | worktree-layout-g | Worktree Layout | `~/.claude/skills/worktree-layout-g/SKILL.md` |
 | writing-style-g | Writing Style | `~/.claude/skills/writing-style-g/SKILL.md` |

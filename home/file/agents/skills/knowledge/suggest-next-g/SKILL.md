@@ -22,11 +22,11 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/activate-work-item` | `/plan`, `/checkout-worktree` |
 | `/answer-slack` | `/create-task`, `/investigate-incident` |
 | `/block-work-item` | `/checkout-worktree`, `/defer-fix` |
-| `/checkout-worktree` | `/plan`, `/debug` |
+| `/checkout-worktree` | `/plan`, `/debug`, `/reproduce-bug` |
 | `/close-worktree` | `/prune-merged`, `/checkout-worktree` |
 | `/commit-and-push` | `/submit-feature` |
 | `/compare-approaches` | `/plan` |
-| `/create-bug` | `/checkout-worktree`, `/reproduce-bug` |
+| `/create-bug` | `/checkout-worktree`, `/reproduce-bug`, `/write-repro-steps` |
 | `/create-task` | `/checkout-worktree`, `/plan` |
 | `/debug` | `/commit-and-push`, `/create-bug`, `/defer-fix` |
 | `/defer-fix` | `/create-bug`, `/create-task`, `/checkout-worktree` |
@@ -36,7 +36,8 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/investigate-incident` | `/create-bug`, `/submit-bypass-request`, `/debug` |
 | `/list-closeable-worktrees` | `/close-worktree`, `/prune-merged` |
 | `/plan` | `/commit-and-push`, `/submit-feature` |
-| `/prd-intake` | `/create-task`, `/estimate-work-item`, `/plan` |
+| `/plan-from-prd-intake` | `/submit-feature`, `/commit-and-push` |
+| `/prd-intake` | `/checkout-worktree`, `/plan-from-prd-intake`, `/create-task`, `/estimate-work-item`, `/plan` |
 | `/prune-merged` | `/checkout-worktree` |
 | `/reproduce-bug` | `/debug`, `/write-repro-steps` |
 | `/retrospective` | `/plan`, `/create-task` |

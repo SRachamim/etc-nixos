@@ -56,6 +56,8 @@ Parse the PRD into these categories, assigning each requirement a unique ID for 
 | Assumptions | A-N | Things presumed true but not verified |
 | Out-of-scope | OS-N | Items explicitly excluded from this work |
 
+When the feature spans multiple PRs, stages, or phases, annotate each requirement with the **Stage** where it is addressed (e.g. `Phase 1`, `PR #2`, `Commit 3.1`). When the feature is a single PR, use `All` or leave the Stage column blank.
+
 When the PRD is ambiguous, flag items as **needs clarification** rather than guessing. Collect all open questions -- they will appear in the final document.
 
 ### 3. Research prior art
@@ -144,6 +146,8 @@ This is a first draft -- less precise than what `/plan` produces after deep code
 
 Assemble all sections into a single self-contained markdown document. Apply the **objective-communication-g** skill to all prose.
 
+The document is structured in two parts. Part 1 (Feature Specification) is relevant to both humans and agents -- developers, PMs, and reviewers read it to understand the feature. Part 2 (Agent Execution Context) contains detailed execution material for agent sessions and is optional for human readers. A visual separator (`---`) and a heading mark the boundary.
+
 The document must be complete enough that a fresh agent session (with no prior context) can pick it up and implement from it. Treat the reader as a newcomer to the repository. Concretely, the document must include:
 
 - The feature's goal and requirements (not just IDs -- the full text).
@@ -151,12 +155,22 @@ The document must be complete enough that a fresh agent session (with no prior c
 - Exact validation commands (not "run tests" -- the specific command).
 - Decisions made during analysis, so a fresh session does not re-litigate them.
 
+Instruct the developer (via the preamble) to provide this document as context input to every agent session that works on the feature -- whether planning, implementing, debugging, reviewing, or testing.
+
 Output format:
 
 ```
 ## PRD Intake: <Feature Title>
 
 **Source**: <ADO link, file path, or "inline text"> | **Date**: <today>
+
+> **How to use this document**: Provide it as context input to every agent session
+> (planning, implementing, debugging, reviewing, testing) that works on this feature.
+> Part 1 is the feature specification -- relevant to both humans and agents.
+> Part 2 (after the separator) contains detailed agent execution context and is optional
+> for human readers.
+
+## Part 1: Feature Specification
 
 ### Goal
 
@@ -166,23 +180,23 @@ Output format:
 
 #### Functional Requirements
 
-| ID | Requirement | Notes |
-|----|-------------|-------|
+| ID | Requirement | Stage | Notes |
+|----|-------------|-------|-------|
 
 #### Non-functional Requirements
 
-| ID | Requirement | Notes |
-|----|-------------|-------|
+| ID | Requirement | Stage | Notes |
+|----|-------------|-------|-------|
 
 #### Acceptance Criteria
 
-| ID | Criterion | Status |
-|----|-----------|--------|
+| ID | Criterion | Stage | Status |
+|----|-----------|-------|--------|
 
 #### Constraints
 
-| ID | Constraint |
-|----|------------|
+| ID | Constraint | Stage |
+|----|------------|-------|
 
 #### Assumptions
 
@@ -198,6 +212,30 @@ Output format:
 
 <Bullet summary from step 3 -- patterns found, best fit, adaptations needed>
 
+### Tech Design Draft
+
+**Context**: ...
+**Goals**: ...
+**Non-goals**: ...
+**Proposed approach**: ...
+**Affected areas**: ...
+
+### Decision Log
+
+| # | Decision | Rationale | Alternatives considered |
+|---|----------|-----------|------------------------|
+
+### Open Questions
+
+| # | Question | Source | Impact |
+|---|----------|--------|--------|
+
+---
+
+## Part 2: Agent Execution Context
+
+> The sections below are structured for agent consumption. Human readers may skip them.
+
 ### Affected Modules
 
 | Package / Module | Why affected | Expected changes | Risk |
@@ -207,14 +245,6 @@ Output format:
 
 | AC | Test description | Expected behaviour | Edge cases |
 |----|------------------|--------------------|------------|
-
-### Tech Design Draft
-
-**Context**: ...
-**Goals**: ...
-**Non-goals**: ...
-**Proposed approach**: ...
-**Affected areas**: ...
 
 ### Execution Plan
 
@@ -230,16 +260,6 @@ Output format:
 #### Phase N: <Name>
 
 ...
-
-### Decision Log
-
-| # | Decision | Rationale | Alternatives considered |
-|---|----------|-----------|------------------------|
-
-### Open Questions
-
-| # | Question | Source | Impact |
-|---|----------|--------|--------|
 ```
 
 ### 9. Iterate

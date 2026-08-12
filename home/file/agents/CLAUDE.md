@@ -10,6 +10,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 |---------|-------|------|
 | `/activate-work-item-g` | Activate Work Item | `~/.claude/skills/activate-work-item-g/SKILL.md` |
 | `/answer-slack-g` | Answer Slack | `~/.claude/skills/answer-slack-g/SKILL.md` |
+| `/audit-dependencies-g` | Audit Dependencies | `~/.claude/skills/audit-dependencies-g/SKILL.md` |
 | `/block-work-item-g` | Block Work Item | `~/.claude/skills/block-work-item-g/SKILL.md` |
 | `/checkout-worktree-g` | Checkout Worktree | `~/.claude/skills/checkout-worktree-g/SKILL.md` |
 | `/close-worktree-g` | Close Worktree | `~/.claude/skills/close-worktree-g/SKILL.md` |
@@ -20,16 +21,21 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/create-task-g` | Create Task | `~/.claude/skills/create-task-g/SKILL.md` |
 | `/debug-g` | Debug | `~/.claude/skills/debug-g/SKILL.md` |
 | `/defer-fix-g` | Defer Fix | `~/.claude/skills/defer-fix-g/SKILL.md` |
+| `/deliver-feature-g` | Deliver Feature | `~/.claude/skills/deliver-feature-g/SKILL.md` |
 | `/design-microservice-system-g` | Design Microservice System | `~/.claude/skills/design-microservice-system-g/SKILL.md` |
 | `/estimate-work-item-g` | Estimate Work Item | `~/.claude/skills/estimate-work-item-g/SKILL.md` |
 | `/evolve-microservice-api-g` | Evolve Microservice API | `~/.claude/skills/evolve-microservice-api-g/SKILL.md` |
 | `/extract-microservice-g` | Extract Microservice | `~/.claude/skills/extract-microservice-g/SKILL.md` |
+| `/fix-bug-g` | Fix Bug | `~/.claude/skills/fix-bug-g/SKILL.md` |
+| `/fix-build-g` | Fix Build | `~/.claude/skills/fix-build-g/SKILL.md` |
 | `/investigate-incident-g` | Investigate Incident | `~/.claude/skills/investigate-incident-g/SKILL.md` |
 | `/list-closeable-worktrees-g` | List Closeable Worktrees | `~/.claude/skills/list-closeable-worktrees-g/SKILL.md` |
 | `/plan-g` | Plan | `~/.claude/skills/plan-g/SKILL.md` |
 | `/plan-from-prd-intake-g` | Plan from PRD Intake | `~/.claude/skills/plan-from-prd-intake-g/SKILL.md` |
 | `/prd-intake-g` | PRD Intake | `~/.claude/skills/prd-intake-g/SKILL.md` |
+| `/prepare-release-g` | Prepare Release | `~/.claude/skills/prepare-release-g/SKILL.md` |
 | `/prune-merged-g` | Prune Merged Branches | `~/.claude/skills/prune-merged-g/SKILL.md` |
+| `/report-bug-g` | Report Bug | `~/.claude/skills/report-bug-g/SKILL.md` |
 | `/reproduce-bug-g` | Reproduce Bug | `~/.claude/skills/reproduce-bug-g/SKILL.md` |
 | `/request-environment-access-g` | Request Environment Access | `~/.claude/skills/request-environment-access-g/SKILL.md` |
 | `/retrospective-g` | Retrospective | `~/.claude/skills/retrospective-g/SKILL.md` |
@@ -41,9 +47,12 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/set-ports-g` | Set Ports | `~/.claude/skills/set-ports-g/SKILL.md` |
 | `/submit-bypass-request-g` | Submit Bypass Request | `~/.claude/skills/submit-bypass-request-g/SKILL.md` |
 | `/submit-feature-g` | Submit Feature for Review | `~/.claude/skills/submit-feature-g/SKILL.md` |
+| `/sweep-backlog-g` | Sweep Backlog | `~/.claude/skills/sweep-backlog-g/SKILL.md` |
 | `/trace-pr-comments-g` | Trace PR Comments | `~/.claude/skills/trace-pr-comments-g/SKILL.md` |
 | `/triage-build-g` | Triage Build | `~/.claude/skills/triage-build-g/SKILL.md` |
 | `/triage-g` | Triage | `~/.claude/skills/triage-g/SKILL.md` |
+| `/update-wiki-g` | Update Wiki | `~/.claude/skills/update-wiki-g/SKILL.md` |
+| `/verify-deployment-g` | Verify Deployment | `~/.claude/skills/verify-deployment-g/SKILL.md` |
 | `/write-repro-steps-g` | Write Repro Steps | `~/.claude/skills/write-repro-steps-g/SKILL.md` |
 
 ### Knowledge skills (loaded by context)

@@ -311,6 +311,115 @@ flowchart LR
 
 ---
 
+## Workflow 17: Dependency Upgrade
+
+**Scenario:** Audit and update outdated or vulnerable dependencies with code-level impact awareness.
+
+- **/audit-dependencies-g** -- Audits packages (npm/dotnet/pip), risk-classifies by breaking changes and code usage, updates in safe order (critical -> patch -> minor -> major), verifies build+tests after each tier, and submits a PR.
+
+---
+
+## Workflow 18: Release Preparation
+
+**Scenario:** Prepare release notes and tag a new version.
+
+- **/prepare-release-g** -- Collects merged PRs since last tag, classifies changes (features/fixes/breaking/internal), drafts user-facing release notes, updates wiki/changelog, and tags on approval.
+
+---
+
+## Workflow 19: Backlog Sweep (Batch Triage)
+
+**Scenario:** Clean up stale backlog items before sprint planning.
+
+- **/sweep-backlog-g** -- Queries ADO for items matching criteria (stale, unassigned, missing fields), classifies each (actionable/duplicate/stale/blocked), proposes actions, applies after human approval.
+
+---
+
+## Workflow 20: Post-Merge Verification
+
+**Scenario:** Verify a deployed change works in the target environment.
+
+```mermaid
+flowchart LR
+  A["/close-worktree-g"] --> B["/verify-deployment-g"]
+  B -->|Healthy| C["Work item Done"]
+  B -->|Unhealthy| D["/create-bug-g"]
+```
+
+- **/verify-deployment-g** -- Checks deploy status, runs environment health checks, verifies the specific change. If healthy, marks work item as Done. If failing, creates a hotfix bug and alerts the team.
+
+---
+
+## Workflow 21: Knowledge/Wiki Maintenance
+
+**Scenario:** Documentation has drifted from the codebase.
+
+- **/update-wiki-g** -- Compares ADO wiki pages against current codebase, identifies stale sections (removed APIs, changed configs, outdated examples), drafts updates, publishes after human review.
+
+---
+
+## Workflow 22: End-to-End Bug Resolution (Composite)
+
+**Scenario:** Fix a bug from start to finish in one command.
+
+```mermaid
+flowchart LR
+  A["/fix-bug-g"] --> B["checkout"]
+  B --> C["reproduce"]
+  C --> D["debug + fix"]
+  D --> E["submit PR"]
+```
+
+- **/fix-bug-g <work-item-id>** -- Orchestrates the full chain: `/checkout-worktree-g` -> `/reproduce-bug-g` -> `/debug-g` -> `/submit-feature-g`. Human gates at reproduction confirmation, fix approval, and PR submission only. Replaces 5 manual invocations with 1.
+
+---
+
+## Workflow 23: End-to-End Feature Delivery (Composite)
+
+**Scenario:** Deliver a feature from ticket to PR in one command.
+
+```mermaid
+flowchart LR
+  A["/deliver-feature-g"] --> B["checkout"]
+  B --> C["plan"]
+  C --> D["implement"]
+  D --> E["submit PR"]
+```
+
+- **/deliver-feature-g <work-item-id>** -- Orchestrates: `/checkout-worktree-g` -> `/plan-g` (or `/prd-intake-g` + `/plan-from-prd-intake-g` with `--prd`) -> implement -> `/submit-feature-g`. Human gates at plan approval and PR submission. Replaces 4 manual invocations with 1.
+
+---
+
+## Workflow 24: CI Fix (Composite)
+
+**Scenario:** Build failed -- triage and fix in one shot.
+
+```mermaid
+flowchart LR
+  A["/fix-build-g"] --> B["triage"]
+  B -->|Own bug| C["debug + push"]
+  B -->|Flaky| D["bypass request"]
+  B -->|External| E["file bug"]
+```
+
+- **/fix-build-g** -- Triages the build failure, classifies it, then routes: fixes locally (debug + push), requests bypass (flaky test), or files a bug (external issue). Human gate at classification confirmation. Replaces 3 manual invocations with 1.
+
+---
+
+## Workflow 25: Bug Reporting (Composite)
+
+**Scenario:** File a thorough bug report in one command.
+
+```mermaid
+flowchart LR
+  A["/report-bug-g"] --> B["create work item"]
+  B --> C["investigate + write repro steps"]
+```
+
+- **/report-bug-g** -- Creates the ADO Bug AND investigates the codebase to write minimal reproduction steps in one pass. Replaces `/create-bug-g` + `/write-repro-steps-g` with a single invocation.
+
+---
+
 ## Appendix: Internal-Only Skills (Agent Plumbing)
 
 These skills are never invoked directly by the user. The agent calls them behind the scenes during the workflows above:

@@ -21,24 +21,30 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 |-----------|-----------|
 | `/activate-work-item` | `/plan`, `/checkout-worktree` |
 | `/answer-slack` | `/create-task`, `/investigate-incident` |
+| `/audit-dependencies` | `/submit-feature`, `/commit-and-push` |
 | `/block-work-item` | `/checkout-worktree`, `/defer-fix` |
 | `/checkout-worktree` | `/plan`, `/debug`, `/reproduce-bug` |
-| `/close-worktree` | `/prune-merged`, `/checkout-worktree` |
+| `/close-worktree` | `/verify-deployment`, `/prune-merged`, `/checkout-worktree` |
 | `/commit-and-push` | `/submit-feature` |
 | `/compare-approaches` | `/plan` |
 | `/create-bug` | `/checkout-worktree`, `/reproduce-bug`, `/write-repro-steps` |
 | `/create-task` | `/checkout-worktree`, `/plan` |
 | `/debug` | `/commit-and-push`, `/create-bug`, `/defer-fix` |
 | `/defer-fix` | `/create-bug`, `/create-task`, `/checkout-worktree` |
+| `/deliver-feature` | `/close-worktree`, `/verify-deployment` |
 | `/design-microservice-system` | `/create-microservice`, `/plan` |
 | `/estimate-work-item` | `/plan`, `/checkout-worktree` |
 | `/extract-microservice` | `/submit-feature`, `/review-microservice-architecture` |
+| `/fix-bug` | `/close-worktree`, `/verify-deployment` |
+| `/fix-build` | `/commit-and-push`, `/submit-feature` |
 | `/investigate-incident` | `/create-bug`, `/submit-bypass-request`, `/debug` |
 | `/list-closeable-worktrees` | `/close-worktree`, `/prune-merged` |
 | `/plan` | `/commit-and-push`, `/submit-feature` |
+| `/prepare-release` | `/update-wiki`, `/commit-and-push` |
 | `/plan-from-prd-intake` | `/submit-feature`, `/commit-and-push` |
 | `/prd-intake` | `/checkout-worktree`, `/plan-from-prd-intake`, `/create-task`, `/estimate-work-item`, `/plan` |
 | `/prune-merged` | `/checkout-worktree` |
+| `/report-bug` | `/fix-bug`, `/checkout-worktree` |
 | `/reproduce-bug` | `/debug`, `/write-repro-steps` |
 | `/retrospective` | `/plan`, `/create-task` |
 | `/review-microservice-architecture` | `/design-microservice-system`, `/extract-microservice`, `/plan` |
@@ -46,9 +52,12 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/review-pr-fixes` | `/submit-feature`, `/close-worktree` |
 | `/submit-bypass-request` | `/triage-build`, `/commit-and-push` |
 | `/submit-feature` | `/weigh-feedback`, `/review-pr-fixes`, `/close-worktree` |
+| `/sweep-backlog` | `/checkout-worktree`, `/create-task`, `/estimate-work-item` |
 | `/trace-pr-comments` | `/weigh-feedback`, `/review-pr-fixes` |
 | `/triage` | `/plan`, `/checkout-worktree`, `/estimate-work-item` |
 | `/triage-build` | `/debug`, `/submit-bypass-request`, `/create-bug` |
+| `/update-wiki` | `/prepare-release` |
+| `/verify-deployment` | `/close-worktree`, `/create-bug` |
 | `/weigh-feedback` | `/review-pr-fixes`, `/commit-and-push` |
 | `/write-repro-steps` | `/reproduce-bug`, `/debug` |
 

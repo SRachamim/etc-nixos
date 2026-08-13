@@ -38,6 +38,8 @@ The shared skill will identify the repository, gather context, compose the descr
 
 Update the work item state to **Code Review**.
 
+If no `update_work_item` tool is available in the current MCP server set, inform the user that manual transition is needed and provide the direct link to the work item. Do not silently skip this step.
+
 When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched during PR creation.
 
 Use the `additionalFields` array (not top-level fields) for effort tracking:

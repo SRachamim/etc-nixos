@@ -116,6 +116,13 @@ Constraints:
 
 When looking up a user to message, use `users_search` with their name or email as the query.
 
+#### Resolving Slack Channels
+
+When looking up a channel by name, use `channels_me` first -- the target
+channel is almost always one the user is a member of, and `channels_me`
+returns results reliably. Fall back to `channels_list` only if the channel
+is not in the user's membership list.
+
 #### Sharing in Slack
 
 When the user asks to "share" a message with a second channel (as opposed to "sending" to both), post the original message first using `conversations_add_message`, then construct a permalink from the response and post it to the second channel.

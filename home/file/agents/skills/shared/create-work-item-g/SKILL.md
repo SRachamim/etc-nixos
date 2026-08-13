@@ -68,7 +68,7 @@ Each piece of information belongs in exactly one field -- the field designated f
 
 ### 5. Present the work item for approval
 
-Apply the **objective-communication-g** skill when composing titles and descriptions. Read and apply the **external-communications-g** skill for the approval presentation.
+Follow **delivered-text-g** when composing titles and descriptions -- it routes to **objective-communication-g** for principles and **external-communications-g** for the approval presentation (must not be assumed from memory).
 
 Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Confirm the iteration is **not** the current sprint -- it should be the one after it. Ask for confirmation. If the user requests changes, revise and re-present.
 

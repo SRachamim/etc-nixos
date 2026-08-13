@@ -9,9 +9,9 @@ Effective communication rests on the nature of human consciousness: knowledge is
 
 These principles are also the direct antidote to generic LLM output -- LLM writing is structurally rationalistic (floating abstractions, deduction without reality reference, significance puffing). Applying anti-rationalism and concretisation produces writing that is grounded, specific, and personal. The **writing-style-g** skill handles voice-level execution of these principles.
 
-## Scope
+## Prerequisite
 
-See **delivered-text-g** for scope, priority ladder, and routing to the right sub-skills by text type.
+> This is **layer 1** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one.
 
 ## Seven Principles
 

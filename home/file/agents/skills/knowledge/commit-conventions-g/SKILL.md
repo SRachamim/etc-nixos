@@ -5,6 +5,8 @@ description: "Commit hygiene and structuring guidelines. Sub-skill of **delivere
 
 # Commit Conventions
 
+> **Prerequisite**: This is **layer 5** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one.
+
 Apply the **objective-communication-g** skill to all commit messages.
 
 ## Message format

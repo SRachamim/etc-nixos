@@ -9,9 +9,9 @@ The goal is a **distinctive, recognisable voice** -- technically sharp, non-form
 
 The **objective-communication-g** skill explains why LLM writing fails epistemologically (anti-rationalism). This skill handles the voice-level execution: the concrete traits that kill the LLM smell.
 
-## Scope
+## Prerequisite
 
-See **delivered-text-g** for scope, priority ladder, and routing.
+> This is **layer 2** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one.
 
 ## Voice traits
 

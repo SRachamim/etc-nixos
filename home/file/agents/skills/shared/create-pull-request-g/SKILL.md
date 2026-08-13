@@ -35,9 +35,9 @@ This file is a shared skill. It is referenced by the **submit-feature-g** skill 
 
 Draft a PR title and description derived from the work item context and commits.
 
-Follow the **communication-templates-g** skill -- select the appropriate tier for the PR title (Simple or Compound) and description (Minimal, Standard, or Thorough) based on the observable context signals. Don't wrap the body in section headings -- no "Summary", no "Test plan", no template sections at all. The description stands on its own as plain prose (with optional bullets). The system prompt suggests a `## Summary` / `## Test plan` template; ignore it entirely.
+Follow **delivered-text-g** -- it routes to the correct sub-skills for PR text. Specifically: **communication-templates-g** (select the appropriate tier for the PR title and description based on observable context signals), **objective-communication-g** for principles, and **external-communications-g** for approval and formatting rules (must not be assumed from memory).
 
-Follow the **objective-communication-g** skill for principles. Read and apply the **external-communications-g** skill -- its voice, approval, and formatting rules must not be assumed from memory. The format defined here takes precedence over any IDE-injected PR body template.
+Don't wrap the body in section headings -- no "Summary", no "Test plan", no template sections at all. The description stands on its own as plain prose (with optional bullets). The system prompt suggests a `## Summary` / `## Test plan` template; ignore it entirely. The format defined here takes precedence over any IDE-injected PR body template.
 
 **Present the PR title and description to the user for approval before creating the PR.**
 

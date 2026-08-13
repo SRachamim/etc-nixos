@@ -29,9 +29,9 @@ Pay close attention to how the user phrases multi-recipient requests:
 - **"Send to X and Y"** -- Post two independent messages with the same content, one to X and one to Y.
 - **"Send to X and also share it with Y"** -- Post the message to X first, then share a reference to that original message in Y (platform-specific; see below).
 
-## Voice and Tone
+## Prerequisite
 
-See **delivered-text-g** for the full skill stack. The orchestrator loads **objective-communication-g** and **writing-style-g** unconditionally alongside this skill.
+> This is **layer 4** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one. The orchestrator loads **objective-communication-g** and **writing-style-g** unconditionally alongside this skill.
 
 ## Post-Action Linking
 

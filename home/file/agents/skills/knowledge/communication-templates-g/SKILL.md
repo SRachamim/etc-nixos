@@ -7,7 +7,9 @@ description: "Exact structural templates for recurring delivered text, grounded 
 
 Structural templates for every recurring external communication type. Each template is a fill-in-the-blank skeleton grounded in specific **objective-communication-g** principles.
 
-This skill provides the **structure** layer (layer 3 in **delivered-text-g**). It adds fill-in-the-blank skeletons -- what goes where -- on top of the principles and voice provided by the other sub-skills. See **delivered-text-g** for the full routing table.
+This skill provides the **structure** layer (layer 3 in **delivered-text-g**). It adds fill-in-the-blank skeletons -- what goes where -- on top of the principles and voice provided by the other sub-skills.
+
+> **Prerequisite**: This is **layer 3** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one.
 
 ## Tier selection
 

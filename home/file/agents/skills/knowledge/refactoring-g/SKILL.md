@@ -42,6 +42,23 @@ Each entry: **Name** -- one-line description -- when to use.
 | **Inline Module** | Merge a module that no longer justifies its existence back into its consumer. |
 | **Hide Delegate** | Create a wrapper function so callers don't chain through an intermediate module. |
 | **Remove Middle Man** | Remove pass-through wrapper functions; let callers access the real function directly. |
+| **Extract State** | Move state fields from one state container (reducer, context, parent component) to a dedicated hook or module. Verify lifecycle equivalence: when was the old state cleared, preserved, or derived? The new home must replicate every trigger. |
+
+### State extraction verification
+
+When extracting state from a reducer, context, or component into a
+standalone hook:
+
+1. **List every action/event** that read or wrote the extracted state in the
+   old location (reducer branches, effect triggers, prop changes).
+2. **For each writer**: verify the new hook clears/sets the state under the
+   same conditions. Pay special attention to implicit resets (e.g., a
+   reducer returning initial state on mode change).
+3. **For each reader**: verify consumers access the new source and receive
+   equivalent values.
+4. **Lifecycle parity**: if the old state was reset on parent key changes
+   or mode transitions, the new hook must replicate this (e.g., via a
+   `resetKey` parameter or React `key` prop on the consumer).
 
 ### Organizing Data
 

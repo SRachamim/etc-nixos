@@ -52,6 +52,8 @@ See the **triage-transition-g** skill (step 4) for the general `additionalFields
 
 Read and apply the **external-communications-g** skill before composing any message in this step.
 
+**Before composing the channel message**, run `git diff <default-branch>...HEAD --name-only` and save the output -- it is needed for the agent artifact check and automation folder check later in this step.
+
 Defaults:
 
 - Slack workspace: `fundguard.slack.com`

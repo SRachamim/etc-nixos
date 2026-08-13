@@ -40,6 +40,10 @@ Update the work item state to **Code Review**.
 
 When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched during PR creation.
 
+Use the `additionalFields` array (not top-level fields) for effort tracking:
+`[{"name": "Microsoft.VSTS.Scheduling.CompletedWork", "value": "<hours>"}, {"name": "Microsoft.VSTS.Scheduling.RemainingWork", "value": "0"}]`.
+See the **triage-transition-g** skill (step 4) for the general `additionalFields` format.
+
 ### 5. Notify the team on Slack
 
 **This step begins only after the PR has been created and the link presented in step 3.** Do not batch this approval with the PR approval -- they are separate interactions.

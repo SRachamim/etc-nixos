@@ -16,18 +16,18 @@ Orchestrate the full feature delivery lifecycle from a single invocation. Intern
 
 ### 1. Checkout worktree
 
-Invoke `/checkout-worktree-g` with the work item ID.
+Follow the **checkout-worktree-g** skill with the work item ID.
 - Creates isolated worktree and feature branch
 - Activates the work item (state -> Active)
 
 ### 2. Plan
 
 **If `--prd` specified:**
-- Invoke `/prd-intake-g` -- iterate with the user until structured analysis is produced
-- Then invoke `/plan-from-prd-intake-g` with the intake output
+- Follow the **prd-intake-g** skill -- iterate with the user until structured analysis is produced
+- Then follow the **plan-from-prd-intake-g** skill with the intake output
 
 **Otherwise:**
-- Invoke `/plan-g` -- explore codebase, draft commit-by-commit plan
+- Follow the **plan-g** skill -- explore codebase, draft commit-by-commit plan
 
 **Human gate**: Present the plan. Ask: "Approve this plan?"
 
@@ -45,10 +45,9 @@ If implementation hits an unexpected obstacle:
 
 ### 4. Submit PR
 
-Invoke `/submit-feature-g`.
-- Opens PR with proper description
-- Transitions work item to Code Review
-- Posts to Slack
+Follow the **submit-feature-g** skill in full.
+Do not improvise this step -- the skill encodes the correct Slack channels,
+artifact notification recipients, and human gates.
 
 **Human gate**: Confirm PR title, description, and reviewers before posting.
 

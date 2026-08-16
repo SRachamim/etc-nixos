@@ -1,6 +1,6 @@
 ---
 name: review-microservice-architecture-g
-description: Holistic audit of an existing microservice system against Newman's principles. Plan mode workflow covering boundaries, communication, workflows, deployability, observability, resiliency, security, scaling, and organizational alignment. Delivers prioritized findings and remediation recommendations.
+description: Holistic audit of an existing microservice system against Newman's principles. Plan mode workflow covering boundaries, communication, workflows, deployability, observability, resiliency, security, scaling, and organizational alignment. Delivers prioritized findings and remediation recommendations. Use when auditing an existing microservice system against established patterns.
 disable-model-invocation: true
 ---
 

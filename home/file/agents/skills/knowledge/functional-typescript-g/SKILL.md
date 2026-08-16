@@ -3,7 +3,7 @@ name: functional-typescript-g
 description: Pure functional TypeScript with fp-ts -- type-driven development process, coding standards, and architectural principles. Use whenever the agent writes, modifies, or reviews TypeScript code (.ts, .tsx), or reasons about TypeScript architecture.
 ---
 
-# Functional TypeScript Standards
+# Functional TypeScript
 
 ## Foundations
 

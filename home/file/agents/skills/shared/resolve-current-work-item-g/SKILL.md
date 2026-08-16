@@ -4,7 +4,7 @@ description: Resolves the current work item ID from explicit input, branch name,
 disable-model-invocation: true
 ---
 
-# Resolve Current Work Item -- Shared Instructions
+# Resolve Current Work Item
 
 Determines the work item ID (and optionally the branch prefix) from available context. This file is a shared skill referenced by **close-worktree-g**, **defer-fix-g**, and **plan-g**.
 

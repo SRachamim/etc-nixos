@@ -4,7 +4,7 @@ description: Performs a structured code review on a pull request and posts feedb
 disable-model-invocation: true
 ---
 
-# Review Pull Request
+# Review PR
 
 Given a PR ID (or inferred from the current branch or a Slack message), perform a structured code review and post feedback.
 

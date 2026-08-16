@@ -4,7 +4,7 @@ description: Removes local worktrees and branches that have already been merged 
 disable-model-invocation: true
 ---
 
-# Prune Merged Branches
+# Prune Merged
 
 Remove all local worktrees and branches that have already been merged into the default branch.
 

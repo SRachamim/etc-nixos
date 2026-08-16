@@ -3,7 +3,7 @@ name: test-driven-development-g
 description: Test-driven development cycle adapted for functional TypeScript with fp-ts, io-ts, and fast-check. Use whenever the agent writes new functionality, fixes defects, or refactors TypeScript code -- the TDD rhythm (red/green/refactor) guides every code change.
 ---
 
-# Test-Driven Development -- Functional TypeScript Edition
+# Test-Driven Development
 
 Based on Kent Beck's *Test-Driven Development: By Example*, translated from Java/OOP to pure functional TypeScript with fp-ts, io-ts, and fast-check.
 

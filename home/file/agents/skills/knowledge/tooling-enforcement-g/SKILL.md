@@ -1,6 +1,6 @@
 ---
 name: tooling-enforcement-g
-description: Check whether a convention from an agent artifact can also be enforced with the project's existing tooling -- TypeScript compiler, linter rules, automated tests, CI checks, or pre-commit hooks. Use whenever the agent creates or modifies an artifact (skill, rule, or subagent prompt) in any repository that has testing or auditing tools.
+description: Checks whether a convention from an agent artifact can also be enforced with the project's existing tooling -- TypeScript compiler, linter rules, automated tests, CI checks, or pre-commit hooks. Use whenever the agent creates or modifies an artifact (skill, rule, or subagent prompt) in any repository that has testing or auditing tools.
 ---
 
 # Tooling Enforcement

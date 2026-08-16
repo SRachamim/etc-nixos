@@ -4,7 +4,7 @@ description: Follows up on a previous /review-pr or /review-plan review to check
 disable-model-invocation: true
 ---
 
-# Review Fixes
+# Review PR Fixes
 
 Follow up on a previous `/review-pr` or `/review-plan` review within the same conversation. Check whether the author addressed the original findings, evaluate any new content (commits or revised plan steps), and present follow-up feedback. This command must run in the same agent conversation as the preceding review invocation -- the conversation context is the primary source of truth for what was reviewed and why.
 

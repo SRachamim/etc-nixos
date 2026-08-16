@@ -1,6 +1,6 @@
 ---
 name: create-microservice-g
-description: Build a new microservice from scratch, ensuring it meets all "good citizen" standards from Newman's Building Microservices. Plan mode for design, then Agent mode for implementation. Covers scope definition, boundary validation, API design, data ownership, workflows, deployment, good-citizen checklist, security, testing, and observability.
+description: Build a new microservice from scratch, ensuring it meets all "good citizen" standards from Newman's Building Microservices. Plan mode for design, then Agent mode for implementation. Covers scope definition, boundary validation, API design, data ownership, workflows, deployment, good-citizen checklist, security, testing, and observability. Use when building a new microservice from scratch.
 disable-model-invocation: true
 ---
 

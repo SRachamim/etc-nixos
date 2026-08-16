@@ -4,7 +4,7 @@ description: Opens a pull request, links it to the feature work item, transition
 disable-model-invocation: true
 ---
 
-# Submit Feature for Review
+# Submit Feature
 
 Given a feature ID (or inferred from the current branch name), open a pull request, link it to the work item, transition the work item to review, and notify the team on Slack.
 

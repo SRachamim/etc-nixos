@@ -3,7 +3,7 @@ name: workflow-catalog-g
 description: Canonical reference of all user-invokable agent workflows showing end-to-end skill sequences for every major activity. Knowledge skill -- no executable steps, loaded for context when reasoning about workflow ordering or suggesting next actions.
 ---
 
-# Agent Workflow Catalog
+# Workflow Catalog
 
 All end-to-end workflows a user can execute by invoking skills in sequence. Each step is a command the user types. Internal plumbing (skills the agent calls behind the scenes) is noted as "internally calls" where relevant.
 

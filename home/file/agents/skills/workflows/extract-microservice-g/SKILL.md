@@ -1,6 +1,6 @@
 ---
 name: extract-microservice-g
-description: Extract a microservice from a monolith or existing system. Plan mode for analysis, then Agent mode for implementation. Covers goal definition, monolith assessment, candidate selection, strangler fig pattern, data extraction, and validation.
+description: Extract a microservice from a monolith or existing system. Plan mode for analysis, then Agent mode for implementation. Covers goal definition, monolith assessment, candidate selection, strangler fig pattern, data extraction, and validation. Use when extracting a service from a monolith or existing system.
 disable-model-invocation: true
 ---
 

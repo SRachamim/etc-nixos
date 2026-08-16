@@ -3,7 +3,7 @@ name: code-review-g
 description: "Standards for performing code reviews. Sub-skill of **delivered-text-g** -- handles review domain (layer 5). Loaded conditionally when reviewing code."
 ---
 
-# Code Review Standards
+# Code Review
 
 > **Prerequisite**: This is **layer 5** of the **delivered-text-g** stack. If you reached this skill directly, load **delivered-text-g** first -- it defines scope, the priority ladder, and which other layers apply alongside this one.
 

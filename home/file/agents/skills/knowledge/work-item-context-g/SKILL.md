@@ -1,6 +1,6 @@
 ---
 name: work-item-context-g
-description: Deeply gather context from an Azure DevOps work item by following its relations, linked PRs, hyperlinks, and comments. Use whenever a command needs the full picture behind a work item -- planning features, reviewing PRs, triaging, or estimating.
+description: Deeply gathers context from an Azure DevOps work item by following its relations, linked PRs, hyperlinks, and comments. Use whenever a command needs the full picture behind a work item -- planning features, reviewing PRs, triaging, or estimating.
 ---
 
 # Work Item Context

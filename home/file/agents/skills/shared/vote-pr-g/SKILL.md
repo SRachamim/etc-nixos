@@ -4,7 +4,7 @@ description: Casts a vote on an Azure DevOps pull request, recovering from the "
 disable-model-invocation: true
 ---
 
-# Vote on Pull Request -- Shared Instructions
+# Vote PR
 
 Cast a vote on an Azure DevOps pull request via `repo_vote_pull_request`, with automatic recovery when the API rejects the call because the user is not yet a reviewer.
 

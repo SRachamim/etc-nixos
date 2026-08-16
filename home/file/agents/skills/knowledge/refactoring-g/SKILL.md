@@ -3,7 +3,7 @@ name: refactoring-g
 description: Systematic refactoring of TypeScript code using techniques from Fowler's "Refactoring" book, adapted for pure functional programming with fp-ts. Use whenever the agent restructures, simplifies, or improves existing TypeScript code without changing its behavior.
 ---
 
-# Refactoring -- Functional TypeScript Edition
+# Refactoring
 
 Based on Martin Fowler's *Refactoring: Improving the Design of Existing Code*, translated from Java/OOP to pure functional TypeScript with fp-ts.
 

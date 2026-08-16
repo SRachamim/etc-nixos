@@ -34,19 +34,19 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/plan-from-prd-intake-g` | Plan from PRD Intake | `~/.claude/skills/plan-from-prd-intake-g/SKILL.md` |
 | `/prd-intake-g` | PRD Intake | `~/.claude/skills/prd-intake-g/SKILL.md` |
 | `/prepare-release-g` | Prepare Release | `~/.claude/skills/prepare-release-g/SKILL.md` |
-| `/prune-merged-g` | Prune Merged Branches | `~/.claude/skills/prune-merged-g/SKILL.md` |
+| `/prune-merged-g` | Prune Merged | `~/.claude/skills/prune-merged-g/SKILL.md` |
 | `/report-bug-g` | Report Bug | `~/.claude/skills/report-bug-g/SKILL.md` |
 | `/reproduce-bug-g` | Reproduce Bug | `~/.claude/skills/reproduce-bug-g/SKILL.md` |
 | `/request-environment-access-g` | Request Environment Access | `~/.claude/skills/request-environment-access-g/SKILL.md` |
 | `/retrospective-g` | Retrospective | `~/.claude/skills/retrospective-g/SKILL.md` |
 | `/review-microservice-architecture-g` | Review Microservice Architecture | `~/.claude/skills/review-microservice-architecture-g/SKILL.md` |
 | `/review-plan-g` | Review Plan | `~/.claude/skills/review-plan-g/SKILL.md` |
-| `/review-pr-fixes-g` | Review Fixes | `~/.claude/skills/review-pr-fixes-g/SKILL.md` |
-| `/review-pr-g` | Review Pull Request | `~/.claude/skills/review-pr-g/SKILL.md` |
+| `/review-pr-fixes-g` | Review PR Fixes | `~/.claude/skills/review-pr-fixes-g/SKILL.md` |
+| `/review-pr-g` | Review PR | `~/.claude/skills/review-pr-g/SKILL.md` |
 | `/set-igw-g` | Set IGW | `~/.claude/skills/set-igw-g/SKILL.md` |
 | `/set-ports-g` | Set Ports | `~/.claude/skills/set-ports-g/SKILL.md` |
 | `/submit-bypass-request-g` | Submit Bypass Request | `~/.claude/skills/submit-bypass-request-g/SKILL.md` |
-| `/submit-feature-g` | Submit Feature for Review | `~/.claude/skills/submit-feature-g/SKILL.md` |
+| `/submit-feature-g` | Submit Feature | `~/.claude/skills/submit-feature-g/SKILL.md` |
 | `/sweep-backlog-g` | Sweep Backlog | `~/.claude/skills/sweep-backlog-g/SKILL.md` |
 | `/trace-pr-comments-g` | Trace PR Comments | `~/.claude/skills/trace-pr-comments-g/SKILL.md` |
 | `/triage-build-g` | Triage Build | `~/.claude/skills/triage-build-g/SKILL.md` |
@@ -68,7 +68,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | browser-bug-reproduction-g | Browser Bug Reproduction | `~/.claude/skills/browser-bug-reproduction-g/SKILL.md` |
 | building-microservices-g | Building Microservices | `~/.claude/skills/building-microservices-g/SKILL.md` |
 | client-quality-focus-g | Client Quality Focus | `~/.claude/skills/client-quality-focus-g/SKILL.md` |
-| code-review-g | Code Review Standards | `~/.claude/skills/code-review-g/SKILL.md` |
+| code-review-g | Code Review | `~/.claude/skills/code-review-g/SKILL.md` |
 | commit-conventions-g | Commit Conventions | `~/.claude/skills/commit-conventions-g/SKILL.md` |
 | communication-templates-g | Communication Templates | `~/.claude/skills/communication-templates-g/SKILL.md` |
 | context-engineering-g | Context Engineering | `~/.claude/skills/context-engineering-g/SKILL.md` |
@@ -81,11 +81,11 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | event-driven-automations-g | Event-Driven Automations | `~/.claude/skills/event-driven-automations-g/SKILL.md` |
 | external-communications-g | External Communications | `~/.claude/skills/external-communications-g/SKILL.md` |
 | fgrepo-artifact-precedence-g | fgrepo Artifact Precedence | `~/.claude/skills/fgrepo-artifact-precedence-g/SKILL.md` |
-| functional-typescript-g | Functional TypeScript Standards | `~/.claude/skills/functional-typescript-g/SKILL.md` |
+| functional-typescript-g | Functional TypeScript | `~/.claude/skills/functional-typescript-g/SKILL.md` |
 | gitflow-branching-g | Gitflow Branching | `~/.claude/skills/gitflow-branching-g/SKILL.md` |
 | incident-response-g | Incident Response | `~/.claude/skills/incident-response-g/SKILL.md` |
 | mode-gate-g | Mode Gate | `~/.claude/skills/mode-gate-g/SKILL.md` |
-| nix-shell-direnv-g | Nix Shell / direnv Awareness | `~/.claude/skills/nix-shell-direnv-g/SKILL.md` |
+| nix-shell-direnv-g | Nix Shell Direnv | `~/.claude/skills/nix-shell-direnv-g/SKILL.md` |
 | objective-communication-g | Objective Communication | `~/.claude/skills/objective-communication-g/SKILL.md` |
 | plan-execution-g | Plan Execution | `~/.claude/skills/plan-execution-g/SKILL.md` |
 | prior-art-research-g | Prior Art Research | `~/.claude/skills/prior-art-research-g/SKILL.md` |

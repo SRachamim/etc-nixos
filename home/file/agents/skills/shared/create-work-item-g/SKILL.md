@@ -1,10 +1,10 @@
 ---
 name: create-work-item-g
-description: Common steps for creating a new Azure DevOps work item in the FundGuard project, including iteration assignment, parent linking, and triage. Called by create-task, create-bug, and request-environment-access skills — not invoked directly by the user.
+description: Creates a new Azure DevOps work item in the FundGuard project, including iteration assignment, parent linking, and triage. Called by create-task, create-bug, and request-environment-access skills — not invoked directly by the user.
 disable-model-invocation: true
 ---
 
-# Create Work Item -- Shared Instructions
+# Create Work Item
 
 Common steps for creating a new Azure DevOps work item in the **FundGuard** project.
 

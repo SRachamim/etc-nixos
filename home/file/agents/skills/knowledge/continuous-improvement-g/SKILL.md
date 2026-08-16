@@ -1,6 +1,6 @@
 ---
 name: continuous-improvement-g
-description: Suggest and apply improvements to agent skills, rules, and subagent prompts after execution. Use proactively after running any skill or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
+description: Suggests and applies improvements to agent skills, rules, and subagent prompts after execution. Use proactively after running any skill or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
 ---
 
 # Continuous Improvement

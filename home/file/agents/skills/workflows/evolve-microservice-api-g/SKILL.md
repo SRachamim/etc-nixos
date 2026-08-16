@@ -1,6 +1,6 @@
 ---
 name: evolve-microservice-api-g
-description: Safely manage API evolution, especially breaking changes. Plan mode for design, then Agent mode for implementation. Covers impact assessment, expand-and-contract pattern, consumer migration, endpoint deprecation, and validation. Based on Newman's emphasis that independent deployability lives or dies at the API boundary.
+description: Safely manage API evolution, especially breaking changes. Plan mode for design, then Agent mode for implementation. Covers impact assessment, expand-and-contract pattern, consumer migration, endpoint deprecation, and validation. Based on Newman's emphasis that independent deployability lives or dies at the API boundary. Use when managing API evolution or breaking changes in a microservice.
 disable-model-invocation: true
 ---
 

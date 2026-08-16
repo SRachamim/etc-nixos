@@ -1,6 +1,6 @@
 ---
 name: design-microservice-system-g
-description: Design a new microservice architecture from scratch. Plan mode workflow covering domain modeling, service boundaries, communication, workflows, deployment, observability, security, resiliency, scaling, and validation against Newman's principles.
+description: Design a new microservice architecture from scratch. Plan mode workflow covering domain modeling, service boundaries, communication, workflows, deployment, observability, security, resiliency, scaling, and validation against Newman's principles. Use when designing a new microservice architecture from scratch.
 disable-model-invocation: true
 ---
 

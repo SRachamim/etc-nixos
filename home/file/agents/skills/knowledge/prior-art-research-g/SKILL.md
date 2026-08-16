@@ -1,6 +1,6 @@
 ---
 name: prior-art-research-g
-description: Research established patterns and approaches from the functional programming, DDD, and Nix ecosystem literature before committing to a design. Use whenever the agent plans a feature, designs an architecture, or evaluates alternative approaches -- before drafting the solution.
+description: Researches established patterns and approaches from the functional programming, DDD, and Nix ecosystem literature before committing to a design. Use whenever the agent plans a feature, designs an architecture, or evaluates alternative approaches -- before drafting the solution.
 ---
 
 # Prior Art Research

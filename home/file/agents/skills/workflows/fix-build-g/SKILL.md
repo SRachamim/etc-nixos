@@ -45,6 +45,24 @@ Invoke `/debug-g` scoped to the failing test/build step.
 
 If build still fails after fix, inform the user and offer to iterate.
 
+### 3a. Pre-commit gap retrospective
+
+After fixing an "own code bug" failure, investigate why the pre-commit hook did not catch it:
+
+1. **Identify the check**: What CI step failed? (test name, lint rule, type error, build step)
+2. **Check pre-commit coverage**: Does the pre-commit hook run this check? Inspect `.husky/`, `lint-staged` config, or equivalent.
+3. **Classify the gap**:
+
+| Gap type | Meaning | Action |
+|----------|---------|--------|
+| **Hook doesn't cover** | Pre-commit hook doesn't run this check at all | Propose extending the hook -- apply **tooling-enforcement-g** |
+| **Hook was bypassed** | Agent used `--no-verify` or equivalent | Fix the workflow skill that bypassed it -- apply **continuous-improvement-g** |
+| **Scope mismatch** | Hook runs the check but only on staged files; CI runs the full suite and catches cross-file breakage | Propose a broader local check (e.g. `pnpm test` on affected packages, not just staged files) |
+| **Environment parity** | CI has dependencies, services, or config unavailable locally | Document as a known CI-only gate (no local prevention possible) |
+| **Non-deterministic** | Flaky test, timing issue, or platform difference | Route to Step 4 (bypass request) instead |
+
+4. **Propose prevention**: Based on the gap type, present one concrete action to close the gap. The action targets project tooling (pre-commit hook, CI config) or agent artifacts (workflow skills), not both.
+
 ### 4. Request bypass (flaky test)
 
 Invoke `/submit-bypass-request-g`.

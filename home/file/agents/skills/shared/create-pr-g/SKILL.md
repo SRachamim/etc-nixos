@@ -1,10 +1,10 @@
 ---
-name: create-pull-request-g
+name: create-pr-g
 description: Creates an Azure DevOps pull request, optionally linked to a work item, with user-approved title and description. Called by submit-feature and other skills that need to open a PR — not invoked directly by the user.
 disable-model-invocation: true
 ---
 
-# Create Pull Request
+# Create PR
 
 Common steps for creating an Azure DevOps pull request, optionally linked to a work item.
 

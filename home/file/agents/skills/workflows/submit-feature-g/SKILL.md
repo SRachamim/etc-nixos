@@ -28,7 +28,7 @@ Run `git status --porcelain` to check for uncommitted changes (staged or unstage
 
 ### 3. Create the pull request
 
-Follow the **create-pull-request-g** skill, passing:
+Follow the **create-pr-g** skill, passing:
 
 - **workItemId**: the feature ID resolved in step 1.
 

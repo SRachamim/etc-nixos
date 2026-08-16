@@ -29,7 +29,7 @@ flowchart LR
 3. **/plan-from-prd-intake-g** -- Feed the PRD Intake output. Plans one phase at a time with commit-level detail (codebase exploration, design lenses, commit sequencing). On approval of each phase, implements it automatically.
    - Internally mirrors `/plan-g` steps for each phase -- you do not need to invoke `/plan-g` separately.
 4. **/submit-feature-g** -- After implementation, opens a PR, transitions the work item to Code Review, and posts to `#team-cinfra` on Slack.
-   - Internally calls: **create-pull-request-g**, **artifact-discovery-g**
+   - Internally calls: **create-pr-g**, **artifact-discovery-g**
 5. **/close-worktree-g** -- After the PR merges, cleans up: verifies merge, unblocks dependents, removes worktree/branches, notifies team.
 
 ---
@@ -427,7 +427,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | Skill                         | Called by                                                             | What it does                                   |
 | ----------------------------- | --------------------------------------------------------------------- | ---------------------------------------------- |
 | `plan-execution-g`            | `/plan-g`, `/debug-g`, `/plan-from-prd-intake-g`, microservice skills | Executes approved commit plans step by step    |
-| `create-pull-request-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
+| `create-pr-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
 | `vote-pr-g`                   | `/review-pr-g`, `/review-pr-fixes-g`                                  | Casts the approval vote on a PR                |
 | `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/request-environment-access-g`    | Shared backend for ADO item creation           |
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |

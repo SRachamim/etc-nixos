@@ -91,6 +91,6 @@ Present each suggestion as a structured block:
 ## Related skills
 
 - **continuous-improvement-g** -- improves the artifacts that were *used* during execution. Artifact discovery suggests *new* artifacts based on the code that was *written*.
-- **retrospective-g** -- batch-analyzes transcript history for recurring friction. Artifact discovery is per-feature, not per-history.
+- **review-retrospective-g** -- batch-analyzes transcript history for recurring friction. Artifact discovery is per-feature, not per-history.
 - **workspace-rules-g** -- governs how to create workspace rules once the user decides to act on a suggestion.
 - **tooling-enforcement-g** -- if a suggested convention can be enforced by tooling (linter, compiler, CI), note that alongside the artifact suggestion.

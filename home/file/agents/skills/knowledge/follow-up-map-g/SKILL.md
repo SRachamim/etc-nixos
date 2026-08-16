@@ -46,7 +46,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/prune-merged-g` | `/checkout-worktree-g` |
 | `/report-bug-g` | `/fix-bug-g`, `/checkout-worktree-g` |
 | `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |
-| `/retrospective-g` | `/plan-g`, `/create-task-g` |
+| `/review-retrospective-g` | `/plan-g`, `/create-task-g` |
 | `/review-microservice-architecture-g` | `/design-microservice-system-g`, `/extract-microservice-g`, `/plan-g` |
 | `/review-pr-g` | `/weigh-feedback-g`, `/trace-pr-comments-g` |
 | `/review-pr-fixes-g` | `/submit-feature-g`, `/close-worktree-g` |

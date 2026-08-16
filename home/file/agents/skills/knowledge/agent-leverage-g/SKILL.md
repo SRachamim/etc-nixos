@@ -86,7 +86,7 @@ When the agent proposes a plan, you evaluate it before execution. This is where 
 
 ### Skill evolution
 
-**continuous-improvement-g** proposes refinements after each execution. **retrospective-g** identifies patterns across sessions. YOUR observations -- what you accept, reject, or modify -- become encoded standards. Every refinement raises the baseline for all future work.
+**continuous-improvement-g** proposes refinements after each execution. **review-retrospective-g** identifies patterns across sessions. YOUR observations -- what you accept, reject, or modify -- become encoded standards. Every refinement raises the baseline for all future work.
 
 ### Quality calibration
 
@@ -107,7 +107,7 @@ The system improves through a feedback cycle:
 5. **Evolution** -- the skill ecosystem improves
 6. **Work** -- next execution starts from a higher baseline
 
-The **retrospective-g** skill runs this loop at batch scale (weekly, across all sessions). The compounding effect: each week's baseline is higher than the last. Over months, the gap between your agent-augmented output and generic AI output becomes unbridgeable.
+The **review-retrospective-g** skill runs this loop at batch scale (weekly, across all sessions). The compounding effect: each week's baseline is higher than the last. Over months, the gap between your agent-augmented output and generic AI output becomes unbridgeable.
 
 ## Anti-patterns
 
@@ -115,7 +115,7 @@ The **retrospective-g** skill runs this loop at batch scale (weekly, across all 
 |--------------|-------------|--------|
 | **Rubber-stamping** | Erodes judgment and quality signal simultaneously. Colleagues notice inconsistency. | Engage adversarial review at every approval gate. If you cannot defend it, don't ship it. |
 | **Over-delegation** | Offloading judgment calls that would build moats. Taste atrophies without exercise. | Keep novel decisions manual. Delegate only after the pattern is established. |
-| **Under-investment** | Treating skills as static. A stale system degrades as context evolves. | Run `/retrospective` weekly. Act on proposals. The system is alive or dying. |
+| **Under-investment** | Treating skills as static. A stale system degrades as context evolves. | Run `/review-retrospective-g` weekly. Act on proposals. The system is alive or dying. |
 | **Attribution opacity** | Shipping output you cannot explain. "The AI wrote it" is never a valid defence. | Before approving, explain to yourself why each non-trivial part is correct. |
 | **System hoarding** | Refusing to share principles with your team. | Share the principles (they help everyone); the specific calibration is personal and non-transferable. Your moat is the accumulated judgment, not the file format. |
 
@@ -123,7 +123,7 @@ The **retrospective-g** skill runs this loop at batch scale (weekly, across all 
 
 - **professional-differentiation-g** -- defines the moats; this skill operationalizes them through the agent system.
 - **continuous-improvement-g** -- the reactive feedback mechanism that proposes system evolution after each execution.
-- **retrospective-g** -- the proactive batch-level mechanism that identifies patterns across sessions.
+- **review-retrospective-g** -- the proactive batch-level mechanism that identifies patterns across sessions.
 - **context-engineering-g** -- enables deep work by managing cognitive load; keeps the agent efficient.
 - **external-communications-g** -- the outward-facing quality gate where reputation is built or eroded.
 - **objective-communication-g** -- the intellectual standards for all delivered text.

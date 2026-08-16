@@ -38,7 +38,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/report-bug-g` | Report Bug | `~/.claude/skills/report-bug-g/SKILL.md` |
 | `/reproduce-bug-g` | Reproduce Bug | `~/.claude/skills/reproduce-bug-g/SKILL.md` |
 | `/request-environment-access-g` | Request Environment Access | `~/.claude/skills/request-environment-access-g/SKILL.md` |
-| `/retrospective-g` | Retrospective | `~/.claude/skills/retrospective-g/SKILL.md` |
+| `/review-retrospective-g` | Review Retrospective | `~/.claude/skills/review-retrospective-g/SKILL.md` |
 | `/review-microservice-architecture-g` | Review Microservice Architecture | `~/.claude/skills/review-microservice-architecture-g/SKILL.md` |
 | `/review-plan-g` | Review Plan | `~/.claude/skills/review-plan-g/SKILL.md` |
 | `/review-pr-fixes-g` | Review PR Fixes | `~/.claude/skills/review-pr-fixes-g/SKILL.md` |

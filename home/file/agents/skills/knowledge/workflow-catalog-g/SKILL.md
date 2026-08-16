@@ -258,7 +258,7 @@ flowchart LR
 
 ### Batch retrospective
 
-- **/retrospective-g** -- Scans recent agent transcripts for recurring friction. Proposes batch improvements to skills and rules.
+- **/review-retrospective-g** -- Scans recent agent transcripts for recurring friction. Proposes batch improvements to skills and rules.
 
 ### Post-feature artifact discovery
 

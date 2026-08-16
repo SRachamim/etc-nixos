@@ -1,10 +1,10 @@
 ---
-name: retrospective-g
+name: review-retrospective-g
 description: Reviews recent agent transcripts for recurring friction, workarounds, and failures, then proposes batch improvements to skills, rules, and subagent prompts. Use on-demand or as a scheduled weekly automation to keep the skill ecosystem evolving from evidence.
 disable-model-invocation: true
 ---
 
-# Retrospective
+# Review Retrospective
 
 Review recent agent transcripts to identify recurring patterns of friction, then propose batch improvements to the skill ecosystem. This is the **proactive** complement to **continuous-improvement-g** (which is reactive and per-execution).
 
@@ -131,7 +131,7 @@ Transcripts can be enormous. This skill must NOT load full transcripts into cont
 Per the **event-driven-automations-g** skill, this can run as a scheduled automation:
 
 - **Trigger**: Cron (weekly, Monday morning).
-- **Instruction**: "Follow the `/retrospective` skill. Review transcripts from the past week. Post the report to Slack."
+- **Instruction**: "Follow the `/review-retrospective-g` skill. Review transcripts from the past week. Post the report to Slack."
 - **Tier**: Volume (pattern-matching across text, not deep architectural reasoning).
 
 ## When NOT to use this skill

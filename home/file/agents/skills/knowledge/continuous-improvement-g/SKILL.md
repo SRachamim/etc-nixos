@@ -78,4 +78,4 @@ Locate the **source file** for the artifact. It may live in the current workspac
 
 ## After improvement analysis
 
-After completing the improvement analysis above, apply the **suggest-next-g** skill to present relevant follow-up workflow skills to the user.
+After completing the improvement analysis above, apply the **follow-up-map-g** skill to present relevant follow-up workflow skills to the user.

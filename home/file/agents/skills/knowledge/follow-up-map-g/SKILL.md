@@ -1,9 +1,9 @@
 ---
-name: suggest-next-g
-description: Present relevant follow-up workflow skills after completing any workflow skill. Provides a static relationship map and presentation format. Use after any workflow skill completes -- typically triggered via the continuous-improvement-g skill's terminal step.
+name: follow-up-map-g
+description: Presents relevant follow-up workflow skills after completing any workflow skill. Provides a static relationship map and presentation format. Use after any workflow skill completes -- typically triggered via the continuous-improvement-g skill's terminal step.
 ---
 
-# Suggest Next
+# Follow-Up Map
 
 After a workflow skill completes, present the user with relevant follow-up skills they might want to execute next.
 

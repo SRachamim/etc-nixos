@@ -434,7 +434,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
 | `continuous-improvement-g`    | All workflow skills (final step)                                      | Post-execution reflection + artifact edits     |
-| `suggest-next-g`              | `continuous-improvement-g`                                            | Presents up to 3 follow-up skill suggestions   |
+| `follow-up-map-g`             | `continuous-improvement-g`                                            | Presents up to 3 follow-up skill suggestions   |
 | `mode-gate-g`                 | Most workflow skills (step 0)                                         | Enforces Plan/Debug/Ask mode before proceeding |
 | `browser-bug-reproduction-g`  | `/reproduce-bug-g`, `/debug-g`                                        | Mechanics of local dev + browser verification  |
 | `work-item-context-g`         | `/plan-g`, `/triage-g`, `/write-repro-steps-g`, `/reproduce-bug-g`    | Deeply fetches ADO item + relations            |

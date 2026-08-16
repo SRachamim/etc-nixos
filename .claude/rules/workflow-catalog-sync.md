@@ -1,5 +1,5 @@
 ---
-description: Keep the workflow catalog and suggest-next-g in sync when workflow skills change
+description: Keep the workflow catalog and follow-up-map-g in sync when workflow skills change
 globs:
   - home/file/agents/skills/**/SKILL.md
 ---
@@ -13,7 +13,7 @@ When a workflow skill (`home/file/agents/skills/workflows/`) is added, removed, 
    - Renamed skill? Update all references (mermaid diagrams, step lists, appendix tables).
    - Changed a skill's follow-up chain or prerequisites? Verify the relevant workflow diagram still holds.
 
-2. **`home/file/agents/skills/knowledge/suggest-next-g/SKILL.md`** -- the follow-up relationship map.
+2. **`home/file/agents/skills/knowledge/follow-up-map-g/SKILL.md`** -- the follow-up relationship map.
    - New workflow skill? Add a row mapping it to its logical follow-ups (derive from the workflow catalog).
    - Renamed skill? Update the row key and all references in other rows' follow-up lists.
    - Removed skill? Remove its row and references from other rows.

@@ -54,7 +54,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/submit-feature-g` | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/close-worktree-g` |
 | `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/estimate-work-item-g` |
 | `/trace-pr-comments-g` | `/weigh-feedback-g`, `/review-pr-fixes-g` |
-| `/triage-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
+| `/triage-work-item-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
 | `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |
 | `/update-wiki-g` | `/prepare-release-g` |
 | `/verify-deployment-g` | `/close-worktree-g`, `/create-bug-g` |

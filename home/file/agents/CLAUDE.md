@@ -50,7 +50,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/sweep-backlog-g` | Sweep Backlog | `~/.claude/skills/sweep-backlog-g/SKILL.md` |
 | `/trace-pr-comments-g` | Trace PR Comments | `~/.claude/skills/trace-pr-comments-g/SKILL.md` |
 | `/triage-build-g` | Triage Build | `~/.claude/skills/triage-build-g/SKILL.md` |
-| `/triage-g` | Triage | `~/.claude/skills/triage-g/SKILL.md` |
+| `/triage-work-item-g` | Triage Work Item | `~/.claude/skills/triage-work-item-g/SKILL.md` |
 | `/update-wiki-g` | Update Wiki | `~/.claude/skills/update-wiki-g/SKILL.md` |
 | `/verify-deployment-g` | Verify Deployment | `~/.claude/skills/verify-deployment-g/SKILL.md` |
 | `/weigh-feedback-g` | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |

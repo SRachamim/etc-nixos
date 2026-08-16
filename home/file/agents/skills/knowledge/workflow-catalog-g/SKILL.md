@@ -220,10 +220,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  A["/triage-g"] --> B["/checkout-worktree-g"]
+  A["/triage-work-item-g"] --> B["/checkout-worktree-g"]
 ```
 
-- **/triage-g** -- Deep codebase investigation, fix proposal, fills ADO triage fields (priority, severity, effort). If blocked by a predecessor, automatically invokes `/block-work-item-g`.
+- **/triage-work-item-g** -- Deep codebase investigation, fix proposal, fills ADO triage fields (priority, severity, effort). If blocked by a predecessor, automatically invokes `/block-work-item-g`.
 
 ### 10b: Estimation
 
@@ -430,7 +430,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `create-pull-request-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
 | `vote-pr-g`                   | `/review-pr-g`, `/review-pr-fixes-g`                                  | Casts the approval vote on a PR                |
 | `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/request-environment-access-g`    | Shared backend for ADO item creation           |
-| `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-g`                        | Mechanical ADO state transition to Triaged     |
+| `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
 | `continuous-improvement-g`    | All workflow skills (final step)                                      | Post-execution reflection + artifact edits     |
@@ -438,7 +438,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `follow-up-map-g`             | `continuous-improvement-g`                                            | Presents up to 3 follow-up skill suggestions   |
 | `mode-gate-g`                 | Most workflow skills (step 0)                                         | Enforces Plan/Debug/Ask mode before proceeding |
 | `browser-bug-reproduction-g`  | `/reproduce-bug-g`, `/debug-g`                                        | Mechanics of local dev + browser verification  |
-| `work-item-context-g`         | `/plan-g`, `/triage-g`, `/write-repro-steps-g`, `/reproduce-bug-g`    | Deeply fetches ADO item + relations            |
+| `work-item-context-g`         | `/plan-g`, `/triage-work-item-g`, `/write-repro-steps-g`, `/reproduce-bug-g`    | Deeply fetches ADO item + relations            |
 | `artifact-discovery-g`        | `/submit-feature-g`                                                   | Suggests new rules/skills from the branch diff |
 
 ---

@@ -1,10 +1,10 @@
 ---
-name: triage-g
+name: triage-work-item-g
 description: Deeply investigates an Azure DevOps work item — gathering context, examining the codebase, and proposing a fix approach — before drafting ADO field updates for user approval. Use when triaging a work item with codebase-informed investigation, unlike the mechanical triage-transition skill.
 disable-model-invocation: true
 ---
 
-# Triage
+# Triage Work Item
 
 Given a work item ID, deeply investigate it -- gathering context, examining the codebase, and proposing a fix approach -- before drafting the ADO field updates. Nothing is written until the user approves.
 

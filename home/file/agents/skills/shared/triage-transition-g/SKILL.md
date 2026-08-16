@@ -1,6 +1,6 @@
 ---
 name: triage-transition-g
-description: Mechanical estimate-and-transition of an Azure DevOps work item to the Triaged state. Called programmatically by skills that create or triage work items -- not invoked directly by the user. For user-initiated triage, use the **triage-g** skill instead.
+description: Mechanical estimate-and-transition of an Azure DevOps work item to the Triaged state. Called programmatically by skills that create or triage work items -- not invoked directly by the user. For user-initiated triage, use the **triage-work-item-g** skill instead.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Mechanically estimate and transition an Azure DevOps work item to the **Triaged** state.
 
-This skill is internal plumbing -- called programmatically by skills that create or triage work items (e.g. **create-task-g**, **create-bug-g**, **triage-g**). When the user asks to triage a work item directly, use the **triage-g** skill instead.
+This skill is internal plumbing -- called programmatically by skills that create or triage work items (e.g. **create-task-g**, **create-bug-g**, **triage-work-item-g**). When the user asks to triage a work item directly, use the **triage-work-item-g** skill instead.
 
 ## Steps
 

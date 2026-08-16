@@ -61,6 +61,8 @@ For each existing artifact, consider whether the new behavior is a natural exten
 
 ### 5. Design the artifact
 
+Apply the **artifact-naming-g** skill to choose the name.
+
 #### For workflow skills
 
 Follow the conventions observed in existing workflow skills:

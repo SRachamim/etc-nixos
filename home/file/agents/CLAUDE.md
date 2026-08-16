@@ -53,6 +53,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/triage-g` | Triage | `~/.claude/skills/triage-g/SKILL.md` |
 | `/update-wiki-g` | Update Wiki | `~/.claude/skills/update-wiki-g/SKILL.md` |
 | `/verify-deployment-g` | Verify Deployment | `~/.claude/skills/verify-deployment-g/SKILL.md` |
+| `/weigh-feedback-g` | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |
 | `/write-repro-steps-g` | Write Repro Steps | `~/.claude/skills/write-repro-steps-g/SKILL.md` |
 
 ### Knowledge skills (loaded by context)
@@ -94,7 +95,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | follow-up-map-g | Follow-Up Map | `~/.claude/skills/follow-up-map-g/SKILL.md` |
 | test-driven-development-g | Test-Driven Development | `~/.claude/skills/test-driven-development-g/SKILL.md` |
 | tooling-enforcement-g | Tooling Enforcement | `~/.claude/skills/tooling-enforcement-g/SKILL.md` |
-| weigh-feedback-g | Weigh Feedback | `~/.claude/skills/weigh-feedback-g/SKILL.md` |
+| feedback-evaluation-g | Feedback Evaluation | `~/.claude/skills/feedback-evaluation-g/SKILL.md` |
 | work-item-context-g | Work Item Context | `~/.claude/skills/work-item-context-g/SKILL.md` |
 | workflow-catalog-g | Workflow Catalog | `~/.claude/skills/workflow-catalog-g/SKILL.md` |
 | workspace-rules-g | Workspace Rules | `~/.claude/skills/workspace-rules-g/SKILL.md` |

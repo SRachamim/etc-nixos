@@ -20,8 +20,12 @@ Hard constraints from the [Agent Skills specification](https://agentskills.io/sp
 
 ### Derived conventions
 
-- **H1 title**: Title Case, suffix stripped. `artifact-naming-g` becomes `# Artifact Naming`.
+- **H1 title**: Title Case, suffix stripped. `artifact-naming-g` becomes `# Artifact Naming`. No subtitles or qualifiers after the title (e.g., `# Refactoring`, not `# Refactoring -- Functional TypeScript Edition`).
+- **Acronyms** stay uppercase in H1 titles: `review-pr-g` becomes `# Review PR`, not `# Review Pr`. Recognized acronyms: PR, PRD, API, IGW, ADO, TDD, MCP.
+- **Proper nouns** keep standard casing: `functional-typescript-g` becomes `# Functional TypeScript`.
+- **Compound adjective hyphens** are preserved when they carry linguistic meaning: `event-driven-automations-g` becomes `# Event-Driven Automations`.
 - **Cross-references in prose**: bold the full name including suffix -- `**artifact-naming-g**`. Never use the filesystem path as the identifier.
+- **Slash-command references** must include the `-g` suffix: `/deliver-feature-g`, not `/deliver-feature`.
 - **Catalog display**: strip the suffix, Title Case. `/deliver-feature-g` appears as "Deliver Feature".
 
 ## Part of speech by artifact type
@@ -80,6 +84,10 @@ Standardized verbs prevent ambiguous siblings. Pick from this vocabulary before 
 | `answer` | Research and respond to a question |
 | `request` | Ask an external party for something |
 | `evolve` | Improve an API or interface |
+| `audit` | Assess health or compliance |
+| `update` | Refresh existing content to match current state |
+| `compare` | Evaluate multiple candidates side by side |
+| `analyze` | Break down and examine structured input |
 
 When no vocabulary verb fits, use the most specific imperative verb that describes the action. Avoid generic verbs: `run`, `do`, `process`, `handle`, `manage`, `check`.
 
@@ -88,6 +96,7 @@ When no vocabulary verb fits, use the most specific imperative verb that describ
 - **Target**: 1--3 hyphen-separated tokens before the `-g` suffix.
 - **Maximum**: 4 tokens (e.g., `review-microservice-architecture-g`).
 - If you need more than 4 tokens, the scope is probably too broad -- split the skill.
+- **Single-verb names** are valid only when the verb is unambiguous within the corpus. If a specialized variant exists (e.g., `triage-build-g`), the general-purpose form must also carry an object (e.g., `triage-work-item-g`). Unambiguous single-verb examples: `debug-g`, `plan-g`.
 
 ## Anti-patterns
 
@@ -110,3 +119,22 @@ The `description` field is the primary signal for agent routing. It carries the 
 - **Include WHEN NOT** if the skill could be confused with a sibling.
 - **Max 1024 characters** (spec constraint).
 - Put domain keywords in the description, not the name. The name is for humans; the description is for agents.
+
+## Entity token registry
+
+Use one canonical token per real-world concept across all skill names. Inconsistent tokens (`pull-request` in one skill, `pr` in another) break predictability.
+
+| Token | Meaning | Not |
+|-------|---------|-----|
+| `pr` | Pull request | `pull-request` |
+| `work-item` | ADO artifact (state transitions, metadata) | `workitem`, `item` |
+| `feature` | Delivery lifecycle, Git branch naming (`feature/<id>`) | -- |
+| `bug` | Code defect | `defect`, `issue` |
+| `incident` | Production outage (separate from bug) | -- |
+| `build` | CI pipeline run | `run`, `pipeline` |
+| `worktree` | Git worktree | `work-tree` |
+| `microservice` | Microservice | `micro-service` |
+| `prd` | Product requirements document | `product-requirements` |
+| `environment` | Deployable/runtime environment | `env` (reserve for file/tool refs) |
+
+**Feature vs work-item**: "feature" is the delivery-lifecycle token used in Git branch naming and end-to-end orchestration (`deliver-feature-g`, `submit-feature-g`). "work-item" is the ADO artifact token used in state-transition and metadata operations (`activate-work-item-g`, `block-work-item-g`). Both refer to the same underlying ADO entity but from different perspectives.

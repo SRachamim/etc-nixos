@@ -1,5 +1,5 @@
 ---
-name: prd-intake-g
+name: analyze-prd-g
 description: >-
   Transforms a raw PRD, BRD, or ADO work item into a structured analysis
   document with extracted requirements, affected modules, test mappings,
@@ -9,7 +9,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# PRD Intake
+# Analyze PRD
 
 Given a PRD (any format -- ADO work item, markdown file, inline text), produce a self-contained analysis document that a fresh agent session can pick up and implement from. The document extracts structured requirements, identifies affected modules, maps acceptance criteria to tests, pre-fills a tech design, and drafts a commit-level execution plan.
 

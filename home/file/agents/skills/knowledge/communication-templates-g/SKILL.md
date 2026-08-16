@@ -323,7 +323,7 @@ Don't guess and defend against a misunderstood objection. Ask first.
 **Focused principles**: Delimit, Self-containment
 **Register**: **writing-style-g** > Work-item descriptions
 
-Other item types (Epic, User Story) follow their own workflows -- see the **prd-intake-g** skill.
+Other item types (Epic, User Story) follow their own workflows -- see the **analyze-prd-g** skill.
 
 ### Bug
 

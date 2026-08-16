@@ -23,7 +23,7 @@ Follow the **checkout-worktree-g** skill with the work item ID.
 ### 2. Plan
 
 **If `--prd` specified:**
-- Follow the **prd-intake-g** skill -- iterate with the user until structured analysis is produced
+- Follow the **analyze-prd-g** skill -- iterate with the user until structured analysis is produced
 - Then follow the **plan-from-prd-intake-g** skill with the intake output
 
 **Otherwise:**

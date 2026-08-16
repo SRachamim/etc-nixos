@@ -4,14 +4,14 @@ description: >-
   Consumes a PRD Intake document and produces commit-level implementation
   plans for selected phases. Orchestrates phase selection, delegates to
   /plan-g logic per phase, and maintains traceability from commits back
-  to PRD requirements. Use after /prd-intake-g when the feature spans
+  to PRD requirements. Use after /analyze-prd-g when the feature spans
   multiple PRs or phases.
 disable-model-invocation: true
 ---
 
 # Plan from PRD Intake
 
-Consume a PRD Intake document (the output of `/prd-intake-g`) and produce commit-level implementation plans for one or more phases. Each phase plan has the same rigour as a `/plan-g` output -- codebase exploration, design lenses, commit sequencing -- while maintaining traceability back to the PRD's functional requirements, acceptance criteria, and constraints.
+Consume a PRD Intake document (the output of `/analyze-prd-g`) and produce commit-level implementation plans for one or more phases. Each phase plan has the same rigour as a `/plan-g` output -- codebase exploration, design lenses, commit sequencing -- while maintaining traceability back to the PRD's functional requirements, acceptance criteria, and constraints.
 
 This skill orchestrates multi-phase planning. For single-PR features, use `/plan-g` directly.
 
@@ -19,9 +19,9 @@ This skill orchestrates multi-phase planning. For single-PR features, use `/plan
 
 Accept **any** of the following:
 
-1. **File path** -- path to a PRD Intake document (markdown file produced by `/prd-intake-g`).
+1. **File path** -- path to a PRD Intake document (markdown file produced by `/analyze-prd-g`).
 2. **Inline text** -- the PRD Intake document pasted directly.
-3. **Conversation context** -- if neither file path nor inline text is provided, look for the most recent `/prd-intake-g` output in the current conversation.
+3. **Conversation context** -- if neither file path nor inline text is provided, look for the most recent `/analyze-prd-g` output in the current conversation.
 
 The PRD Intake document must follow the two-part structure: Part 1 (Feature Specification) and Part 2 (Agent Execution Context) with an Execution Plan containing phases.
 
@@ -39,7 +39,7 @@ Locate and parse the PRD Intake document:
 - Extract the feature title, goal, and all requirement IDs (FR-N, NFR-N, AC-N, C-N).
 - Extract the phase list from Part 2's Execution Plan section.
 
-If the document is malformed or incomplete, report what is missing and ask the user to provide a corrected version or run `/prd-intake-g` first.
+If the document is malformed or incomplete, report what is missing and ask the user to provide a corrected version or run `/analyze-prd-g` first.
 
 ### 2. Present phase overview
 

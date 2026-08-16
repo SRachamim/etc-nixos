@@ -42,7 +42,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/plan-g` | `/commit-and-push-g`, `/submit-feature-g` |
 | `/prepare-release-g` | `/update-wiki-g`, `/commit-and-push-g` |
 | `/plan-from-prd-intake-g` | `/submit-feature-g`, `/commit-and-push-g` |
-| `/prd-intake-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/estimate-work-item-g`, `/plan-g` |
+| `/analyze-prd-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/estimate-work-item-g`, `/plan-g` |
 | `/prune-merged-g` | `/checkout-worktree-g` |
 | `/report-bug-g` | `/fix-bug-g`, `/checkout-worktree-g` |
 | `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |

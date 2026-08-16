@@ -32,7 +32,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/list-closeable-worktrees-g` | List Closeable Worktrees | `~/.claude/skills/list-closeable-worktrees-g/SKILL.md` |
 | `/plan-g` | Plan | `~/.claude/skills/plan-g/SKILL.md` |
 | `/plan-from-prd-intake-g` | Plan from PRD Intake | `~/.claude/skills/plan-from-prd-intake-g/SKILL.md` |
-| `/prd-intake-g` | PRD Intake | `~/.claude/skills/prd-intake-g/SKILL.md` |
+| `/analyze-prd-g` | Analyze PRD | `~/.claude/skills/analyze-prd-g/SKILL.md` |
 | `/prepare-release-g` | Prepare Release | `~/.claude/skills/prepare-release-g/SKILL.md` |
 | `/prune-merged-g` | Prune Merged | `~/.claude/skills/prune-merged-g/SKILL.md` |
 | `/report-bug-g` | Report Bug | `~/.claude/skills/report-bug-g/SKILL.md` |

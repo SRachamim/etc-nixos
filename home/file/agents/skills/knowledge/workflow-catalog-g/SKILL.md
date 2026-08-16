@@ -15,7 +15,7 @@ All end-to-end workflows a user can execute by invoking skills in sequence. Each
 
 ```mermaid
 flowchart LR
-  A["/checkout-worktree-g"] --> B["/prd-intake-g"]
+  A["/checkout-worktree-g"] --> B["/analyze-prd-g"]
   B --> C["/plan-from-prd-intake-g"]
   C --> D["/submit-feature-g"]
   D --> E["/close-worktree-g"]
@@ -24,7 +24,7 @@ flowchart LR
 **User invokes:**
 
 1. **/checkout-worktree-g <work-item-id>** -- Creates an isolated worktree and feature branch for the work, activates the work item.
-2. **/prd-intake-g** -- Provide a PRD (ADO work item ID, markdown file, or paste inline). Iterates with you until a structured analysis document is produced: requirements, tech design, test mapping, and a phased execution plan.
+2. **/analyze-prd-g** -- Provide a PRD (ADO work item ID, markdown file, or paste inline). Iterates with you until a structured analysis document is produced: requirements, tech design, test mapping, and a phased execution plan.
    - If a design fork exists, the agent may suggest you invoke `/compare-approaches-g` to resolve it before finalising.
 3. **/plan-from-prd-intake-g** -- Feed the PRD Intake output. Plans one phase at a time with commit-level detail (codebase exploration, design lenses, commit sequencing). On approval of each phase, implements it automatically.
    - Internally mirrors `/plan-g` steps for each phase -- you do not need to invoke `/plan-g` separately.
@@ -386,7 +386,7 @@ flowchart LR
   D --> E["submit PR"]
 ```
 
-- **/deliver-feature-g <work-item-id>** -- Orchestrates: `/checkout-worktree-g` -> `/plan-g` (or `/prd-intake-g` + `/plan-from-prd-intake-g` with `--prd`) -> implement -> `/submit-feature-g`. Human gates at plan approval and PR submission. Replaces 4 manual invocations with 1.
+- **/deliver-feature-g <work-item-id>** -- Orchestrates: `/checkout-worktree-g` -> `/plan-g` (or `/analyze-prd-g` + `/plan-from-prd-intake-g` with `--prd`) -> implement -> `/submit-feature-g`. Human gates at plan approval and PR submission. Replaces 4 manual invocations with 1.
 
 ---
 

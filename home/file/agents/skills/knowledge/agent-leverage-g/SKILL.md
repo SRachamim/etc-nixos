@@ -18,7 +18,7 @@ Each moat from **professional-differentiation-g** maps to concrete infrastructur
 | Taste | **decision-priorities-g**, **design-lenses-g**, **code-review-g** | Standards encoded as reusable evaluation criteria that apply automatically |
 | Domain knowledge | **client-quality-focus-g**, codebase-specific skills, **work-item-context-g** | Business rules and patterns captured for consistent application across sessions |
 | Ownership | Approval gates in **external-communications-g**, verification steps in workflows | The user's seal required at decision points; nothing ships without certification |
-| Systems thinking | **architect-thinking-g**, **building-microservices-g** | Architectural principles applied automatically to every plan and review |
+| Systems thinking | **architect-thinking-g**, **microservice-patterns-g** | Architectural principles applied automatically to every plan and review |
 | Deep work | **context-engineering-g**, strategic delegation | Agent handles mechanical work, freeing sustained focus for genuinely hard problems |
 
 The leverage is multiplicative: taste encoded once applies to every review, every plan, every commit -- without degrading from fatigue or distraction.

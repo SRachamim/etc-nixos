@@ -31,7 +31,7 @@ Establish why extraction is needed and whether microservices are the right tool.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **North Star**.
+- Read and apply the **microservice-patterns-g** skill, section: **North Star**.
 - Restate the extraction goal with measurable success criteria. Common drivers:
   - **Scale** — a specific bottleneck constraining throughput or latency.
   - **Time-to-market** — volatile features blocked by monolith release cadence.
@@ -46,7 +46,7 @@ Establish why extraction is needed and whether microservices are the right tool.
 
 **Decision criteria:**
 
-Read **building-microservices-g** [reference.md](reference.md), Chapter 3: *Migration mindset* and *Stop conditions*.
+Read **microservice-patterns-g** [reference.md](reference.md), Chapter 3: *Migration mindset* and *Stop conditions*.
 
 - "Microservices are not the goal. You don't 'win' by having microservices."
 - Need a clear end goal before starting; incremental migration, not big-bang rewrite.
@@ -59,7 +59,7 @@ Map the existing system's structure, hotspots, and coupling.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries**.
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries**.
 - Map **domain boundaries** in the monolith: modules, packages, bounded contexts, aggregates. Identify ubiquitous language terms and where they diverge.
 - Identify **hotspots** — frequently changed code (volatility). Use CodeScene or change-frequency analysis when available; otherwise grep git history for churn.
 - Map **data ownership**: which tables/entities belong to which domain area? Where are cross-module joins?
@@ -85,7 +85,7 @@ Choose the first service to extract using a prioritisation matrix.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** [reference.md](reference.md), Chapter 3: **Prioritisation matrix** and **What to split first**.
+- Read and apply the **microservice-patterns-g** [reference.md](reference.md), Chapter 3: **Prioritisation matrix** and **What to split first**.
 - For each candidate area, score:
   - **Benefit toward goal** (low / moderate / high).
   - **Extraction difficulty** (low / moderate / high).
@@ -118,7 +118,7 @@ Design how code moves out of the monolith incrementally.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Build and Deployment** (progressive delivery, feature toggles, trunk-based development).
+- Read and apply the **microservice-patterns-g** skill, section: **Build and Deployment** (progressive delivery, feature toggles, trunk-based development).
 - Default to the **strangler fig pattern**:
   1. Intercept calls to the candidate functionality at the monolith boundary (proxy, API gateway, or routing layer).
   2. Route traffic to the new microservice **or** the monolith based on feature toggle.
@@ -143,8 +143,8 @@ Sketch data separation upfront even if code moves first.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Workflow and Sagas**.
-- Read **building-microservices-g** [reference.md](reference.md), Chapter 3: **Code first vs data first**, **Data decomposition concerns**, **Reporting database pattern**.
+- Read and apply the **microservice-patterns-g** skill, section: **Workflow and Sagas**.
+- Read **microservice-patterns-g** [reference.md](reference.md), Chapter 3: **Code first vs data first**, **Data decomposition concerns**, **Reporting database pattern**.
 - Decide extraction order:
   - **Code first** (default) — faster short-term value; must validate data path upfront.
   - **Data first** — when uncertain if data separates cleanly; de-risk integrity early.
@@ -170,7 +170,7 @@ Define the interface between the new service and the remaining monolith.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design**.
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design**.
 - Design the **API contract** between new service and monolith:
   - Choose style before technology (sync request-response vs async events).
   - Define explicit schemas (OpenAPI, protobuf, AsyncAPI).
@@ -195,7 +195,7 @@ Ensure the new boundary is observable and resilient from the first production de
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, sections: **Observability** and **Resiliency**.
+- Read and apply the **microservice-patterns-g** skill, sections: **Observability** and **Resiliency**.
 - **Observability at the new boundary:**
   - Correlation IDs generated at intercept point, propagated through monolith ↔ new service calls.
   - Log aggregation includes both monolith and new service from first deployment.
@@ -221,8 +221,8 @@ Verify the extraction plan meets Newman's principles.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries** (Boundary quality checklist, Coupling taxonomy).
-- Read **building-microservices-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries** (Boundary quality checklist, Coupling taxonomy).
+- Read **microservice-patterns-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
 - Run the **boundary quality checklist** on the planned new service:
   1. Can I change and deploy this service independently?
   2. Is related business behaviour co-located?
@@ -307,7 +307,7 @@ Once the user approves the extraction plan, switch to implementation.
 
 **Decision criteria:**
 
-- Incremental adoption: turn the dial, don't flip the switch (building-microservices North Star).
+- Incremental adoption: turn the dial, don't flip the switch (microservice-patterns-g North Star).
 - Each phase must leave the system in a deployable, working state.
 
 ### 11. Evolve

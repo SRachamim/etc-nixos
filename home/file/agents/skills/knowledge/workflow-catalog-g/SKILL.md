@@ -455,7 +455,7 @@ Never invoked by name. The agent loads them contextually:
 | `design-lenses-g`           | Planning, reviewing plans/PRs                    |
 | `decision-priorities-g`     | Choosing between approaches                      |
 | `architect-thinking-g`      | Architecture decisions, incidents, system design |
-| `building-microservices-g`  | Any microservice work                            |
+| `microservice-patterns-g`  | Any microservice work                            |
 | `estimation-g`              | Producing effort estimates                       |
 | `incident-response-g`       | Production incident investigation                |
 | `context-engineering-g`     | Long sessions, subagent spawning                 |

@@ -33,7 +33,7 @@ Establish why microservices are being considered and what business outcomes must
 - Restate the business goal in your own words. Identify measurable outcomes (revenue, time-to-market, availability, compliance, team throughput).
 - Capture **constraints**: team size and structure, budget, regulatory scope, existing tech stack, deployment environment, timeline.
 - List **non-functional requirements**: expected load, latency budgets, availability targets, data residency, security classification.
-- Apply the **monolith-first default**: read and apply the **building-microservices-g** skill, section: **North Star**. Ask explicitly: *Can a monolith or modular monolith achieve these outcomes?* Document the answer with evidence.
+- Apply the **monolith-first default**: read and apply the **microservice-patterns-g** skill, section: **North Star**. Ask explicitly: *Can a monolith or modular monolith achieve these outcomes?* Document the answer with evidence.
 - If microservices are justified, record the specific drivers (delivery contention, independent scaling, technology heterogeneity, organisational alignment). If not justified, recommend the simpler approach and stop this command.
 
 **Decision criteria:**
@@ -45,7 +45,7 @@ Establish why microservices are being considered and what business outcomes must
 | Primary goal | Cost reduction alone | Independent releases, team autonomy, targeted scaling |
 | Ops readiness | No log aggregation or CI maturity | CI/CD, observability foundations in place |
 
-Read **building-microservices-g** [reference.md](reference.md), Chapter 1: *Decision framework: should I use microservices?* for the full checklist.
+Read **microservice-patterns-g** [reference.md](reference.md), Chapter 1: *Decision framework: should I use microservices?* for the full checklist.
 
 **Deliverable:** A one-paragraph goal statement, a constraints table, and an explicit microservices vs monolith recommendation with rationale.
 
@@ -55,7 +55,7 @@ Discover service boundaries from the business domain, not from technical layers.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries**.
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries**.
 - Run an **event storming** exercise (even as a desk exercise if domain experts are unavailable):
   1. **Events** (past tense facts: `OrderPlaced`, `PaymentCaptured`) — orange sticky notes.
   2. **Commands** (actions that cause events) — blue sticky notes.
@@ -81,7 +81,7 @@ Map bounded contexts to candidate microservices.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries** (Mapping to microservices, Boundary quality checklist, Coupling taxonomy).
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries** (Mapping to microservices, Boundary quality checklist, Coupling taxonomy).
 - Start **coarse**: one bounded context ≈ one service. Hide internal splits behind a coarse API until experience warrants finer decomposition.
 - For each candidate service, run the **boundary quality checklist**:
   1. Can I change and deploy this service independently?
@@ -106,7 +106,7 @@ For each inter-service interaction, choose style and pattern before technology.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design**.
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design**.
 - For **every** service-to-service interaction, document:
   1. **Business need** — what functionality or fact is being exchanged?
   2. **Style** — synchronous request-response or asynchronous event-driven?
@@ -136,7 +136,7 @@ Model cross-service business processes explicitly.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Workflow and Sagas**.
+- Read and apply the **microservice-patterns-g** skill, section: **Workflow and Sagas**.
 - Identify every **cross-service business process** (order fulfilment, account onboarding, payment settlement, etc.).
 - For each process, choose **saga style**:
   - **Orchestration** — one team owns the entire saga; need process visibility in one place.
@@ -166,7 +166,7 @@ Design how each service is built, stored, and released independently.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Build and Deployment**.
+- Read and apply the **microservice-patterns-g** skill, section: **Build and Deployment**.
 - Assess **CI maturity** (Jez Humble gate): daily mainline commits, behavioural tests, broken build is #1 priority. If any answer is no, plan CI fixes before scaling service count.
 - Define **repo strategy**: multirepo default (one repo = one microservice = one build). Cross-repo change pain signals wrong boundaries.
 - Define **CI/CD pipeline per service**: build artifact once, store in registry, deploy same artifact everywhere. Environment-agnostic artifacts with externalised config.
@@ -190,7 +190,7 @@ Ensure the system can be understood in production before scaling service count.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Observability**.
+- Read and apply the **microservice-patterns-g** skill, section: **Observability**.
 - Plan **prerequisites** (implement before scaling):
   1. **Log aggregation** — organisational readiness test.
   2. **Correlation IDs** — generated at entry point, propagated through all calls, fixed position in log lines.
@@ -213,7 +213,7 @@ Threat-model the system holistically before per-service hardening.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Security**.
+- Read and apply the **microservice-patterns-g** skill, section: **Security**.
 - Perform a **holistic threat model** (not per-microservice in isolation). Include external parties for outside-in perspective.
 - Define the **trust model** on the zero-trust spectrum: which interactions require mutual auth, mTLS, per-request authorization? PII/secret-classified data always gets zero trust.
 - Plan **authentication**: OpenID Connect for SSO; per-request JWTs at gateway; downstream services validate locally.
@@ -237,7 +237,7 @@ Design for failure from the start — distributed systems fail.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Resiliency**.
+- Read and apply the **microservice-patterns-g** skill, section: **Resiliency**.
 - Define **SLOs per service** that drive timeout and circuit breaker settings.
 - Apply **mandatory stability patterns** to every synchronous downstream call:
   - Timeouts on ALL out-of-process calls (based on healthy p99 and user-facing SLA budget).
@@ -262,7 +262,7 @@ Plan how each service scales without premature optimisation.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Scaling**.
+- Read and apply the **microservice-patterns-g** skill, section: **Scaling**.
 - For each service, define the **initial scaling strategy** using the four axes (try in order):
   1. Vertical — bigger machine (quick win, doesn't improve robustness).
   2. Horizontal duplication — load balancers, read replicas, competing consumers (default for stateless).
@@ -285,7 +285,7 @@ Cross-check the entire design against Newman's principles and anti-patterns.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
+- Read and apply the **microservice-patterns-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
 - Verify **independent deployability** for every service: can each service change, deploy, and release without deploying any other?
 - Confirm none of these exist in the design:
   1. Shared mutable database across services.

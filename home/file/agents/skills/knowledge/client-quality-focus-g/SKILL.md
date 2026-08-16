@@ -189,4 +189,4 @@ Adapted from ISO/IEC 25010:2023, filtered and prioritized for a React/Apollo/fp-
 - **architect-thinking-g** -- Options Thinking preserves future NFR improvements; Rate of Change ensures the architecture supports evolving quality targets. This skill concretizes those principles for the client codebase.
 - **code-review-g** -- the review skill's Performance, Security, and Flexibility dimensions are weighted higher when this skill is active. Accessibility is elevated to a blocking dimension.
 - **test-driven-development-g** -- property-based testing with fast-check directly serves the Reliability and Maintainability attributes.
-- **building-microservices-g** -- the Resiliency patterns (circuit breakers, bulkheads, timeouts) apply to the gql-api layer's interactions with downstream services.
+- **microservice-patterns-g** -- the Resiliency patterns (circuit breakers, bulkheads, timeouts) apply to the gql-api layer's interactions with downstream services.

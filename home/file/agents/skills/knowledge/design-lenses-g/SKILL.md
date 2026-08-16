@@ -89,7 +89,7 @@ Not every principle applies to every change. Call out those that matter most and
 
 ## Microservices lens
 
-Evaluates changes involving microservice boundaries, inter-service communication, service decomposition, or distributed system concerns through principles from the **building-microservices-g** skill (Sam Newman, *Building Microservices* 2nd ed.).
+Evaluates changes involving microservice boundaries, inter-service communication, service decomposition, or distributed system concerns through principles from the **microservice-patterns-g** skill (Sam Newman, *Building Microservices* 2nd ed.).
 
 Activate this lens when the change touches service boundaries, APIs between services, data ownership, distributed workflows, or deployment independence. Not every principle applies to every change.
 
@@ -119,4 +119,4 @@ Activate this lens when the change touches service boundaries, APIs between serv
 | Is there a shared domain library across services? | Changes require coordinated multi-service redeploy |
 | Are correlation IDs propagated? | Missing from any service boundary crossing |
 
-Reference the **building-microservices-g** skill for detailed guidance on any flagged concern.
+Reference the **microservice-patterns-g** skill for detailed guidance on any flagged concern.

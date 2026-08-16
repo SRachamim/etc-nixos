@@ -1,9 +1,9 @@
 ---
-name: building-microservices-g
+name: microservice-patterns-g
 description: Microservice architecture principles, patterns, and practices from Sam Newman's "Building Microservices" (2nd ed.). Covers boundary design, communication, sagas, deployment, testing, observability, security, resiliency, scaling, UI decomposition, and organizational alignment. Use when creating, modifying, evolving, extracting, reviewing, or designing microservices or microservice systems.
 ---
 
-# Building Microservices
+# Microservice Patterns
 
 Principles and practices from Sam Newman's *Building Microservices: Designing Fine-Grained Systems* (2nd ed., O'Reilly 2021), organised by decision context. Use the **Domain Lookup** table below to load domain-specific guidance from [reference.md](reference.md) on demand. For chapter-by-chapter deep reference, see [reference.md](reference.md). For a quick lookup of which command or skill to use, see [guide.md](guide.md).
 

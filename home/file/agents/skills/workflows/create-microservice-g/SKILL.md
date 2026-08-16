@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Create Microservice
 
-Build a new microservice from scratch — from domain scoping through production-ready implementation. This command produces a service design plan in **Plan** mode, then implements it in **Agent** mode. Every step applies Sam Newman's *Building Microservices* principles via the **building-microservices-g** skill.
+Build a new microservice from scratch — from domain scoping through production-ready implementation. This command produces a service design plan in **Plan** mode, then implements it in **Agent** mode. Every step applies Sam Newman's *Building Microservices* principles via the **microservice-patterns-g** skill.
 
 ## Input
 
@@ -32,7 +32,7 @@ Establish what business capability this microservice owns and the language the t
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries**.
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries**.
 - Identify the **bounded context** this service represents. Document what is inside the boundary and what is explicitly outside.
 - List the **aggregates** this service will own — real-world domain concepts with lifecycles and state machines (e.g. `Order`, `Subscription`, `Invoice`). Each aggregate has exactly one owning service.
 - Document the **ubiquitous language**: terms, their precise meanings, and where the same real-world concept has different names in adjacent contexts (e.g. Customer vs Recipient).
@@ -62,7 +62,7 @@ Challenge whether this should be a separate microservice or part of an existing 
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **North Star** and **Modeling Boundaries** (Boundary quality checklist, Coupling taxonomy).
+- Read and apply the **microservice-patterns-g** skill, section: **North Star** and **Modeling Boundaries** (Boundary quality checklist, Coupling taxonomy).
 - Run the **boundary quality checklist** for this candidate service:
   1. Can I change and deploy this service independently?
   2. Is related business behaviour co-located (strong cohesion)?
@@ -90,7 +90,7 @@ Define the external interface other services and clients will depend on.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design**.
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design**.
 - For **every** external interaction this service exposes or consumes, document in order:
   1. **Business need** — what functionality or fact is being exchanged?
   2. **Communication style** — synchronous request-response or asynchronous event-driven?
@@ -125,7 +125,7 @@ Ensure this service owns its data exclusively and propagates facts to consumers 
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries** (information hiding, Coupling taxonomy).
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries** (information hiding, Coupling taxonomy).
 - Assign **one database per service** — this service owns its schema entirely. No shared tables, no cross-service foreign keys, no other service writing to this database.
 - If analytics or reporting is needed:
   - Plan a **separate reporting database** (push model: events or ETL feed data out).
@@ -153,7 +153,7 @@ Identify cross-service business processes this service participates in and defin
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Workflow and Sagas**.
+- Read and apply the **microservice-patterns-g** skill, section: **Workflow and Sagas**.
 - List every **cross-service business process** this service participates in (order fulfilment, onboarding, payment settlement, etc.).
 - For each process, determine **saga participation**:
   - Is this service the **orchestrator** (one team owns the entire saga; need process visibility)?
@@ -183,7 +183,7 @@ Plan repository structure, CI/CD, deployment, and infrastructure before writing 
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Build and Deployment**.
+- Read and apply the **microservice-patterns-g** skill, section: **Build and Deployment**.
 - Assess **CI maturity** (Jez Humble gate): daily mainline commits, behavioural tests, broken build is #1 priority. If any answer is no, plan CI fixes first.
 - Define **repository strategy**: **multirepo default** — one repo = one microservice = one build. Cross-repo change pain signals wrong boundaries.
 - Define **CI/CD pipeline** for this service:
@@ -211,7 +211,7 @@ Plan the operational baseline every microservice in the organisation must meet. 
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, sections: **Resiliency** and **Observability** (prerequisites), plus **Organisation and Architecture** (good-citizen checklist).
+- Read and apply the **microservice-patterns-g** skill, sections: **Resiliency** and **Observability** (prerequisites), plus **Organisation and Architecture** (good-citizen checklist).
 - Plan implementation of each mandatory item:
 
 | Requirement | Implementation guidance |
@@ -241,7 +241,7 @@ Plan authentication, authorisation, secrets, and data protection before handling
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Security**.
+- Read and apply the **microservice-patterns-g** skill, section: **Security**.
 - Perform a **threat model** for this service (include external parties for outside-in perspective).
 - Define **authentication strategy**:
   - Validate JWTs **at this service**, not only at the gateway. Downstream services must not trust upstream blindly.
@@ -268,7 +268,7 @@ Plan the test pyramid and contract verification before scaling consumer dependen
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Testing Strategy**.
+- Read and apply the **microservice-patterns-g** skill, section: **Testing Strategy**.
 - Plan **unit tests** — most numerous; fastest feedback; run on file change. Target ~10× more unit tests than service tests.
 - Plan **service tests** — test this microservice in isolation with **stubbed downstreams** (prefer stubs over mocks). Cover happy paths, error paths, and saga compensations.
 - Plan **consumer-driven contracts (CDC)**:
@@ -297,7 +297,7 @@ Ensure the service can be understood and operated in production from day one.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Observability**.
+- Read and apply the **microservice-patterns-g** skill, section: **Observability**.
 - Work with the product owner to define **SLOs** for this service: uptime target, p99 latency, error rate. Establish **error budgets** that gate risky changes.
 - Plan **alerting** using EEMUA criteria: Relevant, Unique, Timely, Prioritised, Understandable, Diagnostic, Advisory, Focusing. Alert on SLO violations, not every metric threshold.
 - Plan **semantic monitoring**: synthetic transactions for critical business flows this service owns ("Is the system behaving as we expect?" not just "Are there errors?").
@@ -318,7 +318,7 @@ Cross-check the entire service design before switching to implementation.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
+- Read and apply the **microservice-patterns-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)**.
 - Verify **independent deployability**: can this service change, deploy, and release without deploying any other service?
 - Confirm none of these exist in the design:
   1. Shared mutable database across services.

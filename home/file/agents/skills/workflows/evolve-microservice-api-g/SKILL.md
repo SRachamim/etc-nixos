@@ -32,7 +32,7 @@ Determine exactly what is changing and whether it truly requires a breaking chan
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design** (tolerant reader, expand-and-contract, semantic versioning, consumer-first).
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design** (tolerant reader, expand-and-contract, semantic versioning, consumer-first).
 - Document the **proposed change** precisely:
   - Which endpoint(s), event schema(s), or field(s) are affected?
   - What is the business driver (new capability, bug fix, performance, regulatory)?
@@ -136,7 +136,7 @@ Document the change and migration expectations for all consumer teams before any
 
 **What to do:**
 
-- Apply **consumer-first approach** from the **building-microservices-g** skill, section: **Communication Design**.
+- Apply **consumer-first approach** from the **microservice-patterns-g** skill, section: **Communication Design**.
 - Draft a **social contract** document containing:
   - **What is changing** — precise description of old vs new behaviour/schema.
   - **Why** — business justification consumers need to prioritise migration.
@@ -164,7 +164,7 @@ Plan the new API surface alongside the old one, with schema compatibility enforc
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design** (expand-and-contract, explicit schemas).
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design** (expand-and-contract, explicit schemas).
 - Deploy the **new endpoint alongside the old** in the same service:
   - Version via URI path (e.g. `/v2/orders`) **or** via headers (e.g. `Accept: application/vnd.company.orders.v2+json`). Prefer URI versioning for clarity.
   - Old endpoint continues serving existing consumers unchanged.
@@ -251,7 +251,7 @@ Remove the old endpoint only after confirmed migration completion.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design** (expand-and-contract contraction phase, consumer-first).
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design** (expand-and-contract contraction phase, consumer-first).
 - **Pre-removal checklist** — all must be true before removing the old endpoint:
   1. Zero traffic on old endpoint for a sustained period (minimum 7 consecutive days, or agreed threshold).
   2. **Or** deadline reached **with explicit consumer agreement** that remaining consumers accept breakage.
@@ -287,7 +287,7 @@ Confirm the API evolution completed without consumer breakage.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)** and **Communication Design**.
+- Read and apply the **microservice-patterns-g** skill, section: **Critical Anti-Patterns (Cross-Cutting)** and **Communication Design**.
 - Verify **all CDC tests pass** — V2 contracts green on producer CI; no orphaned V1 contracts failing.
 - Confirm **no consumer breakage**:
   - Check error rates across all known consumers post-migration and post-removal.

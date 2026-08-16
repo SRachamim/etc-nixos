@@ -51,7 +51,7 @@ Evaluate whether each service models a proper bounded context with clear ownersh
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Modeling Boundaries**.
+- Read and apply the **microservice-patterns-g** skill, section: **Modeling Boundaries**.
 - For **each service** in scope:
   - Does it model a **bounded context** with a clear ubiquitous language?
   - Does it **own its aggregates**? One aggregate → one owning service.
@@ -85,7 +85,7 @@ Evaluate whether inter-service communication follows style-before-technology dis
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Communication Design**.
+- Read and apply the **microservice-patterns-g** skill, section: **Communication Design**.
 - Map **all inter-service interactions**:
   - Source → target, sync/async, technology, schema (explicit or implicit).
 - For each interaction, verify:
@@ -114,7 +114,7 @@ Evaluate whether cross-service business processes are modeled explicitly.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Workflow and Sagas**.
+- Read and apply the **microservice-patterns-g** skill, section: **Workflow and Sagas**.
 - Identify **cross-service business processes** (order fulfilment, onboarding, billing, etc.).
 - For each process:
   - Is it modeled **explicitly** (saga with defined steps) or **implicit** (hidden across services with no coordination)?
@@ -140,7 +140,7 @@ Verify that services can deploy independently in practice, not just in theory.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Build and Deployment**.
+- Read and apply the **microservice-patterns-g** skill, section: **Build and Deployment**.
 - For each service, verify in practice:
   - **Separate CI/CD pipeline**? Or shared build for multiple services?
   - **Separate repo**? Or monorepo with coupled builds?
@@ -168,7 +168,7 @@ Evaluate whether the system can be understood and debugged in production.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Observability**.
+- Read and apply the **microservice-patterns-g** skill, section: **Observability**.
 - Check **prerequisites**:
   - **Log aggregation** in place? Can you search logs across all services from one place?
   - **Correlation IDs** propagated through all calls? Generated at entry points? Fixed position in log lines?
@@ -200,7 +200,7 @@ Evaluate whether the system handles failure gracefully.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Resiliency**.
+- Read and apply the **microservice-patterns-g** skill, section: **Resiliency**.
 - For **every synchronous downstream call** across all services, verify:
   - **Timeouts** configured? Based on healthy p99 and user-facing SLA budget?
   - **Circuit breakers** in place? Fail fast when downstream unhealthy?
@@ -228,7 +228,7 @@ Evaluate the system's security posture holistically.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Security**.
+- Read and apply the **microservice-patterns-g** skill, section: **Security**.
 - Check **threat modeling**: holistic threat model done (not per-service in isolation)? External parties included?
 - Check **trust model**: zero-trust spectrum applied? PII/secret data gets mutual auth and encryption?
 - Check **authentication**: OpenID Connect? Per-request JWTs? Downstream validation?
@@ -253,7 +253,7 @@ Evaluate whether services scale appropriately without premature optimisation.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Scaling**.
+- Read and apply the **microservice-patterns-g** skill, section: **Scaling**.
 - For each service, identify current **scaling axis**:
   1. Vertical (bigger machine)?
   2. Horizontal duplication (load balancers, read replicas)?
@@ -283,7 +283,7 @@ Evaluate whether team structure supports the architecture.
 
 **What to do:**
 
-- Read and apply the **building-microservices-g** skill, section: **Organisation and Architecture**.
+- Read and apply the **microservice-patterns-g** skill, section: **Organisation and Architecture**.
 - Check **Conway's law alignment**: do team boundaries match service boundaries? Or do services span multiple teams (coordination tax)?
 - Check **ownership model**:
   - Strong ownership: one team owns one service (code, standards, tech, deployment)?
@@ -319,7 +319,7 @@ Consolidate all assessments into prioritized, actionable findings.
 - For each finding, assign:
   - **Severity**: critical (blocks independent deployability, security breach, data loss risk), moderate (degrades reliability/velocity), low (improvement opportunity).
   - **Effort**: quick-win (< 1 sprint), medium (1–3 sprints), major (programme-level).
-  - **Principle violated**: map to specific **building-microservices-g** section and anti-pattern.
+  - **Principle violated**: map to specific **microservice-patterns-g** section and anti-pattern.
 - Group findings by category: boundaries, communication, workflows, deployability, observability, resiliency, security, scaling, organisation.
 - Identify **patterns**: findings that share a root cause (e.g. shared database causing boundary + deployability + workflow findings).
 - Rank recommendations using **value-first ordering** and **cost of delay** — highest-impact, lowest-effort first.

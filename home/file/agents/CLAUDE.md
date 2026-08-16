@@ -67,7 +67,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | artifact-layering-g | Artifact Layering | `~/.claude/skills/artifact-layering-g/SKILL.md` |
 | artifact-naming-g | Artifact Naming | `~/.claude/skills/artifact-naming-g/SKILL.md` |
 | browser-bug-reproduction-g | Browser Bug Reproduction | `~/.claude/skills/browser-bug-reproduction-g/SKILL.md` |
-| building-microservices-g | Building Microservices | `~/.claude/skills/building-microservices-g/SKILL.md` |
+| microservice-patterns-g | Microservice Patterns | `~/.claude/skills/microservice-patterns-g/SKILL.md` |
 | client-quality-focus-g | Client Quality Focus | `~/.claude/skills/client-quality-focus-g/SKILL.md` |
 | code-review-g | Code Review | `~/.claude/skills/code-review-g/SKILL.md` |
 | commit-conventions-g | Commit Conventions | `~/.claude/skills/commit-conventions-g/SKILL.md` |

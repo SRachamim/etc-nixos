@@ -1,12 +1,12 @@
 ---
 name: review-plan-g
-description: Evaluates a plan against design lenses, commit conventions, and quality standards from the /plan command. Use when reviewing a plan authored by another person, pasted inline, linked in a document, or attached to a work item.
+description: Evaluates a plan against design lenses, commit conventions, and quality standards from the /plan-g command. Use when reviewing a plan authored by another person, pasted inline, linked in a document, or attached to a work item.
 disable-model-invocation: true
 ---
 
 # Review Plan
 
-Given a plan authored by another person (pasted inline, linked in a document, or attached to a work item), evaluate it against the design lenses, commit conventions, and quality standards defined in the `/plan` command. Identify gaps, risks, and suggested improvements.
+Given a plan authored by another person (pasted inline, linked in a document, or attached to a work item), evaluate it against the design lenses, commit conventions, and quality standards defined in the `/plan-g` command. Identify gaps, risks, and suggested improvements.
 
 ## Input
 
@@ -16,7 +16,7 @@ Accept **any** of the following:
 2. **Document or link** -- a plan document, tech design, or PR description the user points to.
 3. **Ticket reference** -- an Azure DevOps work item ID or URL. Fetch it via MCP; if the work item description or a linked document contains the plan, use that as the plan under review. The ticket's acceptance criteria provide the authoritative goal against which the plan is evaluated.
 
-The plan may use any format -- it need not follow the `/plan` output template. The review normalises it before evaluation (see step 1).
+The plan may use any format -- it need not follow the `/plan-g` output template. The review normalises it before evaluation (see step 1).
 
 ## Steps
 
@@ -34,7 +34,7 @@ Extract the plan's structure:
 - Implementation steps (commits and actions)
 - Notes, risks, open questions
 
-Most plans will not follow the `/plan` output template. Restate the steps in a normalised form (sequence of commits and actions with titles, descriptions, and key files) before evaluating.
+Most plans will not follow the `/plan-g` output template. Restate the steps in a normalised form (sequence of commits and actions with titles, descriptions, and key files) before evaluating.
 
 ### 2. Clarify the goal
 
@@ -115,7 +115,7 @@ Output the review in this format:
 
 ### Suggested Revised Steps
 
-<If blocking issues exist, present the corrected step table using the /plan format. Otherwise omit this section.>
+<If blocking issues exist, present the corrected step table using the /plan-g format. Otherwise omit this section.>
 ```
 
 ### 8. Iterate

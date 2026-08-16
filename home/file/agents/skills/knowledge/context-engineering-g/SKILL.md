@@ -67,9 +67,9 @@ Keep the stable prefix of context (system prompt, tool definitions, always-appli
 
 This skill is passive guidance, not a workflow. The agent applies it whenever making context-related decisions during other workflows:
 
-- **During `/plan`:** partition exploration across focused subagents; summarise findings before drafting the plan.
-- **During `/debug`:** isolate investigation steps; compress evidence into a root-cause summary before proposing a fix.
-- **During `/review-pr`:** load only the diff and directly relevant source files, not the entire repository.
+- **During `/plan-g`:** partition exploration across focused subagents; summarise findings before drafting the plan.
+- **During `/debug-g`:** isolate investigation steps; compress evidence into a root-cause summary before proposing a fix.
+- **During `/review-pr-g`:** load only the diff and directly relevant source files, not the entire repository.
 - **When spawning subagents:** give each subagent the narrowest context that lets it complete its task.
 - **When a session runs long:** write a scratchpad summary and reference it rather than relying on accumulated history.
 

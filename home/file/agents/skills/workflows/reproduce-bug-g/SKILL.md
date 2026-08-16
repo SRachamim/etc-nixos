@@ -35,7 +35,7 @@ Delegate to the **browser-bug-reproduction-g** skill, passing it:
 - The org and environment (if any).
 - Any reference screenshots or video URLs from the work item.
 
-The skill handles environment configuration (via `/set-igw` if needed), dev server management, login, repro execution, and evidence capture.
+The skill handles environment configuration (via `/set-igw-g` if needed), dev server management, login, repro execution, and evidence capture.
 
 ### 3. Evolve
 

@@ -29,7 +29,7 @@ flowchart LR
 3. **/plan-from-prd-intake-g** -- Feed the PRD Intake output. Plans one phase at a time with commit-level detail (codebase exploration, design lenses, commit sequencing). On approval of each phase, implements it automatically.
    - Internally mirrors `/plan-g` steps for each phase -- you do not need to invoke `/plan-g` separately.
 4. **/submit-feature-g** -- After implementation, opens a PR, transitions the work item to Code Review, and posts to `#team-cinfra` on Slack.
-   - Internally calls: `create-pull-request-g`, `artifact-discovery-g`
+   - Internally calls: **create-pull-request-g**, **artifact-discovery-g**
 5. **/close-worktree-g** -- After the PR merges, cleans up: verifies merge, unblocks dependents, removes worktree/branches, notifies team.
 
 ---
@@ -262,7 +262,7 @@ flowchart LR
 
 ### Post-feature artifact discovery
 
-After `/submit-feature-g`, the agent automatically runs `artifact-discovery-g` and presents suggestions for new rules/skills grounded in the branch diff. No separate user invocation needed.
+After `/submit-feature-g`, the agent automatically runs **artifact-discovery-g** and presents suggestions for new rules/skills grounded in the branch diff. No separate user invocation needed.
 
 ---
 

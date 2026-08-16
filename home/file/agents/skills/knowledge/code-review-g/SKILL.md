@@ -60,7 +60,7 @@ The reviewer creates comments; the author resolves them. This separation ensures
 - **Always create threads as Active.** Both `repo_create_pull_request_thread` and `post_review_findings` default to `Closed` status -- you must explicitly pass `status: "Active"` on every finding. Never set status to `Fixed`, `WontFix`, `ByDesign`, or any resolved state when creating a comment thread.
 - **Never change a thread's status during initial review.** Do not use `repo_update_pull_request_thread` (or any platform equivalent) to resolve, close, or transition a thread the reviewer created. The author owns the lifecycle.
 
-**Exception -- follow-up reviews:** During `/review-pr-fixes`, the reviewer changes thread status to reflect verification outcomes. Threads whose fixes are verified adequate are resolved (status -> `Fixed`). Threads whose fixes are inadequate or missing are reactivated (status -> `Active`). This is the only context where the reviewer manages thread lifecycle. See the `/review-pr-fixes` skill for the full protocol.
+**Exception -- follow-up reviews:** During `/review-pr-fixes-g`, the reviewer changes thread status to reflect verification outcomes. Threads whose fixes are verified adequate are resolved (status -> `Fixed`). Threads whose fixes are inadequate or missing are reactivated (status -> `Active`). This is the only context where the reviewer manages thread lifecycle. See the `/review-pr-fixes-g` skill for the full protocol.
 
 ## Tone
 

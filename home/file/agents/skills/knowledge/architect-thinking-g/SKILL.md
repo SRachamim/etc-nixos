@@ -21,7 +21,7 @@ Architecture sells options. The value of an option increases with uncertainty an
 
 **FP/TypeScript adaptation**: discriminated unions keep the type system open for new variants (additive extension). `Reader` defers configuration choices to the boundary. `Either` models reversible choices where both paths remain available until evaluation.
 
-**When to apply**: `/plan` (Architecture lens), `/review-plan` (Architecture lens evaluation), code reviews (Architecture dimension), `/add-agent-behavior` (Architectural alignment).
+**When to apply**: `/plan-g` (Architecture lens), `/review-plan-g` (Architecture lens evaluation), code reviews (Architecture dimension), `/add-agent-behavior-g` (Architectural alignment).
 
 ## Rate of Change
 
@@ -36,7 +36,7 @@ Architecture exists because things change. The first derivative of a software sy
 
 **FP/TypeScript adaptation**: additive programming and combinator design (from the **functional-typescript-g** skill) are the structural enablers of high rate of change. Type-driven development provides the compiler as an instant feedback loop -- the fastest "test suite" available.
 
-**When to apply**: `/plan` (Architecture lens -- rate of change), code reviews (does the change make future changes easier or harder?), `/debug` (is the root cause a fear-of-change problem?).
+**When to apply**: `/plan-g` (Architecture lens -- rate of change), code reviews (does the change make future changes easier or harder?), `/debug-g` (is the root cause a fear-of-change problem?).
 
 ## Systems Thinking
 
@@ -51,7 +51,7 @@ Structure is a means to achieve desired behaviour. Focus on behaviour, not just 
 
 **FP/TypeScript adaptation**: bounded contexts and anti-corruption layers (from the **functional-typescript-g** skill) model system boundaries. Event-driven communication models feedback loops explicitly. Property-based testing verifies system invariants across many states.
 
-**When to apply**: `/investigate-incident` (Systemic Factors), `/debug` (Five Whys -- look for systemic causes), incident response (Systems Thinking section), `/plan` (Systems effects question).
+**When to apply**: `/investigate-incident-g` (Systemic Factors), `/debug-g` (Five Whys -- look for systemic causes), incident response (Systems Thinking section), `/plan-g` (Systems effects question).
 
 ## Decision Quality
 
@@ -64,7 +64,7 @@ Judge decisions by process and available information, not by outcome alone.
 - **Avoid bias** -- watch for the law of small numbers (drawing conclusions from tiny samples), confirmation bias (seeking evidence that supports your hypothesis), and priming (being influenced by the first option presented).
 - **Minimise irreversibility** -- the best decision is one you don't need to make. The second best is one you can change later.
 
-**When to apply**: `/plan` (Fit for purpose, Options), `/review-plan` (Are assumptions questioned?), `/debug` (Five Whys), code reviews (does the decision have documented rationale?), `/estimate-work-item` (avoid small-sample bias in calibration).
+**When to apply**: `/plan-g` (Fit for purpose, Options), `/review-plan-g` (Are assumptions questioned?), `/debug-g` (Five Whys), code reviews (does the decision have documented rationale?), `/estimate-work-item-g` (avoid small-sample bias in calibration).
 
 ## Communication
 
@@ -77,7 +77,7 @@ Architects bridge technical staff and leadership. Clear communication is a force
 - **Writing for busy people** -- use storytelling headings (not "Introduction" / "Conclusion"), the pyramid principle (hierarchical content, breadth-first disclosure), and brevity. Aim for 20--30% word reduction in editing.
 - **Documents are software** -- apply version control, collaboration, single source of truth, iteration, and trunk-based development to documents. Work iteratively (rough whole story first), not incrementally (polished half-story).
 
-**When to apply**: **objective-communication-g** skill, **external-communications-g** skill, `/plan` (Present the plan step), `/review-pr` (overall summary).
+**When to apply**: **objective-communication-g** skill, **external-communications-g** skill, `/plan-g` (Present the plan step), `/review-pr-g` (overall summary).
 
 ## Organisational Awareness
 
@@ -93,7 +93,7 @@ Architects navigate organisations, not just codebases. Technical decisions exist
 
 **FP/TypeScript adaptation**: "use before reuse" maps directly to the Rule of Three in the **refactoring-g** skill -- tolerate duplication twice, extract on the third occurrence. Start with concrete types, extract abstractions only when patterns emerge.
 
-**When to apply**: `/add-agent-behavior` (Architectural alignment -- governance through inception), `/plan` (Use before reuse), code reviews (is speculative abstraction being introduced?).
+**When to apply**: `/add-agent-behavior-g` (Architectural alignment -- governance through inception), `/plan-g` (Use before reuse), code reviews (is speculative abstraction being introduced?).
 
 ## Flow and Transformation
 
@@ -108,4 +108,4 @@ Speed and quality reinforce each other. Optimise flow, not just individual activ
 
 **FP/TypeScript adaptation**: TDD's Red/Green/Refactor cycle is a tight Build-Measure-Learn loop at the code level. Property-based testing accelerates learning by exploring the input space automatically. Type-driven development catches design errors at compile time, eliminating an entire class of runtime queues.
 
-**When to apply**: `/estimate-work-item` (Cost of Delay and Flow section), `/plan` (Cost of delay question), **continuous-improvement-g** skill (recurring friction, cost of inaction).
+**When to apply**: `/estimate-work-item-g` (Cost of Delay and Flow section), `/plan-g` (Cost of delay question), **continuous-improvement-g** skill (recurring friction, cost of inaction).

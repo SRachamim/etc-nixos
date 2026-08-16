@@ -101,7 +101,7 @@ For "Agree-fix" and "Partial" verdicts, make the changes. Follow **commit-conven
 Post a summary in the relevant Slack thread. Identify the thread by:
 
 1. Conversation context -- the same session that triggered the review or received the notification.
-2. Channel + timestamp from a preceding `/submit-feature` or `/review-pr` invocation.
+2. Channel + timestamp from a preceding `/submit-feature-g` or `/review-pr-g` invocation.
 3. If no thread is identifiable, skip the Slack reply and note this to the user.
 
 The Slack message groups outcomes by verdict category and links to individual PR comments where useful. Keep it concise -- one line per comment, grouped under verdict headings.
@@ -113,4 +113,4 @@ This skill provides the evaluation framework behind:
 - **Autopilot's** fix/dismiss/ask triage -- this skill deepens the reasoning that selects between those categories.
 - **trace-pr-comments-g** -- that skill maps comments to artifacts; this skill evaluates their merit.
 - **review-pr-fixes-g** -- when following up on review feedback as author, apply these principles.
-- `/submit-feature` and `/review-pr` -- these create the Slack thread that step 7 replies to.
+- `/submit-feature-g` and `/review-pr-g` -- these create the Slack thread that step 7 replies to.

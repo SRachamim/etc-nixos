@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Given a PRD (any format -- ADO work item, markdown file, inline text), produce a self-contained analysis document that a fresh agent session can pick up and implement from. The document extracts structured requirements, identifies affected modules, maps acceptance criteria to tests, pre-fills a tech design, and drafts a commit-level execution plan.
 
-This skill bridges raw product requirements to the structured input that `/plan` and the **plan-execution-g** skill expect. It does not implement the feature -- it produces the plan.
+This skill bridges raw product requirements to the structured input that `/plan-g` and the **plan-execution-g** skill expect. It does not implement the feature -- it produces the plan.
 
 ## Input
 
@@ -30,7 +30,7 @@ When multiple inputs are provided, they supplement each other.
 
 ### 0. Enter Plan mode
 
-Require **Plan** mode following the **mode-gate-g** skill. The entire analysis (steps 1--8) is read-only. The user switches to Agent mode only when handing off the output document to `/plan` or **plan-execution-g** for implementation.
+Require **Plan** mode following the **mode-gate-g** skill. The entire analysis (steps 1--8) is read-only. The user switches to Agent mode only when handing off the output document to `/plan-g` or **plan-execution-g** for implementation.
 
 ### 1. Resolve the input
 
@@ -98,7 +98,7 @@ Produce a draft tech design section with these fields:
 
 If the workspace has a tech design skill or template (e.g. a workspace-level tech design command), structure the output to be compatible with its expected input format. The skill does not depend on any workspace-level skill existing -- the tech design section is useful on its own.
 
-When the proposed approach has a credible alternative that would fundamentally change the execution plan structure, suggest invoking `/compare-approaches` to resolve the fork before finalising the execution plan in step 7.
+When the proposed approach has a credible alternative that would fundamentally change the execution plan structure, suggest invoking `/compare-approaches-g` to resolve the fork before finalising the execution plan in step 7.
 
 ### 7. Produce execution plan
 
@@ -116,7 +116,7 @@ For each phase, specify:
 
 #### Commits within phases
 
-Within each phase, list commits using the same format as the `/plan` skill output:
+Within each phase, list commits using the same format as the `/plan-g` skill output:
 
 | # | Type | Title | What | Key Files | Technique | Validation |
 |---|------|-------|------|-----------|-----------|------------|
@@ -137,9 +137,9 @@ Each commit specifies:
 
 Include non-commit actions where needed (e.g. creating follow-up tasks, updating work item state).
 
-This is a first draft -- less precise than what `/plan` produces after deep codebase analysis. The intent is to give enough structure that either:
+This is a first draft -- less precise than what `/plan-g` produces after deep codebase analysis. The intent is to give enough structure that either:
 
-1. The user feeds the document to `/plan` for refinement with deeper codebase analysis, or
+1. The user feeds the document to `/plan-g` for refinement with deeper codebase analysis, or
 2. A sufficiently detailed plan is executed directly via **plan-execution-g**.
 
 ### 8. Present the output document
@@ -266,7 +266,7 @@ Output format:
 
 Wait for the user to review, ask questions, or request changes. When the document is approved, suggest next steps:
 
-- **Refine**: feed the document to `/plan` for deeper codebase analysis and a tighter commit sequence.
+- **Refine**: feed the document to `/plan-g` for deeper codebase analysis and a tighter commit sequence.
 - **Execute**: if the execution plan is detailed enough, proceed directly via **plan-execution-g**.
 - **Delegate**: if the workspace has a routing skill (e.g. a developer skill that selects implementation patterns by feature type), note the recommended route.
 

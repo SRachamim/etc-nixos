@@ -75,7 +75,7 @@ Spend enough time here to form a concrete mental model. Don't guess -- read the 
 
 Apply the **design-lenses-g** skill using the **planning framing** for all three lenses (refactoring, flexibility, architecture). Not every principle will be relevant to every change.
 
-When this step reveals multiple viable paths with no clear winner under the priority ladder, suggest invoking `/compare-approaches` to explore candidates in parallel before proceeding to step 5.
+When this step reveals multiple viable paths with no clear winner under the priority ladder, suggest invoking `/compare-approaches-g` to explore candidates in parallel before proceeding to step 5.
 
 ### 5. Draft the plan
 

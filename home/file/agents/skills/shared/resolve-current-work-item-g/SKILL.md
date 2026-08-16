@@ -1,6 +1,6 @@
 ---
 name: resolve-current-work-item-g
-description: Resolves the current work item ID from explicit input, branch name, or ADO pull request association. Called by close-worktree, defer-fix, and plan skills — not invoked directly by the user.
+description: Resolves the current work item ID from explicit input, branch name, or ADO pull request association. Called by **close-worktree-g**, **defer-fix-g**, and **plan-g** skills — not invoked directly by the user.
 disable-model-invocation: true
 ---
 

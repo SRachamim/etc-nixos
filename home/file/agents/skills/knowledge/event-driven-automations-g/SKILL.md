@@ -9,7 +9,7 @@ Background automations run without human initiation -- triggered by events (PR o
 
 ## Setup principles
 
-- **Instructions reference skills, not inline logic.** The automation instruction is: "Follow the `/review-pr` skill against this diff." When the skill evolves, all automations benefit automatically.
+- **Instructions reference skills, not inline logic.** The automation instruction is: "Follow the `/review-pr-g` skill against this diff." When the skill evolves, all automations benefit automatically.
 - **One automation per concern.** Don't combine unrelated triggers into a single automation.
 - **Tier matches model routing.** Select the model tier from `AGENTS.md` Model Routing that matches the automation's cognitive demand.
 - **Fail silently, report loudly.** Automations that can't complete should post a summary of what blocked them rather than retrying indefinitely.
@@ -18,9 +18,9 @@ Background automations run without human initiation -- triggered by events (PR o
 
 | Automation | Trigger | Skill reference | Tier | Output |
 |---|---|---|---|---|
-| PR Review | PR opened or pushed | `/review-pr` | Standard | PR comments with structured findings |
-| Bug Triage | Slack message in bug channel | `/triage` | Standard | ADO work item + Slack thread reply |
-| CI Failure Diagnosis | CI check failed on PR | `/triage-build` | Standard | PR comment with root cause and suggested fix |
+| PR Review | PR opened or pushed | `/review-pr-g` | Standard | PR comments with structured findings |
+| Bug Triage | Slack message in bug channel | `/triage-g` | Standard | ADO work item + Slack thread reply |
+| CI Failure Diagnosis | CI check failed on PR | `/triage-build-g` | Standard | PR comment with root cause and suggested fix |
 | Security Audit | Push to main or release branch | **code-review-g** (security focus) | Frontier | Slack post with high-risk findings |
 | Weekly Digest | Cron (weekly, Monday morning) | Custom prompt | Volume | Slack summary of merged PRs, new tech debt, dependency updates |
 
@@ -32,9 +32,9 @@ Each automation's instruction follows this pattern:
 
 Adapt per automation:
 
-- **PR Review**: "Follow the `/review-pr` skill. The diff is the PR that triggered this automation. Post findings as PR comments."
-- **Bug Triage**: "Follow the `/triage` skill. The work item to create comes from the Slack message content. Reply in the Slack thread with a summary."
-- **CI Failure Diagnosis**: "Follow the `/triage-build` skill. The failing CI check is on the triggering PR. Post root cause as a PR comment."
+- **PR Review**: "Follow the `/review-pr-g` skill. The diff is the PR that triggered this automation. Post findings as PR comments."
+- **Bug Triage**: "Follow the `/triage-g` skill. The work item to create comes from the Slack message content. Reply in the Slack thread with a summary."
+- **CI Failure Diagnosis**: "Follow the `/triage-build-g` skill. The failing CI check is on the triggering PR. Post root cause as a PR comment."
 - **Security Audit**: "Follow the **code-review-g** skill with a security focus. Review the diff pushed to main. Post high-risk findings to the designated Slack channel."
 - **Weekly Digest**: "Summarise merged PRs from the past week, noting new tech debt and dependency changes. Post to the team Slack channel."
 

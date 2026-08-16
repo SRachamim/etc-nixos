@@ -1,6 +1,6 @@
 ---
 name: trace-pr-comments-g
-description: Finds human-authored PR comments, replies with governing artifact citations, and suggests /create-task for uncovered gaps. Use when given a PR ID, inferred from the current branch, or in the same conversation after /review-pr.
+description: Finds human-authored PR comments, replies with governing artifact citations, and suggests /create-task-g for uncovered gaps. Use when given a PR ID, inferred from the current branch, or in the same conversation after /review-pr-g.
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,7 @@ Given a PR, find comment threads authored by the user (not by other reviewers an
 
 The ADO MCP posts as the user (user token), so both human-typed and agent-posted comments share the same author identity. The workflow must separate them:
 
-- **In-conversation** (after `/review-pr`): the agent knows which thread IDs it created from conversation context. Exclude those threads.
+- **In-conversation** (after `/review-pr-g`): the agent knows which thread IDs it created from conversation context. Exclude those threads.
 - **Standalone**: exclude threads whose root comment opens with a structured severity prefix (`**Blocking**:`, `**Suggestion**:`, `**Nit**:`). These patterns indicate agent-posted comments.
 - **Confirmation**: always present the candidate list to the user before proceeding (step 3), so false positives can be removed.
 
@@ -23,7 +23,7 @@ The ADO MCP posts as the user (user token), so both human-typed and agent-posted
 Determine the PR using one of the following, in priority order:
 
 1. **Explicit argument** -- the user provided a PR ID directly.
-2. **Conversation context** -- a preceding `/review-pr` in this conversation already resolved a PR. Reuse that identity.
+2. **Conversation context** -- a preceding `/review-pr-g` in this conversation already resolved a PR. Reuse that identity.
 3. **Branch name** -- find the active PR whose source branch matches the current branch.
 
 If none yields a PR, ask the user and stop.
@@ -34,7 +34,7 @@ Fetch the PR details (title, repository, source and target branches) via `repo_g
 
 - Call `repo_list_pull_request_threads` with `authorFilter` set to the current user's email, `excludeServiceAccounts: true`, and `excludeSystemThreads: true`. This returns only threads authored by the user with system noise filtered out server-side.
 - **Exclude agent-posted comments** (see **Distinguishing user vs. agent comments** above):
-  - If a preceding `/review-pr` ran in this conversation, exclude thread IDs the agent created (known from conversation context).
+  - If a preceding `/review-pr-g` ran in this conversation, exclude thread IDs the agent created (known from conversation context).
   - Otherwise, exclude threads whose root comment text starts with `**Blocking**:`, `**Suggestion**:`, or `**Nit**:`.
 - If no candidate comments remain, report "no user-authored comments found" and stop.
 
@@ -86,7 +86,7 @@ Covered by:
 **Uncovered comments** -- do not draft a reply. Instead, for each:
 
 - Determine whether an existing artifact could be amended to cover the concern, or whether a new artifact is needed.
-- Draft a `/create-task` suggestion with:
+- Draft a `/create-task-g` suggestion with:
   - A proposed task title (action-oriented, under 80 characters).
   - A proposed task description explaining the gap, the PR comment that revealed it, and the recommended artifact to amend or create.
 
@@ -95,7 +95,7 @@ Covered by:
 Show two groups to the user:
 
 - **Covered**: each comment with its proposed reply text inside a fenced code block (per the **external-communications-g** skill). Include a clickable link to the PR thread as the posting destination.
-- **Uncovered**: each comment with its proposed `/create-task` description.
+- **Uncovered**: each comment with its proposed `/create-task-g` description.
 
 **Wait for user approval before posting or creating tasks** (per the **external-communications-g** skill). The user can approve all, approve selectively, modify reply text, or modify task descriptions.
 

@@ -1,11 +1,11 @@
 ---
 name: plan-execution-g
-description: Execution protocol for plans produced by the /plan command. Governs how TODO items prefixed with [commit] or [action] are built, executed, and verified. Use whenever the agent executes TODO items prefixed with [commit] or [action], or implements a plan containing a table of commit/action typed steps.
+description: Execution protocol for plans produced by the /plan-g command. Governs how TODO items prefixed with [commit] or [action] are built, executed, and verified. Use whenever the agent executes TODO items prefixed with [commit] or [action], or implements a plan containing a table of commit/action typed steps.
 ---
 
 # Plan Execution
 
-This skill defines the protocol for implementing a plan that contains `[commit]` and `[action]` TODO items. It applies whether the plan was just produced by `/plan` in the current conversation or is being continued from a prior session.
+This skill defines the protocol for implementing a plan that contains `[commit]` and `[action]` TODO items. It applies whether the plan was just produced by `/plan-g` in the current conversation or is being continued from a prior session.
 
 ## Building the TODO list
 

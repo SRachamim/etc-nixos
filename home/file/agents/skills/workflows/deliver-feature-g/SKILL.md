@@ -35,7 +35,7 @@ If the user requests changes, iterate on the plan before proceeding.
 
 ### 3. Implement
 
-Execution proceeds automatically per the approved plan (internally uses `plan-execution-g`).
+Execution proceeds automatically per the approved plan (internally uses **plan-execution-g**).
 
 Each commit is made as the plan dictates. Build and tests are verified after each commit.
 

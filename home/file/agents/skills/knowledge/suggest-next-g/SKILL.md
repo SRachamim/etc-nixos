@@ -19,58 +19,58 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 
 | Completed | Follow-ups |
 |-----------|-----------|
-| `/activate-work-item` | `/plan`, `/checkout-worktree` |
-| `/answer-slack` | `/create-task`, `/investigate-incident` |
-| `/audit-dependencies` | `/submit-feature`, `/commit-and-push` |
-| `/block-work-item` | `/checkout-worktree`, `/defer-fix` |
-| `/checkout-worktree` | `/plan`, `/debug`, `/reproduce-bug` |
-| `/close-worktree` | `/verify-deployment`, `/prune-merged`, `/checkout-worktree` |
-| `/commit-and-push` | `/submit-feature` |
-| `/compare-approaches` | `/plan` |
-| `/create-bug` | `/checkout-worktree`, `/reproduce-bug`, `/write-repro-steps` |
-| `/create-task` | `/checkout-worktree`, `/plan` |
-| `/debug` | `/commit-and-push`, `/create-bug`, `/defer-fix` |
-| `/defer-fix` | `/create-bug`, `/create-task`, `/checkout-worktree` |
-| `/deliver-feature` | `/close-worktree`, `/verify-deployment` |
-| `/design-microservice-system` | `/create-microservice`, `/plan` |
-| `/estimate-work-item` | `/plan`, `/checkout-worktree` |
-| `/extract-microservice` | `/submit-feature`, `/review-microservice-architecture` |
-| `/fix-bug` | `/close-worktree`, `/verify-deployment` |
-| `/fix-build` | `/commit-and-push`, `/submit-feature` |
-| `/investigate-incident` | `/create-bug`, `/submit-bypass-request`, `/debug` |
-| `/list-closeable-worktrees` | `/close-worktree`, `/prune-merged` |
-| `/plan` | `/commit-and-push`, `/submit-feature` |
-| `/prepare-release` | `/update-wiki`, `/commit-and-push` |
-| `/plan-from-prd-intake` | `/submit-feature`, `/commit-and-push` |
-| `/prd-intake` | `/checkout-worktree`, `/plan-from-prd-intake`, `/create-task`, `/estimate-work-item`, `/plan` |
-| `/prune-merged` | `/checkout-worktree` |
-| `/report-bug` | `/fix-bug`, `/checkout-worktree` |
-| `/reproduce-bug` | `/debug`, `/write-repro-steps` |
-| `/retrospective` | `/plan`, `/create-task` |
-| `/review-microservice-architecture` | `/design-microservice-system`, `/extract-microservice`, `/plan` |
-| `/review-pr` | `/weigh-feedback`, `/trace-pr-comments` |
-| `/review-pr-fixes` | `/submit-feature`, `/close-worktree` |
-| `/submit-bypass-request` | `/triage-build`, `/commit-and-push` |
-| `/submit-feature` | `/weigh-feedback`, `/review-pr-fixes`, `/close-worktree` |
-| `/sweep-backlog` | `/checkout-worktree`, `/create-task`, `/estimate-work-item` |
-| `/trace-pr-comments` | `/weigh-feedback`, `/review-pr-fixes` |
-| `/triage` | `/plan`, `/checkout-worktree`, `/estimate-work-item` |
-| `/triage-build` | `/debug`, `/submit-bypass-request`, `/create-bug` |
-| `/update-wiki` | `/prepare-release` |
-| `/verify-deployment` | `/close-worktree`, `/create-bug` |
-| `/weigh-feedback` | `/review-pr-fixes`, `/commit-and-push` |
-| `/write-repro-steps` | `/reproduce-bug`, `/debug` |
+| `/activate-work-item-g` | `/plan-g`, `/checkout-worktree-g` |
+| `/answer-slack-g` | `/create-task-g`, `/investigate-incident-g` |
+| `/audit-dependencies-g` | `/submit-feature-g`, `/commit-and-push-g` |
+| `/block-work-item-g` | `/checkout-worktree-g`, `/defer-fix-g` |
+| `/checkout-worktree-g` | `/plan-g`, `/debug-g`, `/reproduce-bug-g` |
+| `/close-worktree-g` | `/verify-deployment-g`, `/prune-merged-g`, `/checkout-worktree-g` |
+| `/commit-and-push-g` | `/submit-feature-g` |
+| `/compare-approaches-g` | `/plan-g` |
+| `/create-bug-g` | `/checkout-worktree-g`, `/reproduce-bug-g`, `/write-repro-steps-g` |
+| `/create-task-g` | `/checkout-worktree-g`, `/plan-g` |
+| `/debug-g` | `/commit-and-push-g`, `/create-bug-g`, `/defer-fix-g` |
+| `/defer-fix-g` | `/create-bug-g`, `/create-task-g`, `/checkout-worktree-g` |
+| `/deliver-feature-g` | `/close-worktree-g`, `/verify-deployment-g` |
+| `/design-microservice-system-g` | `/create-microservice-g`, `/plan-g` |
+| `/estimate-work-item-g` | `/plan-g`, `/checkout-worktree-g` |
+| `/extract-microservice-g` | `/submit-feature-g`, `/review-microservice-architecture-g` |
+| `/fix-bug-g` | `/close-worktree-g`, `/verify-deployment-g` |
+| `/fix-build-g` | `/commit-and-push-g`, `/submit-feature-g` |
+| `/investigate-incident-g` | `/create-bug-g`, `/submit-bypass-request-g`, `/debug-g` |
+| `/list-closeable-worktrees-g` | `/close-worktree-g`, `/prune-merged-g` |
+| `/plan-g` | `/commit-and-push-g`, `/submit-feature-g` |
+| `/prepare-release-g` | `/update-wiki-g`, `/commit-and-push-g` |
+| `/plan-from-prd-intake-g` | `/submit-feature-g`, `/commit-and-push-g` |
+| `/prd-intake-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/estimate-work-item-g`, `/plan-g` |
+| `/prune-merged-g` | `/checkout-worktree-g` |
+| `/report-bug-g` | `/fix-bug-g`, `/checkout-worktree-g` |
+| `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |
+| `/retrospective-g` | `/plan-g`, `/create-task-g` |
+| `/review-microservice-architecture-g` | `/design-microservice-system-g`, `/extract-microservice-g`, `/plan-g` |
+| `/review-pr-g` | `/weigh-feedback-g`, `/trace-pr-comments-g` |
+| `/review-pr-fixes-g` | `/submit-feature-g`, `/close-worktree-g` |
+| `/submit-bypass-request-g` | `/triage-build-g`, `/commit-and-push-g` |
+| `/submit-feature-g` | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/close-worktree-g` |
+| `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/estimate-work-item-g` |
+| `/trace-pr-comments-g` | `/weigh-feedback-g`, `/review-pr-fixes-g` |
+| `/triage-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
+| `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |
+| `/update-wiki-g` | `/prepare-release-g` |
+| `/verify-deployment-g` | `/close-worktree-g`, `/create-bug-g` |
+| `/weigh-feedback-g` | `/review-pr-fixes-g`, `/commit-and-push-g` |
+| `/write-repro-steps-g` | `/reproduce-bug-g`, `/debug-g` |
 
 ## Presentation
 
-Present at most 3 follow-ups. Filter by context -- omit suggestions that don't apply to the current state (e.g. don't suggest `/close-worktree` if the PR hasn't been merged, don't suggest `/submit-feature` if there are no commits to submit).
+Present at most 3 follow-ups. Filter by context -- omit suggestions that don't apply to the current state (e.g. don't suggest `/close-worktree-g` if the PR hasn't been merged, don't suggest `/submit-feature-g` if there are no commits to submit).
 
 Format:
 
 ```
 **Next steps you might consider:**
-- `/skill-name` -- one-line reason why it's relevant now
-- `/skill-name` -- one-line reason
+- `/skill-name-g` -- one-line reason why it's relevant now
+- `/skill-name-g` -- one-line reason
 ```
 
 Each reason must be grounded in the current context -- what just happened, what state the work item is in, or what the user's likely next action is. Do not use generic filler reasons.

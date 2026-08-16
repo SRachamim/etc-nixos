@@ -15,7 +15,7 @@ This skill provides the **methodology** for best-of-N evaluation -- when to use 
 Accept **any** of the following:
 
 1. **Design question** -- a question with multiple viable answers (e.g., "Should we use a saga or an event-sourced aggregate for cross-service order processing?").
-2. **Decision point from `/plan` or `/prd-intake`** -- when step 4 (design lenses) or step 6 (tech design) reveals multiple viable paths. The calling skill passes the decision context.
+2. **Decision point from `/plan-g` or `/prd-intake-g`** -- when step 4 (design lenses) or step 6 (tech design) reveals multiple viable paths. The calling skill passes the decision context.
 3. **Explicit candidates** -- the user provides a list of approaches to compare.
 
 ## Steps
@@ -106,9 +106,9 @@ Output a structured comparison:
 
 Wait for the user to choose. Once they decide:
 
-- If invoked from `/plan`: return the chosen approach as the design input for step 5 (draft the plan).
-- If invoked from `/prd-intake`: return the chosen approach for the tech design section.
-- If invoked standalone: suggest invoking `/plan` with the chosen approach.
+- If invoked from `/plan-g`: return the chosen approach as the design input for step 5 (draft the plan).
+- If invoked from `/prd-intake-g`: return the chosen approach for the tech design section.
+- If invoked standalone: suggest invoking `/plan-g` with the chosen approach.
 
 ### 7. Evolve
 
@@ -116,7 +116,7 @@ Follow the **continuous-improvement-g** skill.
 
 ## When NOT to use this skill
 
-- When there is only one obvious approach -- just proceed with `/plan`.
+- When there is only one obvious approach -- just proceed with `/plan-g`.
 - When the decision is trivial -- apply **decision-priorities-g** inline without spawning subagents.
 - When the decision is purely about naming, style, or cosmetics -- not architectural.
 - When the candidates differ only in effort, not in design shape -- just note the trade-off and pick.

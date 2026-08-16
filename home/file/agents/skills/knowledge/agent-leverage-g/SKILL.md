@@ -68,7 +68,7 @@ Daily outputs compound into professional standing. Each interaction is a data po
 | Slack message | Crisp, concrete, valuable; respects the reader's time | **external-communications-g** |
 | Plan | Grounded in prior art and codebase evidence; structured for decision-making | **prior-art-research-g** + **plan-g** |
 | Bug report | Concrete reproduction steps, correct severity, necessary context | **write-repro-steps-g** |
-| Estimate | Calibrated to codebase evidence, explicit about assumptions and risk | **estimation-g** |
+| Estimate | Calibrated to codebase evidence, explicit about assumptions and risk | **effort-estimation-g** |
 
 **Consistency > occasional brilliance.** 100 reliably excellent outputs build more trust than 1 great one amid 99 careless ones. The agent system makes consistency cheap -- the standards apply uniformly regardless of your energy level, time pressure, or cognitive load on a given day.
 

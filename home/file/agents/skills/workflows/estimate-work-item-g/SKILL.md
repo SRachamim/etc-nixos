@@ -34,7 +34,7 @@ If neither input path yields a starting point, ask the user and stop.
 
 ### 2. Estimate
 
-Follow the **estimation-g** skill, passing the resolved work item details (or free-text description) as input.
+Follow the **effort-estimation-g** skill, passing the resolved work item details (or free-text description) as input.
 
 ### 3. Present the report
 

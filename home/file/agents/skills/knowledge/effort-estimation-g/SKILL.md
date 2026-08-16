@@ -1,9 +1,9 @@
 ---
-name: estimation-g
+name: effort-estimation-g
 description: Codebase-grounded estimation methodology. Use whenever the agent needs to produce effort estimates for work items or tasks.
 ---
 
-# Estimation
+# Effort Estimation
 
 Produce an effort estimate **in hours** grounded in codebase evidence and empirical calibration data -- not intuition.
 

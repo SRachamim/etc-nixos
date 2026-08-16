@@ -456,7 +456,7 @@ Never invoked by name. The agent loads them contextually:
 | `decision-priorities-g`     | Choosing between approaches                      |
 | `architect-thinking-g`      | Architecture decisions, incidents, system design |
 | `microservice-patterns-g`  | Any microservice work                            |
-| `estimation-g`              | Producing effort estimates                       |
+| `effort-estimation-g`              | Producing effort estimates                       |
 | `incident-response-g`       | Production incident investigation                |
 | `context-engineering-g`     | Long sessions, subagent spawning                 |
 | `gitflow-branching-g`       | Branch creation, merges, releases                |

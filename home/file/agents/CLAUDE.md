@@ -78,7 +78,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | decision-priorities-g | Decision Priorities | `~/.claude/skills/decision-priorities-g/SKILL.md` |
 | delivered-text-g | Delivered Text | `~/.claude/skills/delivered-text-g/SKILL.md` |
 | design-lenses-g | Design Lenses | `~/.claude/skills/design-lenses-g/SKILL.md` |
-| estimation-g | Estimation | `~/.claude/skills/estimation-g/SKILL.md` |
+| effort-estimation-g | Effort Estimation | `~/.claude/skills/effort-estimation-g/SKILL.md` |
 | event-driven-automations-g | Event-Driven Automations | `~/.claude/skills/event-driven-automations-g/SKILL.md` |
 | external-communications-g | External Communications | `~/.claude/skills/external-communications-g/SKILL.md` |
 | fgrepo-artifact-precedence-g | fgrepo Artifact Precedence | `~/.claude/skills/fgrepo-artifact-precedence-g/SKILL.md` |

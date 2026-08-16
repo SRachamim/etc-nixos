@@ -130,7 +130,7 @@ Present the proposal:
 
 Compose the ADO field updates that **will** be applied, but do not apply them yet.
 
-Follow the **estimation-g** skill for hours and confidence level, grounded in the codebase understanding from steps 3--4. Follow the **triage-transition-g** skill for the required fields and their defaults.
+Follow the **effort-estimation-g** skill for hours and confidence level, grounded in the codebase understanding from steps 3--4. Follow the **triage-transition-g** skill for the required fields and their defaults.
 
 If `OriginalEstimate`, `RemainingWork`, or `EstimationConfidenceLevel` are already set on the work item, carry the existing values forward and do not overwrite them.
 

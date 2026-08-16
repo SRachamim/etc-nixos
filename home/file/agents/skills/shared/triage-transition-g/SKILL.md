@@ -35,7 +35,7 @@ Inspect the fetched relations for a **predecessor** link. If one exists, the wor
 
 If `OriginalEstimate`, `RemainingWork`, or `EstimationConfidenceLevel` are already set on the work item, **skip this step** -- carry the existing values forward and do not overwrite them.
 
-Otherwise, follow the **estimation-g** skill, passing the work item details as input.
+Otherwise, follow the **effort-estimation-g** skill, passing the work item details as input.
 
 Present the estimate summary (T-shirt size, story points, key risks) to the user for confirmation before writing to ADO.
 
@@ -68,7 +68,7 @@ Call `update_work_item` with:
 
 Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If the fields were already set on the work item, omit them from the update.
 
-When included, the **estimation-g** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
+When included, the **effort-estimation-g** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
 
 ### 5. Confirm
 

@@ -22,6 +22,19 @@ Before posting:
 2. **Wait for approval** -- Do not proceed until the user explicitly approves
 3. **Accept modifications** -- If the user suggests changes, present the revised version and wait for approval again
 
+## Draft-first principle
+
+Whenever a workflow step mentions, plans, or summarises an external reply -- whether in a reaction plan table, a findings summary, a plan TODO, or any other presentation to the user -- **always compose the literal candidate text**. Never use vague descriptions like:
+
+- "Reply explaining why the approach is correct"
+- "Acknowledge the feedback and mention the fix"
+- "Respond stating the governing standard"
+- "Post a summary of the changes"
+
+Instead, compose the actual text following the **delivered-text-g** stack (load all applicable layers for the text type) and present it in a fenced code block. The user must see the exact words that would be posted.
+
+This applies at every stage -- during planning, during summary presentation, and during the approval step. The goal: no external reply is ever described in the abstract. It is always drafted in full.
+
 ## Multi-Recipient Semantics
 
 Pay close attention to how the user phrases multi-recipient requests:

@@ -179,7 +179,7 @@ Show the complete follow-up review to the user.
 #### When following up on `/review-pr-g`
 
 - A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged -- grouped by original severity.
-- Threads requiring action: proposed reply and target status change (`Active`) for each inadequately resolved thread.
+- Threads requiring action: literal reply text (composed per **delivered-text-g** stack, presented in a fenced code block) and target status change (`Active`) for each inadequately resolved thread.
 - Threads resolved silently: list of thread IDs being set to `Fixed` (no reply).
 - New delta findings grouped by severity.
 - Overall verdict: approve, request further changes, or comment-only.
@@ -189,7 +189,7 @@ Show the complete follow-up review to the user.
 Use the same output format as step 7 of `/review-plan-g`:
 
 - A summary of finding resolution outcomes (how many accepted, how many need follow-up, grouped by original severity).
-- Finding-level follow-ups with the proposed response for each.
+- Finding-level follow-ups with the literal response text (composed per **delivered-text-g** stack, in a fenced code block) for each.
 - New findings from the delta grouped by severity.
 - Overall verdict: approve, request further changes, or comment-only.
 - Suggested revised steps (if blocking issues remain).

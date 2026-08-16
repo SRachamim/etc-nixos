@@ -31,7 +31,7 @@ After evaluating all comments, produce a structured reaction plan:
 
 | Comment | Verdict | Governing standard | Proposed action |
 |---------|---------|-------------------|-----------------|
-| File path + line, first sentence (truncated) | One of the five verdicts | Skill/rule name + relevant section (or "general principles") | Code change summary, reply gist, or question to ask |
+| File path + line, first sentence (truncated) | One of the five verdicts | Skill/rule name + relevant section (or "general principles") | Code change summary, full draft reply text (composed per **delivered-text-g** stack, in a fenced code block), or question to ask |
 
 Present the full reaction plan to the user. The user may:
 

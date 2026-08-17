@@ -57,4 +57,4 @@ Inform the user: "PR submitted. Run `/close-worktree-g` after it merges, or I ca
 
 ### 6. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

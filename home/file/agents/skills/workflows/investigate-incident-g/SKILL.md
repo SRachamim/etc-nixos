@@ -103,4 +103,4 @@ Wait for user confirmation before taking any action.
 
 ### 9. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

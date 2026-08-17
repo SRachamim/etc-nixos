@@ -333,4 +333,4 @@ Transition from planning to implementation of the migration work.
 
 ### 12. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

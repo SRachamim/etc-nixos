@@ -256,9 +256,13 @@ flowchart LR
 
 ## Workflow 12: Agent System Improvement
 
+### Per-execution improvement capture
+
+- **/capture-improvement-g** -- Reflects on skill execution using the **continuous-improvement-g** methodology. For user-level skills, persists observations to `~/.local/share/agent-improvements/pending/` for later curation. Also triggered as the Evolve step at the end of every workflow skill.
+
 ### Batch retrospective
 
-- **/review-retrospective-g** -- Scans recent agent transcripts for recurring friction. Proposes batch improvements to skills and rules.
+- **/review-retrospective-g** -- Scans recent agent transcripts for recurring friction. Proposes batch improvements to skills and rules. Approved proposals are routed through **capture-improvement-g** mechanics.
 
 ### Post-feature artifact discovery
 
@@ -433,9 +437,10 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
-| `continuous-improvement-g`    | All workflow skills (final step)                                      | Post-execution reflection + artifact edits     |
+| `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
+| `continuous-improvement-g`    | `capture-improvement-g`, `review-retrospective-g`                     | Improvement methodology (signals, categories)  |
 | `feedback-evaluation-g`       | `/weigh-feedback-g`, `/review-pr-fixes-g`                             | PR feedback evaluation framework               |
-| `follow-up-map-g`             | `continuous-improvement-g`                                            | Presents up to 3 follow-up skill suggestions   |
+| `follow-up-map-g`             | `capture-improvement-g`                                               | Presents up to 3 follow-up skill suggestions   |
 | `mode-gate-g`                 | Most workflow skills (step 0)                                         | Enforces Plan/Debug/Ask mode before proceeding |
 | `browser-bug-reproduction-g`  | `/reproduce-bug-g`, `/debug-g`                                        | Mechanics of local dev + browser verification  |
 | `work-item-context-g`         | `/plan-g`, `/triage-work-item-g`, `/write-repro-steps-g`, `/reproduce-bug-g`    | Deeply fetches ADO item + relations            |

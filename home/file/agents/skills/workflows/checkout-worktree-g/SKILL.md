@@ -43,4 +43,4 @@ Print the full path to the new worktree so the user can open it.
 
 ### 7. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

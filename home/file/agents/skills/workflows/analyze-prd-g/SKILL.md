@@ -272,4 +272,4 @@ Wait for the user to review, ask questions, or request changes. When the documen
 
 ### 10. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

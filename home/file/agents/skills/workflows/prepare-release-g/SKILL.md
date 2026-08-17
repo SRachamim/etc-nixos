@@ -81,4 +81,4 @@ Based on user preference:
 
 ### 7. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

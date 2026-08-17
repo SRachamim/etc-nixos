@@ -369,4 +369,4 @@ Deliver the architecture document for review and approval.
 
 ### 13. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

@@ -86,7 +86,7 @@ When the agent proposes a plan, you evaluate it before execution. This is where 
 
 ### Skill evolution
 
-**continuous-improvement-g** proposes refinements after each execution. **review-retrospective-g** identifies patterns across sessions. YOUR observations -- what you accept, reject, or modify -- become encoded standards. Every refinement raises the baseline for all future work.
+**capture-improvement-g** proposes refinements after each execution. **review-retrospective-g** identifies patterns across sessions. YOUR observations -- what you accept, reject, or modify -- become encoded standards. Every refinement raises the baseline for all future work.
 
 ### Quality calibration
 
@@ -102,7 +102,7 @@ The system improves through a feedback cycle:
 
 1. **Work** -- agent executes with currently encoded standards
 2. **Observation** -- execution reveals friction, gaps, or quality mismatches
-3. **Proposal** -- **continuous-improvement-g** suggests a specific refinement
+3. **Proposal** -- **capture-improvement-g** suggests a specific refinement
 4. **Curation** -- you approve, reject, or modify (injecting taste)
 5. **Evolution** -- the skill ecosystem improves
 6. **Work** -- next execution starts from a higher baseline
@@ -122,7 +122,7 @@ The **review-retrospective-g** skill runs this loop at batch scale (weekly, acro
 ## Relationship to other skills
 
 - **professional-differentiation-g** -- defines the moats; this skill operationalizes them through the agent system.
-- **continuous-improvement-g** -- the reactive feedback mechanism that proposes system evolution after each execution.
+- **capture-improvement-g** -- the reactive feedback mechanism that proposes system evolution after each execution.
 - **review-retrospective-g** -- the proactive batch-level mechanism that identifies patterns across sessions.
 - **context-engineering-g** -- enables deep work by managing cognitive load; keeps the agent efficient.
 - **external-communications-g** -- the outward-facing quality gate where reputation is built or eroded.

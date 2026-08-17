@@ -182,4 +182,4 @@ Once the user approves, implement the fix plan **in the exact sequence presented
 
 ### 10. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

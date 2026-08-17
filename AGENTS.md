@@ -25,6 +25,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | Shell config (zsh) | `home/shared.nix` (programs.zsh.initContent) |
 | Dotfiles (ghostty, aerospace, zellij, etc.) | `home/file/<app>/` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
+| Improvement observations (shared runtime state) | `~/.local/share/agent-improvements/pending/` |
 | Neovim config | `home/programs/neovim/` |
 | Fonts (NixOS) | `modules/nixos/fonts.nix` |
 | Services (NixOS) | `modules/nixos/services.nix` |
@@ -122,12 +123,12 @@ Applies when creating or modifying files under `home/file/agents/skills/**/SKILL
 
 When creating or modifying a skill or subagent prompt in this repository:
 
-- Add a final step that references the **continuous-improvement-g** skill, e.g.:
+- Add a final step that references the **capture-improvement-g** skill, e.g.:
 
 ```
 ### N. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.
 ```
 
 - For workflow skills that delegate to a shared skill (like `create-work-item`), the shared skill carries the step -- don't duplicate it in the caller.

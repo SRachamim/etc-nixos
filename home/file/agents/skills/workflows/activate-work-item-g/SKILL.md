@@ -40,4 +40,4 @@ Print:
 
 ### 5. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

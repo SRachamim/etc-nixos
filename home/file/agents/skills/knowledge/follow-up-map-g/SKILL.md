@@ -1,6 +1,6 @@
 ---
 name: follow-up-map-g
-description: Presents relevant follow-up workflow skills after completing any workflow skill. Provides a static relationship map and presentation format. Use after any workflow skill completes -- typically triggered via the continuous-improvement-g skill's terminal step.
+description: Presents relevant follow-up workflow skills after completing any workflow skill. Provides a static relationship map and presentation format. Use after any workflow skill completes -- typically triggered via the capture-improvement-g skill's terminal step.
 ---
 
 # Follow-Up Map
@@ -22,6 +22,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/activate-work-item-g` | `/plan-g`, `/checkout-worktree-g` |
 | `/answer-slack-g` | `/create-task-g`, `/investigate-incident-g` |
 | `/audit-dependencies-g` | `/submit-feature-g`, `/commit-and-push-g` |
+| `/capture-improvement-g` | `/review-retrospective-g` |
 | `/block-work-item-g` | `/checkout-worktree-g`, `/defer-fix-g` |
 | `/checkout-worktree-g` | `/plan-g`, `/debug-g`, `/reproduce-bug-g` |
 | `/close-worktree-g` | `/verify-deployment-g`, `/prune-merged-g`, `/checkout-worktree-g` |

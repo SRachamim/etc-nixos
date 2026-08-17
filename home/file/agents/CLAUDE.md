@@ -11,7 +11,6 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/activate-work-item-g` | Activate Work Item | `~/.claude/skills/activate-work-item-g/SKILL.md` |
 | `/answer-slack-g` | Answer Slack | `~/.claude/skills/answer-slack-g/SKILL.md` |
 | `/audit-dependencies-g` | Audit Dependencies | `~/.claude/skills/audit-dependencies-g/SKILL.md` |
-| `/capture-improvement-g` | Capture Improvement | `~/.claude/skills/capture-improvement-g/SKILL.md` |
 | `/block-work-item-g` | Block Work Item | `~/.claude/skills/block-work-item-g/SKILL.md` |
 | `/checkout-worktree-g` | Checkout Worktree | `~/.claude/skills/checkout-worktree-g/SKILL.md` |
 | `/close-worktree-g` | Close Worktree | `~/.claude/skills/close-worktree-g/SKILL.md` |

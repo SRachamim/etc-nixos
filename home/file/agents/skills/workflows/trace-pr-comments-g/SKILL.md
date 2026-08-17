@@ -109,4 +109,4 @@ For each approved gap candidate, follow the **create-task-g** skill with the dra
 
 ### 9. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

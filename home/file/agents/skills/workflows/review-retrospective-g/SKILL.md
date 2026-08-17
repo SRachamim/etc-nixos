@@ -1,12 +1,12 @@
 ---
 name: review-retrospective-g
-description: Reviews recent agent transcripts for recurring friction, workarounds, and failures, then proposes batch improvements to skills, rules, and subagent prompts. Use on-demand or as a scheduled weekly automation to keep the skill ecosystem evolving from evidence.
+description: Reviews recent agent transcripts for recurring friction, workarounds, and failures, then proposes batch improvements to skills, rules, and subagent prompts. The proactive complement to capture-improvement-g. Use on-demand or as a scheduled weekly automation to keep the skill ecosystem evolving from evidence.
 disable-model-invocation: true
 ---
 
 # Review Retrospective
 
-Review recent agent transcripts to identify recurring patterns of friction, then propose batch improvements to the skill ecosystem. This is the **proactive** complement to **continuous-improvement-g** (which is reactive and per-execution).
+Review recent agent transcripts to identify recurring patterns of friction, then propose batch improvements to the skill ecosystem. This is the **proactive** complement to **capture-improvement-g** (which is reactive and per-execution).
 
 ## Input
 
@@ -110,11 +110,11 @@ Output the retrospective in this format:
 
 ### 6. Iterate
 
-Wait for the user to approve, modify, or reject each proposal. Approved proposals are applied following **continuous-improvement-g** mechanics (locate source file, apply edit, commit).
+Wait for the user to approve, modify, or reject each proposal. Approved proposals are applied following **capture-improvement-g** mechanics (classify artifact scope, apply directly or persist to shared location, commit).
 
 ### 7. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.
 
 ## Context engineering
 
@@ -136,6 +136,6 @@ Per the **event-driven-automations-g** skill, this can run as a scheduled automa
 
 ## When NOT to use this skill
 
-- After a single session -- use **continuous-improvement-g** instead.
+- After a single session -- use **capture-improvement-g** instead.
 - When you already know the specific problem -- just fix the skill directly.
 - When transcripts are unavailable or the workspace has fewer than 5 sessions to review.

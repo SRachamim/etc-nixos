@@ -6,12 +6,12 @@ paths: home/file/agents/skills/**/SKILL.md
 
 When creating or modifying a skill or subagent prompt in this repository:
 
-- Add a final step that references the **continuous-improvement-g** skill, e.g.:
+- Add a final step that references the **capture-improvement-g** skill, e.g.:
 
 ```
 ### N. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.
 ```
 
 - For workflow skills that delegate to a shared skill (like `create-work-item`), the shared skill carries the step -- don't duplicate it in the caller.

@@ -121,4 +121,4 @@ Print the created work item's **ID**, **title**, **type**, **state**, **assigned
 
 ### 9. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

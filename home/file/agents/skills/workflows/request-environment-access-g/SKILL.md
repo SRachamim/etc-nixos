@@ -108,4 +108,4 @@ Report the permalink back to the user: `https://fundguard.slack.com/archives/C07
 
 ### 6. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

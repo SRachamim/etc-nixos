@@ -360,4 +360,4 @@ Transition from design to implementation.
 
 ### 14. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

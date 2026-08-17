@@ -49,4 +49,4 @@ If the user wants to proceed to fix it immediately, suggest `/fix-bug-g <work-it
 
 ### 5. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

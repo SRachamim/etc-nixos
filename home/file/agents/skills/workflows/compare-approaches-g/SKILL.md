@@ -112,7 +112,7 @@ Wait for the user to choose. Once they decide:
 
 ### 7. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.
 
 ## When NOT to use this skill
 

@@ -74,7 +74,7 @@ Follow the conventions observed in existing workflow skills:
 - **Delegation**: reference other skills by name in bold (e.g. "Apply the **code-review-g** skill").
 - **Shared skills**: if the new skill shares steps with an existing workflow, extract the shared steps into a shared skill (like `create-work-item`) and reference it from both.
 - **User approval**: require explicit approval before any external side effects.
-- **Final step**: `### N. Evolve` -- "Follow the **continuous-improvement-g** skill."
+- **Final step**: `### N. Evolve` -- "Follow the **capture-improvement-g** skill."
 - **Frontmatter**: must include `disable-model-invocation: true`.
 - **Category directory**: place under `workflows/`.
 
@@ -154,4 +154,4 @@ Write the file immediately. Create the directory structure (`<category>/<name>/S
 
 ### 8. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

@@ -67,4 +67,4 @@ Using ADO MCP (`create_or_update_wiki_page`):
 
 ### 7. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

@@ -99,6 +99,16 @@ From the commit sequence, infer:
 - The **ordering strategy** -- are refactorings separated from behaviour changes? Are tests added before the code they protect?
 - The **design decisions** -- what alternatives were implicitly rejected by the chosen approach.
 
+#### Check for existing solutions
+
+When the PR introduces a new abstraction (component, hook, utility, module, service), search the codebase for existing abstractions that address the same problem. Look for:
+
+- Same domain concept under a different name.
+- Same structural pattern applied to a related use case (e.g. collapsing header vs. collapsing footer).
+- Utility functions or hooks that already encapsulate the logic being re-implemented.
+
+If a match exists, evaluate whether the PR should **reuse** the existing abstraction, **compose** with it, or **generalize** it into a shared solution. A new abstraction that reimplements logic already present elsewhere is a design finding (severity: Suggestion or Blocking depending on the degree of duplication).
+
 #### Research prior art
 
 Apply the **prior-art-research-g** skill to check whether established patterns or approaches exist for the problem domain the PR addresses. Compare the PR's approach against known patterns from the FP, DDD, and software design literature. Note whether the PR aligns with, adapts, or departs from established solutions.
@@ -184,4 +194,4 @@ Print a summary:
 
 ### 11. Evolve
 
-Follow the **continuous-improvement-g** skill.
+Follow the **capture-improvement-g** skill.

@@ -144,7 +144,7 @@ Any post-baseline modification that was not part of the original review receives
 - Design evaluation (step 4 of `/review-pr-g`) if the delta warrants it -- consider the design context from the original review's evaluation if it was performed.
 - **functional-typescript-g** skill for TypeScript files.
 - **commit-conventions-g** skill for new commits.
-- Check against any workspace-level rules defined in the target repository.
+- **Load relevant workspace rules**: the target repository may define conditional workspace rules (rules scoped to specific file patterns or content domains) that don't auto-load during review -- the agent reads diffs via git commands rather than opening files through the editor, so path-based triggers may not fire. Scan available conditional workspace rules and load any whose scope matches changed files or content in the diff (e.g. CSS rules for stylesheet changes, React hook rules for hook changes, form rules for form component changes). Always-applied rules are already in context.
 
 #### When following up on `/review-plan-g`
 

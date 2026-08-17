@@ -49,4 +49,4 @@ Don't wrap the body in section headings -- no "Summary", no "Test plan", no temp
 
 ### 5. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

@@ -312,4 +312,4 @@ Once the user approves the extraction plan, switch to implementation.
 
 ### 11. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

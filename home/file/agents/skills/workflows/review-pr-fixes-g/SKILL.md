@@ -244,4 +244,4 @@ Print a summary matching the context type.
 
 ### 12. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

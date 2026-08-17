@@ -151,4 +151,4 @@ When planning "all phases", present one phase at a time. After approval of one p
 
 ### 6. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

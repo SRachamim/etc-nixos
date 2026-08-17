@@ -56,7 +56,7 @@ After fixing an "own code bug" failure, investigate why the pre-commit hook did 
 | Gap type | Meaning | Action |
 |----------|---------|--------|
 | **Hook doesn't cover** | Pre-commit hook doesn't run this check at all | Propose extending the hook -- apply **tooling-enforcement-g** |
-| **Hook was bypassed** | Agent used `--no-verify` or equivalent | Fix the workflow skill that bypassed it -- apply **capture-improvement-g** |
+| **Hook was bypassed** | Agent used `--no-verify` or equivalent | Fix the workflow skill that bypassed it -- apply **continuous-improvement-g** |
 | **Scope mismatch** | Hook runs the check but only on staged files; CI runs the full suite and catches cross-file breakage | Propose a broader local check (e.g. `pnpm test` on affected packages, not just staged files) |
 | **Environment parity** | CI has dependencies, services, or config unavailable locally | Document as a known CI-only gate (no local prevention possible) |
 | **Non-deterministic** | Flaky test, timing issue, or platform difference | Route to Step 4 (bypass request) instead |
@@ -80,4 +80,4 @@ Inform the user the bug is filed and suggest re-running the build later or waiti
 
 ### 6. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

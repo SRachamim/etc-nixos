@@ -207,4 +207,4 @@ Print the work item **ID** and confirm the update.
 
 ### 8. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

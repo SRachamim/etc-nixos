@@ -344,12 +344,6 @@ EOF
     fi
   '';
 
-  home.activation.createImprovementsDir = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "$HOME/.local/share/agent-improvements/pending"
-    mkdir -p "$HOME/.local/share/agent-improvements/applied"
-    mkdir -p "$HOME/.local/share/agent-improvements/rejected"
-  '';
-
   programs = {
     atuin = {
       enable = true;

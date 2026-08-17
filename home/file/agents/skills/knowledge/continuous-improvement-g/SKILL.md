@@ -1,15 +1,15 @@
 ---
 name: continuous-improvement-g
-description: Methodology for identifying improvements to agent skills, rules, and subagent prompts after execution. Defines signal types, categories, and proposal format. Loaded by capture-improvement-g and review-retrospective-g -- not invoked directly.
+description: Suggests and applies improvements to agent skills, rules, and subagent prompts after execution. Use proactively after running any skill or subagent -- especially when the execution required workarounds, discovered new information, or hit outdated instructions.
 ---
 
 # Continuous Improvement
 
-Methodology for reflecting on skill execution and proposing improvements to agent artifacts. This knowledge skill defines what to look for and how to structure proposals. The **capture-improvement-g** workflow applies this methodology and acts on the findings.
+After executing a command, skill, rule, or subagent prompt, reflect on the execution and propose improvements to the source artifact so future runs are better.
 
-## Signals
+## When to trigger
 
-Look for these signals during or after execution:
+Run this analysis whenever you finish executing (or observe the execution of) a skill, rule, or subagent. Look for any of these signals:
 
 - **Discovery**: you had to figure something out at runtime that could have been encoded ahead of time (e.g. an MCP field name, a required parameter, a default value).
 - **Workaround**: you deviated from the instructions because they were wrong, incomplete, or outdated.
@@ -21,9 +21,19 @@ Look for these signals during or after execution:
 - **Recurring friction**: the same painful step appears across multiple executions. "If it hurts, do it more often" -- automate or simplify it rather than working around it each time.
 - **Cost of inaction**: the artifact's current state causes repeated delay, confusion, or error. The cost of not improving accumulates -- flag it even if no single execution failed.
 
-If the execution went smoothly and matched the instructions perfectly, there is nothing to propose.
+If the execution went smoothly and matched the instructions perfectly, say nothing -- don't suggest improvements for their own sake.
 
-## Categories
+## How to propose an improvement
+
+### 1. State what happened
+
+One sentence describing the discrepancy or discovery during execution.
+
+> Example: "`create_work_item` now requires `System.AreaPath` -- I had to look it up via `get_work_item` on an existing item before I could create the task."
+
+### 2. Categorize
+
+Label the improvement as one of:
 
 | Category | Meaning |
 |----------|---------|
@@ -36,26 +46,36 @@ If the execution went smoothly and matched the instructions perfectly, there is 
 | **accuracy** | A prompt or instruction that produced suboptimal output |
 | **performance** | A way to reduce latency, token cost, or API calls |
 
-## Proposal format
-
-Each proposal has three parts:
-
-### 1. State what happened
-
-One sentence describing the discrepancy or discovery during execution.
-
-> Example: "`create_work_item` now requires `System.AreaPath` -- I had to look it up via `get_work_item` on an existing item before I could create the task."
-
-### 2. Categorize
-
-Label the improvement using one of the categories above.
-
 ### 3. Show the proposed change
 
 Present the specific edit as a before/after diff against the source file.
+
+### 4. Apply or present
+
+Locate the **source file** for the artifact. It may live in the current workspace even if it's deployed elsewhere at runtime (e.g. global skills managed from a dotfiles repo).
+
+- **Source is in the current workspace**: apply the edit directly and ask the user before committing. Follow whichever commit conventions the project uses.
+- **Source is truly external** (not managed from this workspace): format the entire proposal as a ready-to-paste agent instruction inside a fenced code block (so the IDE renders a copy button). The block must be self-contained -- everything another agent needs to apply the change without extra context:
+
+    ~~~text
+    The <command/skill/rule> at <runtime-path> needs an update.
+
+    What happened: <one sentence>
+    Category: <category>
+
+    Proposed change to <filename> -- <brief scope>:
+
+    <unified diff or before/after snippet>
+
+    This file lives at <path-hint> -- apply the diff there.
+    ~~~
 
 ## Constraints
 
 - **Evidence-based only** -- every suggestion must trace back to something that actually happened during execution. Never speculate.
 - **Don't break existing behavior** -- improvements must be backward-compatible. If unsure, present the change and ask.
 - **Minimal diff** -- change only what is needed. Don't reformat or restructure surrounding content.
+
+## After improvement analysis
+
+After completing the improvement analysis above, apply the **follow-up-map-g** skill to present relevant follow-up workflow skills to the user.

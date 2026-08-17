@@ -167,4 +167,4 @@ Print the work item **ID**, new **state**, **estimate (hours)**, and **confidenc
 
 ### 7. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

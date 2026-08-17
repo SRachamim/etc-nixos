@@ -97,4 +97,4 @@ If a notification is warranted, read and apply the **external-communications-g**
 
 ### 11. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

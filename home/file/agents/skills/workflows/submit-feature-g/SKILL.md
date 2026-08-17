@@ -116,4 +116,4 @@ Follow the **artifact-discovery-g** skill. If the branch diff is non-trivial, pr
 
 ### 8. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

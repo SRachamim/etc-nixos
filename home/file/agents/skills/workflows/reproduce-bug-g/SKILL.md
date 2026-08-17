@@ -39,4 +39,4 @@ The skill handles environment configuration (via `/set-igw-g` if needed), dev se
 
 ### 3. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

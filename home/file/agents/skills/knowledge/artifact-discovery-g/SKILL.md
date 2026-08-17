@@ -83,14 +83,14 @@ Present each suggestion as a structured block:
 ## Constraints
 
 - **Evidence-based only** -- every suggestion traces to the actual diff. Never speculate about what the codebase "might need someday."
-- **Repository-scoped** -- suggest artifacts for the target repository, not the global skill ecosystem. Improving global skills is the domain of **capture-improvement-g**.
+- **Repository-scoped** -- suggest artifacts for the target repository, not the global skill ecosystem. Improving global skills is the domain of **continuous-improvement-g**.
 - **Cap at 5** -- do not suggest more than 5 artifacts. Prioritize the highest-value ones.
 - **Suggestive, not generative** -- present suggestions to the user; do not create artifacts autonomously. Creation is delegated to `/add-agent-behavior` or manual editing.
 - **Skip silently** -- if the diff is trivial (fewer than 20 lines changed, only test files, or only documentation), produce no suggestions.
 
 ## Related skills
 
-- **capture-improvement-g** -- improves the artifacts that were *used* during execution. Artifact discovery suggests *new* artifacts based on the code that was *written*.
+- **continuous-improvement-g** -- improves the artifacts that were *used* during execution. Artifact discovery suggests *new* artifacts based on the code that was *written*.
 - **review-retrospective-g** -- batch-analyzes transcript history for recurring friction. Artifact discovery is per-feature, not per-history.
 - **workspace-rules-g** -- governs how to create workspace rules once the user decides to act on a suggestion.
 - **tooling-enforcement-g** -- if a suggested convention can be enforced by tooling (linter, compiler, CI), note that alongside the artifact suggestion.

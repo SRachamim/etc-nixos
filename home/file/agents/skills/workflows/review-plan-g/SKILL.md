@@ -124,4 +124,4 @@ Wait for questions, discussion, or amendments before considering the review comp
 
 ### 9. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

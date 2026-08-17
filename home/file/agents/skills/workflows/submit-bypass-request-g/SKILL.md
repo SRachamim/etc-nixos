@@ -111,4 +111,4 @@ Present a confirmation with a permalink to the posted message (`https://fundguar
 
 ### 6. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

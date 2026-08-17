@@ -95,4 +95,4 @@ Wait for user confirmation before taking any action.
 
 ### 8. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

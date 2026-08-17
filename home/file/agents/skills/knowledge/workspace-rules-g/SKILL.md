@@ -64,7 +64,7 @@ alwaysApply: false
 
 When creating or modifying a skill in this repository:
 
-- Add a final step that references the **capture-improvement-g** skill.
+- Add a final step that references the **continuous-improvement-g** skill.
 - Apply the **agent-compatibility-g** skill to verify portability.
 ```
 
@@ -79,7 +79,7 @@ paths: home/file/agents/skills/**/SKILL.md
 
 When creating or modifying a skill in this repository:
 
-- Add a final step that references the **capture-improvement-g** skill.
+- Add a final step that references the **continuous-improvement-g** skill.
 - Apply the **agent-compatibility-g** skill to verify portability.
 ```
 

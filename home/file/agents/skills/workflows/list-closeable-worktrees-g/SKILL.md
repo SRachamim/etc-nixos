@@ -67,4 +67,4 @@ If there are closeable features, suggest running `/close-worktree <id>` for each
 
 ### 6. Evolve
 
-Follow the **capture-improvement-g** skill.
+Follow the **continuous-improvement-g** skill.

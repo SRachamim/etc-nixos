@@ -43,6 +43,7 @@ From the fetched fields, extract:
 - **Org**: from `Custom.Org` (fall back to `manual` if absent).
 - **Environment**: from `Microsoft.VSTS.CMMI.FoundInEnvironment`.
 - **Work item type**: Bug vs Escape Defect -- this determines whether escape-point analysis applies.
+- **Ownership**: determine whether the work item is assigned to the current user (check `System.AssignedTo`). This determines the apply strategy in step 7.
 
 Present the structured context summary to the user before proceeding.
 
@@ -198,12 +199,24 @@ Recommend running `/reproduce-bug` as a follow-up to verify the steps in the run
 
 ### 7. Apply
 
-Once the user approves, require **Agent** mode following the **mode-gate-g** skill, then:
+Once the user approves, require **Agent** mode following the **mode-gate-g** skill, then choose the apply strategy based on ownership (determined in step 1):
 
-1. Update the work item's `Microsoft.VSTS.TCM.ReproSteps` field with the approved reproduction steps (formatted as HTML) via `update_work_item`.
-2. For **Escape Defect** work items: if the escape-point information is not already captured in a dedicated field, add a work item comment documenting the escape-point analysis from step 4.
+#### A. User's ticket (assigned to me)
 
-Print the work item **ID** and confirm the update.
+1. Fetch the current value of `Microsoft.VSTS.TCM.ReproSteps` from the work item.
+2. **Prepend** the approved reproduction steps above any existing content. Use a horizontal rule (`---`) to separate new steps from prior content. Never discard or overwrite existing information in the field.
+3. Call `update_work_item` with the combined content (new steps on top, existing content below).
+
+#### B. Not my ticket (assigned to someone else or unassigned)
+
+1. Add a work item **comment** via `add_work_item_comment` containing the approved reproduction steps.
+2. Do NOT modify the `Microsoft.VSTS.TCM.ReproSteps` field.
+
+#### Escape Defect addendum (both cases)
+
+For **Escape Defect** work items: if the escape-point information is not already captured in a dedicated field, add a work item comment documenting the escape-point analysis from step 4.
+
+Print the work item **ID**, the apply strategy used (field update vs. comment), and confirm the action.
 
 ### 8. Evolve
 

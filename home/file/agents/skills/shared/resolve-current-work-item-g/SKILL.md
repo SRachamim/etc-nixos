@@ -25,13 +25,13 @@ Determines the work item ID (and optionally the branch prefix) from available co
 
 ### 1. Explicit argument
 
-If the calling skill provides **explicitId**, use it. Determine the prefix by checking which local branch exists: try `feature/<id>` then `hotfix/<id>`. If neither exists, the prefix is unknown (acceptable -- some callers don't need it).
+If the calling skill provides **explicitId**, use it. Determine the prefix by checking which local branch exists: try `feature/<id>-*` then `hotfix/<id>-*` (also check the legacy format `feature/<id>` and `hotfix/<id>`). If neither exists, the prefix is unknown (acceptable -- some callers don't need it).
 
 Return immediately with the resolved ID and prefix.
 
 ### 2. Branch name
 
-Run `git branch --show-current` to get the current branch. If it matches the pattern `feature/<id>` or `hotfix/<id>` (per the **worktree-layout-g** skill), extract the numeric `<id>` and `<prefix>`.
+Run `git branch --show-current` to get the current branch. If it matches the pattern `^(feature|hotfix)/(\d+)(-.*)?$` (per the **worktree-layout-g** skill), extract the numeric `<id>` from group 2 and the `<prefix>` from group 1. This handles both the current format (`feature/<id>-<slug>`) and the legacy format (`feature/<id>`).
 
 Return immediately with the resolved ID and prefix.
 

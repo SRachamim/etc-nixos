@@ -30,22 +30,17 @@ If no signals are found, stop. Do not propose improvements for their own sake.
 For each signal found, follow the **continuous-improvement-g** proposal format:
 
 1. **State what happened** -- one sentence describing the discrepancy.
-2. **Categorize** -- label as: new-field, deprecated, better-default, missing-step, dead-step, error-handling, accuracy, or performance.
-3. **Show the proposed change** -- before/after diff against the source file.
+2. **State why this matters** -- one sentence describing the consequence of not fixing it: what recurs, what breaks, or what cost accumulates.
+3. **Categorize** -- label as: new-field, deprecated, better-default, missing-step, dead-step, error-handling, accuracy, or performance.
+4. **Show the proposed change** -- before/after diff against the source file.
 
 Present all proposals to the user for approval. Only approved observations proceed to the next step.
 
 ### 3. Act
 
-For each approved observation, classify the artifact scope and route accordingly:
+For each approved observation, classify the artifact scope and authorship context, then route accordingly.
 
-**Path 1 -- workspace-level artifact** (source is in the current workspace):
-
-Apply the edit as a separate commit that appears **before** the feature commit(s) in branch history (use fixup/reorder, stash/reapply, or a fresh commit before the feature work). The commit message must explain the issue that motivated the improvement (what went wrong during execution), following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
-
-Before committing, verify that **all** files mentioned or agreed upon during the Propose step are staged -- do not commit a subset and leave discussed artifacts behind.
-
-**Path 2 -- user-level (`-g`) skill** (source lives in the dotfiles repo, not the current workspace):
+**Path 1 -- user-level (`-g`) skill** (source lives in the dotfiles repo, not the current workspace):
 
 Write a structured observation file to `~/.local/share/agent-improvements/pending/`. The file captures evidence and a suggested fix -- the consuming skill will independently evaluate whether and how to address the issue.
 
@@ -70,6 +65,10 @@ Followed by:
 
 <one sentence from step 2>
 
+## Why this matters
+
+<one sentence from step 2 -- consequence of not fixing>
+
 ## Suggested change
 
 <before/after diff from step 2 -- advisory, not prescriptive>
@@ -79,22 +78,22 @@ Filename: `{ISO-timestamp}_{category}_{affected-skill-name}.md` (e.g., `2026-08-
 
 Also present the observation in the conversation so the user sees what was persisted.
 
-**Path 3 -- truly external** (neither workspace-local nor dotfiles-managed):
+**Path 2 -- workspace-level artifact, own branch** (source is in the current workspace and the user authored the current branch):
 
-Format the proposal as a self-contained, ready-to-paste agent instruction inside a fenced code block:
+Apply the edit as a separate commit that appears **before** the feature commit(s) in branch history (use fixup/reorder, stash/reapply, or a fresh commit before the feature work). The commit message body must explain both what went wrong during execution and why the fix prevents recurrence, following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
 
-~~~text
-The <command/skill/rule> at <runtime-path> needs an update.
+Before committing, verify that **all** files mentioned or agreed upon during the Propose step are staged -- do not commit a subset and leave discussed artifacts behind.
 
-What happened: <one sentence>
-Category: <category>
+**Path 3 -- workspace-level artifact, others' code** (source is in the current workspace but the user is reviewing or inspecting someone else's PR or branch):
 
-Proposed change to <filename> -- <brief scope>:
+Do NOT commit to the reviewed branch or leave TODO comments in others' code. Instead:
 
-<unified diff or before/after snippet>
-
-This file lives at <path-hint> -- apply the diff there.
-~~~
+1. Present the finding with full evidence (what happened, why it matters, category, suggested diff).
+2. Ask the user whether to create a Task work item to track the fix.
+3. On approval, follow **create-task-g** with a description structured as:
+   - **Goal**: what the fix achieves.
+   - **Context**: what happened during execution that surfaced the issue and why it matters (the specific evidence from step 2).
+   - **Scope**: the affected file and proposed change.
 
 ### 4. Follow up
 
@@ -106,13 +105,16 @@ Apply the **follow-up-map-g** skill to present relevant follow-up workflow skill
 - **Don't break existing behavior** -- improvements must be backward-compatible. If unsure, present the change and ask.
 - **Minimal diff** -- change only what is needed. Don't reformat or restructure surrounding content.
 - **User approval required** -- never persist an observation or apply an edit without user approval.
+- **Document the reason** -- every persisted output (observation file, commit message, or work item description) must explain both what happened and why the fix is needed. Never record a change without its motivation.
 
-## How to determine artifact scope
+## How to determine artifact scope and authorship
 
 To classify which path applies:
 
-1. Check if the affected file exists in the current workspace. If yes → **Path 1** (workspace-level).
-2. Check if the artifact name ends with `-g` (user-level skill suffix). If yes → **Path 2** (user-level, persist to shared location).
-3. Otherwise → **Path 3** (truly external).
+1. Check if the artifact name ends with `-g` and its source lives outside the current workspace. If yes → **Path 1** (user-level, persist to shared location).
+2. Check if the affected file exists in the current workspace:
+   a. **Own branch**: the user is on their own feature branch, implementing or fixing code. Signals: the user is the recent commit author, or the triggering workflow is an implementation workflow (`deliver-feature-g`, `fix-bug-g`, `fix-build-g`, etc.). → **Path 2** (workspace-level, own branch).
+   b. **Others' code**: the user is reviewing a PR authored by someone else. Signals: the triggering workflow is a review workflow (`review-pr-g`, `review-pr-fixes-g`, `weigh-feedback-g`), or the PR author differs from the current user. → **Path 3** (workspace-level, others' code).
+3. If the artifact doesn't match any path above, present the finding and ask the user how to proceed.
 
 When in doubt, present the classification to the user and ask.

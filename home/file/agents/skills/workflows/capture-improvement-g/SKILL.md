@@ -41,7 +41,9 @@ For each approved observation, classify the artifact scope and route accordingly
 
 **Path 1 -- workspace-level artifact** (source is in the current workspace):
 
-Apply the edit directly as a preceding commit, following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
+Apply the edit as a separate commit that appears **before** the feature commit(s) in branch history (use fixup/reorder, stash/reapply, or a fresh commit before the feature work). The commit message must explain the issue that motivated the improvement (what went wrong during execution), following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
+
+Before committing, verify that **all** files mentioned or agreed upon during the Propose step are staged -- do not commit a subset and leave discussed artifacts behind.
 
 **Path 2 -- user-level (`-g`) skill** (source lives in the dotfiles repo, not the current workspace):
 

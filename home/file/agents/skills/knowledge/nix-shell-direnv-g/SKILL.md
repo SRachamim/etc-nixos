@@ -40,4 +40,13 @@ nix develop -c npm test
 
 ## Exceptions
 
-Skip the prefix when the command is purely git, file I/O, or unrelated to the project's toolchain (e.g., `git status`, `ls`, `mkdir`).
+Skip the prefix when the command is read-only git metadata
+(e.g., `git status`, `git log`, `git diff`, `git branch`),
+file I/O, or unrelated to the project's toolchain
+(e.g., `ls`, `mkdir`, `cp`).
+
+**Do NOT skip** for git commands that trigger hooks --
+`git commit`, `git merge`, `git rebase`, `git push` --
+because hooks typically invoke project toolchain commands
+(lint, test, build) that need the Nix shell's PATH and
+memory settings.

@@ -58,6 +58,8 @@ Parse the PRD into these categories, assigning each requirement a unique ID for 
 
 When the feature spans multiple PRs, stages, or phases, annotate each requirement with the **Stage** where it is addressed (e.g. `Phase 1`, `PR #2`, `Commit 3.1`). When the feature is a single PR, use `All` or leave the Stage column blank.
 
+Apply the **requirements-classification-g** skill when assigning categories. Every FR, NFR, and AC must pass the black-box test -- if verifying the statement requires knowledge of internal architecture, reclassify it as a design decision and move it to the Tech Design Draft (step 6) or a Constraint (C-N). Every OS item must be categorised (adjacent, deferred, rejected, or someone else's) with a reason and revisit trigger.
+
 When the PRD is ambiguous, flag items as **needs clarification** rather than guessing. Collect all open questions -- they will appear in the final document.
 
 ### 3. Research prior art

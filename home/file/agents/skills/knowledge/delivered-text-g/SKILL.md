@@ -60,3 +60,7 @@ For Slack messages, two skills cover different concerns:
 | 4 | **external-communications-g** | Operations: approval workflow, formatting, platform API mechanics |
 | 5 | **commit-conventions-g** | Domain: commit message format, ordering, hygiene |
 | 5 | **code-review-g** | Domain: review severity, actionability, thread status |
+
+## Post-composition
+
+After composing any delivered text and before presenting it to the user, append the skill trace block per **skill-trace-g**. The trace is the user's only signal that the delivered-text stack was applied.

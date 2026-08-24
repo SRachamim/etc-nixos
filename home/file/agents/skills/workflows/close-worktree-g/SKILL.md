@@ -41,9 +41,10 @@ List Azure DevOps projects and locate the repository that matches the current gi
 - Identify all **successor** relations (relation type `System.LinkTypes.Dependency-Forward`). Extract the work item ID from each relation URL.
 - For each successor work item:
   1. Fetch it with `expand: "relations"`.
-  2. If its state is not **Blocked**, skip it.
-  3. Collect all of its **predecessor** relations (`System.LinkTypes.Dependency-Reverse`). For each predecessor, fetch the work item and check its state.
-  4. If every predecessor other than the current work item is already in a terminal state (**Resolved**, **Closed**, or **Done**), the current work item was the last remaining blocker. Transition the successor from **Blocked** to **Triaged**.
+  2. If its `System.AssignedTo` does not match the current user, skip it. Resolve the current user's identity from the ADO API (e.g. via `get_user_team_context` or from the PR creator identity fetched in earlier steps); compare by unique identity ID, not display name.
+  3. If its state is not **Blocked**, skip it.
+  4. Collect all of its **predecessor** relations (`System.LinkTypes.Dependency-Reverse`). For each predecessor, fetch the work item and check its state.
+  5. If every predecessor other than the current work item is already in a terminal state (**Resolved**, **Closed**, or **Done**), the current work item was the last remaining blocker. Transition the successor from **Blocked** to **Triaged**.
 - Present each transition to the user for approval before applying it. Include the successor work item ID, title, and the list of predecessors that were checked.
 
 ### 6. Remove the worktree

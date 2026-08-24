@@ -134,13 +134,9 @@ Additionally:
 
 ### 6. Draft review comments
 
-**Before composing any text in this step**, read the following skills in full (their content evolves -- never assume from memory):
+**Before composing any text in this step**, load the **delivered-text-g** skill. The text type is "PR review comment" -- follow the routing table to determine which sub-skills to read. Do not proceed to drafting until all applicable layers are loaded.
 
-1. **external-communications-g** -- approval workflow, formatting rules, link conventions.
-2. **writing-style-g** and its `reference.md` -- voice traits, banned vocabulary, LLM-tell avoidance, platform register.
-3. **objective-communication-g** -- what to say and how to organise it (motivate, delimit, structure, concretise).
-
-These govern ALL text produced in steps 6--10. Do not proceed to drafting until all three are loaded.
+The loaded skills govern ALL text produced in steps 6--10.
 
 ---
 

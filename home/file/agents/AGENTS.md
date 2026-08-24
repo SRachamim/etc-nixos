@@ -19,6 +19,7 @@ Skill categories:
 - Follow the **gitflow-branching-g** skill for branch operations, yielding to repository-specific guidelines.
 - Follow the **decision-priorities-g** skill when choosing between alternative approaches (simplicity > correctness > changeability > DX).
 - Follow the **artifact-layering-g** skill when encountering repo-level skills that overlap with user-level (`-g`) skills.
+- Follow the **skill-trace-g** skill to report which skills and rules shaped the output in agent-to-user chat.
 
 ## Preferences
 

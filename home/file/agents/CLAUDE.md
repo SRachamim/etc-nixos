@@ -95,6 +95,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | refactoring-g | Refactoring | `~/.claude/skills/refactoring-g/SKILL.md` |
 | requirements-classification-g | Requirements Classification | `~/.claude/skills/requirements-classification-g/SKILL.md` |
 | self-review-g | Self-Review | `~/.claude/skills/self-review-g/SKILL.md` |
+| skill-trace-g | Skill Trace | `~/.claude/skills/skill-trace-g/SKILL.md` |
 | follow-up-map-g | Follow-Up Map | `~/.claude/skills/follow-up-map-g/SKILL.md` |
 | test-driven-development-g | Test-Driven Development | `~/.claude/skills/test-driven-development-g/SKILL.md` |
 | tooling-enforcement-g | Tooling Enforcement | `~/.claude/skills/tooling-enforcement-g/SKILL.md` |

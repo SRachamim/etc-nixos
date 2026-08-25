@@ -43,6 +43,19 @@ If implementation hits an unexpected obstacle:
 - Pause and inform the user
 - Offer: revise plan, skip the problematic step, or abort
 
+### 3.5. Verify
+
+Apply the **verification-strategy-g** skill's execution protocol.
+Run all Level 5-6 verification artifacts added during implementation:
+
+- Discover the run commands via the skill's discovery protocol
+- Execute only the new/modified E2E test files -- not the full suite
+- If any test fails: fix the implementation, commit the fix, re-run
+- If a test cannot run locally: document in the PR description with risk acknowledgment
+
+This step ensures the feature works end-to-end before human review begins.
+Levels 1-4 are already covered per-commit by **plan-execution-g**'s validation step.
+
 ### 4. Submit PR
 
 Follow the **submit-feature-g** skill in full.

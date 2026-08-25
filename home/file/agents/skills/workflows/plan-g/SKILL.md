@@ -85,6 +85,8 @@ Design commits following the **commit-conventions-g** skill. Documentation updat
 
 Order commits so that earlier refactorings enable later ones. Test-addition commits go first.
 
+When designing test or verification commits, apply the **verification-strategy-g** skill to determine which levels each requirement needs. Assign the minimum set of levels that together achieve 100% confidence, and only include levels the workspace supports.
+
 When choosing between alternative approaches or orderings, apply the **decision-priorities-g** skill to select the stronger option.
 
 For each step, specify:

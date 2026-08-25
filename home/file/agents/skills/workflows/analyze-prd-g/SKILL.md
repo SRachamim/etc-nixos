@@ -78,14 +78,16 @@ Explore the codebase to identify which packages, modules, and layers the feature
 
 When the scope is broad, use parallel exploration (Task tool with explore subagents) to examine different areas of the codebase concurrently.
 
-### 5. Map acceptance criteria to tests
+### 5. Map acceptance criteria to verification levels
 
-For each acceptance criterion (AC-N), produce concrete test cases:
+Apply the **verification-strategy-g** skill. For each requirement (FR-N, NFR-N, AC-N), determine the minimum set of verification levels that together achieve 100% confidence. Use the multi-row table format -- one row per verification level per requirement:
 
-| AC | Test description | Expected behaviour | Edge cases |
-|----|------------------|--------------------|------------|
+| Req ID | Requirement | Level | Mechanism | Artifact | What it proves |
+|--------|-------------|-------|-----------|----------|----------------|
 
-This mapping feeds the TDD workflow -- tests are defined before implementation. Structure tests following the **test-driven-development-g** skill. Each test should be specific enough that an agent can write it without further clarification.
+Walk the hierarchy top-down per requirement: types first, then static analysis, then property tests, then unit tests, then package E2E, then full E2E. Stop when no unproven aspect remains. Only include levels the workspace supports (per the skill's workspace detection protocol).
+
+This mapping feeds the TDD workflow -- verification artifacts are defined before implementation. Structure tests following the **test-driven-development-g** skill. Each test should be specific enough that an agent can write it without further clarification.
 
 ### 6. Pre-fill tech design
 
@@ -243,10 +245,10 @@ Output format:
 | Package / Module | Why affected | Expected changes | Risk |
 |------------------|--------------|------------------|------|
 
-### Test Mapping
+### Verification Mapping
 
-| AC | Test description | Expected behaviour | Edge cases |
-|----|------------------|--------------------|------------|
+| Req ID | Requirement | Level | Mechanism | Artifact | What it proves |
+|--------|-------------|-------|-----------|----------|----------------|
 
 ### Execution Plan
 

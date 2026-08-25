@@ -20,7 +20,7 @@ This skill defines the protocol for implementing a plan that contains `[commit]`
 TODO content starts with `[commit]`. Implement only the changes described for that commit -- do not pull in work from later items. Then, **before marking the item completed**:
 
 1. Apply the **self-review-g** skill to the current changes.
-2. Run the commit's validation step.
+2. Run the commit's validation step. This must include executing any verification artifacts (test files) added or modified in this commit. Scope the run to only new/modified test files -- do not run the full suite. Apply the **verification-strategy-g** skill's discovery protocol to find the correct run command.
 3. Stage **only** the relevant files (`git add` with explicit paths).
 4. Commit with the planned message, following the **commit-conventions-g** skill.
 

@@ -23,7 +23,7 @@ The trigger point is: after writing all changes for a logical unit of work (typi
    - **Correctness** -- Is the implementation free of bugs? Are edge cases handled? Are error paths covered at every level of the call stack?
    - **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?
    - **Design** -- Is the abstraction level appropriate? Are responsibilities well-separated?
-   - **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered?
+   - **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered? Apply the **verification-strategy-g** skill: verify that each new behaviour is covered by the minimum set of verification levels that together achieve 100% confidence. If a requirement can be proven by the type system (Level 1), a runtime test is unnecessary for that aspect. If a property test (Level 3) covers all cases, individual unit tests for the same invariant are redundant.
    - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 3. **Fix issues in-place.** For each issue found, fix the code directly. No need to draft comments or create threads -- this is self-review, not external review. Just fix the code.
 

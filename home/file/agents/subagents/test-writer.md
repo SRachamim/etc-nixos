@@ -14,6 +14,7 @@ Standard
 
 ## Apply these skills
 
+- **verification-strategy-g** -- select the appropriate verification level(s) before writing tests. Only write tests at levels the workspace supports.
 - **test-driven-development-g** -- Red/Green/Refactor rhythm, property-based testing, composable generators via smart constructors.
 - **functional-typescript-g** -- fp-ts patterns, algebraic laws, codec round-trips.
 

@@ -57,7 +57,7 @@ For each phase, list the requirement IDs mapped to it via the Stage column in th
 
 ### 3. Plan the selected phase(s)
 
-For each selected phase, produce a commit-level plan by executing the following sub-steps (mirroring `/plan-g` steps 2--7):
+For each selected phase, produce a commit-level plan by executing the following sub-steps (mirroring `/plan-g` steps 3--8):
 
 #### 3a. Gather phase context
 
@@ -74,7 +74,7 @@ Apply the **prior-art-research-g** skill, scoped to the phase's domain. Skip if 
 
 #### 3c. Understand the codebase
 
-Explore the codebase following the same approach as `/plan-g` step 3:
+Explore the codebase following the same approach as `/plan-g` step 4:
 
 - When parallel subagents are available, decompose into focused questions and spawn read-only explorers.
 - When sequential, search and read key files in the affected area.

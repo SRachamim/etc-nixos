@@ -1,6 +1,6 @@
 ---
 name: plan-g
-description: Produces a proposed sequence of commits to ship work in a single PR, including behaviour-preserving refactoring commits when needed. Use when planning a feature, bug fix, or task from a ticket, textual description, or tech design.
+description: Produces a proposed sequence of commits to ship work in a single PR, including behaviour-preserving refactoring commits when needed. Extracts structured requirements (FR/NFR/AC) for traceability regardless of input type. Use when planning a feature, bug fix, or task from a ticket, textual description, or tech design.
 disable-model-invocation: true
 ---
 
@@ -25,7 +25,7 @@ When multiple inputs are provided, they supplement each other. When both a ticke
 
 ### 0. Enter Plan mode
 
-Require **Plan** mode following the **mode-gate-g** skill. The planning phase (steps 1--8) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
+Require **Plan** mode following the **mode-gate-g** skill. The planning phase (steps 1--9) is read-only analysis and design -- Plan mode keeps the focus on discussion rather than edits. The user will switch back to Agent mode when they approve and want implementation to begin.
 
 ### 1. Clarify the goal
 
@@ -35,11 +35,24 @@ Require **Plan** mode following the **mode-gate-g** skill. The planning phase (s
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).
 
-### 2. Research prior art
+### 2. Extract requirements
+
+Apply the **extract-requirements-g** skill to produce structured requirements (FR/NFR/AC/C/A/OS). The input varies by source:
+
+- **Ticket**: pass the work-item-context-g output from step 1.
+- **Text or design doc**: pass the goal statement and any specification text from step 1.
+
+The extracted requirements feed into:
+
+- Step 3 (prior art research -- requirements inform what patterns to search for).
+- Step 6 (commit planning -- **verification-strategy-g** maps requirements to verification levels; commits get a Traceability column).
+- Step 8 (plan output -- includes a Requirements section and open questions appear in Notes).
+
+### 3. Research prior art
 
 Apply the **prior-art-research-g** skill. Search the internet for established patterns and approaches that address the problem domain, with a preference for functional and DDD solutions. Summarize relevant findings and note which patterns are worth adopting. These findings inform how the codebase is examined in the next step and which design-lens principles matter most.
 
-### 3. Understand the codebase
+### 4. Understand the codebase
 
 #### Parallel exploration
 
@@ -71,21 +84,21 @@ Based on the goal, search the codebase for relevant code:
 
 Spend enough time here to form a concrete mental model. Don't guess -- read the code.
 
-### 4. Apply the design lenses
+### 5. Apply the design lenses
 
 Apply the **design-lenses-g** skill using the **planning framing** for all three lenses (refactoring, flexibility, architecture). Not every principle will be relevant to every change.
 
-When this step reveals multiple viable paths with no clear winner under the priority ladder, suggest invoking `/compare-approaches-g` to explore candidates in parallel before proceeding to step 5.
+When this step reveals multiple viable paths with no clear winner under the priority ladder, suggest invoking `/compare-approaches-g` to explore candidates in parallel before proceeding to step 6.
 
-### 5. Draft the plan
+### 6. Draft the plan
 
-Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 9).
+Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 10).
 
 Design commits following the **commit-conventions-g** skill. Documentation updates must be included in the same commit that introduces the code change making them stale -- never in a separate follow-up commit. For restructuring commits, each commit applies one refactoring and must leave the codebase compiling and tests passing.
 
 Order commits so that earlier refactorings enable later ones. Test-addition commits go first.
 
-When designing test or verification commits, apply the **verification-strategy-g** skill to determine which levels each requirement needs. Assign the minimum set of levels that together achieve 100% confidence, and only include levels the workspace supports.
+When designing test or verification commits, apply the **verification-strategy-g** skill to determine which levels each requirement needs. Use the FR/NFR/AC IDs from step 2 to map each requirement to its verification levels. Assign the minimum set of levels that together achieve 100% confidence, and only include levels the workspace supports.
 
 When choosing between alternative approaches or orderings, apply the **decision-priorities-g** skill to select the stronger option.
 
@@ -99,10 +112,11 @@ For each step, specify:
 | **What** | Concise description of the change or action |
 | **Key Files** | Files expected to be touched (commits only; `--` for actions) |
 | **Technique** | Which catalog refactoring technique it applies (`--` for non-refactoring commits and actions) |
+| **Traceability** | Which FR/NFR/AC/C IDs from step 2 this commit addresses (`--` for actions) |
 | **Flexibility** | Which design-lens principle(s) this step honours and how (optional for actions) |
 | **Validation** | How to verify this step is correct (per workspace rules and project tooling) |
 
-### 6. Validate against successors
+### 7. Validate against successors
 
 When successor work items were identified in step 1, verify that the planned design accommodates their needs:
 
@@ -112,7 +126,7 @@ When successor work items were identified in step 1, verify that the planned des
 
 Skip this step when no successor work items exist or when the input was not a ticket.
 
-### 7. Present the plan
+### 8. Present the plan
 
 Apply the **objective-communication-g** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
 
@@ -127,6 +141,15 @@ Output the plan in this format:
 
 <1–3 sentence summary of what needs to happen and why>
 
+### Requirements
+
+| ID | Category | Requirement |
+|----|----------|-------------|
+| FR-1 | Functional | ... |
+| NFR-1 | Non-functional | ... |
+| AC-1 | Acceptance | ... |
+| C-1 | Constraint | ... |
+
 ### Target State
 
 <Include when restructuring is involved. Description of the desired structure after the restructuring commits are applied.>
@@ -137,26 +160,26 @@ Output the plan in this format:
 
 ### Implementation Steps
 
-| # | Type | Title | What | Key Files | Technique | Flexibility | Validation |
-|---|------|-------|------|-----------|-----------|-------------|------------|
-| 1 | commit | `test: add missing tests for pricing module` | ... | `tests/...` | (prerequisite) | -- | ... |
-| 2 | commit | `refactor: extract pricing into dedicated module` | ... | `src/...` | Extract Module | Additive -- new module | ... |
-| 3 | commit | `feat: add subscription pricing support` | ... | `src/...` | -- | Postel's law -- wider input | ... |
-| 4 | action | Create task for TODO comments | ... | -- | -- | -- | Task exists in ADO |
+| # | Type | Title | What | Key Files | Technique | Traceability | Flexibility | Validation |
+|---|------|-------|------|-----------|-----------|--------------|-------------|------------|
+| 1 | commit | `test: add missing tests for pricing module` | ... | `tests/...` | (prerequisite) | AC-1 | -- | ... |
+| 2 | commit | `refactor: extract pricing into dedicated module` | ... | `src/...` | Extract Module | -- | Additive -- new module | ... |
+| 3 | commit | `feat: add subscription pricing support` | ... | `src/...` | -- | FR-1, FR-2 | Postel's law -- wider input | ... |
+| 4 | action | Create task for TODO comments | ... | -- | -- | -- | -- | Task exists in ADO |
 
 ### Notes
 
-<Any risks, open questions, or alternatives worth mentioning>
+<Any risks, open questions, or alternatives worth mentioning. Open questions from requirements extraction (step 2) appear here.>
 ```
 
-### 8. Iterate
+### 9. Iterate
 
 Wait for approval, modifications, or questions before implementing.
 
-### 9. Implement the plan
+### 10. Implement the plan
 
 Once the user approves, implement the plan **in the exact sequence presented**. Build the TODO list and execute each item following the **plan-execution-g** skill.
 
-### 10. Evolve
+### 11. Evolve
 
 Follow the **capture-improvement-g** skill.

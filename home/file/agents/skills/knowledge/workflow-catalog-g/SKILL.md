@@ -48,7 +48,7 @@ flowchart LR
 **User invokes:**
 
 1. **/checkout-worktree-g <work-item-id>** -- Creates an isolated worktree and feature branch, activates the work item (Active state).
-2. **/plan-g** -- Explore the codebase, draft a commit-by-commit plan, and implement on your approval. Accepts ticket ID, free text, or infers from the current branch.
+2. **/plan-g** -- Explore the codebase, draft a commit-by-commit plan, and implement on your approval. Accepts ticket ID, free text, or infers from the current branch. Extracts structured requirements (FR/NFR/AC) for traceability regardless of input type.
    - If multiple approaches emerge, the agent suggests you invoke `/compare-approaches-g`.
 3. **/submit-feature-g** -- PR + work item transition + Slack.
 4. **/close-worktree-g** -- Post-merge cleanup.
@@ -435,6 +435,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `vote-pr-g`                   | `/review-pr-g`, `/review-pr-fixes-g`                                  | Casts the approval vote on a PR                |
 | `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/request-environment-access-g`    | Shared backend for ADO item creation           |
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
+| `extract-requirements-g`      | `/plan-g`                                                             | Extracts FR/NFR/AC/C/A/OS from work item context |
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
 | `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
@@ -469,6 +470,8 @@ Never invoked by name. The agent loads them contextually:
 | `commit-conventions-g`      | Every commit                                     |
 | `code-review-g`             | Every PR review                                  |
 | `prior-art-research-g`      | Before designing any solution                    |
+| `requirements-classification-g` | Extracting or reviewing requirements (PRD analysis, planning, triage) |
+| `verification-strategy-g`  | Planning tests, writing verification artifacts, reviewing coverage |
 | `client-quality-focus-g`    | Working in fgrepo `client/`                      |
 | `nix-shell-direnv-g`        | Any shell command in Nix projects                |
 

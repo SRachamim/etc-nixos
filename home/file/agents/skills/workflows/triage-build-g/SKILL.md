@@ -50,6 +50,29 @@ If neither yields a build, ask the user and stop.
 
 Apply the **objective-communication-g** skill to all composed text.
 
+#### Classification verification
+
+Before classifying a failure as external/infrastructure or flaky:
+
+1. **External/infrastructure**: Identify 2-3 recent builds from other
+   authors on the same pipeline. For each, check whether it failed with
+   the **same error signature** (same error messages, same Datadog error
+   patterns, same failing test proportion). "Also failing" is not
+   evidence -- "failing identically" is. Only classify as external if at
+   least one other build reproduces the same error.
+
+2. **Flaky/intermittent**: A test's historical flakiness rate alone is
+   not sufficient. Verify that the failure is isolated:
+   - If the failing test count is disproportionate (e.g., >10% of specs
+     fail), suspect a systemic cause -- not flakiness.
+   - If the error message differs from the test's known flaky pattern,
+     treat it as a new failure.
+   - Cross-check: did the same test pass in other builds running
+     concurrently? If it failed everywhere, it's not flaky.
+
+3. If verification fails for either classification, default to
+   **own-code** and investigate further.
+
 Present a structured summary:
 
 ```

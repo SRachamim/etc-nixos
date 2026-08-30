@@ -37,7 +37,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 
 - **No exclamation marks for enthusiasm** -- they're an LLM hallmark. Reserve them for genuine emphasis (rare).
 - **No "Hey!", "Hi there!", "Hello!"** openers -- start with substance.
-- **No emoji as personality** -- everyone does this; it's not distinctive. Use emoji only when the platform convention demands it (e.g. a team's Slack emoji-react culture).
+- **No decorative emoji** -- emoji for personality or flair ("shipped it!" with a party popper) are banned. Emoji as **semantic visual markers** per the **emoji-vocabulary-g** skill are allowed -- these serve Concretise and Structure, not decoration.
 - **No hedging** -- drop "I think maybe", "it might be worth considering", "perhaps we could". State it or qualify it with a reason, not with timidity.
 - **No semicolons** -- not part of the voice. Use a full stop, a `--` dash, or restructure the sentence.
 

@@ -33,7 +33,7 @@ Load sub-skills based on the text type being composed. "Always" skills are loade
 
 | Text type | Always | Conditional |
 |-----------|--------|-------------|
-| **Any delivered text** | **objective-communication-g**, **writing-style-g**, **skill-trace-g** | -- |
+| **Any delivered text** | **objective-communication-g**, **writing-style-g**, **emoji-vocabulary-g**, **skill-trace-g** | -- |
 | PR title, PR description | -- | **communication-templates-g** (sections 1--2) |
 | Commit message | -- | **communication-templates-g** (section 3), **commit-conventions-g** |
 | PR review comment | -- | **communication-templates-g** (section 5), **code-review-g** |
@@ -56,6 +56,7 @@ For Slack messages, two skills cover different concerns:
 |-------|-------|------|
 | 1 | **objective-communication-g** | Epistemology: what to say, how to organise (Peikoff's seven principles) |
 | 2 | **writing-style-g** | Voice: how to say it (anti-LLM tells, banned vocabulary, platform registers) |
+| 2.5 | **emoji-vocabulary-g** | Visual markers: consistent emoji-to-concept mapping for scanability |
 | 3 | **communication-templates-g** | Structure: fill-in-the-blank skeletons per text type |
 | 4 | **external-communications-g** | Operations: approval workflow, formatting, platform API mechanics |
 | 5 | **commit-conventions-g** | Domain: commit message format, ordering, hygiene |

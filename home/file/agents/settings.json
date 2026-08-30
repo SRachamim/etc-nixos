@@ -1,5 +1,6 @@
 {
   "window.commandCenter": true,
+  "window.title": "${activeRepositoryBranchName}${separator}${rootName}${separator}${activeEditorShort}",
   "git.openRepositoryInParentFolders": "never",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1

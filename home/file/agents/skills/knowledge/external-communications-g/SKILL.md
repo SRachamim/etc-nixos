@@ -100,19 +100,43 @@ Best practices:
 - Use bullet points for lists
 - Mention users with `@name` only when their attention is needed
 
-#### Content Type Selection
+#### Delivery Method
 
-The `conversations_add_message` tool defaults to `content_type: "text/markdown"`, which collapses newlines in multi-line messages.
+Choose the delivery method based on the message's structural complexity. The tiers below are listed from most to least reliable for preserving formatting.
 
-Use `content_type: "text/plain"` when the message contains any of:
+**1. Block Kit `blocks` (preferred for structured messages)**
+
+Pass a JSON array of `section` blocks to the `blocks` parameter of `conversations_add_message`. Each block uses `"type": "mrkdwn"` text objects, which invoke Slack's native mrkdwn parser where `*bold*` and `<url|text>` work reliably. Set the `text` parameter to a short fallback string (e.g. a one-line summary) -- it is only shown in notifications and clients that don't support blocks.
+
+Use Block Kit when the message has any of:
+
+- Multiple bold field labels or headings
+- Links that must render correctly (PR links, pipeline links, Currents links)
+- Structured form-like layout (field: value pairs)
+
+Do **not** rely on `content_type: "text/markdown"` for these messages. The MCP tool's markdown mode uses standard markdown (`**bold**`, `[text](url)`) which Slack converts lossily -- bold and links render inconsistently.
+
+Example block structure:
+
+```json
+[
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Field Label:*\n<URL|Link text>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "Plain mrkdwn paragraph with `code` and *bold*."}}
+]
+```
+
+**2. `content_type: "text/plain"` (multi-line messages without section structure)**
+
+The `conversations_add_message` tool defaults to `content_type: "text/markdown"`, which collapses newlines. Use `content_type: "text/plain"` when the message contains:
 
 - Bullet lists (`*`, `-`, or `•`)
 - Multiple paragraphs separated by blank lines
-- Structured sections with bold pseudo-headers
 
 Slack's native mrkdwn rendering still applies in plain-text mode -- `*bold*`, `<url|text>` links, `` `code` ``, `_italic_`, `~strikethrough~`, and `>` quotes all work.
 
-Use `content_type: "text/markdown"` only for single-paragraph messages with no list formatting.
+**3. `content_type: "text/markdown"` (single-paragraph messages only)**
+
+Use only for short, single-paragraph messages with no list formatting or structural headings.
 
 #### Slack Identity
 

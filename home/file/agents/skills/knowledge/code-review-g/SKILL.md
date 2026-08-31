@@ -35,6 +35,7 @@ When reviewing code, assess each change against these dimensions. Dimensions are
 - **Performance** -- Are there obvious inefficiencies, unnecessary allocations, or N+1 patterns?
 - **Flexibility** -- Is the code additive (new behavior can be added without modifying existing code)? Do functions follow Postel's law (wide inputs, narrow outputs)? Are cross-cutting concerns (logging, metrics) layered independently from domain logic? Are generation and evaluation separated where applicable? Are combinators used so that primitives and combinations share the same interface?
 - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
+- **Convention compliance** -- Does new code follow the project's loaded workspace rules? Check every conditional rule loaded in the rule-loading step against relevant changed files. When an always-applied rule (naming, fp-ts patterns, module anatomy) applies to a changed file, verify compliance. Do not dismiss findings because surrounding code has the same violation -- new code converges toward the standard regardless of existing debt.
 
 ## Comment Severity
 

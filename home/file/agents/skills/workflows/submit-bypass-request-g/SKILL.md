@@ -105,7 +105,27 @@ Present the draft as the raw Slack mrkdwn in a fenced code block (copy-pastable,
 
 ### 5. Post to #pipeline-gated
 
-Post the approved message to channel `C03R4T6L6J2` using `conversations_add_message`.
+Post the approved message to channel `C03R4T6L6J2` using `conversations_add_message` with the `blocks` parameter (Slack Block Kit).
+
+#### Delivery formatting
+
+**Do not use the `text` parameter for formatting.** The MCP tool's `content_type` defaults to `text/markdown` (standard markdown), which is not Slack mrkdwn. Standard markdown bold (`**text**`) and links (`[text](url)`) render inconsistently after Slack's internal conversion.
+
+Instead, pass a JSON array of `section` blocks with `"type": "mrkdwn"` text objects. This uses Slack's native mrkdwn parser where `*bold*` and `<url|text>` work reliably. Each field heading should be its own section block. Set `text` to a short fallback string (e.g. `"Bypass request for PR #NNNNN"`).
+
+Example block structure:
+
+```json
+[
+  {"type": "section", "text": {"type": "mrkdwn", "text": "Submitted by: <@ID>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*PR Link:*\n<URL|PR #NNNNN>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Pipeline link*\n<URL>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Which branch am I rebased on?*\n<BRANCH>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Roughly, what did I change in the PR?*\n<CHANGES>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*What tests failed, and why do I think it isn't due to my changes?*\n<EXPLANATION>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Ping the relevant stability owner*\n<@STABILITY_OWNER_ID>"}}
+]
+```
 
 Present a confirmation with a permalink to the posted message (`https://fundguard.slack.com/archives/C03R4T6L6J2/p<ts_without_dot>`).
 

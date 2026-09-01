@@ -62,9 +62,9 @@ Compose a message in Slack mrkdwn matching the template used by the "Request Tec
 
 The **external-communications-g** skill governs tone and approval, but the structural rules below override its voice directives for this message -- the template must look identical to what the workflow bot posts:
 
-- **Bold markers** -- use `*` (Slack mrkdwn bold), never `_` (italic). Every field label is wrapped in `*`: `*Production / UAT:*`.
-- **Line breaks** -- the template line breaks below are exact. Do not collapse a label and its value onto the same line. Each `*Label:*` sits on its own line, immediately followed by a newline and the value.
-- **Blank lines** -- one blank line separates each field group. Do not add extra blank lines and do not remove existing ones.
+- **Delivery method** -- this message has structured bold field labels; use Block Kit `blocks` per the **external-communications-g** delivery tiers. Each field group becomes a `section` block with `"type": "mrkdwn"` text, where `*Label:*` renders as native Slack bold.
+- **Line breaks** -- within each block's text, the template line breaks are exact. Each `*Label:*` sits on its own line, immediately followed by a newline and the value.
+- **Blank lines** -- one blank line separates each field group (achieved by using separate `section` blocks). Do not add extra blank lines within a block.
 - **No sign-off** -- do not append a closing phrase or name signature. The template is the complete message.
 
 #### Template
@@ -96,9 +96,24 @@ N/A
 - **ADO_WORK_ITEM_URL** -- the work item URL returned by step 3 (e.g. `https://dev.azure.com/FundGuard/FundGuard/_workitems/edit/12345`).
 - **WORK_ITEM_ID** and **TITLE_FROM_STEP_2** -- the ID and title from the work item created in step 3.
 
+#### Block Kit structure
+
+Pass a `blocks` JSON array to `conversations_add_message`. Set the `text` parameter to a one-line fallback (e.g. `"TechOps support request for Task <WORK_ITEM_ID>"`).
+
+````json
+[
+  {"type": "section", "text": {"type": "mrkdwn", "text": "cc: <!subteam^S07RZUUG66A>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Production / UAT:*\n<ENV_TYPE>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Severity Level:*\nSev 4 - Low (Cosmetic / General question)"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*ADO Ticket*:\n<ADO_WORK_ITEM_URL>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": "*Description:*\nTask <WORK_ITEM_ID>: <TITLE_FROM_STEP_2>"}},
+  {"type": "section", "text": {"type": "mrkdwn", "text": ":point_right: *Emergency Video Sync (Optional: Only for Sev1):*\nN/A"}}
+]
+````
+
 #### Draft presentation
 
-Present the composed message in a fenced code block (copy-pastable) for user approval before posting.
+Present the composed message (both the human-readable template and the `blocks` JSON) in a fenced code block for user approval before posting.
 
 ### 5. Post to #techops-support
 

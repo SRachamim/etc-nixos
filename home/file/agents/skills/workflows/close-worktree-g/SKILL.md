@@ -57,6 +57,13 @@ git worktree remove "<root-repo>/<prefix>/<id>"
 
 If the current working directory is inside the worktree being removed, switch to the main worktree first.
 
+If `git worktree remove` fails and the PR is confirmed **Completed** (step 3), fall back to removing the directory directly:
+
+```sh
+rm -rf "<root-repo>/<prefix>/<id>"
+git worktree prune
+```
+
 ### 7. Delete the local and remote branches
 
 ```sh

@@ -164,11 +164,7 @@ Two categories of output:
 - **Finding follow-ups**: responses to original findings where the resolution is inadequate. Do not draft replies for adequately resolved threads -- only actionable follow-ups.
 - **New findings**: issues found in the delta that weren't caught before.
 
-Categorise by severity per the **code-review-g** skill:
-
-- **Blocking** -- must be resolved before merge (PR path) or implementation (plan path).
-- **Suggestion** -- recommended improvement, non-blocking.
-- **Nit** -- minor style or preference, non-blocking.
+Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text. The author sees every comment with equal weight.
 
 Do not include praise. Every comment and summary item must be actionable.
 
@@ -178,19 +174,19 @@ Show the complete follow-up review to the user.
 
 #### When following up on `/review-pr-g`
 
-- A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged -- grouped by original severity.
+- A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged.
 - Threads requiring action: literal reply text (composed per **delivered-text-g** stack, presented in a fenced code block) and target status change (`Active`) for each inadequately resolved thread.
 - Threads resolved silently: list of thread IDs being set to `Fixed` (no reply).
-- New delta findings grouped by severity.
+- New delta findings.
 - Overall verdict: approve, request further changes, or comment-only.
 
 #### When following up on `/review-plan-g`
 
 Use the same output format as step 7 of `/review-plan-g`:
 
-- A summary of finding resolution outcomes (how many accepted, how many need follow-up, grouped by original severity).
+- A summary of finding resolution outcomes (how many accepted, how many need follow-up).
 - Finding-level follow-ups with the literal response text (composed per **delivered-text-g** stack, in a fenced code block) for each.
-- New findings from the delta grouped by severity.
+- New findings from the delta.
 - Overall verdict: approve, request further changes, or comment-only.
 - Suggested revised steps (if blocking issues remain).
 
@@ -205,7 +201,7 @@ Thread status management is an explicit part of the follow-up review -- the revi
 - For threads verified as adequately fixed: call `repo_update_pull_request_thread` with `status: "Fixed"`. No reply needed -- the status change is sufficient.
 - For threads verified as inadequately fixed or not addressed: call `repo_reply_to_comment` with the follow-up explanation, then call `repo_update_pull_request_thread` with `status: "Active"`.
 - For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): no action needed. Do not reply or change status.
-- For new issues in the delta: use `post_review_findings` with `status: "Active"` (same as initial review).
+- For new issues in the delta: use `repo_create_pull_request_thread` from the native Azure DevOps MCP with `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine`. The tool defaults to `status: "Active"` (same as initial review).
 
 #### When following up on `/review-plan-g`
 
@@ -231,7 +227,7 @@ Print a summary matching the context type.
 - Threads resolved (status -> `Fixed`) with count
 - Threads reactivated (status -> `Active`) with count
 - Threads unchanged with count
-- New comments posted by severity
+- New comments posted
 - Whether the approval vote was cast
 - Overall verdict (approved, changes requested, or commented)
 
@@ -239,7 +235,7 @@ Print a summary matching the context type.
 
 - Ticket link (if applicable)
 - Findings reviewed and their outcomes (accepted, pushed back, still outstanding)
-- New findings by severity
+- New findings with count
 - Overall verdict (approved, changes requested, or commented)
 
 ### 12. Evolve

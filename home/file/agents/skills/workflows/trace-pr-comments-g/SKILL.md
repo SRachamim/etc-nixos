@@ -13,7 +13,7 @@ Given a PR, find comment threads authored by the user (not by other reviewers an
 The ADO MCP posts as the user (user token), so both human-typed and agent-posted comments share the same author identity. The workflow must separate them:
 
 - **In-conversation** (after `/review-pr-g`): the agent knows which thread IDs it created from conversation context. Exclude those threads.
-- **Standalone**: exclude threads whose root comment opens with a structured severity prefix (`**Blocking**:`, `**Suggestion**:`, `**Nit**:`). These patterns indicate agent-posted comments.
+- **Standalone**: no reliable heuristic exists to distinguish agent-posted comments from user-typed ones. Present all user-authored threads and rely on the confirmation step (step 3) for the user to exclude agent-posted comments manually.
 - **Confirmation**: always present the candidate list to the user before proceeding (step 3), so false positives can be removed.
 
 ## Steps
@@ -35,7 +35,7 @@ Fetch the PR details (title, repository, source and target branches) via `repo_g
 - Call `repo_list_pull_request_threads` with `authorFilter` set to the current user's email, `excludeServiceAccounts: true`, and `excludeSystemThreads: true`. This returns only threads authored by the user with system noise filtered out server-side.
 - **Exclude agent-posted comments** (see **Distinguishing user vs. agent comments** above):
   - If a preceding `/review-pr-g` ran in this conversation, exclude thread IDs the agent created (known from conversation context).
-  - Otherwise, exclude threads whose root comment text starts with `**Blocking**:`, `**Suggestion**:`, or `**Nit**:`.
+  - Otherwise (standalone mode), include all user-authored threads -- the confirmation step (step 3) handles false positive removal.
 - If no candidate comments remain, report "no user-authored comments found" and stop.
 
 ### 3. Confirm scope

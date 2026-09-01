@@ -37,15 +37,15 @@ When reviewing code, assess each change against these dimensions. Dimensions are
 - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 - **Convention compliance** -- Does new code follow the project's loaded workspace rules? Check every conditional rule loaded in the rule-loading step against relevant changed files. When an always-applied rule (naming, fp-ts patterns, module anatomy) applies to a changed file, verify compliance. Do not dismiss findings because surrounding code has the same violation -- new code converges toward the standard regardless of existing debt.
 
-## Comment Severity
+## Comment Severity (internal only)
 
-Categorize every review comment:
+Classify every finding internally to determine the review verdict:
 
 - **Blocking** -- Must be resolved before merge. Correctness bugs, security issues, data loss risks.
 - **Suggestion** -- Recommended improvement. Better naming, clearer structure, missing test. Non-blocking.
 - **Nit** -- Minor style or preference. Formatting, word choice, import order. Non-blocking.
 
-Always state the severity explicitly so the author knows what requires action.
+This classification is for **verdict logic only** -- it determines whether the outcome is Approve or Request Changes. Do not include severity labels, prefixes, or tier names in the posted comment text. The author should treat every comment as equally worthy of consideration.
 
 ## Comment Constraints
 
@@ -58,7 +58,7 @@ Every review comment must be **actionable** and **line-anchored**:
 
 The reviewer creates comments; the author resolves them. This separation ensures the author reads, considers, and addresses each comment on their own terms.
 
-- **Always create threads as Active.** Both `repo_create_pull_request_thread` and `post_review_findings` default to `Closed` status -- you must explicitly pass `status: "Active"` on every finding. Never set status to `Fixed`, `WontFix`, `ByDesign`, or any resolved state when creating a comment thread.
+- **Always create threads as Active.** Use `repo_create_pull_request_thread` from the native Azure DevOps MCP -- it defaults to `Active` status. Never set status to `Fixed`, `WontFix`, `ByDesign`, or any resolved state when creating a comment thread.
 - **Never change a thread's status during initial review.** Do not use `repo_update_pull_request_thread` (or any platform equivalent) to resolve, close, or transition a thread the reviewer created. The author owns the lifecycle.
 
 **Exception -- follow-up reviews:** During `/review-pr-fixes-g`, the reviewer changes thread status to reflect verification outcomes. Threads whose fixes are verified adequate are resolved (status -> `Fixed`). Threads whose fixes are inadequate or missing are reactivated (status -> `Active`). This is the only context where the reviewer manages thread lifecycle. See the `/review-pr-fixes-g` skill for the full protocol.

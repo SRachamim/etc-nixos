@@ -215,22 +215,24 @@ Blank line between subject and body. Body explains what and why, not how.
 
 ## 5. PR Review Comment
 
-**Variation dimension**: severity
+**Variation dimension**: depth
 **Focused principles**: Objectivity, Concretise, Anti-rationalism
 **Register**: **writing-style-g** > Code review comments
-**Defers to**: **code-review-g** for severity definitions, actionability, and thread status rules
+**Defers to**: **code-review-g** for actionability and thread status rules
 
-### Nit
+The agent selects a tier based on how much argumentation the issue needs. Tier names are internal guidance only -- they never appear in the posted comment text. No severity labels, prefixes, or markers of any kind are included in the posted text.
 
-**When**: style preference, naming suggestion, minor readability improvement. Non-blocking.
+### Brief
+
+**When**: the fix is obvious from the observation alone -- naming, formatting, import order, minor readability.
 
 ```
-nit: <what to change>, <optionally why in a few words>
+<What to change>, <optionally why in a few words>
 ```
 
-### Suggestion
+### Standard
 
-**When**: recommended improvement that makes the code better but doesn't block merge. Non-blocking.
+**When**: the issue needs context to be understood -- why it matters or what it affects.
 
 ```
 <What the problem is -- observable, specific>
@@ -241,9 +243,9 @@ nit: <what to change>, <optionally why in a few words>
 of how to restructure>
 ```
 
-### Blocking
+### Thorough
 
-**When**: correctness bug, security issue, data loss risk, or spec violation. Must resolve before merge.
+**When**: the issue needs evidence and a full argument -- correctness bugs, security issues, non-obvious risks.
 
 ```
 <What the problem is -- observable, specific> (Objectivity: formulation)
@@ -260,7 +262,6 @@ or reproduction steps> (Anti-rationalism: grounded in facts)
 
 - `This is wrong` without showing what's right -- violates Concretise (every abstraction is an IOU; the alternative pays it off)
 - Objecting based on a principle without grounding in the specific code ("We should never use mutation") -- violates Anti-rationalism (floating principle disconnected from the observable context)
-- Omitting severity -- violates Objectivity (the author can't tell whether this blocks merge)
 - Praise comments ("Nice refactor here") -- violates Delimit (not actionable; the **code-review-g** skill forbids them)
 
 ---

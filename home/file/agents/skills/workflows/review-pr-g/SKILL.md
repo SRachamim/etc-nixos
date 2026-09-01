@@ -142,11 +142,7 @@ The loaded skills govern ALL text produced in steps 6--10.
 
 Draft the literal comment text for **every** issue identified in steps 4--5. No exceptions -- every finding becomes a comment. Do not summarise multiple issues into one comment, do not silently drop findings, and do not defer issues to "mention verbally."
 
-Categorise each by severity per the **code-review-g** skill:
-
-- **Blocking** -- must be resolved before merge.
-- **Suggestion** -- recommended improvement, non-blocking.
-- **Nit** -- minor style or preference, non-blocking.
+Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text. The author sees every comment with equal weight.
 
 Each comment must include the specific file path and line range. Do not include praise -- every comment must be actionable.
 
@@ -159,14 +155,14 @@ Show the complete review to the user, including:
 - An overall summary (approve, request changes, or comment-only).
 - **Design evaluation** (when step 4 was applied):
   - The reconstructed plan (brief: goal, approach, commit strategy).
-  - Design-level findings, categorised by severity.
-- All code-level comments grouped by severity.
+  - Design-level findings.
+- All code-level comments.
 
 **Wait for user approval before posting** (per **external-communications-g** skill).
 
 ### 8. Post the review
 
-- Call `post_review_findings` to batch-post all review comments in one call. For each finding, provide `content`, `severity` (`"critical"` for Blocking, `"significant"` for Suggestion, `"minor"` for Nit), `filePath`, `lineNumber`, and `status: "Active"` (the tool defaults to `Closed`, but review threads must be Active per the **code-review-g** skill). Do not include a `summaryComment` -- only actionable, line-anchored findings are posted.
+- Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine` (with `rightFileEndLine` when the finding spans multiple lines). The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill. Only actionable, line-anchored findings are posted.
 - **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`.
 
 ### 9. Vote
@@ -184,7 +180,7 @@ When the verdict is **request changes** or **comment-only**, skip this step -- v
 Print a summary:
 
 - PR link
-- Number of comments posted by severity
+- Number of comments posted
 - Whether the approval vote was cast
 - Overall verdict (approved, changes requested, or commented)
 

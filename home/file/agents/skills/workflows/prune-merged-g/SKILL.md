@@ -31,7 +31,24 @@ For each feature branch:
 
 For each merged branch, check whether a corresponding worktree exists at `<root-repo>/feature/<id>` (via `git worktree list`).
 
-### 4. Gather branch descriptions
+### 4. Detect orphaned worktree directories
+
+List all directories under `<root-repo>/feature/`. For each directory, check whether:
+- A matching local branch (`feature/<dirname>`) exists, OR
+- A registered worktree points to that path (via `git worktree list`).
+
+Directories with neither are **orphaned**. Include them in the summary table (step 7) with status `orphaned directory`.
+
+### 5. Detect unrecognized local branches
+
+List all local branches and exclude the expected set:
+- The default branch
+- `latest-stable`, `main`, `master`
+- `release/*` and `feature/*` branches
+
+Any remaining branches are **unrecognized** -- likely leftover from ad-hoc PR checkouts or experiments. Include them in the summary table (step 7) with status `stale (unrecognized)` and their last commit subject + age as description.
+
+### 6. Gather branch descriptions
 
 For each merged branch, resolve a short description using the first source that yields a meaningful result:
 
@@ -42,44 +59,50 @@ For each merged branch, resolve a short description using the first source that 
 
 Truncate descriptions to ~60 characters for table readability.
 
-### 5. Present the plan
+### 7. Present the plan
 
 Show the user a summary table of what will be removed:
 
 ```
-| Branch        | Description                          | Worktree                    | Status |
-|---------------|--------------------------------------|-----------------------------|--------|
-| feature/123   | Add user authentication flow         | <root-repo>/feature/123     | merged |
-| feature/456   | fix: resolve null pointer in parser  | (none)                      | merged |
-| feature/789   | 4 files in src/auth/, src/api/       | <root-repo>/feature/789     | merged |
+| Item              | Description                          | Worktree                    | Status              |
+|-------------------|--------------------------------------|-----------------------------|---------------------|
+| feature/123       | Add user authentication flow         | <root-repo>/feature/123     | merged              |
+| feature/456       | fix: resolve null pointer in parser  | (none)                      | merged              |
+| feature/789       | 4 files in src/auth/, src/api/       | <root-repo>/feature/789     | merged              |
+| (dir) 116816      | --                                   | <root-repo>/feature/116816  | orphaned directory  |
+| pr-125102-merge   | Merge PR 125102 (3 months ago)       | (none)                      | stale (unrecognized)|
 ```
 
 **Wait for user confirmation before proceeding.** If the user declines, stop.
 
-### 6. Remove worktrees and branches
+### 8. Remove worktrees, branches, and orphaned directories
 
-For each confirmed branch, follow the worktree-layout skill cleanup order:
+For each confirmed item, follow the worktree-layout skill cleanup order:
 
-1. If a worktree exists, remove it first: `git worktree remove "<root-repo>/feature/<id>"`.
-2. Then delete the branch: `git branch -d "feature/<id>"`.
+1. **Merged branches with worktrees** -- remove the worktree first: `git worktree remove "<root-repo>/feature/<id>"`, then delete the branch: `git branch -d "feature/<id>"`.
+2. **Merged branches without worktrees** -- delete the branch: `git branch -d "feature/<id>"`.
+3. **Orphaned directories** -- remove directly: `rm -rf "<root-repo>/feature/<dirname>"`.
+4. **Unrecognized branches** -- delete the branch: `git branch -d "<branch-name>"`. If `-d` fails because the branch was never merged into the default branch (e.g., squash-merged via PR), fall back to `-D` after confirming with the user.
 
 Use `-d` (not `-D`) so git refuses if the branch has unmerged changes.
 
 If the current working directory is inside a worktree being removed, switch to the main worktree first.
 
-### 7. Prune stale worktree entries
+### 9. Prune stale worktree entries
 
 Run `git worktree prune` to clean up any stale tracking entries (e.g., worktrees whose directories were previously deleted outside of git).
 
-### 8. Confirm completion
+### 10. Confirm completion
 
 Print a summary of what was cleaned up:
 
 - Number of worktrees removed
 - Number of branches deleted
+- Number of orphaned directories removed
+- Number of unrecognized branches deleted
 - Number of stale worktree entries pruned
-- Any branches that could not be deleted (and why)
+- Any items that could not be removed (and why)
 
-### 9. Evolve
+### 11. Evolve
 
 Follow the **capture-improvement-g** skill.

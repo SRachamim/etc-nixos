@@ -87,6 +87,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | functional-typescript-g | Functional TypeScript | `~/.claude/skills/functional-typescript-g/SKILL.md` |
 | gitflow-branching-g | Gitflow Branching | `~/.claude/skills/gitflow-branching-g/SKILL.md` |
 | incident-response-g | Incident Response | `~/.claude/skills/incident-response-g/SKILL.md` |
+| mcp-namespace-priority-g | MCP Namespace Priority | `~/.claude/skills/mcp-namespace-priority-g/SKILL.md` |
 | mode-gate-g | Mode Gate | `~/.claude/skills/mode-gate-g/SKILL.md` |
 | nix-shell-direnv-g | Nix Shell Direnv | `~/.claude/skills/nix-shell-direnv-g/SKILL.md` |
 | objective-communication-g | Objective Communication | `~/.claude/skills/objective-communication-g/SKILL.md` |

@@ -220,6 +220,8 @@ When the verdict is **request changes** or **comment-only**, or when following u
 
 ### 11. Confirm completion
 
+If the review was initiated from a Slack message, draft a short reply in the originating thread indicating the review status (reviewed, approved, or changes requested). Compose per **delivered-text-g** (Slack register).
+
 Print a summary matching the context type.
 
 #### When following up on `/review-pr-g`

@@ -142,6 +142,7 @@ Any post-baseline modification that was not part of the original review receives
 
 - Code evaluation per the **code-review-g** skill.
 - Design evaluation (step 4 of `/review-pr-g`) if the delta warrants it -- consider the design context from the original review's evaluation if it was performed.
+- **Adoption completeness** -- when a fix introduces a new abstraction (module, codec, type alias, predicate, utility), sweep **all** PR-changed files for patterns the abstraction was created to replace. A centralization fix that isn't adopted across the PR is incomplete. Search for: ad-hoc inline constructions of the same type (e.g. `t.union([A, B])` when a named codec exists), type annotations spelling out the union manually, inline predicate logic the module encapsulates, and manual refinements when codec-based `.is` is available. Report every remaining instance -- do not stop at a sample.
 - **functional-typescript-g** skill for TypeScript files.
 - **commit-conventions-g** skill for new commits.
 - **Commit hygiene check**: verify no `fixup!` or `squash!` commits remain unsquashed on the branch. A dangling fixup commit is a blocking finding -- the author must interactive-rebase before approval.

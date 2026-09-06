@@ -16,7 +16,7 @@ Volume
 
 - **objective-communication-g** -- communication principles (motivation, delimitation, structure, concretisation, self-containment, objectivity).
 - **communication-templates-g** -- tiered structural templates for each output type (PR description, commit message, Slack message, work-item description, etc.). Select the appropriate tier based on context.
-- **external-communications-g** -- approval and formatting guidelines for the target platform.
+- **delivered-text-g** -- orchestrator for all delivered text; routes to the correct sub-skills (including **external-communications-g** for approval and formatting).
 
 ## Output format
 

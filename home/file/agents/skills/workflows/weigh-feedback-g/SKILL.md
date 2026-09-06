@@ -46,7 +46,7 @@ Do not proceed to execution until the user approves.
 
 After approval, switch to **Agent** mode and execute:
 
-**PR thread replies**: for each approved comment, post a reply. Apply the **external-communications-g** skill and the **objective-communication-g** skill for tone and formatting. Structure by verdict:
+**PR thread replies**: for each approved comment, post a reply. Follow the **delivered-text-g** skill for tone and formatting (text type: "PR review reply"). Structure by verdict:
 
 - **Agree-fix / Partial** -- acknowledge the concern, reference the fix or alternative approach.
 - **Disagree** -- state the governing standard, explain the reasoning concisely, propose keeping the current approach.

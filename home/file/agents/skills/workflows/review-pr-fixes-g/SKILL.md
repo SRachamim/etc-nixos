@@ -158,7 +158,7 @@ Apply the full `/review-plan-g` evaluation to added and changed steps:
 
 ### 7. Draft follow-up
 
-Read and apply the **external-communications-g** skill before composing the text below. Apply the **objective-communication-g** skill to all follow-up text.
+Follow the **delivered-text-g** skill before composing the text below (text type: "PR review comment").
 
 Two categories of output:
 

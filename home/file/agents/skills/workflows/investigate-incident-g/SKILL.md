@@ -95,7 +95,7 @@ information gaps, organisational friction. "None identified" if the incident was
 
 If appropriate, offer to:
 
-- Post the summary to a Slack channel (read and apply the **external-communications-g** skill before composing).
+- Post the summary to a Slack channel (follow the **delivered-text-g** skill; text type: "Slack message").
 - Create a work item to track the fix.
 - Schedule a Datadog downtime if the alert is expected during remediation.
 

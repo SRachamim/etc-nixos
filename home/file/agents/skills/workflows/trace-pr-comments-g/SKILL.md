@@ -65,7 +65,7 @@ For each confirmed comment:
 
 ### 5. Draft replies and gap tasks
 
-Read and apply the **external-communications-g** skill before composing the text below. Apply the **objective-communication-g** skill to all reply text.
+Follow the **delivered-text-g** skill before composing the text below (text type: "PR review reply").
 
 **Covered comments** -- draft a reply for each, citing the governing artifact(s). Use the path relative to the skills root (for skills) or repo root (for workspace rules), plus the line range:
 

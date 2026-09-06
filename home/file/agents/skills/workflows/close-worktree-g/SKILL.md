@@ -101,7 +101,7 @@ Consider whether the completed feature warrants a notification to `#full-stack`.
 
 If nothing is notable, state that briefly and move on.
 
-If a notification is warranted, read and apply the **external-communications-g** skill, then compose a message for `#full-stack` following it and the **objective-communication-g** skill.
+If a notification is warranted, follow the **delivered-text-g** skill (text type: "Slack message"), then compose a message for `#full-stack`.
 
 ### 11. Evolve
 

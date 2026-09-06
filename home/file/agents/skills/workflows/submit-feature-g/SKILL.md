@@ -50,7 +50,7 @@ See the **triage-transition-g** skill (step 4) for the general `additionalFields
 
 **This step begins only after the PR has been created and the link presented in step 3.** Do not batch this approval with the PR approval -- they are separate interactions.
 
-Read and apply the **external-communications-g** skill before composing any message in this step.
+Follow the **delivered-text-g** skill before composing any message in this step (text type: "Slack message").
 
 **Before composing the channel message**, run `git diff <default-branch>...HEAD --name-only` and save the output -- it is needed for the agent artifact check and automation folder check later in this step.
 
@@ -61,7 +61,7 @@ Defaults:
 
 When the user asks to share/send a message to a person by name, look up their Slack user ID via `users_search` with their name as the query.
 
-Compose a message for the **#team-cinfra** Slack channel, following the **objective-communication-g** and **external-communications-g** skills. The message should include:
+Compose a message for the **#team-cinfra** Slack channel, following the **delivered-text-g** skill. The message should include:
 
 - A link to the PR (linked on the PR number, per **external-communications-g** skill).
 - A link to the work item (linked on the work item ID).
@@ -86,7 +86,7 @@ Known patterns:
 
 Also flag any file whose purpose is to instruct or configure an AI agent -- prompt templates, LLM system instructions, agent workflow definitions, MCP server configuration, AI-related config files, etc. Use judgment; when uncertain, include rather than exclude.
 
-If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **objective-communication-g** skill and **external-communications-g** skill. **Present the DM for user approval before sending.** If a DM thread already exists with this person for the same PR (e.g. from an earlier notification in this step), reply in that thread rather than sending a new top-level message.
+If agent artifacts are detected, compose a DM to Yaakov Ellis (Slack user ID `U08NR4YBWTS`) with a link to the PR and a note that it includes agent artifact changes. Follow the **delivered-text-g** skill. **Present the DM for user approval before sending.** If a DM thread already exists with this person for the same PR (e.g. from an earlier notification in this step), reply in that thread rather than sending a new top-level message.
 
 #### Automation folder notification (fgrepo only)
 
@@ -98,7 +98,7 @@ Using the same `git diff <default-branch>...HEAD --name-only` output from above,
 - A one-line summary of what automation changes are included.
 - A request for review.
 
-Follow the **objective-communication-g** skill and the **external-communications-g** skill. **Present the message for user approval before posting.**
+Follow the **delivered-text-g** skill. **Present the message for user approval before posting.**
 
 ### 6. Confirm completion
 

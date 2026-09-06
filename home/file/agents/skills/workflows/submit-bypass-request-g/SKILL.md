@@ -99,7 +99,7 @@ The "Submitted by" field should be the current user. Look up the user's Slack ID
 
 #### Draft presentation
 
-Read and apply the **external-communications-g** skill before composing the text below. Follow the **objective-communication-g** skill for the free-text fields (changes summary and test-failure explanation). Present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
+Follow the **delivered-text-g** skill before composing the text below (text type: "Slack message"). Present the composed message to the user for approval before posting. The user may want to edit the test-failure explanation or change details.
 
 Present the draft as the raw Slack mrkdwn in a fenced code block (copy-pastable, with a copy button).
 

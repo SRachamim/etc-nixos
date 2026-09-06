@@ -48,7 +48,7 @@ Apply the **architect-thinking-g** skill's systems-thinking principles during in
 
 ## Communication
 
-When sharing findings externally, read and apply the **external-communications-g** skill, then structure updates as:
+When sharing findings externally, follow the **delivered-text-g** skill (text type: "Slack message" or "Any external platform post"), then structure updates as:
 
 - **What we know** -- observed symptoms, confirmed impact, probable cause.
 - **What we are doing** -- current mitigation steps, who is investigating.

@@ -54,7 +54,7 @@ Follow the **create-work-item-g** shared instructions with:
 
 ### 4. Compose the Slack message
 
-Read and apply the **external-communications-g** skill.
+Follow the **delivered-text-g** skill (text type: "Slack message").
 
 Compose a message in Slack mrkdwn matching the template used by the "Request TechOps Support" workflow in **#techops-support**.
 

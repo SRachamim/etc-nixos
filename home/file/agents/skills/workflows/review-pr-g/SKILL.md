@@ -24,13 +24,15 @@ Some repositories require reviewing only a subset of changed files. When the PR 
 
 When the PR was resolved from a Slack message, react to the original message at key milestones. These reactions appear as the user's own (the Slack token is a user token) and require no additional approval -- the user opted in by invoking the workflow with a Slack link.
 
-| Moment | Reaction | When it fires |
-|--------|----------|---------------|
-| Starting review | `eyes` | Immediately after parsing the Slack link (step 2) |
-| Approved | `white_check_mark` | After the approval vote is cast (step 9) |
-| Reviewed with comments | `speech_balloon` | After review comments are posted to the PR, or the user confirms they posted |
+| Moment | Reaction | Thread reply | When it fires |
+|--------|----------|-------------|---------------|
+| Starting review | `eyes` | -- | Immediately after parsing the Slack link (step 2) |
+| Approved | `white_check_mark` | Verdict only (e.g. "Approved") | After the approval vote is cast (step 9) |
+| Reviewed with comments | `speech_balloon` | Verdict only (e.g. "Reviewed") | After review comments are posted (step 8) |
 
 Treat `already_reacted` errors as idempotent success. Do not attempt to remove earlier reactions -- accumulating them tells the review lifecycle story.
+
+Thread replies are posted to the same thread (`thread_ts`) as the reaction via `conversations_add_message`. The reply is a bare verdict word -- no PR link (already in the thread), no comment count, no elaboration. It is a notification, not information. The reply draft is presented in step 7 alongside the review for a single approval.
 
 ## Steps
 
@@ -157,13 +159,14 @@ Show the complete review to the user, including:
   - The reconstructed plan (brief: goal, approach, commit strategy).
   - Design-level findings.
 - All code-level comments.
+- **If the PR was resolved from a Slack message**: the Slack thread reply draft for the anticipated verdict (see **Slack reaction signals**). Present the reply text so the user can approve it alongside the review.
 
-**Wait for user approval before posting** (per **external-communications-g** skill).
+**Wait for user approval before posting** (per **external-communications-g** skill). One approval covers both the review and the Slack thread reply.
 
 ### 8. Post the review
 
 - Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine` (with `rightFileEndLine` when the finding spans multiple lines). The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill. Only actionable, line-anchored findings are posted.
-- **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`.
+- **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`, then post the approved thread reply via `conversations_add_message` with `thread_ts` (see **Slack reaction signals**).
 
 ### 9. Vote
 
@@ -171,7 +174,7 @@ When the overall verdict is **approve** (no blocking findings):
 
 1. Ask the user whether to cast the approval vote on the PR.
 2. If the user confirms, follow the **vote-pr-g** shared skill with vote value `approve`.
-3. **If the PR was resolved from a Slack message** and the vote succeeds: call `reactions_add` with `emoji: "white_check_mark"` (see **Slack reaction signals**).
+3. **If the PR was resolved from a Slack message** and the vote succeeds: call `reactions_add` with `emoji: "white_check_mark"`, then post the approved thread reply via `conversations_add_message` with `thread_ts` (see **Slack reaction signals**).
 
 When the verdict is **request changes** or **comment-only**, skip this step -- voting is not appropriate.
 
@@ -182,6 +185,7 @@ Print a summary:
 - PR link
 - Number of comments posted
 - Whether the approval vote was cast
+- Whether a Slack thread reply was posted
 - Overall verdict (approved, changes requested, or commented)
 
 ### 11. Evolve

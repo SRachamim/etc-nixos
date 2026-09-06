@@ -95,7 +95,7 @@ If the user does not proactively provide the revised plan, ask for it before pro
 
 #### When following up on `/review-pr-g`
 
-- Run `git fetch origin` to pick up new commits pushed since the initial review.
+- Run `git fetch origin <target-branch> <source-branch>` to pick up new commits on both branches. Fetching only the source branch leaves the target stale, which corrupts commit topology analysis (the `origin/<target>..<source>` range includes commits already on the target).
 - List post-baseline commits: `git log --oneline <baseline-sha>..origin/<source>` where `<baseline-sha>` is the last commit reviewed and `<source>` is the PR's source branch.
 - If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
 - Read each new commit individually using `git show <sha>`.

@@ -108,6 +108,7 @@ Direct and compressed. Same simple English as other platforms -- no special voca
 - **Lead with the point** -- the ask or the fact comes first. Context follows only if the reader needs it to act. Don't open with "just wanted to let you know", "wanted to flag", or "heads up".
 - **No preamble** -- don't frame what you're about to say. Don't write "quick update:" before the update. Don't write "one thing:" before the thing.
 - **Compress** -- if a message can be one line, make it one line. A second line needs to earn its place with information the first line can't carry.
+- **Reciprocate personal gestures from the thread** -- when drafting a reply in a thread, read the messages for personal or interpersonal elements: greetings, cultural expressions, humor, language switches, emoji warmth. Match them proportionally. If someone opened with "בוקר טוב :)" -- start your reply with "בוקר טוב". If they were playful, a dry aside is fair game. If they were purely transactional, match that too. The principle: respond to the person in front of you, not a template. Grounded in Motivate (address what the reader values) and Concretise (match their specific gesture with a specific response). Keep it proportional per Delimit -- a one-word greeting gets a one-word reciprocation, not a paragraph of warmth. Don't sustain something you can't follow through on -- a Hebrew greeting is fine, a Hebrew paragraph isn't (Self-containment).
 
 ### Code comments
 

@@ -30,6 +30,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/compare-approaches-g` | `/plan-g` |
 | `/create-bug-g` | `/checkout-worktree-g`, `/reproduce-bug-g`, `/write-repro-steps-g` |
 | `/create-task-g` | `/checkout-worktree-g`, `/plan-g` |
+| `/create-user-story-g` | `/checkout-worktree-g`, `/create-task-g`, `/plan-g` |
 | `/debug-g` | `/commit-and-push-g`, `/create-bug-g`, `/defer-fix-g` |
 | `/defer-fix-g` | `/create-bug-g`, `/create-task-g`, `/checkout-worktree-g` |
 | `/deliver-feature-g` | `/close-worktree-g`, `/verify-deployment-g` |
@@ -43,17 +44,17 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/plan-g` | `/commit-and-push-g`, `/submit-feature-g` |
 | `/prepare-release-g` | `/update-wiki-g`, `/commit-and-push-g` |
 | `/plan-from-prd-intake-g` | `/submit-feature-g`, `/commit-and-push-g` |
-| `/analyze-prd-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/estimate-work-item-g`, `/plan-g` |
+| `/analyze-prd-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/create-user-story-g`, `/estimate-work-item-g`, `/plan-g` |
 | `/prune-merged-g` | `/checkout-worktree-g` |
 | `/report-bug-g` | `/fix-bug-g`, `/checkout-worktree-g` |
 | `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |
-| `/review-retrospective-g` | `/plan-g`, `/create-task-g` |
+| `/review-retrospective-g` | `/plan-g`, `/create-task-g`, `/create-user-story-g` |
 | `/review-microservice-architecture-g` | `/design-microservice-system-g`, `/extract-microservice-g`, `/plan-g` |
 | `/review-pr-g` | `/weigh-feedback-g`, `/trace-pr-comments-g` |
 | `/review-pr-fixes-g` | `/submit-feature-g`, `/close-worktree-g` |
 | `/submit-bypass-request-g` | `/triage-build-g`, `/commit-and-push-g` |
 | `/submit-feature-g` | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/close-worktree-g` |
-| `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/estimate-work-item-g` |
+| `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/create-user-story-g`, `/estimate-work-item-g` |
 | `/trace-pr-comments-g` | `/weigh-feedback-g`, `/review-pr-fixes-g` |
 | `/triage-work-item-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
 | `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |

@@ -38,7 +38,7 @@ Load sub-skills based on the text type being composed. "Always" skills are loade
 | Commit message | -- | **communication-templates-g** (section 3), **commit-conventions-g** |
 | PR review comment | -- | **communication-templates-g** (section 5), **code-review-g** |
 | PR review reply | -- | **communication-templates-g** (section 6), **code-review-g** |
-| Work-item title/description | -- | **communication-templates-g** (sections 7--8) |
+| Work-item title/description | -- | **work-item-templates-g**, **communication-templates-g** (sections 7--8) |
 | Slack message | -- | **communication-templates-g** (sections 4, 9--10), **external-communications-g** |
 | Any external platform post | -- | **external-communications-g** (approval, formatting, post-action linking) |
 | Code comment | -- | **writing-style-g** reference.md > Code comments |

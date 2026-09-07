@@ -20,6 +20,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/create-bug-g` | Create Bug | `~/.claude/skills/create-bug-g/SKILL.md` |
 | `/create-microservice-g` | Create Microservice | `~/.claude/skills/create-microservice-g/SKILL.md` |
 | `/create-task-g` | Create Task | `~/.claude/skills/create-task-g/SKILL.md` |
+| `/create-user-story-g` | Create User Story | `~/.claude/skills/create-user-story-g/SKILL.md` |
 | `/debug-g` | Debug | `~/.claude/skills/debug-g/SKILL.md` |
 | `/defer-fix-g` | Defer Fix | `~/.claude/skills/defer-fix-g/SKILL.md` |
 | `/deliver-feature-g` | Deliver Feature | `~/.claude/skills/deliver-feature-g/SKILL.md` |
@@ -104,6 +105,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | verification-strategy-g | Verification Strategy | `~/.claude/skills/verification-strategy-g/SKILL.md` |
 | feedback-evaluation-g | Feedback Evaluation | `~/.claude/skills/feedback-evaluation-g/SKILL.md` |
 | work-item-context-g | Work Item Context | `~/.claude/skills/work-item-context-g/SKILL.md` |
+| work-item-templates-g | Work Item Templates | `~/.claude/skills/work-item-templates-g/SKILL.md` |
 | workflow-catalog-g | Workflow Catalog | `~/.claude/skills/workflow-catalog-g/SKILL.md` |
 | workspace-rules-g | Workspace Rules | `~/.claude/skills/workspace-rules-g/SKILL.md` |
 | worktree-layout-g | Worktree Layout | `~/.claude/skills/worktree-layout-g/SKILL.md` |

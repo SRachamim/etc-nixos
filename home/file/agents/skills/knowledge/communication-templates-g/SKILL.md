@@ -324,7 +324,7 @@ Don't guess and defend against a misunderstood objection. Ask first.
 **Focused principles**: Delimit, Self-containment
 **Register**: **writing-style-g** > Work-item descriptions
 
-Other item types (Epic, User Story) follow their own workflows -- see the **analyze-prd-g** skill.
+For comprehensive work item templates including complexity tiers, ADO field mapping, and acceptance criteria format guidance, see **work-item-templates-g**.
 
 ### Bug
 
@@ -338,13 +338,23 @@ Describe what the user sees, not the implementation cause.
 
 ### Feature
 
-**When**: creating a Feature or User Story work item.
+**When**: creating a Feature work item.
 
 ```
 <Verb> <user-facing outcome> <scope/context>
 ```
 
 Outcome-oriented. "Support browsing large order lists" not "Handle pagination in OrderList component."
+
+### User Story
+
+**When**: creating a User Story work item.
+
+```
+<Verb> <user-facing outcome> <scope/context>
+```
+
+Same pattern as Feature but scoped to a single deliverable slice. "Display last-updated timestamp on portfolio summary page" not "Add timestamp label."
 
 ### Task
 
@@ -370,6 +380,8 @@ Action-oriented, scoped to a concrete deliverable.
 **Variation dimension**: item type and complexity
 **Focused principles**: Motivate, Delimit, Concretise, Self-containment
 **Register**: **writing-style-g** > Work-item descriptions
+
+For comprehensive templates with complexity tiers, ADO field mapping, and quality gates per work item type, see **work-item-templates-g**.
 
 ### Bug (minimal)
 

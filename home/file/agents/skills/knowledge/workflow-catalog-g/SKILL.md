@@ -231,12 +231,13 @@ flowchart LR
 
 ### 10c: Work item creation
 
-| What you need   | Invoke                          | Result                                |
-| --------------- | ------------------------------- | ------------------------------------- |
-| Track new work  | `/create-task-g`                | ADO Task                              |
-| Report a defect | `/create-bug-g`                 | ADO Bug                               |
-| Need env access | `/request-environment-access-g` | ADO Task + Slack to #techops-support  |
-| Block an item   | `/block-work-item-g`            | Sets Blocked state + predecessor link |
+| What you need      | Invoke                          | Result                                |
+| ------------------ | ------------------------------- | ------------------------------------- |
+| Track new work     | `/create-task-g`                | ADO Task                              |
+| Report a defect    | `/create-bug-g`                 | ADO Bug                               |
+| Capture user need  | `/create-user-story-g`          | ADO User Story                        |
+| Need env access    | `/request-environment-access-g` | ADO Task + Slack to #techops-support  |
+| Block an item      | `/block-work-item-g`            | Sets Blocked state + predecessor link |
 
 ---
 
@@ -433,7 +434,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `plan-execution-g`            | `/plan-g`, `/debug-g`, `/plan-from-prd-intake-g`, microservice skills | Executes approved commit plans step by step    |
 | `create-pr-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
 | `vote-pr-g`                   | `/review-pr-g`, `/review-pr-fixes-g`                                  | Casts the approval vote on a PR                |
-| `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/request-environment-access-g`    | Shared backend for ADO item creation           |
+| `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/create-user-story-g`, `/request-environment-access-g` | Shared backend for ADO item creation           |
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
 | `extract-requirements-g`      | `/plan-g`                                                             | Extracts FR/NFR/AC/C/A/OS from work item context |
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
@@ -472,6 +473,7 @@ Never invoked by name. The agent loads them contextually:
 | `prior-art-research-g`      | Before designing any solution                    |
 | `requirements-classification-g` | Extracting or reviewing requirements (PRD analysis, planning, triage) |
 | `verification-strategy-g`  | Planning tests, writing verification artifacts, reviewing coverage |
+| `work-item-templates-g`     | Creating or editing ADO work items (Bug, Task, User Story) |
 | `client-quality-focus-g`    | Working in fgrepo `client/`                      |
 | `nix-shell-direnv-g`        | Any shell command in Nix projects                |
 

@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Common steps for creating a new Azure DevOps work item in the **FundGuard** project.
 
-This file is a shared skill. It is referenced by the **create-task-g**, **create-bug-g**, and **request-environment-access-g** skills, which supply the work item type, crafted title, and type-specific fields.
+This file is a shared skill. It is referenced by the **create-task-g**, **create-bug-g**, **create-user-story-g**, and **request-environment-access-g** skills, which supply the work item type, crafted title, and type-specific fields.
 
 ## Inputs (provided by the calling skill)
 
@@ -47,16 +47,27 @@ To find the next iteration:
 
 Use the next iteration's path for the work item. Do NOT use the current iteration's path.
 
-### 3. Find the parent User Story
+### 3. Find the parent work item
 
-Every work item must have a parent User Story -- orphan items are not allowed.
+Every work item must have a parent -- orphan items are not allowed.
 
-1. Call `search_workitem` with `types: ["User Story"]`, `states: ["Active"]`, `areaPath` matching the target area, and `iterationPath` matching the next iteration resolved in step 2.
+The parent type depends on the work item being created:
+
+| Work item type | Parent type to search for |
+|----------------|--------------------------|
+| Task, Bug | User Story |
+| User Story | Feature or Epic |
+
+**Search procedure:**
+
+1. Call `search_workitem` with the appropriate parent type(s) (see table above), `states: ["Active"]`, `areaPath` matching the target area, and `iterationPath` matching the next iteration resolved in step 2.
 2. If no results, broaden by removing the `iterationPath` filter (same area path, states `["Active", "New"]`).
 3. If still no results, broaden further with `areaPath: "FundGuard"` and `states: ["Active"]`.
-4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a different story ID directly.
+4. Present the top candidates (ID, title, state) to the user and ask which one to link as the parent. The user may also provide a parent ID directly.
 
-A parent story must be selected before proceeding. Do not allow the user to skip this step.
+A parent must be selected before proceeding. Do not allow the user to skip this step.
+
+**Exception for User Stories:** if no Feature or Epic exists in the target area, inform the user and ask whether to proceed without a parent hierarchy or create a Feature first. This is the only case where proceeding without a parent is allowed.
 
 Store the selected parent story ID for use after creation.
 
@@ -68,7 +79,7 @@ Each piece of information belongs in exactly one field -- the field designated f
 
 ### 5. Present the work item for approval
 
-Follow **delivered-text-g** when composing titles and descriptions -- it routes to **objective-communication-g** for principles and **external-communications-g** for the approval presentation (must not be assumed from memory).
+Follow **delivered-text-g** when composing titles and descriptions -- it routes to **objective-communication-g** for principles, **work-item-templates-g** for type-specific templates and ADO field mapping, and **external-communications-g** for the approval presentation (must not be assumed from memory).
 
 Before creating, show the user the full work item that will be created: title, type, all fields (common and type-specific), assigned to, iteration, and parent User Story. Confirm the iteration is **not** the current sprint -- it should be the one after it. Ask for confirmation. If the user requests changes, revise and re-present.
 

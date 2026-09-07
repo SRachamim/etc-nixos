@@ -507,6 +507,26 @@ Add pagination to OrderList
 - Violates **Motivate**: no user-facing outcome. Why does the user care about pagination?
 - Describes implementation (`OrderList` component), not the outcome.
 
+### User Story
+
+Good:
+
+```
+Display last-updated timestamp on portfolio summary page
+```
+
+- **Motivate**: user-facing outcome (seeing data freshness).
+- **Delimit**: scoped to one page (portfolio summary).
+
+Bad:
+
+```
+Add timestamp label
+```
+
+- Violates **Self-containment**: which timestamp? where? The reader must chase context.
+- Violates **Motivate**: no user-facing outcome.
+
 ### Task
 
 Good:

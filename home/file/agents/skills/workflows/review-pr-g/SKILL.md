@@ -133,6 +133,7 @@ Additionally:
 - Apply the **functional-typescript-g** skill if the PR contains TypeScript files.
 - Apply the **commit-conventions-g** skill to evaluate commit structure and hygiene.
 - **Load relevant workspace rules**: the target repository may define conditional workspace rules (rules scoped to specific file patterns or content domains) that don't auto-load during review -- the agent reads diffs via git commands rather than opening files through the editor, so path-based triggers may not fire. Scan available conditional workspace rules and load any whose scope matches changed files or content in the diff (e.g. CSS rules for stylesheet changes, React hook rules for hook changes, form rules for form component changes). Always-applied rules are already in context.
+- **fgrepo client/ quality gate**: When the PR belongs to fgrepo and includes changed files under `client/`, read the repo-level `client-code-quality-gate` skill (`client/.cursor/skills/development/client-code-quality-gate/SKILL.md`) and apply its verification checks (Sections A--C) to each changed client/ file during code evaluation. Quality gate checks are conditional on each check's "When to run" trigger -- skip checks whose trigger does not apply. Map quality gate severity to review findings: `blocking` items become blocking review findings, `warning` items become suggestions. This loading is mandatory -- do not rely on path-based auto-discovery.
 
 ### 6. Draft review comments
 

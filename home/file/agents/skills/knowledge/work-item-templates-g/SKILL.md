@@ -17,6 +17,18 @@ For title patterns, see also **communication-templates-g** sections 7--8 (quick 
 
 Select the tier based on **observable signals**, not subjective judgment. Check the "When" criteria for each tier under each work item type. When signals span two tiers, pick the higher tier -- over-specifying is cheaper than under-specifying.
 
+## Single-source-of-truth rule
+
+Each piece of information belongs in exactly one ADO field -- the field designated for it in the type's field mapping table. Do not repeat, summarize, or paraphrase content across fields on the same work item.
+
+Concrete examples:
+- Bug: do not restate expected/actual behavior in `System.Description` if it is already in `Microsoft.VSTS.TCM.ReproSteps`.
+- Bug: do not echo the title's symptom description in the repro steps preamble.
+- User Story: do not list acceptance criteria in `System.Description` if they are in `Microsoft.VSTS.Common.AcceptanceCriteria`.
+- Task: do not restate the title's deliverable as the first line of `System.Description`.
+
+When a field is empty for a given tier (e.g. `System.Description` on a Simple Bug), leave it empty -- do not fill it with content that belongs elsewhere.
+
 ---
 
 ## 1. Bug
@@ -142,6 +154,7 @@ Before submitting a Bug, verify these fields are populated:
 | Missing starting state in repro steps | Self-containment -- reader can't reproduce |
 | Environment buried in prose | Structure -- queryable data in dedicated section |
 | `TBD` in severity or priority at submission | Delimit -- defer decisions the reader needs now |
+| Restating expected/actual in Description when already in ReproSteps | Delimit -- duplicate content across fields; reader sees the same information twice |
 
 ---
 
@@ -243,6 +256,7 @@ Before submitting a Task, verify it passes SMART:
 | Using Story Points on Tasks | Objectivity -- wrong estimation unit (use hours) |
 | Title that's a file path with no verb | Motivate -- no action, no outcome |
 | "Investigate X" without time-box or exit criteria | Delimit -- open-ended work; use a time-boxed spike |
+| Restating the title deliverable as the first line of Description | Delimit -- the title already carries this; description should add context the title cannot convey |
 
 ---
 
@@ -368,6 +382,7 @@ Before submitting a User Story, verify it passes INVEST:
 | AC that describes database operations or internal API calls | Anti-rationalism -- AC must pass the black-box test (see **requirements-classification-g**) |
 | Copying a PRD verbatim into description | Delimit -- story scope is narrower than PRD scope |
 | Missing scope boundaries | Self-containment -- implementer can't determine what's excluded |
+| Listing AC items in Description when already in AcceptanceCriteria field | Structure -- duplicated AC drifts; reader doesn't know which copy is authoritative |
 
 ---
 

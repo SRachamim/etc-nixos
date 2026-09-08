@@ -211,21 +211,16 @@ Thread status management is an explicit part of the follow-up review -- the revi
 - If the original review was anchored to a ticket, post a summary comment on the work item via MCP.
 - Otherwise, the review is presented inline only -- no external posting needed.
 
-### 10. Vote
+### 10. No approval vote
 
-Applies only **when following up on `/review-pr-g`** and the overall verdict is **approve** (no blocking findings, all prior threads resolved or accepted):
-
-1. Ask the user whether to cast the approval vote on the PR.
-2. If the user confirms, follow the **vote-pr-g** shared skill with vote value `approve`.
-
-When the verdict is **request changes** or **comment-only**, or when following up on `/review-plan-g`, skip this step.
+The agent **never** approves a PR (see the **code-review-g** skill's Verdicts section). Do not offer, suggest, or cast an approval vote -- even when all prior threads are resolved and the review has no blocking findings. The user approves manually if they choose to.
 
 ### 11. Confirm completion
 
 If the review was initiated from a Slack message:
 
-1. Add a reaction to the **original message** to signal status at a glance: `white_check_mark` (approved), `speech_balloon` (commented), or `leftwards_arrow_with_hook` (changes requested).
-2. Draft a short reply in the originating thread indicating the review status (reviewed, approved, or changes requested). Compose per **delivered-text-g** (Slack register).
+1. Add a reaction to the **original message** to signal status at a glance: `speech_balloon` (commented) or `leftwards_arrow_with_hook` (changes requested).
+2. Draft a short reply in the originating thread indicating the review status (reviewed or changes requested). Compose per **delivered-text-g** (Slack register).
 
 Print a summary matching the context type.
 
@@ -236,8 +231,7 @@ Print a summary matching the context type.
 - Threads reactivated (status -> `Active`) with count
 - Threads unchanged with count
 - New comments posted
-- Whether the approval vote was cast
-- Overall verdict (approved, changes requested, or commented)
+- Overall verdict (changes requested or commented)
 
 #### When following up on `/review-plan-g`
 

@@ -27,7 +27,6 @@ When the PR was resolved from a Slack message, react to the original message at 
 | Moment | Reaction | Thread reply | When it fires |
 |--------|----------|-------------|---------------|
 | Starting review | `eyes` | -- | Immediately after parsing the Slack link (step 2) |
-| Approved | `white_check_mark` | Verdict only (e.g. "Approved") | After the approval vote is cast (step 9) |
 | Reviewed with comments | `speech_balloon` | Verdict only (e.g. "Reviewed") | After review comments are posted (step 8) |
 
 Treat `already_reacted` errors as idempotent success. Do not attempt to remove earlier reactions -- accumulating them tells the review lifecycle story.
@@ -155,7 +154,7 @@ Each comment must include the specific file path and line range. Do not include 
 
 Show the complete review to the user, including:
 
-- An overall summary (approve, request changes, or comment-only).
+- An overall summary (request changes or comment-only).
 - **Design evaluation** (when step 4 was applied):
   - The reconstructed plan (brief: goal, approach, commit strategy).
   - Design-level findings.
@@ -169,15 +168,11 @@ Show the complete review to the user, including:
 - Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine` (with `rightFileEndLine` when the finding spans multiple lines). The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill. Only actionable, line-anchored findings are posted.
 - **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`, then post the approved thread reply via `conversations_add_message` with `thread_ts` (see **Slack reaction signals**).
 
-### 9. Vote
+### 9. No approval vote
 
-When the overall verdict is **approve** (no blocking findings):
+The agent **never** approves a PR (see the **code-review-g** skill's Verdicts section). Do not offer, suggest, or cast an approval vote -- even when the review has no blocking findings. The user approves manually if they choose to.
 
-1. Ask the user whether to cast the approval vote on the PR.
-2. If the user confirms, follow the **vote-pr-g** shared skill with vote value `approve`.
-3. **If the PR was resolved from a Slack message** and the vote succeeds: call `reactions_add` with `emoji: "white_check_mark"`, then post the approved thread reply via `conversations_add_message` with `thread_ts` (see **Slack reaction signals**).
-
-When the verdict is **request changes** or **comment-only**, skip this step -- voting is not appropriate.
+Skip any Slack `white_check_mark` reaction -- approval signals are the user's to send.
 
 ### 10. Confirm completion
 
@@ -185,9 +180,7 @@ Print a summary:
 
 - PR link
 - Number of comments posted
-- Whether the approval vote was cast
-- Whether a Slack thread reply was posted
-- Overall verdict (approved, changes requested, or commented)
+- Overall verdict (changes requested or commented)
 
 ### 11. Evolve
 

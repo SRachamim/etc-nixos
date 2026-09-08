@@ -45,7 +45,7 @@ Classify every finding internally to determine the review verdict:
 - **Suggestion** -- Recommended improvement. Better naming, clearer structure, missing test. Non-blocking.
 - **Nit** -- Minor style or preference. Formatting, word choice, import order. Non-blocking.
 
-This classification is for **verdict logic only** -- it determines whether the outcome is Approve or Request Changes. Do not include severity labels, prefixes, or tier names in the posted comment text. The author should treat every comment as equally worthy of consideration.
+This classification is for **verdict logic only** -- it determines whether the outcome is Request Changes or Comment Only. Do not include severity labels, prefixes, or tier names in the posted comment text. The author should treat every comment as equally worthy of consideration.
 
 ## Comment Constraints
 
@@ -86,9 +86,10 @@ When a finding references a specific code modification, include the relevant dif
 
 ## Verdicts
 
-- **Approve** -- No blocking comments. The change is ready to merge.
 - **Request changes** -- One or more blocking comments exist. The author must address them.
 - **Comment only** -- Feedback provided, but no strong opinion on merge readiness (e.g., reviewing a subset of the change).
+
+The agent **never** approves a PR. It reviews and comments, but the approval vote is the user's responsibility. Do not offer, suggest, or cast an approval vote -- even when the review has no blocking findings. A clean review produces a "Comment only" verdict (or no comments at all), and the user decides whether to approve.
 
 ## Commit Structure
 

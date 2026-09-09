@@ -34,7 +34,7 @@ If no non-skipped triage findings exist, stop (see skip condition above).
 
 ### 2. Classify each miss
 
-For each non-skipped triage finding, map it to a **code-review-g** evaluation dimension:
+For each non-skipped triage finding, map it to a **code-review-g** evaluation dimension. Record the dimension and triage type weight for each finding -- these appear in the per-finding template in step 5.
 
 | Dimension | What it covers |
 |-----------|---------------|
@@ -58,7 +58,7 @@ Also classify the **triage type weight**:
 
 ### 3. Root-cause the miss
 
-For each non-skipped triage finding, determine *why* the agent didn't catch it. Classify into one of three root causes:
+For each non-skipped triage finding, determine *why* the agent didn't catch it. Record the root-cause classification and one-sentence reasoning for each finding -- these appear in the per-finding template in step 5. Classify into one of three root causes:
 
 - **Dimension gap**: the evaluation dimension exists in **code-review-g** but its description is too narrow to cover this pattern. The dimension text doesn't prompt the agent to look for this class of issue.
   - *Target artifact*: `code-review-g` -- expand the dimension description.
@@ -73,7 +73,7 @@ When the root cause is ambiguous, prefer the explanation that requires the small
 
 ### 4. Determine enforcement tier
 
-For each miss, classify whether the correction can be enforced deterministically or requires semantic judgment. Apply the **tooling-enforcement-g** skill.
+For each miss, classify whether the correction can be enforced deterministically or requires semantic judgment. Record the enforcement tier for each finding -- these appear in the per-finding template in step 5. Apply the **tooling-enforcement-g** skill.
 
 - **Deterministic**: the issue could be caught by a lint rule, type check, or pre-commit hook (e.g., "always check that async operations have cleanup in useEffect"). If yes, recommend promoting to the tooling stack *and* adding a behavioral rule for the semantic aspect that the tool can't cover. The two compose.
 
@@ -83,14 +83,34 @@ Record the tier for each miss. The observation file will include both the skill 
 
 ### 5. Propose specific edits
 
-For each miss, produce a concrete before/after diff against the target artifact. Follow the **continuous-improvement-g** proposal format:
+For each miss, present a structured proposal using the template below. Every field is required -- do not skip or collapse findings into a summary.
 
-1. **State what happened** -- one sentence describing what the agent missed during the review.
-2. **State why this matters** -- one sentence describing the consequence: this class of issue will recur in future reviews until the skill is improved.
-3. **Categorize** -- use the **continuous-improvement-g** categories. Most review misses will be `accuracy` (the review skill produced suboptimal output) or `missing-step` (a step was needed but not documented). For new dimensions, use `new-field`.
-4. **Show the proposed change** -- before/after diff against the target artifact's source file.
+**Finding F\<n\>: \<one-line description\>**
 
-Present all proposals to the user for approval. Group by target artifact for readability.
+| Field | Value |
+|-------|-------|
+| Triage type | add / merge |
+| Dimension | \<from step 2\> |
+| Root cause | \<dimension-gap / step-gap / context-gap\> -- \<one sentence reasoning from step 3\> |
+| Enforcement tier | \<deterministic / semantic\> -- \<from step 4\> |
+| Target artifact | \<file path\> |
+| Category | \<accuracy / missing-step / new-field\> |
+| Confidence | \<high / medium / low\> |
+
+**What the agent missed**: \<one sentence\>
+
+**Why this matters**: \<one sentence -- consequence if not fixed\>
+
+**Proposed change**:
+
+```diff
+- <before>
++ <after>
+```
+
+---
+
+Group findings by target artifact for readability. Present all proposals to the user for approval before persisting.
 
 ### 6. Persist approved observations
 
@@ -173,6 +193,7 @@ Low-confidence observations are still persisted -- the consuming skill (`review-
 
 ## Constraints
 
+- **No summary-only output** -- a prose summary of triage findings is not valid output for this skill. Every non-skipped finding MUST produce a per-finding analysis (steps 2-4) and a concrete before/after diff proposal (step 5) presented to the user for approval. If you find yourself writing "these are patterns to watch for in future reviews," you have not executed this skill.
 - **Evidence-based only** -- every proposal traces back to a specific triage finding from the current review. Do not speculate about other potential improvements.
 - **Minimal diff** -- change only what is needed in the target artifact. Do not reformat or restructure surrounding content.
 - **User approval required** -- never persist an observation without user approval.

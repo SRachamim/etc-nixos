@@ -450,6 +450,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
 | `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
+| `codify-review-miss-g`        | `/submit-review-g`                                                    | Analyzes non-skipped triage findings into review skill improvements |
 | `continuous-improvement-g`    | `capture-improvement-g`, `review-retrospective-g`                     | Improvement methodology (signals, categories)  |
 | `feedback-evaluation-g`       | `/weigh-feedback-g`, `/review-pr-fixes-g`                             | PR feedback evaluation framework               |
 | `follow-up-map-g`             | `capture-improvement-g`                                               | Presents up to 3 follow-up skill suggestions   |

@@ -101,6 +101,12 @@ Print a summary:
 - Vote cast (or "no vote").
 - Slack actions taken (if applicable).
 
-### 8. Evolve
+### 8. Learn from triage
+
+Skip this step when no `/triage-finding-g` invocations with "merge" or "add" decisions exist in the conversation.
+
+When non-skipped triage findings exist, invoke the **codify-review-miss-g** shared skill. It analyzes each miss, proposes targeted improvements to review skills, and persists approved observations.
+
+### 9. Evolve
 
 Follow the **capture-improvement-g** skill.

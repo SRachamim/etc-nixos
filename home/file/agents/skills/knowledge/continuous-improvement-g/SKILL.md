@@ -20,6 +20,7 @@ Look for these signals during or after execution:
 - **Accuracy**: the output quality could improve with better prompts, examples, or constraints.
 - **Recurring friction**: the same painful step appears across multiple executions. "If it hurts, do it more often" -- automate or simplify it rather than working around it each time.
 - **Cost of inaction**: the artifact's current state causes repeated delay, confusion, or error. The cost of not improving accumulates -- flag it even if no single execution failed.
+- **Review miss**: a `/triage-finding-g` classified a user observation as "merge" or "add", indicating the review skills failed to detect an issue the human reviewer caught. Each non-skipped triage finding is evidence of a blind spot in the review skill ecosystem. Processed by the **codify-review-miss-g** shared skill.
 
 If the execution went smoothly and matched the instructions perfectly, there is nothing to propose.
 

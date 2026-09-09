@@ -30,7 +30,6 @@ If the conversation contains no raw findings from a preceding review skill, tell
 For each finding, compose the literal ADO comment text:
 
 - Follow the **communication-templates-g** PR Review Comment template (Brief / Standard / Thorough tiers based on the depth the issue needs).
-- Include diff hunks per the **code-review-g** inline-diff-context rule.
 - Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text.
 - Each comment must include the specific file path and line range.
 - Do not include praise -- every comment must be actionable.
@@ -63,7 +62,7 @@ When the original `/review-pr-g` was triggered from a Slack message, compose:
 Show everything to the user:
 
 - The overall summary and verdict from step 4.
-- Every finding with its literal post text in a fenced code block.
+- Every finding with its literal post text in a fenced code block. Before each post text block, include the relevant diff hunk (with `diff` syntax highlighting) so the user has inline context for the approval decision. The diff hunk is for the user's benefit in the chat -- it is not part of the posted comment text.
 - Thread resolution actions (if follow-up review, from step 5).
 - Slack actions (if Slack-originated, from step 6).
 

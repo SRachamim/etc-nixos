@@ -84,6 +84,8 @@ Every finding must include the literal text that will be posted externally, form
 
 When a finding references a specific code modification, include the relevant diff hunk as a fenced code block with `diff` syntax highlighting. Show only the affected hunk (not the entire file diff) so the reader can see the exact context inline without navigating to the file.
 
+This context is for the agent-to-user presentation. The literal comment text posted to the review platform does not include diff hunks -- the platform already anchors the comment to the relevant code.
+
 ## Verdicts
 
 - **Request changes** -- One or more blocking comments exist. The author must address them.

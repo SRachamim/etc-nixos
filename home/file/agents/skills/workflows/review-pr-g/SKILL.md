@@ -1,12 +1,12 @@
 ---
 name: review-pr-g
-description: Performs a structured code review on a pull request and posts feedback. Use when given a PR ID, inferred from the current branch, or extracted from a Slack message.
+description: "Performs a structured code review on a pull request and presents raw findings. Use when given a PR ID, inferred from the current branch, or extracted from a Slack message. Follow up with /triage-finding-g, /draft-review-g, and /submit-review-g to compose and post."
 disable-model-invocation: true
 ---
 
 # Review PR
 
-Given a PR ID (or inferred from the current branch or a Slack message), perform a structured code review and post feedback.
+Given a PR ID (or inferred from the current branch or a Slack message), perform a structured code review and present raw findings. This is the first step of the review pipeline -- follow up with `/triage-finding-g` (optional, per manual note), `/draft-review-g`, and `/submit-review-g` to compose and post the review.
 
 ## Repository-specific scope
 
@@ -22,16 +22,15 @@ Some repositories require reviewing only a subset of changed files. When the PR 
 
 ## Slack reaction signals
 
-When the PR was resolved from a Slack message, react to the original message at key milestones. These reactions appear as the user's own (the Slack token is a user token) and require no additional approval -- the user opted in by invoking the workflow with a Slack link.
+When the PR was resolved from a Slack message, react to signal the review has started. This reaction appears as the user's own (the Slack token is a user token) and requires no additional approval -- the user opted in by invoking the workflow with a Slack link.
 
-| Moment | Reaction | Thread reply | When it fires |
-|--------|----------|-------------|---------------|
-| Starting review | `eyes` | -- | Immediately after parsing the Slack link (step 2) |
-| Reviewed with comments | `speech_balloon` | Verdict only (e.g. "Reviewed") | After review comments are posted (step 8) |
+| Moment | Reaction | When it fires |
+|--------|----------|---------------|
+| Starting review | `eyes` | Immediately after parsing the Slack link (step 2) |
 
-Treat `already_reacted` errors as idempotent success. Do not attempt to remove earlier reactions -- accumulating them tells the review lifecycle story.
+Treat `already_reacted` errors as idempotent success.
 
-Thread replies are posted to the same thread (`thread_ts`) as the reaction via `conversations_add_message`. The reply is a bare verdict word -- no PR link (already in the thread), no comment count, no elaboration. It is a notification, not information. The reply draft is presented in step 7 alongside the review for a single approval.
+Post-review Slack signals (`:speech_balloon:`, thread replies, etc.) are handled by `/submit-review-g`.
 
 ## Steps
 
@@ -134,54 +133,22 @@ Additionally:
 - **Load relevant workspace rules**: the target repository may define conditional workspace rules (rules scoped to specific file patterns or content domains) that don't auto-load during review -- the agent reads diffs via git commands rather than opening files through the editor, so path-based triggers may not fire. Scan available conditional workspace rules and load any whose scope matches changed files or content in the diff (e.g. CSS rules for stylesheet changes, React hook rules for hook changes, form rules for form component changes). Always-applied rules are already in context.
 - **fgrepo client/ quality gate**: When the PR belongs to fgrepo and includes changed files under `client/`, read the repo-level `client-code-quality-gate` skill (`client/.cursor/skills/development/client-code-quality-gate/SKILL.md`) and apply its verification checks (Sections A--C) to each changed client/ file during code evaluation. Quality gate checks are conditional on each check's "When to run" trigger -- skip checks whose trigger does not apply. Map quality gate severity to review findings: `blocking` items become blocking review findings, `warning` items become suggestions. This loading is mandatory -- do not rely on path-based auto-discovery.
 
-### 6. Draft review comments
+### 6. Present raw findings
 
-**Before composing any text in this step**, load the **delivered-text-g** skill. The text type is "PR review comment" -- follow the routing table to determine which sub-skills to read. Do not proceed to drafting until all applicable layers are loaded.
+List each finding identified in steps 4--5 with its internal severity tag, file path, line range, and issue description. Use a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
 
-The loaded skills govern ALL text produced in steps 6--10.
+For each finding, include:
 
----
+- **Severity** (internal): Blocking, Suggestion, or Nit.
+- **File path and line range**: the specific location in the diff.
+- **Issue description**: what the problem is, why it matters, and the concrete alternative.
 
-Draft the literal comment text for **every** issue identified in steps 4--5. No exceptions -- every finding becomes a comment. Do not summarise multiple issues into one comment, do not silently drop findings, and do not defer issues to "mention verbally."
+Include the design evaluation summary (if step 4 ran): the reconstructed plan and any design-level findings.
 
-Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text. The author sees every comment with equal weight.
+**Verification**: count listed findings against issues identified in steps 4--5. If any issue lacks a corresponding finding, add it now.
 
-Each comment must include the specific file path and line range. Do not include praise -- every comment must be actionable.
+This output becomes the input for `/triage-finding-g` (if the user has manual notes) or `/draft-review-g` (if not).
 
-**Verification**: before proceeding to step 7, count drafted comments against findings from steps 4--5. If any finding lacks a corresponding comment, draft it now.
-
-### 7. Present the review
-
-Show the complete review to the user, including:
-
-- An overall summary (request changes or comment-only).
-- **Design evaluation** (when step 4 was applied):
-  - The reconstructed plan (brief: goal, approach, commit strategy).
-  - Design-level findings.
-- All code-level comments.
-- **If the PR was resolved from a Slack message**: the Slack thread reply draft for the anticipated verdict (see **Slack reaction signals**). Present the reply text so the user can approve it alongside the review.
-
-**Wait for user approval before posting** (per **external-communications-g** skill). One approval covers both the review and the Slack thread reply.
-
-### 8. Post the review
-
-- Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine` (with `rightFileEndLine` when the finding spans multiple lines). The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill. Only actionable, line-anchored findings are posted.
-- **If the PR was resolved from a Slack message** and review comments were posted: call `reactions_add` with `emoji: "speech_balloon"`, then post the approved thread reply via `conversations_add_message` with `thread_ts` (see **Slack reaction signals**).
-
-### 9. No approval vote
-
-The agent **never** approves a PR (see the **code-review-g** skill's Verdicts section). Do not offer, suggest, or cast an approval vote -- even when the review has no blocking findings. The user approves manually if they choose to.
-
-Skip any Slack `white_check_mark` reaction -- approval signals are the user's to send.
-
-### 10. Confirm completion
-
-Print a summary:
-
-- PR link
-- Number of comments posted
-- Overall verdict (changes requested or commented)
-
-### 11. Evolve
+### 7. Evolve
 
 Follow the **capture-improvement-g** skill.

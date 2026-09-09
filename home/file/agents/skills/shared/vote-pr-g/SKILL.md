@@ -1,6 +1,6 @@
 ---
 name: vote-pr-g
-description: Casts a vote on an Azure DevOps pull request, recovering from the "valid reviewer" error by adding the current user as a reviewer before retrying. Called by review-pr-g and review-pr-fixes-g — not invoked directly by the user.
+description: "Casts a vote on an Azure DevOps pull request, recovering from the \"valid reviewer\" error by adding the current user as a reviewer before retrying. Called by submit-review-g -- not invoked directly by the user."
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Cast a vote on an Azure DevOps pull request via `repo_vote_pull_request`, with automatic recovery when the API rejects the call because the user is not yet a reviewer.
 
-This file is a shared skill. It is referenced by the **review-pr-g** and **review-pr-fixes-g** skills, which supply the PR identity and desired vote value.
+This file is a shared skill. It is referenced by the **submit-review-g** skill, which supplies the PR identity and desired vote value.
 
 ## Inputs (provided by the calling skill)
 

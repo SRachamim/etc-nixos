@@ -35,6 +35,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/defer-fix-g` | `/create-bug-g`, `/create-task-g`, `/checkout-worktree-g` |
 | `/deliver-feature-g` | `/close-worktree-g`, `/verify-deployment-g` |
 | `/design-microservice-system-g` | `/create-microservice-g`, `/plan-g` |
+| `/draft-review-g` | `/submit-review-g` |
 | `/estimate-work-item-g` | `/plan-g`, `/checkout-worktree-g` |
 | `/extract-microservice-g` | `/submit-feature-g`, `/review-microservice-architecture-g` |
 | `/fix-bug-g` | `/close-worktree-g`, `/verify-deployment-g` |
@@ -50,12 +51,14 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |
 | `/review-retrospective-g` | `/plan-g`, `/create-task-g`, `/create-user-story-g` |
 | `/review-microservice-architecture-g` | `/design-microservice-system-g`, `/extract-microservice-g`, `/plan-g` |
-| `/review-pr-g` | `/weigh-feedback-g`, `/trace-pr-comments-g` |
-| `/review-pr-fixes-g` | `/submit-feature-g`, `/close-worktree-g` |
+| `/review-pr-g` | `/triage-finding-g`, `/draft-review-g` |
+| `/review-pr-fixes-g` | `/triage-finding-g`, `/draft-review-g` |
 | `/submit-bypass-request-g` | `/triage-build-g`, `/commit-and-push-g` |
 | `/submit-feature-g` | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/close-worktree-g` |
+| `/submit-review-g` | `/weigh-feedback-g`, `/trace-pr-comments-g`, `/close-worktree-g` |
 | `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/create-user-story-g`, `/estimate-work-item-g` |
 | `/trace-pr-comments-g` | `/weigh-feedback-g`, `/review-pr-fixes-g` |
+| `/triage-finding-g` | `/draft-review-g` |
 | `/triage-work-item-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
 | `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |
 | `/update-wiki-g` | `/prepare-release-g` |

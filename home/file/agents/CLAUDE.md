@@ -45,6 +45,9 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | `/review-plan-g` | Review Plan | `~/.claude/skills/review-plan-g/SKILL.md` |
 | `/review-pr-fixes-g` | Review PR Fixes | `~/.claude/skills/review-pr-fixes-g/SKILL.md` |
 | `/review-pr-g` | Review PR | `~/.claude/skills/review-pr-g/SKILL.md` |
+| `/triage-finding-g` | Triage Finding | `~/.claude/skills/triage-finding-g/SKILL.md` |
+| `/draft-review-g` | Draft Review | `~/.claude/skills/draft-review-g/SKILL.md` |
+| `/submit-review-g` | Submit Review | `~/.claude/skills/submit-review-g/SKILL.md` |
 | `/set-igw-g` | Set IGW | `~/.claude/skills/set-igw-g/SKILL.md` |
 | `/set-ports-g` | Set Ports | `~/.claude/skills/set-ports-g/SKILL.md` |
 | `/submit-bypass-request-g` | Submit Bypass Request | `~/.claude/skills/submit-bypass-request-g/SKILL.md` |

@@ -1,12 +1,12 @@
 ---
 name: review-pr-fixes-g
-description: Follows up on a previous /review-pr-g or /review-plan-g review to check whether findings were addressed. Use in the same conversation as a preceding review invocation.
+description: "Follows up on a previous /review-pr-g or /review-plan-g review to check whether findings were addressed and evaluate new content. Presents raw findings and resolution status. Use in the same conversation as a preceding review invocation. Follow up with /triage-finding-g, /draft-review-g, and /submit-review-g to compose and post."
 disable-model-invocation: true
 ---
 
 # Review PR Fixes
 
-Follow up on a previous `/review-pr-g` or `/review-plan-g` review within the same conversation. Check whether the author addressed the original findings, evaluate any new content (commits or revised plan steps), and present follow-up feedback. This command must run in the same agent conversation as the preceding review invocation -- the conversation context is the primary source of truth for what was reviewed and why.
+Follow up on a previous `/review-pr-g` or `/review-plan-g` review within the same conversation. Check whether the author addressed the original findings, evaluate any new content (commits or revised plan steps), and present raw findings and resolution status. This is the analysis step -- follow up with `/triage-finding-g` (optional), `/draft-review-g`, and `/submit-review-g` to compose and post the follow-up review. This command must run in the same agent conversation as the preceding review invocation -- the conversation context is the primary source of truth for what was reviewed and why.
 
 ## Conversation-context requirement
 
@@ -158,88 +158,38 @@ Apply the full `/review-plan-g` evaluation to added and changed steps:
 - Gap analysis: missing steps, missing validation, unacknowledged risks, ticket misalignment.
 - If the original review used a ticket, re-check acceptance criteria against the revised plan.
 
-### 7. Draft follow-up
+### 7. Present raw findings and resolution status
 
-Follow the **delivered-text-g** skill before composing the text below (text type: "PR review comment").
-
-Two categories of output:
-
-- **Finding follow-ups**: responses to original findings where the resolution is inadequate. Do not draft replies for adequately resolved threads -- only actionable follow-ups.
-- **New findings**: issues found in the delta that weren't caught before.
-
-Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text. The author sees every comment with equal weight.
-
-Do not include praise. Every comment and summary item must be actionable.
-
-### 8. Present the review
-
-Show the complete follow-up review to the user.
+Present the follow-up results in a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
 
 #### When following up on `/review-pr-g`
 
-- A summary of thread resolution outcomes: threads resolved, threads reactivated, and threads unchanged.
-- Threads requiring action: literal reply text (composed per **delivered-text-g** stack, presented in a fenced code block) and target status change (`Active`) for each inadequately resolved thread.
-- Threads resolved silently: list of thread IDs being set to `Fixed` (no reply).
-- New delta findings.
-- Overall verdict: approve, request further changes, or comment-only.
+For each original thread the reviewer authored, list:
+
+- **Thread ID and location** (file path, line range).
+- **Resolution assessment**: Fixed (adequate fix verified), Reactivated (fix inadequate or missing -- state what's still wrong), or Unchanged (status left as-is, e.g. acceptable WontFix/ByDesign).
+- **Reasoning**: why the assessment was reached, referencing the original intent from the conversation context.
+
+For new findings from the delta (step 6):
+
+- **Severity** (internal): Blocking, Suggestion, or Nit.
+- **File path and line range**.
+- **Issue description**: what the problem is, why it matters, and the concrete alternative.
 
 #### When following up on `/review-plan-g`
 
-Use the same output format as step 7 of `/review-plan-g`:
+For each original finding:
 
-- A summary of finding resolution outcomes (how many accepted, how many need follow-up).
-- Finding-level follow-ups with the literal response text (composed per **delivered-text-g** stack, in a fenced code block) for each.
-- New findings from the delta.
-- Overall verdict: approve, request further changes, or comment-only.
-- Suggested revised steps (if blocking issues remain).
+- **Finding reference** and the step it targeted.
+- **Resolution assessment**: Addressed, Partially addressed, Not addressed, or Disputed.
+- **Reasoning**: what changed (or didn't) and why.
 
-**Wait for user approval before posting** (per **external-communications-g** skill).
+For new findings from the delta:
 
-### 9. Post the review
+- Same format as above (severity, location/step, description).
 
-#### When following up on `/review-pr-g`
+This output becomes the input for `/triage-finding-g` (if the user has manual notes) or `/draft-review-g` (if not).
 
-Thread status management is an explicit part of the follow-up review -- the reviewer has verified the fix and can authoritatively close the loop or reopen it. This overrides the **code-review-g** skill's default "author resolves" rule for this context.
-
-- For threads verified as adequately fixed: call `repo_update_pull_request_thread` with `status: "Fixed"`. No reply needed -- the status change is sufficient.
-- For threads verified as inadequately fixed or not addressed: call `repo_reply_to_comment` with the follow-up explanation, then call `repo_update_pull_request_thread` with `status: "Active"`.
-- For threads whose status is left unchanged (e.g. acceptable `WontFix` / `ByDesign`): no action needed. Do not reply or change status.
-- For new issues in the delta: use `repo_create_pull_request_thread` from the native Azure DevOps MCP with `repositoryId`, `pullRequestId`, `content`, `filePath`, and `rightFileStartLine`. The tool defaults to `status: "Active"` (same as initial review).
-
-#### When following up on `/review-plan-g`
-
-- If the original review was anchored to a ticket, post a summary comment on the work item via MCP.
-- Otherwise, the review is presented inline only -- no external posting needed.
-
-### 10. No approval vote
-
-The agent **never** approves a PR (see the **code-review-g** skill's Verdicts section). Do not offer, suggest, or cast an approval vote -- even when all prior threads are resolved and the review has no blocking findings. The user approves manually if they choose to.
-
-### 11. Confirm completion
-
-If the review was initiated from a Slack message:
-
-1. Add a reaction to the **original message** to signal status at a glance: `speech_balloon` (commented) or `leftwards_arrow_with_hook` (changes requested).
-2. Draft a short reply in the originating thread indicating the review status (reviewed or changes requested). Compose per **delivered-text-g** (Slack register).
-
-Print a summary matching the context type.
-
-#### When following up on `/review-pr-g`
-
-- PR link
-- Threads resolved (status -> `Fixed`) with count
-- Threads reactivated (status -> `Active`) with count
-- Threads unchanged with count
-- New comments posted
-- Overall verdict (changes requested or commented)
-
-#### When following up on `/review-plan-g`
-
-- Ticket link (if applicable)
-- Findings reviewed and their outcomes (accepted, pushed back, still outstanding)
-- New findings with count
-- Overall verdict (approved, changes requested, or commented)
-
-### 12. Evolve
+### 8. Evolve
 
 Follow the **capture-improvement-g** skill.

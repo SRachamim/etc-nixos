@@ -108,17 +108,27 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  A["/review-pr-g"] --> B["Author fixes"]
-  B --> C["/review-pr-fixes-g"]
+  A["/review-pr-g"] --> B{User notes?}
+  B -->|Yes| C["/triage-finding-g x N"]
+  B -->|No| D["/draft-review-g"]
+  C --> D
+  D --> E["/submit-review-g verdict"]
+  F["Author fixes"] --> G["/review-pr-fixes-g"]
+  G --> H["/draft-review-g"]
+  H --> I["/submit-review-g verdict"]
 ```
 
 **User invokes:**
 
-1. **/review-pr-g** -- Provide a PR ID, a Slack message link containing a review request, or let it infer from the current branch. Performs design + code evaluation, drafts comments by severity. Posts after your approval.
-   - Votes "Approve" automatically if no blocking findings (with your confirmation).
-   - If triggered from Slack, adds emoji reactions to signal progress.
-2. *(Author pushes fixes)*
-3. **/review-pr-fixes-g** -- Must run in the same conversation. Evaluates whether fixes address original findings, reviews new code with full rigor, manages thread lifecycle (resolves/reactivates). Votes on approval.
+1. **/review-pr-g** -- Provide a PR ID, a Slack message link containing a review request, or let it infer from the current branch. Performs design + code evaluation, presents raw findings (severity, file, line, description). Does not compose final text or post.
+   - If triggered from Slack, adds `:eyes:` reaction to signal review started.
+2. **/triage-finding-g** *(optional, one per manual note)* -- While the agent reviews, queue your own observations as `/triage-finding-g <note>`. Each is triaged against the agent's findings: skip (duplicate), merge (enriches existing), or add (new finding).
+3. **/draft-review-g** -- Composes the literal ADO comment text for all findings via the **delivered-text-g** stack. Presents the complete review for approval.
+4. **/submit-review-g \<verdict\>** -- Posts findings and casts a vote based on the keyword: `approve` (vote only, no comments), `comment` (post, no vote), `reject` (post + reject), `suggest` (post + approve-with-suggestions).
+5. *(Author pushes fixes)*
+6. **/review-pr-fixes-g** -- Must run in the same conversation. Evaluates whether fixes address original findings, reviews new code with full rigor, presents raw findings and resolution status.
+7. **/draft-review-g** -- Composes follow-up text (thread replies, new comments, resolution actions).
+8. **/submit-review-g \<verdict\>** -- Posts, manages thread lifecycle, and votes.
 
 ---
 
@@ -433,7 +443,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | ----------------------------- | --------------------------------------------------------------------- | ---------------------------------------------- |
 | `plan-execution-g`            | `/plan-g`, `/debug-g`, `/plan-from-prd-intake-g`, microservice skills | Executes approved commit plans step by step    |
 | `create-pr-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
-| `vote-pr-g`                   | `/review-pr-g`, `/review-pr-fixes-g`                                  | Casts the approval vote on a PR                |
+| `vote-pr-g`                   | `/submit-review-g`                                                    | Casts the approval vote on a PR                |
 | `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/create-user-story-g`, `/request-environment-access-g` | Shared backend for ADO item creation           |
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
 | `extract-requirements-g`      | `/plan-g`                                                             | Extracts FR/NFR/AC/C/A/OS from work item context |

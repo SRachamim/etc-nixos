@@ -135,17 +135,69 @@ Additionally:
 
 ### 6. Present raw findings
 
-List each finding identified in steps 4--5 with its internal severity tag, file path, line range, and issue description. Use a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
+Output the review results directly in the conversation using the structured template below. Do not use `CreatePlan`, plan tools, or external documents -- the output must be inline markdown in the chat so downstream skills (`/triage-finding-g`, `/draft-review-g`) can read it from conversation context.
 
-For each finding, include:
+Use a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
 
-- **Severity** (internal): Blocking, Suggestion, or Nit.
-- **File path and line range**: the specific location in the diff.
-- **Issue description**: what the problem is, why it matters, and the concrete alternative.
+#### Output template
 
-Include the design evaluation summary (if step 4 ran): the reconstructed plan and any design-level findings.
+```
+## Raw Review: [PR #<id>](<ADO PR URL>)
 
-**Verification**: count listed findings against issues identified in steps 4--5. If any issue lacks a corresponding finding, add it now.
+**Repository**: <name> (repo ID: <id>)
+**Branches**: `<source>` → `<target>`
+**Commits**: <count> (<first-sha>..<last-sha>)
+**Changed files**: <count>
+**Slack-originated**: yes (channel: <id>, ts: <ts>) / no
+
+### Design Evaluation
+
+> Present only when step 4 applied. Omit this entire section for trivial PRs.
+
+**Goal**: <reconstructed goal from the commit sequence>
+**Target state**: <what the codebase should look like after the PR lands>
+**Commit strategy**: <ordering assessment -- refactorings separated? tests first?>
+**Design decisions**: <what was chosen and what was implicitly rejected>
+
+Design findings (if any):
+- <design-level concerns, gap analysis results, prior-art observations>
+
+### Findings
+
+#### F1 [Blocking] `src/path/to/file.ts` L42-48
+
+<What the problem is. Why it matters. The concrete alternative --
+how to solve it differently.>
+
+#### F2 [Suggestion] `src/path/to/other.ts` L15
+
+<What the problem is. Why it matters. The concrete alternative.>
+
+#### F3 [Nit] `src/path/to/another.ts` L100-105
+
+<What the problem is. The concrete alternative.>
+
+### Summary
+
+| Severity | Count |
+|----------|-------|
+| Blocking | N |
+| Suggestion | N |
+| Nit | N |
+
+**Verdict indicator**: request-changes / comment-only / clean
+**Next**: `/triage-finding-g` (if you have manual notes) → `/draft-review-g` → `/submit-review-g`
+```
+
+#### Template rules
+
+- **PR link** in the `## Raw Review` heading must be a clickable markdown link to the ADO PR page. This is the first thing the user sees -- it lets them open the PR in parallel while reading the review output.
+- **Finding headings** use the format `#### F<n> [Severity] \`file/path\` L<start>-<end>` (or `L<line>` for single-line findings). The `F<n>` identifier is stable -- `/triage-finding-g` references findings by this ID.
+- **Severity** is one of `Blocking`, `Suggestion`, or `Nit` per the **code-review-g** skill.
+- **Issue description** (the body under each finding heading) must include: what the problem is, why it matters, and the concrete alternative. This is the raw judgment -- `/draft-review-g` transforms it into delivered text.
+- **Design Evaluation** section appears only when step 4 ran. When omitted, the `### Findings` section follows directly after the header.
+- **Verdict indicator**: `request-changes` when any finding is Blocking, `comment-only` when all findings are Suggestion or Nit, `clean` when there are zero findings.
+- **Verification**: count listed findings against issues identified in steps 4--5. If any issue lacks a corresponding `F<n>` entry, add it now.
 
 This output becomes the input for `/triage-finding-g` (if the user has manual notes) or `/draft-review-g` (if not).
 

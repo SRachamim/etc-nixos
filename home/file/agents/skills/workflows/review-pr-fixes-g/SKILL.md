@@ -160,33 +160,118 @@ Apply the full `/review-plan-g` evaluation to added and changed steps:
 
 ### 7. Present raw findings and resolution status
 
-Present the follow-up results in a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
+Output the follow-up results directly in the conversation using the structured template below. Do not use `CreatePlan`, plan tools, or external documents -- the output must be inline markdown in the chat so downstream skills (`/triage-finding-g`, `/draft-review-g`) can read it from conversation context.
 
-#### When following up on `/review-pr-g`
+Use a lightweight internal format -- no **delivered-text-g** composition, no fenced code blocks of literal post text.
 
-For each original thread the reviewer authored, list:
+#### Output template -- PR review follow-up
 
-- **Thread ID and location** (file path, line range).
-- **Resolution assessment**: Fixed (adequate fix verified), Reactivated (fix inadequate or missing -- state what's still wrong), or Unchanged (status left as-is, e.g. acceptable WontFix/ByDesign).
-- **Reasoning**: why the assessment was reached, referencing the original intent from the conversation context.
+Use this template when following up on `/review-pr-g`:
 
-For new findings from the delta (step 6):
+```
+## Follow-up Review: [PR #<id>](<ADO PR URL>)
 
-- **Severity** (internal): Blocking, Suggestion, or Nit.
-- **File path and line range**.
-- **Issue description**: what the problem is, why it matters, and the concrete alternative.
+**Baseline commit**: <sha of last commit reviewed>
+**New commits**: <count> (<first-new-sha>..<last-new-sha>)
+**New/changed files**: <count>
 
-#### When following up on `/review-plan-g`
+### Thread Resolutions
 
-For each original finding:
+#### T<thread-id> `src/path/to/file.ts` L42 -- Fixed
 
-- **Finding reference** and the step it targeted.
-- **Resolution assessment**: Addressed, Partially addressed, Not addressed, or Disputed.
-- **Reasoning**: what changed (or didn't) and why.
+<What was verified. Why the fix adequately addresses the original concern.>
 
-For new findings from the delta:
+#### T<thread-id> `src/path/to/other.ts` L15 -- Reactivated
 
-- Same format as above (severity, location/step, description).
+<What's still missing. Reference to the original concern and what the fix
+failed to address.>
+
+#### T<thread-id> `src/path/to/another.ts` L100 -- Unchanged
+
+<Why the current status is acceptable (e.g., author's WontFix reasoning
+is valid) or why no action was needed.>
+
+### New Findings
+
+#### F1 [Blocking] `src/path/to/new-file.ts` L25-30
+
+<What the problem is. Why it matters. The concrete alternative.>
+
+#### F2 [Suggestion] `src/path/to/changed.ts` L8
+
+<What the problem is. Why it matters. The concrete alternative.>
+
+### Summary
+
+**Resolutions**: N fixed, N reactivated, N unchanged
+**New findings**: N blocking, N suggestions, N nits
+**Verdict indicator**: request-changes / comment-only / clean
+**Next**: `/triage-finding-g` → `/draft-review-g` → `/submit-review-g`
+```
+
+##### Template rules -- PR follow-up
+
+- **PR link** in the `## Follow-up Review` heading must be a clickable markdown link to the ADO PR page (same convention as `/review-pr-g` step 6).
+- **Thread resolution headings** use the format `#### T<thread-id> \`file/path\` L<line> -- <Assessment>`. The `T<thread-id>` matches the ADO thread ID so `/submit-review-g` can map resolutions to thread status updates.
+- **Assessment** is one of `Fixed` (adequate fix verified -- mark for resolution), `Reactivated` (fix inadequate or missing -- mark for reactivation with follow-up reply), or `Unchanged` (status left as-is, e.g. acceptable WontFix/ByDesign -- no action).
+- **New finding headings** use the same `F<n>` format as `/review-pr-g` step 6. New findings from the delta receive a full from-scratch evaluation, not a lighter check.
+- **Verdict indicator**: `request-changes` when any new finding is Blocking or any thread is Reactivated, `comment-only` when all new findings are non-blocking and all threads are Fixed/Unchanged, `clean` when there are zero new findings and all threads are Fixed/Unchanged.
+
+#### Output template -- Plan review follow-up
+
+Use this template when following up on `/review-plan-g`:
+
+```
+## Follow-up Plan Review
+
+**Plan**: <reference or title>
+**Ticket**: <work item ID> (if applicable, otherwise omit)
+
+### Finding Resolutions
+
+#### Original finding 1 (step N) -- Addressed
+
+<What changed in the revised plan. Why the revision resolves the concern.>
+
+#### Original finding 2 (step N) -- Partially addressed
+
+<What improved. What's still missing or incomplete.>
+
+#### Original finding 3 (step N) -- Not addressed
+
+<The step is unchanged or the concern is still present. Restate the
+original reasoning.>
+
+#### Original finding 4 (step N) -- Disputed
+
+<The author's argument. Whether the argument is accepted or rejected,
+and why.>
+
+### New Findings
+
+#### F1 [Blocking] Step N
+
+<What the problem is in the added or changed step. Why it matters.
+The concrete alternative.>
+
+#### F2 [Suggestion] Step N
+
+<What the problem is. Why it matters. The concrete alternative.>
+
+### Summary
+
+**Resolutions**: N addressed, N partially addressed, N not addressed, N disputed
+**New findings**: N blocking, N suggestions, N nits
+**Verdict indicator**: request-changes / comment-only / clean
+**Next**: `/triage-finding-g` → `/draft-review-g` → `/submit-review-g`
+```
+
+##### Template rules -- Plan follow-up
+
+- **Finding resolution headings** reference the original finding by its description and the plan step it targeted.
+- **Assessment** is one of `Addressed` (revision resolves the concern), `Partially addressed` (progress but not fully resolved), `Not addressed` (unchanged or concern still present), or `Disputed` (author argues against the finding -- evaluate and accept or reject).
+- **New finding headings** use the `F<n>` format with the step reference instead of a file/line.
+- **Verdict indicator**: `request-changes` when any new finding is Blocking or any resolution is Not addressed/Partially addressed, `comment-only` when all new findings are non-blocking and all resolutions are Addressed or acceptably Disputed, `clean` when there are zero new findings and all resolutions are Addressed.
 
 This output becomes the input for `/triage-finding-g` (if the user has manual notes) or `/draft-review-g` (if not).
 

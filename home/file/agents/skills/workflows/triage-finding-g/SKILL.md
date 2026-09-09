@@ -40,14 +40,14 @@ Search the agent's raw findings (and any findings added by previous `/triage-fin
 
 ### 4. Present the decision
 
-Show the classification and its rationale:
+Show the classification and its rationale. Reference findings by their `F<n>` identifier from the raw review output:
 
-- **Skip**: "Skipped -- duplicates finding N (same concern about X in `file.ts:42`)."
-- **Merge**: "Merged into finding N -- added your observation about Y." Show the enriched finding.
-- **Add**: "Added as new finding -- [Severity] `file.ts:42-48`: description." Show the new raw finding.
+- **Skip**: "Skipped -- duplicates F2 (same concern about X in `file.ts:42`)."
+- **Merge**: "Merged into F2 -- added your observation about Y." Show the enriched finding.
+- **Add**: "Added as new finding -- F<next> [Severity] `file.ts:42-48`: description." Show the new raw finding using the next available `F<n>` number.
 
 The user can override the decision in a follow-up message.
 
 ### 5. Update the findings list
 
-Apply the decision to the conversation's running findings list. The next `/triage-finding-g` invocation (or `/draft-review-g`) will see the updated list.
+Apply the decision to the conversation's running findings list. New findings receive the next sequential `F<n>` identifier. The next `/triage-finding-g` invocation (or `/draft-review-g`) will see the updated list.

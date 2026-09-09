@@ -90,7 +90,7 @@ Call `create_work_item` with:
 - **title**: the crafted title
 - **type**: as provided by the calling skill (e.g. `"Task"`, `"Bug"`)
 - **assignedTo**: the email resolved in step 1 (overridable via `commonFieldOverrides`)
-- **areaPath**: `"FundGuard\\Platform\\Web\\CInfra"` (overridable via `commonFieldOverrides`)
+- **areaPath**: `"FundGuard\\Application\\Carbon"` (overridable via `commonFieldOverrides`)
 - **iterationPath**: the next iteration path resolved in step 2
 - **parentId**: the parent User Story ID from step 3
 - **description**: from calling skill's type-specific fields

@@ -39,13 +39,14 @@ List Azure DevOps projects and locate the repository that matches the current gi
 
 - Fetch the work item with `expand: "relations"` to retrieve its relation links.
 - Identify all **successor** relations (relation type `System.LinkTypes.Dependency-Forward`). Extract the work item ID from each relation URL.
+- Resolve the current user's identity from the ADO API (e.g. via `get_user_team_context` or from the PR creator identity fetched in earlier steps); compare by unique identity ID, not display name.
 - For each successor work item:
   1. Fetch it with `expand: "relations"`.
-  2. If its `System.AssignedTo` does not match the current user, skip it. Resolve the current user's identity from the ADO API (e.g. via `get_user_team_context` or from the PR creator identity fetched in earlier steps); compare by unique identity ID, not display name.
-  3. If its state is not **Blocked**, skip it.
-  4. Collect all of its **predecessor** relations (`System.LinkTypes.Dependency-Reverse`). For each predecessor, fetch the work item and check its state.
-  5. If every predecessor other than the current work item is already in a terminal state (**Resolved**, **Closed**, or **Done**), the current work item was the last remaining blocker. Transition the successor from **Blocked** to **Triaged**.
-- Present each transition to the user for approval before applying it. Include the successor work item ID, title, and the list of predecessors that were checked.
+  2. If its state is not **Blocked**, skip it.
+  3. Collect all of its **predecessor** relations (`System.LinkTypes.Dependency-Reverse`). For each predecessor, fetch the work item and check its state.
+  4. If every predecessor other than the current work item is already in a terminal state (**Resolved**, **Closed**, or **Done**), the current work item was the last remaining blocker. Branch on ownership:
+     - **Assigned to current user**: transition the successor from **Blocked** to **Triaged**. Present the transition to the user for approval before applying it. Include the successor work item ID, title, and the list of predecessors that were checked.
+     - **NOT assigned to current user**: do not transition the state. Draft a Slack DM to the assignee notifying them their ticket is unblocked. Follow **delivered-text-g** (text type: "Slack message") using **communication-templates-g** section 9 "Significant" tier. Resolve the assignee's Slack identity via `users_search` with their ADO display name or email. Present the message for user approval before sending (per **external-communications-g**). Include the work item link and the completed PR link so the recipient has full context.
 
 ### 6. Remove the worktree
 

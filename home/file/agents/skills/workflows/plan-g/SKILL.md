@@ -29,9 +29,11 @@ Require **Plan** mode following the **mode-gate-g** skill. The planning phase (s
 
 ### 1. Clarify the goal
 
+> **Orchestrated mode**: when this skill is called from an orchestrating skill (e.g. **deliver-feature-g**) that has already resolved the work item and provided full context, skip interactive confirmation of understanding. Do not ask clarifying questions -- infer all context from the work item and any supplementary text the orchestrator provided. Proceed directly with the gathered context.
+
 - **If ticket**: apply the **work-item-context-g** skill to gather the full picture -- the work item itself, its relations, linked PRs, hyperlinks, and comments. Use the skill's structured summary as the authoritative context for the rest of the plan.
   - **Successor awareness**: identify successor work items -- items whose Predecessor link points to this item, i.e. work blocked on the current item's completion. For each successor, fetch its description and acceptance criteria (batch-fetch via `search_workitem` if not already retrieved). Note what each successor expects the current item to deliver: interfaces, modules, data shapes, or capabilities it will build upon. Treat these expectations as additional constraints on the target state.
-- **If text or design**: restate the target state or requirement in your own words and confirm understanding before proceeding.
+- **If text or design**: restate the target state or requirement in your own words. When running standalone (not orchestrated), confirm understanding before proceeding. In orchestrated mode, proceed directly.
 - Identify what the code should look like after the change -- which modules exist, how responsibilities are distributed, what types and interfaces are in play.
 - Identify the **invariants** (what must remain true) and the **degrees of freedom** (what can vary).
 
@@ -130,7 +132,20 @@ Skip this step when no successor work items exist or when the input was not a ti
 
 Apply the **objective-communication-g** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
 
-Output the plan in this format:
+#### Materialize as a Cursor plan
+
+If the agent has access to a plan-creation tool (e.g. Cursor's `CreatePlan`), use it to materialize the plan as a reviewable, editable artifact rather than outputting it only in the chat thread. Pass:
+
+- **name**: the plan title (e.g. "Add subscription pricing support").
+- **overview**: the Summary section (1--2 sentences).
+- **plan**: the full plan body below (from "## Plan:" through "### Notes").
+- **todos**: one todo per Implementation Step row, with content set to the step's Title prefixed by its Type in brackets (e.g. `[commit] feat: add subscription pricing support`).
+
+If no plan-creation tool is available, fall back to outputting the plan as markdown directly in the thread.
+
+#### Plan format
+
+Whether materialized or output as text, the plan content follows this structure:
 
 ```
 ## Plan: <Title>

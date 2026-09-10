@@ -17,7 +17,7 @@ This skill defines the protocol for implementing a plan that contains `[commit]`
 
 ### Commit items
 
-TODO content starts with `[commit]`. Implement only the changes described for that commit -- do not pull in work from later items. Then, **before marking the item completed**:
+TODO content starts with `[commit]`. Before implementing, apply the **rule-application-discipline-g** skill: identify governing workspace rules and knowledge skills for the files being changed, read the relevant sections fully, and scan for prior art if creating new files or patterns. Implement only the changes described for that commit -- do not pull in work from later items. Then, **before marking the item completed**:
 
 1. Apply the **self-review-g** skill to the current changes.
 2. Run the commit's validation step. This must include executing any verification artifacts (test files) added or modified in this commit. Scope the run to only new/modified test files -- do not run the full suite. Apply the **verification-strategy-g** skill's discovery protocol to find the correct run command.

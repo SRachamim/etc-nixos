@@ -100,6 +100,7 @@ Skills are at `~/.claude/skills/`. Read the SKILL.md file before using a skill.
 | professional-differentiation-g | Professional Differentiation | `~/.claude/skills/professional-differentiation-g/SKILL.md` |
 | refactoring-g | Refactoring | `~/.claude/skills/refactoring-g/SKILL.md` |
 | requirements-classification-g | Requirements Classification | `~/.claude/skills/requirements-classification-g/SKILL.md` |
+| rule-application-discipline-g | Rule Application Discipline | `~/.claude/skills/rule-application-discipline-g/SKILL.md` |
 | self-review-g | Self-Review | `~/.claude/skills/self-review-g/SKILL.md` |
 | skill-trace-g | Skill Trace | `~/.claude/skills/skill-trace-g/SKILL.md` |
 | follow-up-map-g | Follow-Up Map | `~/.claude/skills/follow-up-map-g/SKILL.md` |

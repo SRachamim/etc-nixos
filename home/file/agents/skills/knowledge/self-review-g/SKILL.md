@@ -24,6 +24,7 @@ The trigger point is: after writing all changes for a logical unit of work (typi
    - **Security** -- Are inputs validated? Are secrets handled safely? Are there injection risks?
    - **Design** -- Is the abstraction level appropriate? Are responsibilities well-separated?
    - **Test coverage** -- Are new behaviors tested? Are edge cases and error paths covered? Apply the **verification-strategy-g** skill: verify that each new behaviour is covered by the minimum set of verification levels that together achieve 100% confidence. If a requirement can be proven by the type system (Level 1), a runtime test is unnecessary for that aspect. If a property test (Level 3) covers all cases, individual unit tests for the same invariant are redundant.
+   - **Convention compliance** -- Does the code follow loaded workspace rules and match prior art patterns? Check imports, naming, function placement, invocation patterns, and test style against the governing conventions. This dimension is a backstop for the **rule-application-discipline-g** protocol -- violations here indicate the pre-write step was skipped or incomplete.
    - **Clarity** -- Can a reader understand the intent without extra explanation? Are names descriptive?
 3. **Fix issues in-place.** For each issue found, fix the code directly. No need to draft comments or create threads -- this is self-review, not external review. Just fix the code.
 

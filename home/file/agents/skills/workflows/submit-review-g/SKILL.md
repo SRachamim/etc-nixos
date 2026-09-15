@@ -63,6 +63,8 @@ For follow-up reviews (preceded by `/review-pr-fixes-g`):
 - **Threads unchanged**: no action.
 - **New delta findings**: post via `repo_create_pull_request_thread` (same as initial review).
 
+**Ordering guarantee**: all comment threads and thread status updates must complete successfully before proceeding to step 5 (Cast vote). If any `repo_create_pull_request_thread`, `repo_update_pull_request_thread`, or `repo_reply_to_comment` call fails, stop and report the error to the user. Do not cast the vote with unposted comments.
+
 ### 5. Cast vote
 
 Skip this step when verdict is `comment`.

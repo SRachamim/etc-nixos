@@ -18,6 +18,10 @@ This file is a shared skill. It is referenced by the **submit-review-g** skill, 
 | **repositoryId** | The repository ID or name |
 | **vote** | Vote value: `approve` (10), `approve-with-suggestions` (5), `wait` (-5), `reject` (-10) |
 
+## Pre-condition
+
+The calling skill must confirm that all pending review comments and thread updates for the PR have been posted successfully before delegating to this skill. If any comment posting failed or was skipped due to an error, do not call this skill -- stop and report the failure to the user.
+
 ## Steps
 
 ### 1. Cast the vote

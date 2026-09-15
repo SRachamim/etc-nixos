@@ -55,7 +55,7 @@ When the preceding review was a follow-up (`/review-pr-fixes-g`), also compose t
 When the original `/review-pr-g` was triggered from a Slack message, compose:
 
 - **Reaction**: the emoji to add (`:speech_balloon:` for comment/suggest, `:leftwards_arrow_with_hook:` for reject, `:white_check_mark:` for approve). The exact reaction depends on the anticipated verdict from step 4 -- present the default and note that `/submit-review-g` will use the actual verdict keyword.
-- **Thread reply**: a bare verdict word per the Slack reaction signals convention. Present the draft reply text.
+- **Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply template (section 11) applies -- select the "initial review" or "follow-up review" variant based on whether the preceding review was `/review-pr-g` or `/review-pr-fixes-g`. For `reject` verdicts, include the one-line summary of blocking issues. Present the draft reply text.
 
 ### 7. Present the complete review
 

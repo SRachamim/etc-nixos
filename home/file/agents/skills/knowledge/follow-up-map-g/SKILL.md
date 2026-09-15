@@ -63,7 +63,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |
 | `/update-wiki-g` | `/prepare-release-g` |
 | `/verify-deployment-g` | `/close-worktree-g`, `/create-bug-g` |
-| `/weigh-feedback-g` | `/review-pr-fixes-g`, `/commit-and-push-g` |
+| `/weigh-feedback-g` | `/review-pr-fixes-g`, `/trace-pr-comments-g` |
 | `/write-repro-steps-g` | `/reproduce-bug-g`, `/debug-g` |
 
 ## Presentation

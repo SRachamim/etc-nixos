@@ -138,13 +138,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  A["/weigh-feedback-g"] --> B["/commit-and-push-g"]
+  A["/weigh-feedback-g"] --> B["Push + Slack notify"]
 ```
 
 **User invokes:**
 
-1. **/weigh-feedback-g** -- Evaluates each review comment as a second opinion. Categorizes: accept, accept-modified, discuss, defer, or reject. Produces a reaction plan, then executes (PR replies + code changes).
-2. **/commit-and-push-g** -- Push the fixes.
+1. **/weigh-feedback-g** -- Evaluates each review comment as a second opinion. Categorizes: accept, accept-modified, discuss, defer, or reject. Produces a reaction plan, then executes (PR replies + code changes). After pushing, posts a Slack thread reply ("Updated -- ready for re-review") mirroring the reviewer signals in Workflow 5.
 
 **Optional follow-up:** **/trace-pr-comments-g** -- Finds reviewer comments that map to existing agent artifacts, posts citations, and creates tasks for gaps not covered by any rule or skill.
 

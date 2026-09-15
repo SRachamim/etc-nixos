@@ -523,3 +523,55 @@ information the questioner didn't ask about but needs> (Self-containment)
 - Answering a different question than what was asked -- violates Objectivity (check formulation: what did they actually ask?)
 - A wall of text with no structure -- violates the crow epistemology (break into short paragraphs or bullets)
 - Providing only a link with no summary -- violates Self-containment (the reader shouldn't have to click through to get the answer)
+
+---
+
+## 11. Slack Review Thread Reply
+
+**Variation dimension**: role (reviewer vs author) and review pass (initial vs follow-up)
+**Focused principles**: Delimit, Concretise
+**Register**: **writing-style-g** > Slack and casual messages
+
+Thread replies posted to the Slack thread where the PR was announced (typically `#team-cinfra` via `/submit-feature-g`). These are status signals -- concise, not a recap of the review content. The PR comments speak for themselves.
+
+### Reviewer -- initial review
+
+**When**: the reviewer completes their first review pass (via `/submit-review-g`).
+
+| Verdict | Thread reply |
+|---------|-------------|
+| `approve` | Approved ✅ |
+| `comment` | Reviewed |
+| `suggest` | Reviewed -- LGTM with suggestions |
+| `reject` | Rejected: `<one-line summary of blocking issues>` |
+
+Only `reject` includes a summary -- name the 1--2 most significant blocking concerns, under ~80 characters.
+
+### Reviewer -- follow-up review
+
+**When**: the reviewer completes a follow-up review after author fixes (via `/submit-review-g` preceded by `/review-pr-fixes-g`).
+
+| Verdict | Thread reply |
+|---------|-------------|
+| `approve` | Re-reviewed -- approved ✅ |
+| `comment` | Re-reviewed |
+| `suggest` | Re-reviewed -- LGTM with suggestions |
+| `reject` | Rejected: `<one-line summary>` |
+
+### Author -- after addressing feedback
+
+**When**: the author pushes fixes after receiving review feedback (via `/weigh-feedback-g`).
+
+```
+Updated -- ready for re-review
+```
+
+### @ mention rule (author replies only)
+
+Before posting an author thread reply, check whether the reviewer(s) who left feedback on the PR (identified from PR comment threads or votes) have already replied in the Slack thread. If they have not, prepend an `@mention` so they receive a notification. Reviewer thread replies don't need this -- the thread belongs to the PR author, who already gets notified.
+
+**Anti-patterns**:
+
+- Posting the bare verdict keyword ("comment", "suggest") -- not a meaningful signal to the reader
+- Recapping every finding in the thread reply -- violates Delimit (the PR comments are the detail; the thread reply is a status signal)
+- Omitting the `@mention` when the reviewer has no prior reply in the thread -- they won't see the notification

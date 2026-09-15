@@ -15,7 +15,7 @@ Evaluate received PR feedback and act on it. Loads the **feedback-evaluation-g**
 
 ### 0. Mode gate
 
-Require **Plan** mode following the **mode-gate-g** skill. Steps 1--3 are read-only deliberation: no code changes, PR replies, or Slack messages until the reaction plan is approved. Switch to **Agent** mode for execution (step 4).
+Require **Plan** mode following the **mode-gate-g** skill. Steps 1--3 are read-only deliberation: no code changes, PR replies, or Slack messages until the reaction plan is approved. Switch to **Agent** mode for execution (steps 4--5).
 
 ### 1. Gather context
 
@@ -55,8 +55,14 @@ After approval, switch to **Agent** mode and execute:
 
 **Code changes**: for "Agree-fix" and "Partial" verdicts, make the changes. Follow **commit-conventions-g** for commit structure.
 
-**Slack thread reply**: post a summary in the relevant Slack thread. Identify the thread from conversation context or a preceding `/submit-feature-g` or `/review-pr-g` invocation. If no thread is identifiable, skip and note this to the user.
+### 5. Push and notify
 
-### 5. Evolve
+Delegate to **commit-and-push-g** to push the committed changes. Only after the push succeeds, post a Slack thread reply.
+
+**Thread identification**: from conversation context, a preceding `/submit-feature-g` invocation, or the PR's linked Slack thread. If no thread is identifiable, skip the Slack reply and note this to the user.
+
+**Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply author template (section 11) applies ("Updated -- ready for re-review"). Apply the @ mention rule from that template: check whether the reviewer(s) who left feedback on the PR have already replied in the Slack thread; if not, prepend an `@mention` so they receive a notification. Identify reviewers from the PR's comment threads or votes. Present the Slack reply to the user for approval before posting, per **external-communications-g**.
+
+### 6. Evolve
 
 Follow the **capture-improvement-g** skill.

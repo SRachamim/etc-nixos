@@ -55,7 +55,7 @@ Follow the **create-work-item-g** shared instructions with:
 
 | Field | Value |
 |-------|-------|
-| `System.AreaPath` | `FundGuard\Platform\Web\CInfra` |
+| `System.AreaPath` | `FundGuard\Application\Carbon` |
 
 ### 4. Triage the work item
 

@@ -34,6 +34,17 @@ TODO content starts with `[action]`. Execute the described action (run a command
 
 After completing any item, mark it `completed` and advance the next item to `in_progress`.
 
+## Failure handling
+
+When an approach fails during execution, classify the failure before changing course:
+
+- **Implementation bug** -- the architecture is sound but the code has a defect (null initialisation, race condition, typo, missing edge-case guard). Fix the bug in place -- do not replace the approach.
+- **Architectural failure** -- the approach fundamentally cannot express the required behaviour regardless of implementation. Only then escalate to a more complex architecture.
+
+**Diagnostic heuristic**: if the approach worked conceptually but broke at runtime, it is an implementation bug. If the approach cannot express the required behaviour no matter how it is implemented, it is an architectural failure.
+
+**Rule**: debugging N lines is always preferable to replacing them with 10N lines of a different approach. Retreating from a correct architecture because of a surface-level bug compounds complexity and makes the codebase harder to review, reason about, and maintain.
+
 ## Constraints
 
 - **Do not batch** -- never apply changes from multiple planned commits in a single real commit.

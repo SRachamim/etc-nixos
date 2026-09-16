@@ -23,6 +23,19 @@ Architecture sells options. The value of an option increases with uncertainty an
 
 **When to apply**: `/plan-g` (Architecture lens), `/review-plan-g` (Architecture lens evaluation), code reviews (Architecture dimension), `/add-agent-behavior-g` (Architectural alignment).
 
+## Simplest Solution First
+
+Before elaborating any architecture, identify the simplest *elegant* implementation -- fewest lines, fewest new concepts, but still a proper solution that fits the existing design. "Simple" means the least complex correct approach, not a hack or workaround.
+
+- **Simplicity is not a shortcut** -- a simple solution uses the right abstractions at the right level; a workaround bypasses them. This gate favours the former. An elegant three-line callback that fits the existing component contract is simple; a three-line monkey-patch that sidesteps the type system is a workaround.
+- **Propose the simple approach first** -- if the simplest elegant implementation would work, present it before any alternatives. Only escalate complexity when the simple approach has a *demonstrated* flaw, not a hypothetical one.
+- **Exception** -- when the user explicitly requests the most minimal fix or workaround possible (e.g. a stopgap for a hotfix), acknowledge the trade-off and comply.
+- **Priority ladder** -- this gate is the practical application of the **decision-priorities-g** ordering (simplicity > correctness > changeability > DX). Simplicity wins unless it demonstrably sacrifices correctness.
+
+**FP/TypeScript adaptation**: start with the narrowest concrete type; widen only when a real use case demands it. Prefer a direct function call over an abstraction layer until at least two callers exist.
+
+**When to apply**: `/plan-g` (before proposing approaches), `/review-plan-g` (is the proposed solution the simplest correct one?), code reviews (is there a simpler approach that preserves correctness?).
+
 ## Rate of Change
 
 Architecture exists because things change. The first derivative of a software system is its build and deployment toolchain.

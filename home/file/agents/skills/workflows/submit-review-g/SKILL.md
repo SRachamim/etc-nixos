@@ -81,7 +81,9 @@ Delegate to **vote-pr-g** with the PR identity and vote value:
 
 Skip this step when the review was not Slack-originated.
 
-Add the appropriate reaction to the original Slack message:
+Slack signals are sent on **every** `/submit-review-g` invocation -- including follow-up reviews. Each submission is a new review round; the author must be notified.
+
+**Reaction**: add the appropriate reaction to the original Slack message:
 
 | Verdict | Reaction |
 |---------|----------|
@@ -90,9 +92,9 @@ Add the appropriate reaction to the original Slack message:
 | `suggest` | `speech_balloon` |
 | `reject` | `leftwards_arrow_with_hook` |
 
-Treat `already_reacted` errors as idempotent success.
+Treat `already_reacted` errors as idempotent success. When the verdict differs from a previous round (e.g., upgrading from `comment` to `approve`), remove the stale reaction before adding the new one so the emoji reflects the current verdict.
 
-Post the thread reply composed in `/draft-review-g` via `conversations_add_message` with `thread_ts`.
+**Thread reply**: post the reply composed in `/draft-review-g` via `conversations_add_message` with `thread_ts`. A new reply is posted on every round -- do not skip because a previous round already posted one.
 
 ### 7. Confirm completion
 

@@ -249,11 +249,6 @@ in
       source = ./file/agents/CLAUDE.md;
       target = ".claude/CLAUDE.md";
     };
-    "ai-cursor-hooks" = {
-      source = ./file/agents/hooks.json;
-      target = ".cursor/hooks.json";
-      force = true;
-    };
     "git-hooks" = {
       source = ./file/git-hooks;
       target = ".config/git/hooks";

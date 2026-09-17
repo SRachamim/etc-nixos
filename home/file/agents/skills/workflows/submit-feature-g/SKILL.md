@@ -61,7 +61,7 @@ Defaults:
 
 When the user asks to share/send a message to a person by name, look up their Slack user ID via `users_search` with their name as the query.
 
-Compose a message for the **#team-cinfra** Slack channel, following the **delivered-text-g** skill. The message should include:
+Compose a message for the **#team-carbon** Slack channel, following the **delivered-text-g** skill. The message should include:
 
 - A link to the PR (linked on the PR number, per **external-communications-g** skill).
 - A link to the work item (linked on the work item ID).

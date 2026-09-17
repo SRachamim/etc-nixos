@@ -28,7 +28,7 @@ flowchart LR
    - If a design fork exists, the agent may suggest you invoke `/compare-approaches-g` to resolve it before finalising.
 3. **/plan-from-prd-intake-g** -- Feed the PRD Intake output. Plans one phase at a time with commit-level detail (codebase exploration, design lenses, commit sequencing). On approval of each phase, implements it automatically.
    - Internally mirrors `/plan-g` steps for each phase -- you do not need to invoke `/plan-g` separately.
-4. **/submit-feature-g** -- After implementation, opens a PR, transitions the work item to Code Review, and posts to `#team-cinfra` on Slack.
+4. **/submit-feature-g** -- After implementation, opens a PR, transitions the work item to Code Review, and posts to `#team-carbon` on Slack.
    - Internally calls: **create-pr-g**, **artifact-discovery-g**
 5. **/close-worktree-g** -- After the PR merges, cleans up: verifies merge, unblocks dependents, removes worktree/branches, notifies team.
 

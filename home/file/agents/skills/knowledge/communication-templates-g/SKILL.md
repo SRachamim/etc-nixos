@@ -532,7 +532,7 @@ information the questioner didn't ask about but needs> (Self-containment)
 **Focused principles**: Delimit, Concretise
 **Register**: **writing-style-g** > Slack and casual messages
 
-Thread replies posted to the Slack thread where the PR was announced (typically `#team-cinfra` via `/submit-feature-g`). These are status signals -- concise, not a recap of the review content. The PR comments speak for themselves.
+Thread replies posted to the Slack thread where the PR was announced (typically `#team-carbon` via `/submit-feature-g`). These are status signals -- concise, not a recap of the review content. The PR comments speak for themselves.
 
 ### Reviewer -- initial review
 

@@ -1,3 +1,4 @@
 .nvimlog
 .DS_Store
 result
+.cursor/debug-*.log

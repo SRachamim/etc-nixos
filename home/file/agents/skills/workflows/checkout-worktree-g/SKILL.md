@@ -47,6 +47,23 @@ Run `git worktree list` and show the output so the user can verify the new workt
 
 Print the full path to the new worktree so the user can open it.
 
+### 7.5. Start an AoE session (optional)
+
+If the user wants a terminal agent session in the new worktree:
+
+```sh
+cd "<worktree-path>"
+aoe add --cmd claude .
+```
+
+Or create worktree + session in one step (when branch does not exist yet):
+
+```sh
+aoe add . -w <prefix>/<id>-<slug> -b
+```
+
+See `docs/terminal-dev-guide.md` in etc-nixos for the full terminal workflow.
+
 ### 8. Evolve
 
 Follow the **capture-improvement-g** skill.

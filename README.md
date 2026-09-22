@@ -3,7 +3,15 @@
 Personal NixOS + nix-darwin configuration with home-manager. Manages system
 configuration for a Dell Precision 5530 (NixOS) and macOS workstation
 (nix-darwin), and deploys user-level agent artifacts (skills, subagent
-prompts, hooks, MCP config) to Cursor, Claude Code, and Gemini CLI.
+prompts, MCP config) to Claude Code, Gemini CLI, and Codex.
+
+## Terminal development environment
+
+**[docs/terminal-dev-guide.md](docs/terminal-dev-guide.md)** — full guide for the
+vim + Claude Code + Agent of Empires + tmux stack (keybindings, workflows,
+troubleshooting).
+
+Quick start after `switch`: run `aoe` in Ghostty.
 
 ## Repository structure
 
@@ -33,19 +41,20 @@ prompts, hooks, MCP config) to Cursor, Claude Code, and Gemini CLI.
 │   │   ├── agents/              Canonical source for all agent artifacts
 │   │   │   ├── AGENTS.md        Global agent instructions
 │   │   │   ├── CLAUDE.md        Claude Code adapter (imports AGENTS.md)
-│   │   │   ├── hooks.json       Cursor pre-commit/push hook
 │   │   │   ├── settings.json    Cursor IDE settings seed
 │   │   │   ├── skills/          Agent skills (see below)
 │   │   │   └── subagents/       Subagent prompt templates
+│   │   ├── agent-of-empires/    AoE per-repo config template
 │   │   ├── git-hooks/           Global git commit-msg hook
-│   │   ├── zellij/layouts/      Terminal multiplexer layouts
-│   │   ├── ghostty/             Terminal emulator config
 │   │   └── aerospace/           macOS window manager config
 │   └── programs/
-│       └── neovim/              Neovim plugins and agentic.nvim
+│       └── neovim/              Neovim (nixCats + claudecode.nvim)
+│
+├── docs/
+│   └── terminal-dev-guide.md    Terminal dev environment user guide
 │
 ├── overlays/
-│   └── default.nix              Custom packages (agentic-nvim)
+│   └── default.nix              Custom packages (MCP servers, claudecode.nvim)
 │
 ├── .cursor/rules/               Repo-local Cursor rules
 └── .claude/rules/               Repo-local Claude rules
@@ -72,13 +81,12 @@ Markdown file in `home/file/agents/subagents/`.
 
 ### Hooks
 
-- **Cursor hook** (`hooks.json`): LLM-based pre-commit/push validator.
 - **Git hook** (`git-hooks/commit-msg`): Mechanical commit message validation.
 
 ### MCP servers
 
-Configured in `home/shared.nix` and deployed to `~/.cursor/mcp.json`,
-`~/.claude.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`:
+Configured in `home/shared.nix` and deployed to `~/.claude.json`,
+`~/.gemini/settings.json`, and `~/.codex/config.toml`:
 
 | Server | Purpose |
 |--------|---------|
@@ -204,8 +212,7 @@ mcpServers = {
 };
 ```
 
-The server is automatically deployed to Cursor, Claude Code, Gemini CLI,
-and Codex configs.
+The server is automatically deployed to Claude Code, Gemini CLI, and Codex configs.
 
 ### Roll back
 

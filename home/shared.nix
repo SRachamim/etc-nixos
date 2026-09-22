@@ -1,10 +1,5 @@
 { config, pkgs, lib, ... }:
 let
-  zellij-autolock-wasm = pkgs.fetchurl {
-    url = "https://github.com/fresh2dev/zellij-autolock/releases/download/0.2.2/zellij-autolock.wasm";
-    hash = "sha256-aclWB7/ZfgddZ2KkT9vHA6gqPEkJ27vkOVLwIEh7jqQ=";
-  };
-
   mkMcpServer = name: npxArgs: lib.getExe (pkgs.writeShellApplication {
     inherit name;
     runtimeInputs = [ pkgs.nodejs ];
@@ -81,45 +76,6 @@ let
       };
     }) skills
   ) categories);
-
-  # Build the Antigravity knowledge directory at Nix evaluation time
-  antigravityKnowledge = pkgs.runCommand "antigravity-knowledge" {} ''
-    mkdir -p $out/artifacts/skills
-
-    for category_dir in ${skillsDir}/workflows ${skillsDir}/knowledge ${skillsDir}/shared; do
-      if [ -d "$category_dir" ]; then
-        for skill_dir in "$category_dir"/*; do
-          if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then
-            skill_name=$(basename "$skill_dir")
-            cp "$skill_dir/SKILL.md" "$out/artifacts/skills/$skill_name.md"
-
-            mkdir -p "$out/$skill_name"
-            cat > "$out/$skill_name/metadata.json" <<MEOF
-    {
-      "summary": "Agent skill: $skill_name",
-      "references": ["artifacts/skills/$skill_name.md"]
-    }
-    MEOF
-          fi
-        done
-      fi
-    done
-
-    mkdir -p "$out/skills_catalog"
-    cat > "$out/skills_catalog/metadata.json" <<MEOF
-    {
-      "summary": "Agent Skills Catalog: lists all available skills for workflows like planning, reviewing, and investigating.",
-      "references": ["artifacts/skills_catalog.md"]
-    }
-    MEOF
-
-    echo "# Agent Skills Catalog" > "$out/artifacts/skills_catalog.md"
-    echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$out/artifacts/skills_catalog.md"
-    for skill in "$out/artifacts/skills"/*.md; do
-      skill_name=$(basename "$skill" .md)
-      echo "- **$skill_name**: $skill" >> "$out/artifacts/skills_catalog.md"
-    done
-  '';
 in
 {
   home.stateVersion = "23.05";
@@ -133,7 +89,7 @@ in
     ghostty.enable = true;
     lsd.enable = true;
     starship.enable = true;
-    zellij.enable = true;
+    tmux.enable = true;
     zsh-syntax-highlighting.enable = true;
   };
 
@@ -147,32 +103,6 @@ in
   ];
 
   home.file = {
-    "zellij-autolock" = {
-      target = ".config/zellij/plugins/zellij-autolock.wasm";
-      source = zellij-autolock-wasm;
-    };
-    "zellij-layout-fg" = {
-      target = ".config/zellij/layouts/fg.kdl";
-      source = ./file/zellij/layouts/fg.kdl;
-    };
-    "zellij-layout-ai" = {
-      target = ".config/zellij/layouts/ai.kdl";
-      source = ./file/zellij/layouts/ai.kdl;
-    };
-    "cursor-mcp.json" = {
-      target = ".cursor/mcp.json";
-      force = true;
-      text = builtins.toJSON { inherit mcpServers; };
-    };
-    "cursor-agent-acp-config" = {
-      target = ".config/cursor-agent-acp/config.json";
-      text = builtins.toJSON {
-        cursorAgent = {
-          model = "opus-4-thinking";
-          args = [ "--model" "opus-4-thinking" ];
-        };
-      };
-    };
     # --- Portable assets: subagents, AGENTS.md to all agent paths ---
     # Skills are deployed ONLY via flatClaudeSkills (~/.claude/skills/) and
     # ~/.gemini/skills/. Cursor discovers skills from ~/.claude/skills/ as a
@@ -222,17 +152,6 @@ in
         inherit mcpServers;
       };
     };
-    "ai-antigravity-mcp" = {
-      target = ".gemini/config/mcp_config.json";
-      force = true;
-      text = builtins.toJSON { inherit mcpServers; };
-    };
-    "ai-antigravity-knowledge" = {
-      source = antigravityKnowledge;
-      target = ".gemini/antigravity/knowledge";
-      recursive = true;
-      force = true;
-    };
     "ai-agents-md-codex" = {
       source = ./file/agents/AGENTS.md;
       target = ".codex/AGENTS.md";
@@ -260,13 +179,12 @@ in
   home.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
-    sketchybar-app-font
     azure-cli
     claude-code
     fd
-    gemini-cli
     lazydocker
     ripgrep
+    tmux
     volta
   ];
 
@@ -467,50 +385,13 @@ EOF
       enableZshIntegration = true;
     };
 
-    zellij = {
+    tmux = {
       enable = true;
-      settings = {
-        theme = "catppuccin-mocha";
-      };
+      terminal = "screen-256color";
+      shell = "${pkgs.zsh}/bin/zsh";
+      # Stock tmux keybindings (prefix Ctrl+b). Cosmetic + copy-mode only.
       extraConfig = ''
-        plugins {
-            autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
-                is_enabled false
-                triggers "nvim|vim|git|fzf|zoxide|atuin|lazygit|lazydocker|claude"
-                reaction_seconds "0.3"
-                print_to_log false
-            }
-        }
-
-        load_plugins {
-            autolock
-        }
-
-        keybinds {
-            shared_except "locked" {
-                unbind "Alt f" "Alt n"
-                unbind "Ctrl h"
-                unbind "Alt h" "Alt l" "Alt j" "Alt k"
-                unbind "Alt Left" "Alt Right" "Alt Down" "Alt Up"
-                unbind "Alt i" "Alt o"
-                unbind "Alt =" "Alt +" "Alt -"
-                unbind "Alt [" "Alt ]"
-                unbind "Alt p" "Alt Shift p"
-                unbind "Ctrl n" "Ctrl p"
-                bind "Ctrl e" { SwitchToMode "Resize"; }
-                bind "Ctrl w" { SwitchToMode "Pane"; }
-                bind "Ctrl g" {
-                    MessagePlugin "autolock" { payload "enable"; };
-                    SwitchToMode "Locked";
-                }
-            }
-            locked {
-                bind "Ctrl g" {
-                    MessagePlugin "autolock" { payload "disable"; };
-                    SwitchToMode "Normal";
-                }
-            }
-        }
+        setw -g mode-keys vi
       '';
     };
 
@@ -545,32 +426,12 @@ EOF
       syntaxHighlighting.enable = true;
       initContent = lib.mkMerge [
         (lib.mkOrder 1000 ''
-          co () {
-            tmuxinator s fg $1
-          }
-
-          co-b () {
-            git worktree -b $1 ../$1
-            co $1
-          }
-
-          co-add () {
-            git worktree add ../$1 $1
-            co $1
-          }
-
-          co-d () {
-            git worktree remove $1
-          }
-
           # Source secrets file if it exists
           [ -f "$HOME/.secrets" ] && source "$HOME/.secrets"
         '')
       ];
       shellAliases = {
-        zj = "zellij";
-        fg = "zellij --layout fg";
-        ai = "zellij --layout ai";
+        aoe = "aoe";
         switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos/main#macbook";
       };
     };

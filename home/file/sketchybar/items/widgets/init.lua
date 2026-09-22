@@ -1,6 +1,0 @@
-require("items.widgets.news")
-require("items.widgets.input")
-require("items.widgets.netskope")
-require("items.widgets.battery")
-require("items.widgets.volume")
-require("items.widgets.wifi")

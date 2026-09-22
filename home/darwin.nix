@@ -2,8 +2,6 @@
 let
   cursorCli = "/Applications/Cursor.app/Contents/Resources/app/bin/cursor";
 
-  sketchybarLua = pkgs.lua5_5.withPackages (lp: [ pkgs.sbarlua ]);
-
   cursorExtensions = [
     "asvetliakov.vscode-neovim"
     "catppuccin.catppuccin-vsc"
@@ -45,32 +43,6 @@ in
       source = ./file/wallpaper/catppuccin-mocha.png;
       target = ".local/share/wallpaper/catppuccin-mocha.png";
     };
-    "sketchybar-config" = {
-      target = ".config/sketchybar";
-      source = pkgs.runCommand "sketchybar-config"
-        { nativeBuildInputs = [ pkgs.clang ]; }
-        ''
-          cp -r ${./file/sketchybar} $out
-          chmod -R u+w $out
-          substituteInPlace $out/sketchybarrc \
-            --replace-fail '#!/usr/bin/env lua' '#!${sketchybarLua}/bin/lua'
-          chmod +x $out/sketchybarrc
-          chmod +x $out/helpers/media-stream.sh
-          chmod +x $out/helpers/news/news-ticker.sh
-          chmod +x $out/helpers/news/fetch_i24.py
-
-          # Build event providers
-          mkdir -p $out/helpers/event_providers/cpu_load/bin
-          clang -std=c99 -O3 \
-            $out/helpers/event_providers/cpu_load/cpu_load.c \
-            -o $out/helpers/event_providers/cpu_load/bin/cpu_load
-          mkdir -p $out/helpers/event_providers/network_load/bin
-          clang -std=c99 -O3 \
-            $out/helpers/event_providers/network_load/network_load.c \
-            -o $out/helpers/event_providers/network_load/bin/network_load
-        '';
-      recursive = true;
-    };
   };
 
   programs.ghostty = {
@@ -100,16 +72,6 @@ in
     ' 2>/dev/null || true
   '';
 
-  # Sketchybar is kept installed & configured but disabled: stop the service
-  # on activation so the bar disappears and the native menu bar is used. To
-  # re-enable, restore start_service in homebrew.nix and switch this back to
-  # `brew services restart sketchybar`.
-  home.activation.stopSketchybar = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-    if /usr/bin/pgrep -q sketchybar 2>/dev/null; then
-      /opt/homebrew/bin/brew services stop sketchybar 2>/dev/null || true
-    fi
-  '';
-
   home.activation.reloadAerospace = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if /usr/bin/pgrep -q AeroSpace 2>/dev/null; then
       /opt/homebrew/bin/aerospace reload-config 2>/dev/null || true
@@ -122,19 +84,6 @@ in
       ${lib.concatMapStringsSep "\n" (ext: ''
         "${cursorCli}" --install-extension "${ext}" --force 2>/dev/null || true
       '') cursorExtensions}
-    fi
-  '';
-
-  home.activation.installCursorAgentAcp = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-    if ! [ -x "$HOME/.npm-global/bin/cursor-agent-acp" ]; then
-      echo "Installing cursor-agent-acp..."
-      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
-      export NPM_CONFIG_CACHE="$HOME/.npm-global/.cache"
-      mkdir -p "$HOME/.npm-global" "$HOME/.npm-global/.cache"
-      ${pkgs.nodejs}/bin/npm install -g @blowmage/cursor-agent-acp
-    fi
-    if [ -x "${cursorCli}" ]; then
-      ln -sf "${cursorCli}" "$HOME/.npm-global/bin/cursor-agent"
     fi
   '';
 }

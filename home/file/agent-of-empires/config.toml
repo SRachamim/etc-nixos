@@ -1,0 +1,14 @@
+# Per-repo Agent of Empires configuration.
+# Copy this file to <repo-root>/.agent-of-empires/config.toml
+# Docs: https://www.agent-of-empires.com/docs/
+
+[session]
+default_agent = "claude"
+
+# Optional: run after AoE creates a worktree for a new session.
+# Align paths with worktree-layout-g (feature/<id>-<slug> under repo root).
+# [hooks]
+# post_create = [
+#   "direnv allow",
+#   "ln -sf ../../.env .env 2>/dev/null || true",
+# ]

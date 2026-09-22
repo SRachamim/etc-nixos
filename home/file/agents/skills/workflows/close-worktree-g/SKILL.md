@@ -48,7 +48,11 @@ List Azure DevOps projects and locate the repository that matches the current gi
      - **Assigned to current user**: transition the successor from **Blocked** to **Triaged**. Present the transition to the user for approval before applying it. Include the successor work item ID, title, and the list of predecessors that were checked.
      - **NOT assigned to current user**: do not transition the state. Draft a Slack DM to the assignee notifying them their ticket is unblocked. Follow **delivered-text-g** (text type: "Slack message") using **communication-templates-g** section 9 "Significant" tier. Resolve the assignee's Slack identity via `users_search` with their ADO display name or email. Present the message for user approval before sending (per **external-communications-g**). Include the work item link and the completed PR link so the recipient has full context.
 
-### 6. Remove the worktree
+### 6. Remove AoE session (if present)
+
+If an Agent of Empires session exists for this worktree, delete it from the AoE TUI (`d`) or CLI before manual worktree removal. AoE cleans up worktrees it created when the session is deleted.
+
+### 7. Remove the worktree
 
 Follow the **worktree-layout-g** skill to resolve the worktree path.
 
@@ -65,7 +69,7 @@ rm -rf "<root-repo>/<prefix>/<id>"
 git worktree prune
 ```
 
-### 7. Delete the local and remote branches
+### 8. Delete the local and remote branches
 
 ```sh
 git branch -d "<prefix>/<id>"
@@ -74,7 +78,7 @@ git push origin --delete "<prefix>/<id>"
 
 Use `-d` so git refuses if the branch has unmerged changes. If `-d` fails because the PR targeted a non-default branch (e.g. a release branch) or used squash merge, and the PR is confirmed **Completed** via the API, fall back to `-D`. If the remote branch was already deleted (e.g., by a server-side policy), ignore the push error.
 
-### 8. Prune worktrees and empty directories
+### 9. Prune worktrees and empty directories
 
 ```sh
 git worktree prune
@@ -83,7 +87,7 @@ rmdir "<root-repo>/<prefix>" 2>/dev/null
 
 Clean up stale worktree references that may linger from previous removals. Remove the `<prefix>/` parent directory if it is now empty; `rmdir` is safe because it only succeeds on empty directories.
 
-### 9. Confirm completion
+### 10. Confirm completion
 
 Print a summary of what was cleaned up:
 
@@ -92,7 +96,7 @@ Print a summary of what was cleaned up:
 - Dependent work items that were unblocked (if any)
 - Worktree and branch removal confirmation
 
-### 10. Notify the team
+### 11. Notify the team
 
 Consider whether the completed feature warrants a notification to `#full-stack`. Review the PR description, work item details, and the diff against the base branch to assess whether any changes fall into these categories (non-exhaustive):
 

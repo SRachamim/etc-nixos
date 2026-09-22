@@ -35,6 +35,7 @@ When delegating to sub-skills, override their interactive behaviour to honour th
 Follow the **checkout-worktree-g** skill with the work item ID.
 - Creates isolated worktree and feature branch.
 - Activates the work item (state -> Active).
+- Optionally start an AoE + Claude Code session in the worktree (see **checkout-worktree-g** step 7.5).
 
 ### 2. Plan
 

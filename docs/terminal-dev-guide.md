@@ -4,17 +4,18 @@ A keyboard-driven, Vim-native development environment optimized for AI agent wor
 
 > **macOS note:** Throughout this guide, `Alt` means the **Option** key. Ghostty is configured with `macos-option-as-alt = true`, so pressing Option sends Alt to all programs inside the terminal.
 
+> **Full stack reference:** See also [home/file/agent-of-empires/README.md](../home/file/agent-of-empires/README.md) for per-repo AoE setup.
+
 ## Architecture Overview
 
 ```
-Ghostty (terminal emulator)
-  └── Zellij (terminal multiplexer)
-        ├── Neovim (editor)
-        │     ├── claudecode.nvim  (send code to Claude Code)
-        │     ├── lazygit.nvim     (git TUI)
-        │     └── native LSP + telescope + treesitter
-        ├── Claude Code (AI agent CLI)
-        └── Shell (zsh + starship + atuin)
+AeroSpace (tiling window manager)
+  └── Ghostty (terminal emulator)
+        └── Agent of Empires TUI (aoe)
+              └── tmux session (per agent)
+                    ├── Claude Code (AI agent CLI)
+                    ├── Neovim (editor + claudecode.nvim)
+                    └── Shell (zsh + starship + atuin)
 ```
 
 ## Tools Reference
@@ -23,7 +24,8 @@ Ghostty (terminal emulator)
 |------|---------|-----------------|
 | AeroSpace | Tiling window manager (macOS) | `home/file/aerospace/aerospace.toml` |
 | Ghostty | GPU-accelerated terminal | `home/darwin.nix` (programs.ghostty) |
-| Zellij | Terminal multiplexer | `home/shared.nix` (programs.zellij) |
+| tmux | Terminal multiplexer (stock keybinds) | `home/shared.nix` (programs.tmux) |
+| Agent of Empires | Parallel agent session manager | Homebrew `aoe`; repo `.agent-of-empires/config.toml` |
 | Neovim | Editor | `home/programs/neovim/` |
 | Claude Code | AI agent CLI | `home/shared.nix` (home.packages) |
 | Starship | Shell prompt | `home/shared.nix` (programs.starship) |
@@ -32,7 +34,6 @@ Ghostty (terminal emulator)
 | yazi | File manager TUI | `home/shared.nix` (programs.yazi) |
 | btop | System monitor TUI | `home/shared.nix` (programs.btop) |
 | lazydocker | Docker TUI | `home/shared.nix` (home.packages) |
-| workmux | Git worktree + multiplexer orchestrator | `modules/darwin/homebrew.nix` |
 | Catppuccin Mocha | Color theme (all tools) | `home/shared.nix` (catppuccin module) |
 | Fira Code Nerd Font | Primary font | `home/shared.nix` (home.packages) |
 
@@ -47,84 +48,147 @@ cd /Volumes/Development/github.com/srachamim/etc-nixos/main
 switch   # alias for: sudo darwin-rebuild switch --flake .#macbook
 ```
 
-### 2. Launch the AI Workspace
+### 2. Launch Agent of Empires
 
 ```bash
-ai   # alias for: zellij --layout ai
+aoe
 ```
 
-This opens a Zellij session with three panes:
-- **Left (50%)**: Claude Code agent
-- **Top-right (70%)**: Neovim editor
-- **Bottom-right**: Shell
+Press `?` in the TUI for the full keymap.
 
-### 3. Navigate Between Panes
+### 3. Create Your First Session
 
-Navigate Zellij panes with the tmux-style prefix: press `Ctrl+B`, then `h/j/k/l`. Bare `Ctrl+h/j/k/l` are left free for the focused app -- Neovim splits and pickers such as Telescope. See the [Navigation Hierarchy](#navigation-hierarchy) section for details.
+From a project directory:
 
-## Navigation Hierarchy
-
-Four layers process every keypress. Each layer owns a specific modifier to avoid conflicts:
-
-```
-Keypress (Ctrl+h)
-  │
-  ├── Layer 1: AeroSpace (macOS tiling WM)
-  │     Owns: ALL Option(Alt)+key combinations → workspaces, window management
-  │     Ctrl+h/j/k/l passes through
-  │
-  ├── Layer 2: Ghostty (terminal emulator)
-  │     No split keybinds — all keys pass through to Zellij
-  │
-  ├── Layer 3: Zellij (multiplexer)
-  │     Normal mode: Ctrl+B then h/j/k/l → navigate Zellij panes;
-  │                  bare Ctrl+h/j/k/l pass through to the focused program
-  │     Locked mode: passes through to the focused program
-  │
-  └── Layer 4: Neovim / Claude Code / shell
-        Neovim: Ctrl+h/j/k/l → navigate Vim splits;
-                at the edge, zellij.vim jumps to the adjacent Zellij pane
-        Claude Code / shell: Ctrl keys reach the app
+```bash
+aoe add --cmd claude .
 ```
 
-### How autolock works
+Or from the AoE TUI: press `n`, set the path, select Claude as the agent.
 
-The `zellij-autolock` plugin watches the command running in each Zellij pane. When you focus a pane running Neovim, Claude Code, lazygit, fzf, or atuin, Zellij automatically switches to **Locked** mode -- letting all keybindings pass through to the application. When you switch to a plain shell pane, Zellij returns to **Normal** mode.
+### 4. Attach and Detach
 
-`Ctrl+g` toggles between locked and normal mode **and** disables/enables autolock accordingly. Use it when you need Zellij commands while a TUI is focused:
+- **Attach:** select session in AoE TUI, press `Enter`
+- **Detach:** inside the tmux session, press `Ctrl+b` then `d`
+- Sessions persist when you quit the AoE TUI or close Ghostty
 
-1. Press `Ctrl+g` -- autolock disables, Zellij switches to Normal
-2. Use Zellij commands (e.g. `Ctrl+w` then `f` for fullscreen)
-3. Press `Ctrl+g` again -- autolock re-enables, Zellij switches back to Locked
+## Daily Workflows
 
-### Zellij keybinding reference
+### Single-session vim + Claude Code
 
-| Key | Mode | Action |
-|-----|------|--------|
-| `Ctrl+b` then `h/j/k/l` | Tmux | Navigate panes |
-| `Ctrl+g` | Any | Toggle lock/unlock (manual override for autolock) |
-| `Ctrl+w` | Normal | Pane mode (new pane, close, resize, float, etc.) |
-| `Ctrl+t` | Normal | Tab mode (new tab, rename, switch, etc.) |
-| `Ctrl+e` | Normal | Resize mode |
-| `Ctrl+s` | Normal | Scroll mode |
-| `Ctrl+o` | Normal | Session mode |
-| `Ctrl+b` | Normal | Tmux mode |
-| `Ctrl+q` | Normal | Quit |
-| `Ctrl+n` / `Ctrl+p` | -- | Unbound in Zellij; pass through to the focused app (e.g. Telescope next/prev) |
+1. `aoe add --cmd claude .` (or attach to an existing session)
+2. Split panes with stock tmux (`Ctrl+b %`, `Ctrl+b "`) — Claude, nvim, shell
+3. Edit in nvim; send selections with `<leader>as` (see claudecode.nvim below)
+4. `Ctrl+b d` to detach; `aoe` to reattach later
 
-> **Note:** AeroSpace captures all `Option(Alt)+letter` combinations on macOS, so Zellij's default `Alt`-based shortcuts (like `Alt+n` for new pane) do not work. Use Zellij's mode-based keybinds instead: press `Ctrl+w` to enter Pane mode, then `n` for new pane, `x` to close, `f` for fullscreen, etc.
->
-> **Note:** `Ctrl+n` (Resize) and `Ctrl+p` (Pane) are remapped to `Ctrl+e` and `Ctrl+w` so the originals pass through to the focused application -- Telescope uses `Ctrl+n`/`Ctrl+p` to move through results.
+### Parallel multi-agent development
 
-### Zellij plugins
+One AoE session per branch/work item:
 
-| Plugin | Purpose | Trigger |
-|--------|---------|---------|
-| `zellij-autolock` | Auto-lock/unlock based on focused command | Background (always running) |
+```bash
+aoe add . -w feature/12345-my-feature -b
+aoe add . -w feature/67890-other-fix -b
+```
 
-## Neovim Keybindings
+Monitor all sessions from the AoE TUI. Press `D` for diff review across agents.
 
-### Navigation (Telescope)
+Optional web dashboard:
+
+```bash
+aoe serve              # localhost
+aoe serve --remote     # reachable from phone/browser (use with care)
+```
+
+### ADO-driven work (skills + AoE)
+
+Use **`/checkout-worktree-g`** when you need Azure DevOps work-item metadata, branch naming (`feature/<id>-<slug>`), and activation — it creates the git worktree per **worktree-layout-g**.
+
+Then start an AoE session in that worktree:
+
+```bash
+cd /path/to/repo/feature/12345-my-feature
+aoe add --cmd claude .
+```
+
+Or combine worktree creation with AoE directly when you already know the branch name:
+
+```bash
+aoe add . -w feature/12345-my-feature -b
+```
+
+Use **`/close-worktree-g`** after merge for ADO verification and git cleanup. Delete the AoE session from the TUI (`d`) when done — AoE cleans up worktrees it created.
+
+### fgrepo monorepo
+
+Register once:
+
+```bash
+aoe project add /Volumes/Development/dev.azure.com/fundguard/fgrepo/develop/client
+```
+
+Press `b` in the AoE TUI to start sessions from saved projects. See `home/file/agent-of-empires/README.md`.
+
+## Keybinding Philosophy (default-first)
+
+**Principle:** Use each tool's **stock, documented keybindings**. Customize only when two layers would bind the same key to different actions. Cosmetic config (themes, fonts) is fine; keybind overrides are not.
+
+### Layer ownership
+
+| Layer | Modifier / pattern | Owns |
+|-------|-------------------|------|
+| AeroSpace | `Alt+*` | macOS window/workspace tiling |
+| Ghostty | (none for splits) | Terminal rendering; passes keys through |
+| tmux | `Ctrl+b` prefix, then key | Pane/window/session management |
+| AoE TUI | `n`, `Enter`, `?`, etc. | Session dashboard (outside agent sessions) |
+| Neovim | `<leader>*`, `gd`, `Ctrl+w h/j/k/l` | Editor, LSP, Telescope |
+| Claude Code | `/commands`, vim mode in input | Agent chat |
+| TUIs (lazygit, fzf, atuin) | Each app's defaults | Git, search, history |
+
+### Why prefix discipline works
+
+tmux only acts **after** the `Ctrl+b` prefix. Bare `Ctrl+h/j/k/l` reach Neovim for split navigation. Bare `Ctrl+n/p` reach Telescope in pickers. No bridge plugin required.
+
+**Cross-pane (nvim → adjacent tmux pane):** `Ctrl+b` then `h/j/k/l` (stock tmux).
+
+### Navigation flow
+
+```
+Keypress
+  ├── Alt held?        → AeroSpace (workspaces, windows)
+  ├── Ctrl+b prefix?   → tmux (panes, windows, detach)
+  └── otherwise        → focused app (nvim, Claude, lazygit, shell, …)
+```
+
+## Keybinding Reference
+
+### tmux (prefix `Ctrl+b`)
+
+| Keys | Action |
+|------|--------|
+| `Ctrl+b d` | Detach from session |
+| `Ctrl+b %` | Split vertical |
+| `Ctrl+b "` | Split horizontal |
+| `Ctrl+b h/j/k/l` | Move between panes |
+| `Ctrl+b c` | New window |
+| `Ctrl+b n` / `Ctrl+b p` | Next / previous window |
+| `Ctrl+b [` | Copy mode (scroll); `q` to exit |
+| `Ctrl+b L` | Switch back when nested in AoE-managed tmux |
+
+### AoE TUI
+
+| Key | Action |
+|-----|--------|
+| `n` | New session |
+| `b` | New session from saved project |
+| `Enter` | Attach to session |
+| `d` | Delete session |
+| `t` | Toggle agent / terminal view |
+| `D` | Diff view |
+| `/` | Search sessions |
+| `?` | Help |
+| `q` | Quit TUI |
+
+### Neovim — Navigation (Telescope)
 
 | Key | Action |
 |-----|--------|
@@ -137,15 +201,9 @@ The `zellij-autolock` plugin watches the command running in each Zellij pane. Wh
 | `<leader>d` | Diagnostics list |
 | `<leader>s` | Document symbols |
 
-Inside Telescope:
-- `Ctrl+j/k` - Move up/down in results (Zellij no longer intercepts these -- pane navigation moved to the `Ctrl+B` prefix)
-- `Ctrl+n/p` - Move down/up in results (Zellij's Resize/Pane modes remapped to `Ctrl+e`/`Ctrl+w` so these pass through)
-- `Enter` - Open selection
-- `Ctrl+x` - Open in horizontal split
-- `Ctrl+v` - Open in vertical split
-- `Esc` - Close
+Inside Telescope: `Ctrl+j/k`, `Ctrl+n/p`, `Enter`, `Ctrl+x/v`, `Esc` — all stock; tmux does not intercept bare Ctrl keys.
 
-### LSP (Code Intelligence)
+### Neovim — LSP
 
 | Key | Action |
 |-----|--------|
@@ -156,26 +214,23 @@ Inside Telescope:
 | `K` | Hover documentation |
 | `<leader>rn` | Rename symbol |
 | `<leader>ca` | Code action |
-| `<leader>f` | Format (normal/visual) |
+| `<leader>f` | Format |
 | `[g` / `]g` | Previous/next diagnostic |
 | `<leader>e` | Line diagnostics |
 | `<leader>q` | Diagnostics to location list |
 
-### Claude Code Integration (claudecode.nvim)
+### Neovim — Claude Code (claudecode.nvim)
 
 | Key | Action |
 |-----|--------|
 | `<leader>ac` | Toggle Claude Code terminal |
 | `<leader>af` | Focus Claude Code |
-| `<leader>as` | Send visual selection to Claude (like Cmd+L in Cursor) |
+| `<leader>as` | Send visual selection to Claude |
 | `<leader>ab` | Add current buffer to Claude context |
 
-This is the terminal equivalent of Cursor's Cmd+L:
-1. Visual-select code in Neovim
-2. Press `<leader>as`
-3. The selection is sent to the Claude Code split
+Workflow: visual-select code → `<leader>as` → selection sent to Claude Code split.
 
-### Git (lazygit + diffview)
+### Neovim — Git
 
 | Key | Action |
 |-----|--------|
@@ -184,220 +239,99 @@ This is the terminal equivalent of Cursor's Cmd+L:
 | `<leader>gh` | File history |
 | `<leader>gc` | Close diff view |
 
-### Utility
+### Neovim — Utility
 
 | Key | Action |
 |-----|--------|
-| `<leader>yp` | Yank `filepath:line` to clipboard (normal mode) |
-| `<leader>yp` | Yank `filepath:startline-endline` to clipboard (visual mode) |
+| `<leader>yp` | Yank `filepath:line` (normal) or range (visual) |
 | `<leader>l` | Clear search highlight + redraw |
 
-The yank-path binding is useful for pasting file references into Claude Code's chat.
+### AeroSpace
+
+See `home/file/aerospace/aerospace.toml` — `Alt+h/j/k/l` focus, `Alt+1–9` workspaces, `Alt+Shift+…` move windows.
 
 ## Claude Code
 
-### Vim Mode
+### Vim mode
 
-Claude Code's input area supports Vim keybindings. Press `Esc` in the input to enter normal mode, use standard Vim motions to edit your prompt.
+Press `Esc` in the input for normal mode; standard Vim motions edit your prompt. Toggle with `/vim`.
 
-### Key Commands
+### Key commands
 
 | Command | Action |
 |---------|--------|
 | `/help` | Show all commands |
-| `/compact` | Summarize and compact conversation |
-| `/clear` | Clear conversation history |
-| `/model` | Switch AI model |
-| `/vim` | Toggle vim mode |
-| `/cost` | Show token usage |
+| `/compact` | Summarize conversation |
+| `/clear` | Clear history |
+| `/model` | Switch model |
+| `/resume` | Resume prior conversation (AoE persists session id) |
+| `/cost` | Token usage |
 
-### Multi-Agent Workflows
+### Skills and MCP
 
-Claude Code has built-in multi-agent support:
+- Skills: `~/.claude/skills/` (deployed from `home/file/agents/skills/`)
+- Global instructions: `~/.claude/CLAUDE.md`
+- MCP: merged into `~/.claude.json` on `switch` (Azure DevOps, FundGuard, Slack)
 
-```bash
-claude agents
-```
+### Multi-agent via AoE
 
-This opens Agent View where you can:
-- Launch multiple agents that work in parallel on different tasks
-- Each agent gets its own git worktree automatically
-- Monitor progress of all agents from a single dashboard
-- Approve/reject changes before merging
-
-### Skills and Hooks
-
-Claude Code can be extended with skills (reusable prompt templates) and hooks (event-driven automations). These are configured in:
-- `~/.claude/skills/` - Skill definitions
-- `~/.claude/CLAUDE.md` - Global instructions
-- Project-level `CLAUDE.md` files
-
-## Workmux (Parallel Development)
-
-workmux creates isolated development environments per git branch using worktrees + multiplexer windows.
-
-### Quick Start
-
-```bash
-# Create a new branch + worktree + Zellij tab
-workmux add feature-branch
-
-# List active worktrees
-workmux list
-
-# Switch to an existing worktree
-workmux switch feature-branch
-
-# Remove a worktree and its window
-workmux remove feature-branch
-```
-
-### With Claude Agents
-
-Combine workmux with Claude Code for parallel AI-driven development:
-
-```bash
-# Terminal 1: Work on feature A
-workmux add feature-a
-claude "Implement feature A based on the spec in docs/feature-a.md"
-
-# Terminal 2: Work on feature B
-workmux add feature-b
-claude "Implement feature B based on the spec in docs/feature-b.md"
-```
-
-Each agent works in its own worktree, so there are no merge conflicts during development.
-
-## Atuin (Shell History)
-
-Atuin replaces the default shell history with a searchable database.
-
-| Key | Action |
-|-----|--------|
-| `Ctrl+r` | Search all history (fuzzy) |
-| `Up arrow` | Search current session history |
-
-Search is fuzzy by default. Type partial commands and Atuin filters results.
-
-## Zellij Layouts
-
-### AI Layout (`ai`)
-
-```bash
-ai   # alias
-```
-
-Three-pane layout: Claude Code | Neovim + Shell
-
-### FGRepo Layout (`fg`)
-
-```bash
-fg   # alias
-```
-
-Multi-tab layout for the fgrepo project.
-
-### Custom Layouts
-
-Create new layouts in `home/file/zellij/layouts/` as KDL files. Register them in `home/shared.nix` under `home.file` and add a shell alias.
-
-### Zellij Plugins & Keybinding Config
-
-Plugin definitions and keybinding overrides live in `programs.zellij.extraConfig` in `home/shared.nix`. The `plugins {}` block defines plugin aliases, `load_plugins {}` starts background plugins, and `keybinds {}` configures per-mode key bindings.
-
-To add autolock triggers for a new TUI tool, find the `triggers` line in the autolock plugin config and append the command name (pipe-separated).
+Run multiple Claude Code agents in parallel — each in its own tmux session, optionally on its own worktree. Monitor from the AoE TUI or `aoe serve` web dashboard.
 
 ## TUI Tools
 
 ### lazygit
 
-Full git TUI with staging, committing, branching, rebasing, and more.
-
-Launch: `lazygit` in shell or `<leader>lg` in Neovim.
-
-Key areas:
-- **Files panel** (1): Stage/unstage files, view diffs
-- **Branches panel** (2): Create, checkout, merge, rebase
-- **Commits panel** (3): Amend, squash, reorder, cherry-pick
-- **Stash panel** (4): Stash and pop changes
-
-Navigation: `h/j/k/l` between panels and items, `Enter` to expand, `Space` to stage, `c` to commit.
+Launch: `lazygit` or `<leader>lg`. Navigation: `h/j/k/l`, `Enter`, `Space`, `c`.
 
 ### yazi
 
-Terminal file manager with Vim keybindings.
+Launch: `y` or `yazi`. Navigation: `h/j/k/l`, `Enter`, `q`, `Space`, `d`, `r`, `p`, `y`.
 
-Launch: `yazi` in shell.
+### btop / lazydocker
 
-Key bindings: `h/j/k/l` navigate, `Enter` open, `q` quit, `Space` select, `d` delete, `r` rename, `p` paste, `y` copy.
+Launch: `btop` / `lazydocker` in shell.
 
-### btop
+## Atuin (Shell History)
 
-System monitor showing CPU, memory, network, disk, and processes.
-
-Launch: `btop` in shell.
-
-### lazydocker
-
-Docker container/image/volume manager TUI.
-
-Launch: `lazydocker` in shell.
+| Key | Action |
+|-----|--------|
+| `Ctrl+r` | Fuzzy search all history |
+| `Up arrow` | Search current session |
 
 ## Theming
 
-All tools use **Catppuccin Mocha** consistently:
+All tools use **Catppuccin Mocha**: Ghostty, Neovim, tmux (via catppuccin home-manager module), Starship, bat, fzf, lsd.
 
-| Tool | How Applied |
-|------|-------------|
-| Ghostty | `programs.ghostty` (auto-enabled by catppuccin module) |
-| Neovim | `catppuccin-nvim` plugin + `colorscheme catppuccin-mocha` |
-| Zellij | `theme = "catppuccin-mocha"` |
-| Starship | catppuccin module auto-enable |
-| bat | catppuccin module auto-enable |
-| fzf | catppuccin module auto-enable |
-| lsd | catppuccin module auto-enable |
-| lazygit | Follows terminal colors |
-| btop | Follows terminal colors |
-
-The Catppuccin home-manager module (`catppuccin.enable = true; catppuccin.flavor = "mocha"`) auto-applies the theme to all supported programs.
-
-## Font
-
-**Fira Code Nerd Font Mono** is the primary font set in Ghostty. JetBrains Mono Nerd Font is also installed as an alternative.
-
-To switch: edit `programs.ghostty.settings.font-family` in `home/darwin.nix`.
+Font: **Fira Code Nerd Font Mono** in Ghostty (`home/darwin.nix`).
 
 ## Applying Changes
-
-After editing any Nix file in this repository:
 
 ```bash
 switch
 ```
 
-This rebuilds the entire system configuration and activates it. All tool configs, packages, fonts, and themes are applied atomically.
+Rebuilds and activates all configs atomically.
 
 ## Troubleshooting
 
-### Neovim LSP not starting
+### AoE / tmux
 
-Ensure language servers are installed. The LSP config expects servers to be available in `$PATH`. For TypeScript: `volta install typescript-language-server`. For Nix: `nix profile install nixpkgs#nil`. For Bash: `nix profile install nixpkgs#bash-language-server`.
+- **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
+- **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
+- **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
 
-### Claude Code not connecting to Neovim
+### Neovim ↔ Claude Code
 
-`claudecode.nvim` starts a WebSocket server that Claude Code auto-detects. Ensure:
-1. Neovim is running before launching Claude Code
-2. Both are in the same terminal session (Zellij/Ghostty)
-3. The `NVIM` environment variable is set (should be automatic)
+`claudecode.nvim` uses a WebSocket Claude auto-detects. Ensure nvim runs before Claude in the same tmux session.
 
-### Pane navigation not working
+### Neovim LSP
 
-Ghostty does not have its own split keybindings -- all pane management is done by Zellij. If `Ctrl+B` then `h/j/k/l` isn't moving between panes:
-1. Confirm you pressed the `Ctrl+B` prefix first -- bare `Ctrl+h/j/k/l` intentionally pass through to the focused app now.
-2. Check that `zellij-autolock` is loaded (look for the autolock indicator in the Zellij status bar).
-3. If stuck in Locked mode, press `Ctrl+g` to unlock.
-4. If Neovim is focused and `Ctrl+h/j/k/l` isn't crossing to a Zellij pane, ensure `zellij.vim` is loaded (`:checkhealth` in Neovim).
+Language servers must be in `$PATH`. TypeScript: `volta install typescript-language-server`. Nix: `nil`. Bash: `bash-language-server`.
+
+### Crossing nvim → tmux pane
+
+Use `Ctrl+b h/j/k/l` (stock tmux). No bridge plugin in v1. If too slow after daily use, consider adding `vim-tmux-navigator` as a documented exception.
 
 ### Theme inconsistencies
 
-Run `switch` to re-apply the full configuration. The Catppuccin module handles theme consistency across all supported tools.
+Run `switch` to re-apply Catppuccin across all supported programs.

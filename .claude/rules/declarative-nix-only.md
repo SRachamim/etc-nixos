@@ -27,7 +27,8 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | macOS-specific home config | `home/darwin.nix` |
 | NixOS-specific home config | `home/nixos.nix` |
 | Shell config (zsh) | `home/shared.nix` (programs.zsh.initContent) |
-| Dotfiles (ghostty, aerospace, zellij, etc.) | `home/file/<app>/` |
+| Dotfiles (aerospace, agent-of-empires, etc.) | `home/file/<app>/` |
+| Terminal dev environment guide | `docs/terminal-dev-guide.md` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
 | Neovim config | `home/programs/neovim/` |
 | Fonts (NixOS) | `modules/nixos/fonts.nix` |

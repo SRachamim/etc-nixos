@@ -23,7 +23,10 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | macOS-specific home config | `home/darwin.nix` |
 | NixOS-specific home config | `home/nixos.nix` |
 | Shell config (zsh) | `home/shared.nix` (programs.zsh.initContent) |
-| Dotfiles (ghostty, aerospace, zellij, etc.) | `home/file/<app>/` |
+| Dotfiles (aerospace, agent-of-empires, etc.) | `home/file/<app>/` |
+| Terminal dev environment guide | `docs/terminal-dev-guide.md` |
+| tmux / AoE shell aliases | `home/shared.nix` (programs.tmux, programs.zsh) |
+| AoE per-repo template | `home/file/agent-of-empires/` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
 | Improvement observations (shared runtime state) | `~/.local/share/agent-improvements/pending/` |
 | Neovim config | `home/programs/neovim/` |
@@ -102,7 +105,7 @@ In `home/shared.nix`, add to `mcpServers` using the `mkMcpServer` helper:
 };
 ```
 
-The server is automatically deployed to `~/.cursor/mcp.json`, `~/.claude.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`.
+The server is automatically deployed to `~/.claude.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`.
 
 ### Apply changes
 

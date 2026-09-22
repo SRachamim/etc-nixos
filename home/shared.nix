@@ -132,6 +132,8 @@ in
     enable = true;
     autoEnable = true;
     flavor = "mocha";
+    # Darkest of the 14 Mocha accents (luminance 0.40, 7.08:1 on base).
+    accent = "red";
     bat.enable = true;
     fzf.enable = true;
     ghostty.enable = true;

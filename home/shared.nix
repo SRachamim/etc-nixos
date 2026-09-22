@@ -431,7 +431,6 @@ EOF
         '')
       ];
       shellAliases = {
-        aoe = "aoe";
         switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos/main#macbook";
       };
     };

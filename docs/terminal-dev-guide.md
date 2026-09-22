@@ -316,6 +316,7 @@ Rebuilds and activates all configs atomically.
 
 ### AoE / tmux
 
+- **`aoe: command not found`:** run `switch` (installs Homebrew `aoe` and a Nix profile wrapper). Open a new shell or run `exec zsh`. Verify with `which aoe` — should point to the home-manager profile, not only `/opt/homebrew/bin`.
 - **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
 - **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.

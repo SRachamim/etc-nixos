@@ -131,8 +131,10 @@ Output each phase plan in this format. Apply the **objective-communication-g** s
 
 ### Implementation Steps
 
-| # | Type | Title | What | Key Files | Technique | Traceability | Validation |
-|---|------|-------|------|-----------|-----------|--------------|------------|
+| # | Type | Title | Key Files | Traceability |
+|---|------|-------|-----------|--------------|
+
+<Per-step detail sections follow the table, using the format from plan-g step 8.>
 
 ### Notes
 

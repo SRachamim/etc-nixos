@@ -58,6 +58,15 @@ For initial reviews (preceded by `/review-pr-g`):
 
 For follow-up reviews (preceded by `/review-pr-fixes-g`):
 
+**When the PR is fully approved** (see `PR approval status` in the `/review-pr-fixes-g` output):
+
+- **Threads to resolve** (`Fixed`): call `repo_update_pull_request_thread` with `status: "Fixed"` (status updates are always applied).
+- **Threads to reactivate** (`Active`): call `repo_update_pull_request_thread` with `status: "Active"`, but **skip** `repo_reply_to_comment` -- no reply text posted.
+- **New delta findings**: **skip** posting via `repo_create_pull_request_thread`.
+- **Threads unchanged**: no action.
+
+**When the PR is not fully approved** (pending):
+
 - **Threads to resolve** (`Fixed`): call `repo_update_pull_request_thread` with `status: "Fixed"`. No reply needed.
 - **Threads to reactivate** (`Active`): call `repo_reply_to_comment` with the follow-up explanation from `/draft-review-g`, then call `repo_update_pull_request_thread` with `status: "Active"`.
 - **Threads unchanged**: no action.
@@ -80,6 +89,8 @@ Delegate to **vote-pr-g** with the PR identity and vote value:
 ### 6. Slack signals
 
 Skip this step when the review was not Slack-originated.
+
+**Skip this step when the PR is fully approved** (see `PR approval status` in the `/review-pr-fixes-g` output), regardless of whether the review was Slack-originated. The approval gate is already passed; Slack ceremony is unnecessary even if new fixes shipped.
 
 Slack signals are sent on **every** `/submit-review-g` invocation -- including follow-up reviews. Each submission is a new review round; the author must be notified.
 
@@ -104,6 +115,7 @@ Print a summary:
 - Number of comments posted (or "0 -- approve only").
 - Vote cast (or "no vote").
 - Slack actions taken (if applicable).
+- When actions were skipped due to full approval, note it (e.g., "Slack signals: skipped (PR fully approved)", "Thread replies: skipped (status-only updates applied)").
 
 ### 8. Learn from triage
 

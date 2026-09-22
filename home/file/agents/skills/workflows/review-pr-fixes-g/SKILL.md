@@ -81,6 +81,8 @@ Fetch all threads on the PR via `repo_list_pull_request_threads`. Use `baseItera
 
 Also note any new threads created by the author or other reviewers since the baseline.
 
+**Check PR approval status**: the PR details (from `repo_get_pull_request_by_id`, already resolved in conversation context) include reviewer vote data. Determine whether **all required reviewers** have cast an approval vote (10 = approve, 5 = approve with suggestions). Record the result as `fully-approved` or `pending`. This status propagates to downstream skills (`/draft-review-g`, `/submit-review-g`) to gate notification actions.
+
 #### When following up on `/review-plan-g`
 
 Obtain the revised plan. Accept **any** of the following (same input modes as `/review-plan-g`):
@@ -174,6 +176,7 @@ Use this template when following up on `/review-pr-g`:
 **Baseline commit**: <sha of last commit reviewed>
 **New commits**: <count> (<first-new-sha>..<last-new-sha>)
 **New/changed files**: <count>
+**PR approval status**: fully-approved / pending
 
 ### Thread Resolutions
 

@@ -47,10 +47,12 @@ Produce an overall summary:
 When the preceding review was a follow-up (`/review-pr-fixes-g`), also compose thread resolution actions:
 
 - **Threads to resolve** (`Fixed`): list thread IDs. No reply needed -- the status change is sufficient.
-- **Threads to reactivate** (`Active`): compose the follow-up reply text for each, explaining what's still missing. Present each reply in a fenced code block.
+- **Threads to reactivate** (`Active`): compose the follow-up reply text for each, explaining what's still missing. Present each reply in a fenced code block. **When the PR is fully approved** (see `PR approval status` in the `/review-pr-fixes-g` output), skip composing follow-up reply text -- list the thread and its target status only. The status change communicates the resolution; reply text adds noise on an already-approved PR.
 - **Threads unchanged**: list thread IDs. No action needed.
 
 ### 6. Compose Slack actions (when the review was Slack-originated)
+
+**Skip this step when the PR is fully approved** (see `PR approval status` in the `/review-pr-fixes-g` output). The author already has the green light; a Slack ping for fix verification adds friction without value.
 
 When the original `/review-pr-g` was triggered from a Slack message, compose Slack actions for **every** review round -- including follow-up reviews preceded by `/review-pr-fixes-g`. Do not skip because a previous round already posted a reaction or reply.
 

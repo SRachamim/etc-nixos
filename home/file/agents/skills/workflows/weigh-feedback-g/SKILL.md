@@ -21,6 +21,8 @@ Require **Plan** mode following the **mode-gate-g** skill. Steps 1--3 are read-o
 
 Identify the PR from explicit input, the current branch, or conversation context. List all active, unresolved comment threads.
 
+**Check PR approval status**: fetch the PR details via `repo_get_pull_request_by_id` and inspect reviewer vote data. Determine whether **all required reviewers** have cast an approval vote (10 = approve, 5 = approve with suggestions). Record the result as `fully-approved` or `pending`. This status gates notification actions in steps 4 and 5.
+
 ### 2. Evaluate
 
 Apply the **feedback-evaluation-g** skill to evaluate each comment thread independently. For each comment, produce a verdict using the evaluation protocol and decision categories defined in that skill.
@@ -46,7 +48,9 @@ Do not proceed to execution until the user approves.
 
 After approval, switch to **Agent** mode and execute:
 
-**PR thread replies**: for each approved comment, post a reply. Follow the **delivered-text-g** skill for tone and formatting (text type: "PR review reply"). Structure by verdict:
+**PR thread replies**: **skip posting PR thread replies when the PR is fully approved.** The fixes speak for themselves -- the reviewer already approved and doesn't need per-thread acknowledgments. Code changes (below) are still executed; only the reply-posting ceremony is silenced.
+
+When the PR is not fully approved, post a reply for each approved comment. Follow the **delivered-text-g** skill for tone and formatting (text type: "PR review reply"). Structure by verdict:
 
 - **Agree-fix / Partial** -- acknowledge the concern, reference the fix or alternative approach.
 - **Disagree** -- state the governing standard, explain the reasoning concisely, propose keeping the current approach.
@@ -57,7 +61,11 @@ After approval, switch to **Agent** mode and execute:
 
 ### 5. Push and notify
 
-Delegate to **commit-and-push-g** to push the committed changes. Only after the push succeeds, post a Slack thread reply.
+Delegate to **commit-and-push-g** to push the committed changes.
+
+**Skip the Slack "Updated -- ready for re-review" notification when the PR is fully approved.** The PR already meets its merge policy; there is no re-review needed. Still push the code changes via **commit-and-push-g**.
+
+Only after the push succeeds and when the PR is not fully approved, post a Slack thread reply.
 
 **Thread identification**: from conversation context, a preceding `/submit-feature-g` invocation, or the PR's linked Slack thread. If no thread is identifiable, skip the Slack reply and note this to the user.
 

@@ -104,19 +104,24 @@ When designing test or verification commits, apply the **verification-strategy-g
 
 When choosing between alternative approaches or orderings, apply the **decision-priorities-g** skill to select the stronger option.
 
-For each step, specify:
+For each step, specify **summary fields** and **detail fields**.
+
+Present the summary fields as a table row -- these columns contain only short values:
 
 | Field | Description |
 |-------|-------------|
 | **#** | Sequence number |
 | **Type** | `commit` or `action` |
 | **Title** | Commit message following the project's conventions (per workspace rules), or short description (for actions) |
-| **What** | Concise description of the change or action |
 | **Key Files** | Files expected to be touched (commits only; `--` for actions) |
-| **Technique** | Which catalog refactoring technique it applies (`--` for non-refactoring commits and actions) |
 | **Traceability** | Which FR/NFR/AC/C IDs from step 2 this commit addresses (`--` for actions) |
-| **Flexibility** | Which design-lens principle(s) this step honours and how (optional for actions) |
-| **Validation** | How to verify this step is correct (per workspace rules and project tooling) |
+
+Present the detail fields as a `#### Step N` section below the table -- these contain prose that would be unreadable inside table cells:
+
+- **Description** (unnamed opening paragraph) -- what the change does and why.
+- **Technique** -- which catalog refactoring technique it applies. Omit when not applicable.
+- **Flexibility** -- which design-lens principle(s) this step honours and how. Omit when not applicable.
+- **Validation** -- how to verify this step is correct (per workspace rules and project tooling).
 
 ### 7. Validate against successors
 

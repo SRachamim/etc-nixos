@@ -137,8 +137,25 @@ in
     ghostty.enable = true;
     lsd.enable = true;
     starship.enable = true;
-    tmux.enable = true;
     zsh-syntax-highlighting.enable = true;
+    # These options tune the catppuccin tmux plugin and must be set *before* it
+    # runs; this block is emitted directly above the plugin's run-shell line.
+    tmux = {
+      enable = true;
+      extraConfig = ''
+        # Flat window tabs -- mirrors lualine's empty component/section separators.
+        set -g @catppuccin_window_status_style "basic"
+        set -g @catppuccin_window_number_position "left"
+        # #W (window name) is stable under automatic-rename; #T (pane title) is not.
+        set -g @catppuccin_window_text " #W"
+        set -g @catppuccin_window_current_text " #W"
+        # Zoom / bell / activity markers on the tab, so a zoomed pane is obvious.
+        set -g @catppuccin_window_flags "icon"
+        # Transparent bar, matching neovim's transparent_background.
+        set -g @catppuccin_status_background "default"
+        set -g @catppuccin_date_time_text " %H:%M"
+      '';
+    };
   };
 
   home.sessionVariables = {
@@ -452,11 +469,87 @@ EOF
 
     tmux = {
       enable = true;
-      terminal = "screen-256color";
+      # tmux-256color carries italics, truecolor and extended capabilities;
+      # screen-256color does not.
+      terminal = "tmux-256color";
       shell = "${pkgs.zsh}/bin/zsh";
+      historyLimit = 50000;
+      baseIndex = 1;
+      mouse = true;
+      focusEvents = true;
+      clock24 = true;
+
+      # Appended after the catppuccin plugin contributed by catppuccin/nix, so
+      # the theme is loaded before anything that builds on it. Every binding
+      # below is a plugin default and is unbound in stock tmux.
+      plugins = lib.mkAfter (with pkgs.tmuxPlugins; [
+        # prefix+y, and `y` in copy-mode-vi -> system clipboard.
+        # Auto-detects pbcopy/xclip/wl-copy, so it works on both hosts.
+        yank
+
+        # prefix+Tab -- fuzzy-grab paths, URLs and quoted strings out of the
+        # scrollback. The main reason it is here: lifting file paths straight
+        # out of an agent's output.
+        {
+          plugin = extrakto;
+          extraConfig = ''
+            set -g @extrakto_grab_area "window recent"
+          '';
+        }
+
+        # prefix+F -- fuzzy switch session/window/pane.
+        tmux-fzf
+
+        # prefix+u -- open a URL from the scrollback.
+        fzf-tmux-url
+
+        # prefix+Ctrl+s / prefix+Ctrl+r -- manual layout snapshot and restore.
+        # No continuum: session lifecycle belongs to Agent of Empires, and an
+        # automatic restore would resurrect sessions AoE no longer tracks.
+        {
+          plugin = resurrect;
+          extraConfig = ''
+            set -g @resurrect-strategy-nvim "session"
+            set -g @resurrect-capture-pane-contents "on"
+          '';
+        }
+      ]);
+
+      # Emitted last, after every plugin's run-shell.
       # Stock tmux keybindings (prefix Ctrl+b), plus vim-style pane navigation.
       extraConfig = ''
         setw -g mode-keys vi
+
+        # --- Terminal capabilities: tmux talking to Ghostty ---
+        # usstyle: undercurl for LSP diagnostics. sync: no redraw tearing in
+        # nvim or streaming agent output. hyperlinks/osc7: clickable OSC 8 links
+        # and correct cwd inheritance. clipboard: OSC 52, so copy survives SSH.
+        set -as terminal-features ",xterm-ghostty:RGB:usstyle:hyperlinks:sync:clipboard:extkeys:focus:osc7:strikethrough:overline"
+        set -as terminal-features ",xterm-256color:RGB:usstyle:clipboard"
+        # CSI-u encoding, so nvim and Claude Code can tell Ctrl+Shift+X from Ctrl+X.
+        set -s  extended-keys on
+        set -g  set-clipboard on
+        # Required for yazi's image preview to survive tmux.
+        set -g  allow-passthrough on
+
+        # --- Window behaviour ---
+        set -g renumber-windows on
+        # Land in another session instead of the bare shell when one is killed.
+        set -g detach-on-destroy off
+        set -g set-titles on
+        set -g set-titles-string "#S > #W"
+        set -g display-time 2000
+        set -g status-interval 5
+
+        # --- Status line ---
+        # Top, so it never stacks against lualine at the bottom of an nvim pane.
+        # These reference catppuccin modules and must come after the plugin ran.
+        set -g status-position top
+        set -g status-left-length 100
+        set -g status-right-length 100
+        set -g status-left  "#{E:@catppuccin_status_session}"
+        set -g status-right "#{E:@catppuccin_status_directory}"
+        set -ag status-right "#{E:@catppuccin_status_date_time}"
 
         # Pane navigation: stock tmux only binds the arrow keys.
         # `l` shadows the default last-window binding.

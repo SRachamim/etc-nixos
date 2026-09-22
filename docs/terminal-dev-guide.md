@@ -24,7 +24,7 @@ AeroSpace (tiling window manager)
 |------|---------|-----------------|
 | AeroSpace | Tiling window manager (macOS) | `home/file/aerospace/aerospace.toml` |
 | Ghostty | GPU-accelerated terminal | `home/darwin.nix` (programs.ghostty) |
-| tmux | Terminal multiplexer (stock keybinds) | `home/shared.nix` (programs.tmux) |
+| tmux | Terminal multiplexer (stock keybinds + 5 plugins) | `home/shared.nix` (programs.tmux) |
 | Agent of Empires | Parallel agent session manager | Homebrew `aoe`; repo `.agent-of-empires/config.toml` |
 | Neovim | Editor | `home/programs/neovim/` |
 | Claude Code | AI agent CLI | `home/shared.nix` (home.packages) |
@@ -208,6 +208,33 @@ Keypress
 | `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |
 | `Ctrl+b L` | Switch back when nested in AoE-managed tmux |
 
+Plugin bindings. Every one lands on a key stock tmux leaves unbound, so the
+default-first principle above still holds — `l` and `r` remain the only shadowed
+keys.
+
+| Keys | Plugin | Action |
+|------|--------|--------|
+| `Ctrl+b Tab` | extrakto | Fuzzy-grab paths, URLs and quoted strings from the pane |
+| `Ctrl+b F` | tmux-fzf | Fuzzy switch session / window / pane |
+| `Ctrl+b u` | fzf-tmux-url | Pick a URL from the scrollback and open it |
+| `Ctrl+b y` | yank | Copy the command line to the system clipboard |
+| `Ctrl+b Y` | yank | Copy it and paste it into the pane |
+| `y` (copy mode) | yank | Copy the selection to the system clipboard |
+| `Ctrl+b Ctrl+s` | resurrect | Save the session layout |
+| `Ctrl+b Ctrl+r` | resurrect | Restore the saved layout |
+
+`Ctrl+b Tab` is the one to learn first: it lifts file paths straight out of an
+agent's output without touching the mouse.
+
+Sessions are **not** restored automatically. AoE owns session lifecycle;
+resurrect only acts when you press the key.
+
+### Mouse
+
+Mouse mode is on. Dragging selects into the tmux buffer and scrolling enters copy
+mode. Hold `Option` (or `Shift`) to fall back to Ghostty's own selection when you
+want to copy across panes.
+
 ### AoE TUI
 
 | Key | Action |
@@ -338,6 +365,17 @@ All tools use **Catppuccin Mocha**: Ghostty, Neovim, tmux (via catppuccin home-m
 
 Font: **Fira Code Nerd Font Mono** in Ghostty (`home/darwin.nix`).
 
+The tmux status line sits at the **top** so it never stacks against lualine at the
+bottom of a Neovim pane, and its background is transparent to match Neovim's
+`transparent_background`. Window tabs use flat separators, mirroring lualine's
+empty `component_separators` / `section_separators`. Left shows the session, right
+shows the working directory and a 24-hour clock.
+
+tmux declares Ghostty's capabilities explicitly (`terminal-features`): truecolor,
+undercurl for LSP diagnostics, synchronized output, OSC 8 hyperlinks, OSC 52
+clipboard and CSI-u extended keys. `allow-passthrough` is on, so yazi's image
+preview works inside tmux.
+
 ## Applying Changes
 
 ```bash
@@ -353,7 +391,7 @@ Rebuilds and activates all configs atomically.
 - **`aoe: command not found`:** run `switch` (installs Homebrew `aoe` and a Nix profile wrapper). Open a new shell or run `exec zsh`. Verify with `which aoe` — should point to the home-manager profile, not only `/opt/homebrew/bin`.
 - **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
-- **Keybinding change didn't take effect:** a running tmux server loads its config only at server start. After `switch`, press `Ctrl+b r` to reload (or `tmux kill-server` to restart and drop sessions).
+- **tmux change didn't take effect:** a running tmux server loads its config only at server start. `Ctrl+b r` re-sources it, which covers `set -g` options and keybindings. Changes to `default-terminal` or to the plugin list need a full `tmux kill-server` (this drops running sessions — detach AoE work first).
 - **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
 
 ### ctx
@@ -372,7 +410,7 @@ Language servers must be in `$PATH`. TypeScript: `volta install typescript-langu
 
 ### Crossing nvim → tmux pane
 
-Use `Ctrl+b h/j/k/l` (bound in `home/shared.nix`) or `Ctrl+b` plus an arrow key. No bridge plugin in v1. If too slow after daily use, consider adding `vim-tmux-navigator` as a documented exception.
+Use `Ctrl+b h/j/k/l` (bound in `home/shared.nix`) or `Ctrl+b` plus an arrow key. No bridge plugin — `vim-tmux-navigator` stays deliberately unadopted, because binding bare `Ctrl+h/j/k/l` would take those keys away from the focused app. Revisit only if prefix discipline proves too slow in daily use.
 
 ### Theme inconsistencies
 

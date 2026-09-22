@@ -135,7 +135,7 @@ Skip this step when no successor work items exist or when the input was not a ti
 
 ### 8. Present the plan
 
-Apply the **objective-communication-g** skill to all plan text -- summaries, design-lens commentary, notes, and any prose in the table cells.
+Apply the **objective-communication-g** skill to all plan text -- summaries, design-lens commentary, notes, and step detail prose.
 
 #### Materialize as a Cursor plan
 
@@ -180,12 +180,43 @@ Whether materialized or output as text, the plan content follows this structure:
 
 ### Implementation Steps
 
-| # | Type | Title | What | Key Files | Technique | Traceability | Flexibility | Validation |
-|---|------|-------|------|-----------|-----------|--------------|-------------|------------|
-| 1 | commit | `test: add missing tests for pricing module` | ... | `tests/...` | (prerequisite) | AC-1 | -- | ... |
-| 2 | commit | `refactor: extract pricing into dedicated module` | ... | `src/...` | Extract Module | -- | Additive -- new module | ... |
-| 3 | commit | `feat: add subscription pricing support` | ... | `src/...` | -- | FR-1, FR-2 | Postel's law -- wider input | ... |
-| 4 | action | Create task for TODO comments | ... | -- | -- | -- | -- | Task exists in ADO |
+| # | Type | Title | Key Files | Traceability |
+|---|------|-------|-----------|--------------|
+| 1 | commit | `test: add missing tests for pricing module` | `tests/...` | AC-1 |
+| 2 | commit | `refactor: extract pricing into dedicated module` | `src/...` | -- |
+| 3 | commit | `feat: add subscription pricing support` | `src/...` | FR-1, FR-2 |
+| 4 | action | Create task for TODO comments | -- | -- |
+
+#### Step 1 -- `test: add missing tests for pricing module`
+
+Add unit tests covering the current pricing calculation paths to lock in
+behaviour before refactoring.
+
+**Validation**: `pnpm test -- --filter @org/pricing` passes; coverage report
+shows new lines covered.
+
+#### Step 2 -- `refactor: extract pricing into dedicated module`
+
+Move pricing functions from `order.ts` into a new `pricing/` module.
+Re-export from the original location to avoid breaking consumers.
+
+**Technique**: Extract Module
+**Flexibility**: Additive -- new module, no import changes in consumers.
+**Validation**: `pnpm build && pnpm test` passes; no import changes in
+consumer modules.
+
+#### Step 3 -- `feat: add subscription pricing support`
+
+Implement `calculateSubscriptionPrice` in the new pricing module.
+
+**Flexibility**: Postel's law -- wider input types accepted.
+**Validation**: New unit tests pass; `pnpm test:types` clean.
+
+#### Step 4 -- Create task for TODO comments
+
+Create an ADO task for the three TODO comments introduced in step 3.
+
+**Validation**: Task exists in ADO.
 
 ### Notes
 

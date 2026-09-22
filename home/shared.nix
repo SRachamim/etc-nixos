@@ -85,6 +85,45 @@ let
       };
     }) skills
   ) categories);
+
+  # Antigravity reads skills from ~/.gemini/antigravity/knowledge/
+  antigravityKnowledge = pkgs.runCommand "antigravity-knowledge" {} ''
+    mkdir -p $out/artifacts/skills
+
+    for category_dir in ${skillsDir}/workflows ${skillsDir}/knowledge ${skillsDir}/shared; do
+      if [ -d "$category_dir" ]; then
+        for skill_dir in "$category_dir"/*; do
+          if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then
+            skill_name=$(basename "$skill_dir")
+            cp "$skill_dir/SKILL.md" "$out/artifacts/skills/$skill_name.md"
+
+            mkdir -p "$out/$skill_name"
+            cat > "$out/$skill_name/metadata.json" <<MEOF
+{
+  "summary": "Agent skill: $skill_name",
+  "references": ["artifacts/skills/$skill_name.md"]
+}
+MEOF
+          fi
+        done
+      fi
+    done
+
+    mkdir -p "$out/skills_catalog"
+    cat > "$out/skills_catalog/metadata.json" <<MEOF
+{
+  "summary": "Agent Skills Catalog: lists all available skills for workflows like planning, reviewing, and investigating.",
+  "references": ["artifacts/skills_catalog.md"]
+}
+MEOF
+
+    echo "# Agent Skills Catalog" > "$out/artifacts/skills_catalog.md"
+    echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$out/artifacts/skills_catalog.md"
+    for skill in "$out/artifacts/skills"/*.md; do
+      skill_name=$(basename "$skill" .md)
+      echo "- **$skill_name**: $skill" >> "$out/artifacts/skills_catalog.md"
+    done
+  '';
 in
 {
   home.stateVersion = "23.05";
@@ -154,12 +193,28 @@ in
       source = ./file/agents/AGENTS.md;
       target = ".gemini/AGENTS.md";
     };
+    "cursor-mcp.json" = {
+      target = ".cursor/mcp.json";
+      force = true;
+      text = builtins.toJSON { inherit mcpServers; };
+    };
     "ai-gemini-settings" = {
       target = ".gemini/settings.json";
       text = builtins.toJSON {
         context.fileName = [ "GEMINI.md" "AGENTS.md" ];
         inherit mcpServers;
       };
+    };
+    "ai-antigravity-mcp" = {
+      target = ".gemini/config/mcp_config.json";
+      force = true;
+      text = builtins.toJSON { inherit mcpServers; };
+    };
+    "ai-antigravity-knowledge" = {
+      source = antigravityKnowledge;
+      target = ".gemini/antigravity/knowledge";
+      recursive = true;
+      force = true;
     };
     "ai-agents-md-codex" = {
       source = ./file/agents/AGENTS.md;
@@ -216,7 +271,7 @@ SETTINGS
 
     mcpPayload='${builtins.toJSON { inherit mcpServers; }}'
     if [ -f "$HOME/.claude.json" ]; then
-      ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$HOME/.claude.json" <(echo "$mcpPayload") > "$HOME/.claude.json.tmp"
+      ${pkgs.jq}/bin/jq -s '.[1] as $patch | .[0] * $patch | .mcpServers = $patch.mcpServers' "$HOME/.claude.json" <(echo "$mcpPayload") > "$HOME/.claude.json.tmp"
       mv "$HOME/.claude.json.tmp" "$HOME/.claude.json"
     else
       echo "$mcpPayload" > "$HOME/.claude.json"
@@ -399,9 +454,20 @@ EOF
       enable = true;
       terminal = "screen-256color";
       shell = "${pkgs.zsh}/bin/zsh";
-      # Stock tmux keybindings (prefix Ctrl+b). Cosmetic + copy-mode only.
+      # Stock tmux keybindings (prefix Ctrl+b), plus vim-style pane navigation.
       extraConfig = ''
         setw -g mode-keys vi
+
+        # Pane navigation: stock tmux only binds the arrow keys.
+        # `l` shadows the default last-window binding.
+        bind -r h select-pane -L
+        bind -r j select-pane -D
+        bind -r k select-pane -U
+        bind -r l select-pane -R
+
+        # Reload this config into the running server; tmux has no default for it.
+        # `r` shadows refresh-client, still reachable via `Ctrl+b : refresh-client`.
+        bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux config reloaded"
       '';
     };
 

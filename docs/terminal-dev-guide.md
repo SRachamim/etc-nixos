@@ -181,7 +181,7 @@ Press `b` in the AoE TUI to start sessions from saved projects. See `home/file/a
 
 tmux only acts **after** the `Ctrl+b` prefix. Bare `Ctrl+h/j/k/l` reach Neovim for split navigation. Bare `Ctrl+n/p` reach Telescope in pickers. No bridge plugin required.
 
-**Cross-pane (nvim → adjacent tmux pane):** `Ctrl+b` then `h/j/k/l` (stock tmux).
+**Cross-pane (nvim → adjacent tmux pane):** `Ctrl+b` then `h/j/k/l` (bound in `home/shared.nix`; stock tmux only binds the arrow keys).
 
 ### Navigation flow
 
@@ -201,10 +201,11 @@ Keypress
 | `Ctrl+b d` | Detach from session |
 | `Ctrl+b %` | Split vertical |
 | `Ctrl+b "` | Split horizontal |
-| `Ctrl+b h/j/k/l` | Move between panes |
+| `Ctrl+b h/j/k/l` | Move between panes (repeatable; `l` replaces stock last-window) |
 | `Ctrl+b c` | New window |
 | `Ctrl+b n` / `Ctrl+b p` | Next / previous window |
 | `Ctrl+b [` | Copy mode (scroll); `q` to exit |
+| `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |
 | `Ctrl+b L` | Switch back when nested in AoE-managed tmux |
 
 ### AoE TUI
@@ -304,7 +305,7 @@ Press `Esc` in the input for normal mode; standard Vim motions edit your prompt.
 
 - Skills: `~/.claude/skills/` (deployed from `home/file/agents/skills/`)
 - Global instructions: `~/.claude/CLAUDE.md`
-- MCP: merged into `~/.claude.json` on `switch` (Azure DevOps, FundGuard, Slack)
+- MCP: merged into `~/.claude.json`, `~/.cursor/mcp.json`, `~/.gemini/settings.json`, `~/.gemini/config/mcp_config.json` (Antigravity), and `~/.codex/config.toml` on `switch` (Azure DevOps, fundguard, Slack). Use **fundguard** for Datadog and Currents; disable the Cursor **azure** and **datadog** marketplace plugins if they reappear.
 
 ### Multi-agent via AoE
 
@@ -352,6 +353,7 @@ Rebuilds and activates all configs atomically.
 - **`aoe: command not found`:** run `switch` (installs Homebrew `aoe` and a Nix profile wrapper). Open a new shell or run `exec zsh`. Verify with `which aoe` — should point to the home-manager profile, not only `/opt/homebrew/bin`.
 - **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
+- **Keybinding change didn't take effect:** a running tmux server loads its config only at server start. After `switch`, press `Ctrl+b r` to reload (or `tmux kill-server` to restart and drop sessions).
 - **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
 
 ### ctx
@@ -370,7 +372,7 @@ Language servers must be in `$PATH`. TypeScript: `volta install typescript-langu
 
 ### Crossing nvim → tmux pane
 
-Use `Ctrl+b h/j/k/l` (stock tmux). No bridge plugin in v1. If too slow after daily use, consider adding `vim-tmux-navigator` as a documented exception.
+Use `Ctrl+b h/j/k/l` (bound in `home/shared.nix`) or `Ctrl+b` plus an arrow key. No bridge plugin in v1. If too slow after daily use, consider adding `vim-tmux-navigator` as a documented exception.
 
 ### Theme inconsistencies
 

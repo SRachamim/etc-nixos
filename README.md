@@ -86,13 +86,15 @@ Markdown file in `home/file/agents/subagents/`.
 ### MCP servers
 
 Configured in `home/shared.nix` and deployed to `~/.claude.json`,
-`~/.gemini/settings.json`, and `~/.codex/config.toml`:
+`~/.cursor/mcp.json`, `~/.gemini/settings.json`, and `~/.codex/config.toml`:
 
 | Server | Purpose |
 |--------|---------|
-| fundguard | ADO work items/PRs/builds, Datadog, Currents, Sunday, Gateway (95 tools via proxy) |
-| Azure DevOps | ADO domains not covered by proxy: repositories (PR voting), search, test-plans, work (iterations), core, advanced-security |
+| fundguard | Datadog, Currents, Sunday, DevTools, Gateway, and composite ADO tools (96 tools via proxy) |
+| Azure DevOps | Native ADO: PR voting, search, test-plans, iterations, core, advanced-security |
 | Slack | Messaging |
+
+Cursor marketplace plugins for **azure** (Azure cloud) and **datadog** are disabled on `switch` — they duplicate fundguard/Azure DevOps and fail without extra OAuth or `npx` on Cursor's PATH.
 
 ## Deployment
 

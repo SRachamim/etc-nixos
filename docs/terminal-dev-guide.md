@@ -28,6 +28,7 @@ AeroSpace (tiling window manager)
 | Agent of Empires | Parallel agent session manager | Homebrew `aoe`; repo `.agent-of-empires/config.toml` |
 | Neovim | Editor | `home/programs/neovim/` |
 | Claude Code | AI agent CLI | `home/shared.nix` (home.packages) |
+| ctx | Per-thread work item / PR / pinned links | `home/file/ctx/ctx.sh` |
 | Starship | Shell prompt | `home/shared.nix` (programs.starship) |
 | Atuin | Shell history with fuzzy search | `home/shared.nix` (programs.atuin) |
 | lazygit | Git TUI | `home/shared.nix` (programs.lazygit) |
@@ -117,6 +118,38 @@ aoe add . -w feature/12345-my-feature -b
 ```
 
 Use **`/close-worktree-g`** after merge for ADO verification and git cleanup. Delete the AoE session from the TUI (`d`) when done — AoE cleans up worktrees it created.
+
+### Per-thread context (files, diffs, panes, pages)
+
+A **thread** is one worktree: one branch, one work item, one PR, one AoE session.
+Files, diffs and panes are already grouped by it — two additions group the *pages*.
+
+**Read pages without a browser.** PR threads, work item fields and build logs reach
+the agent pane through the Azure DevOps MCP server and the skills that wrap it
+(`/review-pr-g`, `/trace-pr-comments-g`, **work-item-context-g**). Text browsers
+cannot render ADO's authenticated SPA pages — don't reach for one.
+
+**Bind the browser to the thread with AeroSpace.** Give each active thread a letter
+workspace (`A`–`Z`, already persistent in `aerospace.toml`) holding its Ghostty
+window and its Chrome window. AeroSpace places a new window in the focused
+workspace, so opening Chrome from inside the thread's terminal lands it beside that
+terminal. `Alt+<letter>` then switches the whole thread — terminal and pages — at
+once. No AeroSpace config change is needed.
+
+**Open the thread's pages with `ctx`.** The work item comes from the branch name
+(`feature/12345-slug` → 12345) and the PR from `az repos pr list`, so a fresh
+worktree needs no setup.
+
+| Command | Action |
+|---------|--------|
+| `ctx` | Open work item, PR and pinned links as one browser window in this workspace |
+| `ctx wi` / `ctx pr` | Open just the work item / pull request |
+| `ctx ls` | List this thread's links |
+| `ctx add <name> <url>` | Pin a non-derivable link (dashboard, test run) to this thread |
+| `ctx rm <name>` | Unpin a link |
+
+Pinned links live in the worktree's git directory, so they are removed with the
+worktree. Set `CTX_BROWSER` to use a browser other than Google Chrome.
 
 ### fgrepo monorepo
 
@@ -320,6 +353,12 @@ Rebuilds and activates all configs atomically.
 - **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
 - **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
+
+### ctx
+
+- **`origin is not an Azure DevOps remote`:** links are derived from `origin`; ADO SSH and HTTPS remotes are supported.
+- **`branch … carries no work item id`:** name branches `feature/<id>-<slug>` per **worktree-layout-g**, or pin the link with `ctx add`.
+- **`no active pull request`:** the PR is not open yet, or `az` is not signed in — run `az login`.
 
 ### Neovim ↔ Claude Code
 

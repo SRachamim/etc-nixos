@@ -20,6 +20,15 @@ let
     '';
   });
 
+  # Per-thread context: resolves the work item, pull request and pinned links
+  # for the current worktree and opens them as one browser window, which
+  # AeroSpace places in the workspace holding that thread's terminal.
+  ctxTool = pkgs.writeShellApplication {
+    name = "ctx";
+    runtimeInputs = with pkgs; [ azure-cli coreutils git gnugrep gnused ];
+    text = builtins.readFile ./file/ctx/ctx.sh;
+  };
+
   mcpServers = {
     "fundguard" = {
       command = mkLocalMcpServer "mcp-fundguard" "$HOME/.local/share/fundguard-mcp/mcp-proxy.js";
@@ -181,6 +190,7 @@ in
     nerd-fonts.jetbrains-mono
     azure-cli
     claude-code
+    ctxTool
     fd
     lazydocker
     ripgrep

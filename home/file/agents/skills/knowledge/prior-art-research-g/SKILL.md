@@ -35,6 +35,14 @@ Use the web search tool. Run multiple searches with different angles:
 
 Aim for 3--5 searches. Stop when you find convergence -- multiple sources recommending the same approach -- or when queries stop yielding new information.
 
+### Read the locked source, not just the write-up
+
+When the ecosystem puts dependency sources on disk, read them before trusting a search result. Blog posts describe whatever version their author had; the locked source is ground truth for the revision actually in use.
+
+In a Nix repo this means: fetch the flake input's source and read the module that defines the options being configured -- option ordering and defaults are rarely documented. Build a candidate package and read what it actually does before adopting it.
+
+Prefer this evidence over a search result whenever the two disagree.
+
 ## How to evaluate
 
 Not every pattern found is a good fit. Assess each candidate against the project's actual constraints:

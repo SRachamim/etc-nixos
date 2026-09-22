@@ -161,11 +161,30 @@ Output the fix plan in this format:
 
 ### Implementation Steps
 
-| # | Type | Title | What | Key Files | Technique | Validation |
-|---|------|-------|------|-----------|-----------|------------|
-| 1 | commit | `test: add regression test for <bug>` | ... | `tests/...` | (prerequisite) | Test fails before fix |
-| 2 | commit | `refactor: ...` | ... | `src/...` | <technique> | Tests pass |
-| 3 | commit | `fix: ...` | ... | `src/...` | -- | Regression test passes |
+| # | Type | Title | Key Files |
+|---|------|-------|-----------|
+| 1 | commit | `test: add regression test for <bug>` | `tests/...` |
+| 2 | commit | `refactor: ...` | `src/...` |
+| 3 | commit | `fix: ...` | `src/...` |
+
+#### Step 1 -- `test: add regression test for <bug>`
+
+Add a test that exercises the buggy code path and fails before the fix.
+
+**Validation**: Test fails before fix.
+
+#### Step 2 -- `refactor: ...`
+
+<Description of the restructuring needed to enable the fix.>
+
+**Technique**: <technique>
+**Validation**: Tests pass.
+
+#### Step 3 -- `fix: ...`
+
+<Description of the actual fix.>
+
+**Validation**: Regression test passes.
 
 ### Notes
 

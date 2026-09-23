@@ -11,12 +11,20 @@ A keyboard-driven, Vim-native development environment optimized for AI agent wor
 ```
 AeroSpace (tiling window manager)
   └── Ghostty (terminal emulator)
-        └── Agent of Empires TUI (aoe)
-              └── tmux session (per agent)
-                    ├── Claude Code (AI agent CLI)
-                    ├── Neovim (editor + claudecode.nvim)
-                    └── Shell (zsh + starship + atuin)
+        ├── Agent of Empires TUI (aoe)
+        │     └── tmux session (per agent)
+        │           ├── Claude Code (AI agent CLI)
+        │           ├── Neovim (editor + claudecode.nvim)
+        │           └── Shell (zsh + starship + atuin)
+        └── tmux session (workmux, trial)
+              └── tmux window (per worktree, created by `wm add`)
+                    ├── Claude Code
+                    └── Shell
 ```
+
+AoE gives each agent its own tmux **session** and manages it from its TUI.
+workmux gives each agent a **window** inside the session you are already in, and
+you manage it from the dashboard (`Ctrl+b g`) or the `wm` CLI.
 
 ## Tools Reference
 
@@ -26,8 +34,9 @@ AeroSpace (tiling window manager)
 | Ghostty | GPU-accelerated terminal | `home/darwin.nix` (programs.ghostty) |
 | tmux | Terminal multiplexer (stock keybinds + 5 plugins) | `home/shared.nix` (programs.tmux) |
 | Agent of Empires | Parallel agent session manager | Homebrew `aoe`; repo `.agent-of-empires/config.toml` |
+| workmux | Worktree + tmux window per agent (trial, alongside AoE) | Homebrew `workmux`; `home/programs/workmux/` |
 | Neovim | Editor | `home/programs/neovim/` |
-| Claude Code | AI agent CLI | `home/shared.nix` (home.packages) |
+| Claude Code | AI agent CLI | `home/shared.nix` (home.packages; settings via programs.claude-code) |
 | ctx | Per-thread work item / PR / pinned links | `home/file/ctx/ctx.sh` |
 | Starship | Shell prompt | `home/shared.nix` (programs.starship) |
 | Atuin | Shell history with fuzzy search | `home/shared.nix` (programs.atuin) |
@@ -99,6 +108,31 @@ Optional web dashboard:
 aoe serve              # localhost
 aoe serve --remote     # reachable from phone/browser (use with care)
 ```
+
+### Parallel agents with workmux (trial)
+
+workmux is installed next to AoE for evaluation. AoE stays the default. With workmux,
+each task gets a worktree and a tmux **window** in the current session, so you
+start it from inside tmux:
+
+```bash
+wm add feature/12345-my-feature     # worktree at ../feature-12345-my-feature, claude + shell
+wm add fix-flaky-login -p "Fix the flaky login test"
+wm list                             # worktrees, agent state
+wm merge                            # from inside the worktree: merge, then clean up
+wm rm fix-flaky-login               # drop without merging
+```
+
+- Worktrees land next to `main` (`worktree_dir: ".."`); workmux turns the
+  branch's slashes into dashes.
+- Tabs show the agent state: working (peach), waiting for input (yellow), done
+  (green). Claude Code reports it through hooks in `~/.claude/settings.json`.
+- Claude gets upstream's skills: `/workmux`, `/worktree` (fan out tasks),
+  `/coordinator` (spawn, monitor and merge agents), `/merge`, `/rebase`,
+  `/open-pr`. They are fetched on `switch` from the release that matches the
+  installed binary.
+- Known quirk: workmux names the project after the main worktree's directory,
+  so the dashboard labels every repo `main`.
 
 ### ADO-driven work (skills + AoE)
 
@@ -208,7 +242,7 @@ Keypress
 | `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |
 | `Ctrl+b L` | Switch back when nested in AoE-managed tmux |
 
-Plugin bindings. Every one lands on a key stock tmux leaves unbound, so the
+Plugin and tool bindings. Every one lands on a key stock tmux leaves unbound, so the
 default-first principle above still holds — `l` and `r` remain the only shadowed
 keys.
 
@@ -222,6 +256,10 @@ keys.
 | `y` (copy mode) | yank | Copy the selection to the system clipboard |
 | `Ctrl+b Ctrl+s` | resurrect | Save the session layout |
 | `Ctrl+b Ctrl+r` | resurrect | Restore the saved layout |
+| `Ctrl+b g` | workmux | Dashboard popup (all agents, diffs, jump to one) |
+| `Ctrl+b a` | workmux | Jump to the agent that finished or waits for input; repeat to cycle |
+| `Ctrl+b A` | workmux | Toggle between the current and the previous agent |
+| `Ctrl+b Ctrl+t` | workmux | Toggle the agent status sidebar |
 
 `Ctrl+b Tab` is the one to learn first: it lifts file paths straight out of an
 agent's output without touching the mouse.
@@ -330,13 +368,26 @@ Press `Esc` in the input for normal mode; standard Vim motions edit your prompt.
 
 ### Skills and MCP
 
-- Skills: `~/.claude/skills/` (deployed from `home/file/agents/skills/`)
+- Skills: `~/.claude/skills/` (deployed from `home/file/agents/skills/`). workmux's
+  six skills land there too; they are fetched on `switch` from the release that
+  matches the installed binary, not kept in this repo.
+- Settings: `~/.claude/settings.json` is a read-only symlink built by
+  `programs.claude-code`. The base keys live in `home/file/claude/settings.json`,
+  and modules add their own, such as the workmux status hooks in
+  `home/programs/workmux/`. Changes made at runtime with `/config` or `/hooks` do
+  not persist.
 - Global instructions: `~/.claude/CLAUDE.md`
 - MCP: merged into `~/.claude.json`, `~/.cursor/mcp.json`, `~/.gemini/settings.json`, `~/.gemini/config/mcp_config.json` (Antigravity), and `~/.codex/config.toml` on `switch` (Azure DevOps, fundguard, Slack). Use **fundguard** for Datadog and Currents; disable the Cursor **azure** and **datadog** marketplace plugins if they reappear.
 
-### Multi-agent via AoE
+### Multi-agent via AoE or workmux
 
 Run multiple Claude Code agents in parallel — each in its own tmux session, optionally on its own worktree. Monitor from the AoE TUI or `aoe serve` web dashboard.
+
+With workmux (trial), each agent gets a worktree and a window in the current
+session. Monitor them from the dashboard (`Ctrl+b g`) or the status icons on the
+tabs. Inside Claude, `/worktree` fans tasks out to new worktrees and
+`/coordinator` spawns, monitors and merges them. See
+[Parallel agents with workmux](#parallel-agents-with-workmux-trial).
 
 ## TUI Tools
 
@@ -361,13 +412,17 @@ Launch: `btop` / `lazydocker` in shell.
 
 ## Theming
 
-All tools use **Catppuccin Mocha**: Ghostty, Neovim, tmux (via catppuccin home-manager module), Starship, bat, fzf, lsd.
+All tools use **Catppuccin Mocha**: Ghostty, Neovim, tmux (via catppuccin home-manager module), Starship, bat, fzf, lsd, workmux.
 
 Flavor lives in three places, because two of them sit outside the catppuccin
 home-manager module: `home/shared.nix` (`catppuccin.flavor`, which drives every
 Nix-managed tool including Ghostty), `home/programs/neovim/init.lua`
 (`flavour` plus the `colorscheme` call), and `home/file/agents/settings.json`
 (`workbench.colorTheme`, for Cursor/VS Code). Change all three together.
+
+workmux has no Catppuccin scheme, so `home/programs/workmux/` builds its
+dashboard colours and status icons from the catppuccin module's palette
+(`catppuccin.flavor` and `catppuccin.accent`). It needs no separate change.
 
 Do **not** set `programs.ghostty.settings.theme` — the catppuccin module already
 emits it from `flavor`, and a second definition silently shadows it.
@@ -402,6 +457,23 @@ Rebuilds and activates all configs atomically.
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
 - **tmux change didn't take effect:** a running tmux server loads its config only at server start. `Ctrl+b r` re-sources it, which covers `set -g` options and keybindings. Changes to `default-terminal` or to the plugin list need a full `tmux kill-server` (this drops running sessions — detach AoE work first).
 - **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
+
+### workmux
+
+- **`workmux: not installed — run switch`:** the profile wrapper found no
+  Homebrew binary. Run `switch`; Homebrew installs and upgrades `workmux` on every
+  run.
+- **No `/workmux` or `/worktree` skill:** skills are fetched after the binary
+  exists, so the first `switch` that installs workmux may have skipped them. Run
+  `switch` again (it needs network access to GitHub).
+- **No status icon on the tab:** the icon comes from the catppuccin window text.
+  Run `Ctrl+b r` to re-source tmux, then start a new `claude` session so it picks
+  up the hooks.
+- **Hooks drifted from upstream:** run `workmux setup --hooks` in a terminal. It
+  reports "update available" if upstream changed them. Decline the write and
+  update `home/programs/workmux/default.nix` instead.
+- **No `wm <Tab>` completion:** Homebrew completions load from
+  `/opt/homebrew/share/zsh/site-functions`; open a new shell after `switch`.
 
 ### ctx
 

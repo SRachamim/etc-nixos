@@ -147,8 +147,9 @@ in
         set -g @catppuccin_window_status_style "basic"
         set -g @catppuccin_window_number_position "left"
         # #W (window name) is stable under automatic-rename; #T (pane title) is not.
-        set -g @catppuccin_window_text " #W"
-        set -g @catppuccin_window_current_text " #W"
+        # @workmux_status is the agent state icon workmux sets per window.
+        set -g @catppuccin_window_text " #W#{?@workmux_status, #{@workmux_status},}"
+        set -g @catppuccin_window_current_text " #W#{?@workmux_status, #{@workmux_status},}"
         # Zoom / bell / activity markers on the tab, so a zoomed pane is obvious.
         set -g @catppuccin_window_flags "icon"
         # Transparent bar, matching neovim's transparent_background.

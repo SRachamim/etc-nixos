@@ -27,6 +27,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | Terminal dev environment guide | `docs/terminal-dev-guide.md` |
 | tmux / AoE shell aliases | `home/shared.nix` (programs.tmux, programs.zsh) |
 | AoE per-repo template | `home/file/agent-of-empires/` |
+| workmux (config, hooks, skills, tmux keys) | `home/programs/workmux/` (binary: `modules/darwin/homebrew.nix`) |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
 | Claude Code settings (`~/.claude/settings.json`) | `home/file/claude/settings.json` (base) + `programs.claude-code.settings` contributions |
 | Improvement observations (shared runtime state) | `~/.local/share/agent-improvements/pending/` |

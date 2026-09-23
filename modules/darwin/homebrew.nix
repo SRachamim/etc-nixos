@@ -12,6 +12,7 @@
     ];
     brews = [
       "aoe"
+      "workmux"
     ];
     casks = [
       "nikitabobko/tap/aerospace"

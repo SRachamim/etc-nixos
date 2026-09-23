@@ -35,7 +35,7 @@ AeroSpace (tiling window manager)
 | yazi | File manager TUI | `home/shared.nix` (programs.yazi) |
 | btop | System monitor TUI | `home/shared.nix` (programs.btop) |
 | lazydocker | Docker TUI | `home/shared.nix` (home.packages) |
-| Catppuccin Mocha | Color theme (all tools) | `home/shared.nix` (catppuccin module) |
+| Catppuccin Latte | Color theme (all tools) | `home/shared.nix` (catppuccin module) |
 | Fira Code Nerd Font | Primary font | `home/shared.nix` (home.packages) |
 
 ## Getting Started
@@ -361,7 +361,16 @@ Launch: `btop` / `lazydocker` in shell.
 
 ## Theming
 
-All tools use **Catppuccin Mocha**: Ghostty, Neovim, tmux (via catppuccin home-manager module), Starship, bat, fzf, lsd.
+All tools use **Catppuccin Latte** — the light flavor: Ghostty, Neovim, tmux (via catppuccin home-manager module), Starship, bat, fzf, lsd.
+
+Flavor lives in three places, because two of them sit outside the catppuccin
+home-manager module: `home/shared.nix` (`catppuccin.flavor`, which drives every
+Nix-managed tool including Ghostty), `home/programs/neovim/init.lua`
+(`flavour` plus the `colorscheme` call), and `home/file/agents/settings.json`
+(`workbench.colorTheme`, for Cursor/VS Code). Change all three together.
+
+Do **not** set `programs.ghostty.settings.theme` — the catppuccin module already
+emits it from `flavor`, and a second definition silently shadows it.
 
 Font: **Fira Code Nerd Font Mono** in Ghostty (`home/darwin.nix`).
 

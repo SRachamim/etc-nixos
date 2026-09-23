@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 -- Startup plugins (loaded from start/, no lz.n needed)
 require("catppuccin").setup({
-  flavour = "mocha",
+  flavour = "latte",
   transparent_background = true,
   term_colors = true,
   integrations = {
@@ -87,7 +87,7 @@ require("catppuccin").setup({
     native_lsp = { enabled = true },
   },
 })
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("catppuccin-latte")
 require("snacks").setup({})
 require("plugins.treesitter")
 require("plugins.orgmode")

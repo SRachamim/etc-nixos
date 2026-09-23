@@ -48,8 +48,10 @@ in
     })
   ];
 
+  # Runs before compinit (order 570), so brew formulae's completions load.
   programs.zsh.initContent = lib.mkOrder 50 ''
     path=(/opt/homebrew/bin /opt/homebrew/sbin $path)
+    fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
   '';
 
   home.file = {

@@ -249,13 +249,6 @@ in
       source = ./file/agents/CLAUDE.md;
       target = ".claude/CLAUDE.md";
     };
-    # Read-only symlink: runtime writers (AoE hook install, /config, /hooks)
-    # cannot persist changes -- declare them in this file instead.
-    "claude-settings" = {
-      source = ./file/claude/settings.json;
-      target = ".claude/settings.json";
-      force = true;
-    };
     "git-hooks" = {
       source = ./file/git-hooks;
       target = ".config/git/hooks";
@@ -357,6 +350,17 @@ EOF
     bat.enable = true;
 
     btop.enable = true;
+
+    # Owns ~/.claude/settings.json as a read-only symlink: runtime writers (AoE
+    # hook install, /config, /hooks) cannot persist changes. The base keys live
+    # in file/claude/settings.json; other modules add their own (e.g. hooks),
+    # which the JSON option type merges.
+    claude-code = {
+      enable = true;
+      # The native installer owns the binary (~/.local/bin/claude).
+      package = null;
+      settings = lib.importJSON ./file/claude/settings.json;
+    };
 
     direnv = {
       enable = true;

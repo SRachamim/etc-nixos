@@ -484,7 +484,7 @@ Never invoked by name. The agent loads them contextually:
 | `requirements-classification-g` | Extracting or reviewing requirements (PRD analysis, planning, triage) |
 | `verification-strategy-g`  | Planning tests, writing verification artifacts, reviewing coverage |
 | `work-item-templates-g`     | Creating or editing ADO work items (Bug, Task, User Story) |
-| `client-quality-focus-g`    | Working in fgrepo `client/`                      |
+| `client-quality-focus-g`    | Working in fgrepo `client/` (delegates checks to the quality-reviewer subagent) |
 | `nix-shell-direnv-g`        | Any shell command in Nix projects                |
 
 ## Appendix: Communication Skills (Loaded for All External Text)

@@ -28,6 +28,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | tmux / AoE shell aliases | `home/shared.nix` (programs.tmux, programs.zsh) |
 | AoE per-repo template | `home/file/agent-of-empires/` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
+| Claude Code settings (`~/.claude/settings.json`) | `home/file/claude/settings.json` |
 | Improvement observations (shared runtime state) | `~/.local/share/agent-improvements/pending/` |
 | Neovim config | `home/programs/neovim/` |
 | Fonts (NixOS) | `modules/nixos/fonts.nix` |

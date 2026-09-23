@@ -31,6 +31,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | Dotfiles (aerospace, agent-of-empires, etc.) | `home/file/<app>/` |
 | Terminal dev environment guide | `docs/terminal-dev-guide.md` |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
+| Claude Code settings (`~/.claude/settings.json`) | `home/file/claude/settings.json` |
 | Neovim config | `home/programs/neovim/` |
 | Fonts (NixOS) | `modules/nixos/fonts.nix` |
 | Services (NixOS) | `modules/nixos/services.nix` |

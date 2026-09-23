@@ -249,6 +249,13 @@ in
       source = ./file/agents/CLAUDE.md;
       target = ".claude/CLAUDE.md";
     };
+    # Read-only symlink: runtime writers (AoE hook install, /config, /hooks)
+    # cannot persist changes -- declare them in this file instead.
+    "claude-settings" = {
+      source = ./file/claude/settings.json;
+      target = ".claude/settings.json";
+      force = true;
+    };
     "git-hooks" = {
       source = ./file/git-hooks;
       target = ".config/git/hooks";
@@ -273,19 +280,6 @@ in
   # Secrets template -- will be replaced by agenix once host SSH keys are enrolled.
   # See secrets/README.md for migration instructions.
   home.activation.seedClaudeConfig = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "$HOME/.claude"
-    if ! [ -f "$HOME/.claude/settings.json" ]; then
-      cat > "$HOME/.claude/settings.json" << 'SETTINGS'
-{
-  "preferences": {
-    "terminal_emulator": "ghostty",
-    "theme": "dark",
-    "verbose": false
-  }
-}
-SETTINGS
-    fi
-
     mcpPayload='${builtins.toJSON { inherit mcpServers; }}'
     if [ -f "$HOME/.claude.json" ]; then
       ${pkgs.jq}/bin/jq -s '.[1] as $patch | .[0] * $patch | .mcpServers = $patch.mcpServers' "$HOME/.claude.json" <(echo "$mcpPayload") > "$HOME/.claude.json.tmp"

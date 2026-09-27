@@ -20,6 +20,8 @@ The following are **not** review signals -- they serve navigational or administr
 - PR title and description.
 - Linked work items, acceptance criteria, and ticket metadata.
 
+The PR is transient -- it disappears from history once merged, while the code and commits persist. Don't spend review effort on PR metadata: never raise findings about the PR title, description, or linked items (missing sections, template compliance, wording), and don't re-check them on a re-review. Anything a future reader needs must live in the code or the commit messages -- if intent is only explained in the PR description, that is a commit-message finding.
+
 The reviewer reconstructs intent exclusively from the code and commits. If the commits don't tell a coherent story, that is itself a finding.
 
 ## What to Evaluate

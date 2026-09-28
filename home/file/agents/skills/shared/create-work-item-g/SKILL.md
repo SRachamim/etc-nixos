@@ -41,7 +41,7 @@ If `commonFieldOverrides` supplies `System.AssignedTo`, that value is used for a
 To find the next iteration:
 
 1. From the `get_user_team_context` response, find the current iteration for the "FundGuard" team (or the team matching the target area path). Note its `finishDate` and iteration name pattern.
-2. Iteration names follow the pattern `<month>-<letter>-<year>` (e.g. `7-A-26`, `7-B-26`, `7-C-26`). Each month has three two-week sprints (A, B, C). Compute the next iteration name by advancing the letter (A->B, B->C) or rolling to the next month (C -> next month's A).
+2. Iteration names follow the pattern `<month>-<letter>-<year>` (e.g. `7-A-26`, `7-B-26`, `6-C-26`). Most months have two sprints (A, B); only months 6 and 12 also have a C sprint. Compute the next iteration name by advancing A->B, then B->next month's A (in months 6 and 12: B->C->next month's A). Month 12 rolls over to month 1 of the next year (e.g. `12-C-26` -> `1-A-27`).
 3. Construct the next iteration path as `FundGuard\\<next iteration name>` (e.g. `FundGuard\\7-B-26`).
 4. If the computed name doesn't match the pattern or you're unsure, fall back to `search_workitem` with a WIQL query: `SELECT [System.Id] FROM WorkItems WHERE [System.IterationPath] UNDER 'FundGuard' AND [System.ChangedDate] > @Today - 30 ORDER BY [System.IterationPath] DESC` to discover recent iteration paths.
 

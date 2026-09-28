@@ -17,19 +17,24 @@ Follow the **worktree-layout-g** skill for all path and naming conventions.
 - Run `git worktree list` to identify the **main worktree** path (`<root-repo>`).
 - Determine the default branch from the remote: `git symbolic-ref refs/remotes/origin/HEAD`.
 - Fetch latest remote state with `git fetch --prune` so merge status is accurate.
+- All merge comparisons below use the remote-tracking ref `origin/<default-branch>`, never the local default branch (which may be arbitrarily behind).
 
 ### 2. List merged branches
+
+Before comparing, ensure `git fetch --prune` has completed in this run (re-run it if step 1 was skipped or failed) so `origin/<default-branch>` is current.
 
 Collect all local `feature/*` branches (per the worktree-layout skill naming convention). Exclude the default branch itself.
 
 For each feature branch:
 
 1. **Fast-forward to remote** -- if the branch has a remote tracking branch, fast-forward it so the local ref is up-to-date: `git fetch origin feature/<id>:feature/<id>` (this is safe for branches not currently checked out; for checked-out worktrees use `git -C <worktree> merge --ff-only`).
-2. **Compare by patch content** -- use `git cherry <default-branch> feature/<id>` to check whether the branch's patches are already applied to the default branch. A branch is considered merged if `git cherry` produces no output or only lines starting with `-` (already upstream). If any line starts with `+`, the branch has unapplied patches and should be kept.
+2. **Compare by patch content** -- use `git cherry origin/<default-branch> feature/<id>` to check whether the branch's patches are already applied to the default branch. A branch is considered merged if `git cherry` produces no output or only lines starting with `-` (already upstream). If any line starts with `+`, the branch has unapplied patches and should be kept.
 
 ### 3. Identify associated worktrees
 
 For each merged branch, check whether a corresponding worktree exists at `<root-repo>/feature/<id>` (via `git worktree list`).
+
+For each such worktree, run `git -C <worktree> status --porcelain`. If it produces output, mark the item `merged (uncommitted changes)` in the summary table (step 7), exclude it from removal by default, and list the dirty files so the user can decide.
 
 ### 4. Detect orphaned worktree directories
 
@@ -54,7 +59,7 @@ For each merged branch, resolve a short description using the first source that 
 
 1. **Work item title** -- if the `<id>` is numeric and Azure DevOps MCP tools are available, fetch the work item title.
 2. **Last commit subject** -- `git log -1 --format="%s" feature/<id>`. Skip if the subject is unhelpful (e.g., "wip", "fix", a single word with no context).
-3. **Diff-stat summary** -- `git diff --stat $(git merge-base <default-branch> feature/<id>) feature/<id>`. Condense the output into a compact area-of-change description (e.g., "4 files in `src/auth/`, `src/api/`").
+3. **Diff-stat summary** -- `git diff --stat $(git merge-base origin/<default-branch> feature/<id>) feature/<id>`. Condense the output into a compact area-of-change description (e.g., "4 files in `src/auth/`, `src/api/`").
 4. **"(no description)"** -- if no source yields a result (e.g., empty branch with no unique commits).
 
 Truncate descriptions to ~60 characters for table readability.
@@ -69,6 +74,7 @@ Show the user a summary table of what will be removed:
 | feature/123       | Add user authentication flow         | <root-repo>/feature/123     | merged              |
 | feature/456       | fix: resolve null pointer in parser  | (none)                      | merged              |
 | feature/789       | 4 files in src/auth/, src/api/       | <root-repo>/feature/789     | merged              |
+| feature/321       | Refresh filters on as-of change      | <root-repo>/feature/321     | merged (uncommitted changes) |
 | (dir) 116816      | --                                   | <root-repo>/feature/116816  | orphaned directory  |
 | pr-125102-merge   | Merge PR 125102 (3 months ago)       | (none)                      | stale (unrecognized)|
 ```

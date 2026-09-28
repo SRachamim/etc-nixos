@@ -42,6 +42,7 @@ When a field is empty for a given tier (e.g. `System.Description` on a Simple Bu
 | Root-cause hypothesis, fix approach | `System.Description` | Only for Investigated tier -- do NOT duplicate repro content here |
 | Severity | `Microsoft.VSTS.Common.Severity` | 1-Critical, 2-High, 3-Medium, 4-Low |
 | Priority | `Microsoft.VSTS.Common.Priority` | 1--4 (business urgency, not technical impact) |
+| Actual vs expected summary | `Custom.ActualvsExpected` | Required by ADO on create -- one sentence; full detail stays in ReproSteps |
 | Found in build | `Microsoft.VSTS.Build.FoundIn` | Build/version where observed, if known |
 | Resolved in build | `Microsoft.VSTS.Build.IntegratedInBuild` | Set after fix merges |
 | Area / Iteration | `System.AreaPath`, `System.IterationPath` | Per team defaults |

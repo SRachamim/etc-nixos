@@ -69,6 +69,7 @@ Follow the **create-work-item-g** shared instructions with:
 | `Microsoft.VSTS.Common.Severity` | The inferred severity | Always |
 | `System.Description` | Root cause, proposed fix, affected areas | Investigated tier only |
 | `Microsoft.VSTS.Build.FoundIn` | Build/version where observed | When mentioned by user |
+| `Custom.ActualvsExpected` | One-sentence actual vs expected summary (required by ADO on Bug create) | Always |
 
 - **commonFieldOverrides**:
 

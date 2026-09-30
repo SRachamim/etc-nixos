@@ -233,8 +233,17 @@ in
     description = "Contents of ~/.gemini/settings.json.";
   };
 
+  # Codex reads one ~/.codex/hooks.json, which other modules (workmux) also
+  # contribute to.
+  options.agents.codex.hooks = lib.mkOption {
+    type = json.type;
+    default = { };
+    description = "The `hooks` object of ~/.codex/hooks.json.";
+  };
+
   config = {
     programs.claude-code.settings.hooks = claudeHooks;
+    agents.codex.hooks = codexHooks;
 
     agents.gemini.settings = lib.mkMerge [
       (lib.mkIf (geminiHooks != { }) { hooks = geminiHooks; })
@@ -264,8 +273,9 @@ in
       (lib.optionalAttrs (cursorHooks != { }) {
         "ai-hooks-cursor" = { target = ".cursor/hooks.json"; source = json.generate "hooks.json" { version = 1; hooks = cursorHooks; }; };
       })
-      (lib.optionalAttrs (codexHooks != { }) {
-        "ai-hooks-codex" = { target = ".codex/hooks.json"; source = json.generate "hooks.json" { hooks = codexHooks; }; };
+      (lib.optionalAttrs (config.agents.codex.hooks != { }) {
+        # force: replaces the unmanaged file `workmux setup --hooks` used to write.
+        "ai-hooks-codex" = { target = ".codex/hooks.json"; force = true; source = json.generate "hooks.json" { hooks = config.agents.codex.hooks; }; };
       })
       (lib.optionalAttrs (antigravityHooks != { }) {
         "ai-hooks-antigravity" = { target = ".gemini/config/hooks.json"; source = json.generate "hooks.json" antigravityHooks; };

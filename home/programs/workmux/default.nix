@@ -91,6 +91,18 @@ in
     Stop = [{ hooks = [ (status "done") ]; }];
   };
 
+  # What `workmux setup --hooks` writes for Codex. Declared here because
+  # ~/.codex/hooks.json is Nix-managed and also carries the generic agent hooks.
+  agents.codex.hooks = {
+    SessionStart = [{ matcher = "startup|resume|clear"; hooks = [ (hook "workmux register-agent") ]; }];
+    UserPromptSubmit = [{ hooks = [ (status "working") ]; }];
+    PostToolUse = [{ hooks = [ (status "working") ]; }];
+    PermissionRequest = [{ hooks = [ (status "waiting") ]; }];
+    SubagentStart = [{ hooks = [ (status "working") ]; }];
+    SubagentStop = [{ hooks = [ (status "working") ]; }];
+    Stop = [{ hooks = [ (status "done") ]; }];
+  };
+
   # Skills are fetched from the release tag matching the installed binary, so
   # they stay in step with Homebrew upgrades without pinning a version here.
   home.activation.installWorkmuxSkills = config.lib.dag.entryAfter [ "writeBoundary" ] ''

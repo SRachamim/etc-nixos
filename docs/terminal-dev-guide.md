@@ -378,6 +378,7 @@ Press `Esc` in the input for normal mode; standard Vim motions edit your prompt.
   not persist.
 - Global instructions: `~/.claude/CLAUDE.md`
 - MCP: merged into `~/.claude.json`, `~/.cursor/mcp.json`, `~/.gemini/settings.json`, `~/.gemini/config/mcp_config.json` (Antigravity), and `~/.codex/config.toml` on `switch` (Azure DevOps, fundguard, Slack). Use **fundguard** for Datadog and Currents; disable the Cursor **azure** and **datadog** marketplace plugins if they reappear.
+- Subagents, hooks, output styles: authored once under `home/file/agents/` and rendered by `home/programs/agents/` into `~/.claude/agents/`, `~/.claude/output-styles/` and the `hooks` key of `~/.claude/settings.json`, plus each other agent's native equivalent. Run `/agents` or `/output-style` to see them.
 
 ### Multi-agent via AoE or workmux
 

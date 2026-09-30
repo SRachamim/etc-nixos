@@ -49,3 +49,4 @@ After creating or modifying a skill in this dotfiles repo:
 - The `AGENTS.md` is deployed to: `~/.agents/AGENTS.md`, `~/.gemini/AGENTS.md`, `~/.codex/AGENTS.md`. Codex, Gemini CLI, and Antigravity read these at session start.
 - The `CLAUDE.md` at `~/.claude/CLAUDE.md` imports `@~/.agents/AGENTS.md` for Claude Code.
 - Copilot (Agent mode) reads `AGENTS.md` at repo root; no separate global deployment is needed beyond the repo-root file.
+- Subagents, hooks and output styles are authored once under `home/file/agents/{subagents,hooks,output-styles}/` and rendered by `home/programs/agents/default.nix` into each agent's native format, or into the closest supported type for agents that lack one. The per-agent matrix lives in the repo's **add-agent-behavior** skill (`reference.md`).

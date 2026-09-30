@@ -29,6 +29,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 | AoE per-repo template | `home/file/agent-of-empires/` |
 | workmux (config, hooks, skills, tmux keys) | `home/programs/workmux/` (binary: `modules/darwin/homebrew.nix`) |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
+| Agent subagents, hooks, output styles | `home/file/agents/{subagents,hooks,output-styles}/` (rendered per agent by `home/programs/agents/`) |
 | Claude Code settings (`~/.claude/settings.json`) | `home/file/claude/settings.json` (base) + `programs.claude-code.settings` contributions |
 | Improvement observations (shared runtime state) | `~/.local/share/agent-improvements/pending/` |
 | Neovim config | `home/programs/neovim/` |

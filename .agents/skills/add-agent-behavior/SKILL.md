@@ -1,14 +1,14 @@
 ---
 name: add-agent-behavior
-description: Classifies and creates or amends agent artifacts (skills or subagent prompts) under home/file/agents/ from a behavior description. Use when adding new agent behavior to the dotfiles repository that deploys to ~/.agents/, ~/.cursor/, ~/.claude/, and ~/.gemini/.
+description: Picks the customisation type for a requested agent behavior from its trigger (always-on instruction, output style, skill, MCP server, subagent, hook), then creates or amends it once under home/file/agents/ for native deployment to every supported agent. Use when adding new agent behavior to the dotfiles repository.
 disable-model-invocation: true
 ---
 
 # Add Agent Behavior
 
-Given a description of desired behavior, determine whether it belongs in an existing artifact or a new one. Then create or amend the appropriate artifact (skill or subagent prompt) under `home/file/agents/` following existing conventions.
+Given a description of desired behavior, pick the customisation type from the trigger that prompted it, and determine whether the behavior belongs in an existing artifact or a new one. Then create or amend it following existing conventions.
 
-This skill is designed for the dotfiles repository that manages personal agent artifacts. The artifacts it creates are deployed via Nix to multiple agent directories (`~/.agents/skills/`, `~/.cursor/skills/`, `~/.claude/skills/`, `~/.gemini/skills/`) and available across all repositories and all agents.
+This skill is designed for the dotfiles repository that manages personal agent artifacts. Every artifact is authored once, agent-neutrally, under `home/file/agents/` (or `home/shared.nix` for MCP servers). Nix renders it into the native format of each supported agent: Claude Code, Cursor, Gemini CLI, Antigravity and Codex. An agent that lacks the type gets the closest type it supports. [reference.md](reference.md) maps every type to each agent's target.
 
 ## Steps
 
@@ -21,19 +21,35 @@ Require **Plan** mode following the **mode-gate-g** skill. Steps 1--5 are classi
 Ask the user (or infer from context) what behavior they want to add. Gather:
 
 - **What it does** -- the core task or workflow.
-- **When it triggers** -- on explicit invocation, automatically during other work, or as a delegated sub-task.
+- **What prompted it** -- the recurring situation behind the request (a repeated correction, a prompt typed again, a pasted playbook, copied data). Step 2 classifies from this.
+- **When it triggers** -- on explicit invocation, automatically during other work, on every matching event, or as a delegated sub-task.
 - **What tools or integrations it needs** -- MCP servers, shell commands, file operations, external APIs.
 
-### 2. Classify the artifact type
+### 2. Classify the customisation type
 
-Determine which artifact type fits best. Consider the user's request, but always evaluate independently -- the user may have asked for the wrong type.
+Match the prompting situation to a trigger. The table adapts Claude Code's [Build your setup over time](https://code.claude.com/docs/en/features-overview#build-your-setup-over-time) to agent-neutral types. Consider the user's request, but always evaluate independently -- the user may have asked for the wrong type.
+
+| Trigger | Type | Generic source |
+|---------|------|----------------|
+| The agent gets a convention or command wrong twice | **Always-on instruction** | `home/file/agents/AGENTS.md` for every repo; the repo's `AGENTS.md` plus scoped workspace rules (**workspace-rules-g**) for one repo |
+| The user keeps asking for shorter answers, more explanation, or the same format | **Output style** | `home/file/agents/output-styles/<name>.md` |
+| The user keeps typing the same prompt to start a task | **Workflow skill** | `home/file/agents/skills/workflows/<name>/SKILL.md` |
+| The user pastes the same playbook or procedure for the third time | **Knowledge skill**, or **shared skill** when other skills call it with inputs | `home/file/agents/skills/{knowledge,shared}/<name>/SKILL.md` |
+| The user keeps copying data from a system the agent can't see | **MCP server** | `mcpServers` in `home/shared.nix` |
+| A side task floods the conversation with output nobody references again | **Subagent** | `home/file/agents/subagents/<name>.md` |
+| Something must happen every time, without asking | **Hook** | `home/file/agents/hooks/<name>/` |
+| The agent reads many files to find where a symbol is defined or used | **Code intelligence** | See [reference.md](reference.md#code-intelligence-and-plugins); no generic pipeline |
+| A second repository needs the same setup | Already covered: user-level `-g` artifacts reach every repository. Package a **plugin** only to distribute to other people | -- |
+
+The same triggers tell you when to amend what exists: a repeated mistake is an instruction edit, and a workflow the user keeps tweaking by hand is a skill revision.
+
+For the skill rows, pick the category:
 
 | Type | When to use | Category directory | Location |
 |------|-------------|-------------------|----------|
 | **Workflow skill** | A discrete, user-invoked workflow with ordered steps (e.g. "review a PR", "create a work item", "plan a feature"). The user explicitly triggers it via `/skill-name`. Has `disable-model-invocation: true`. | `workflows/` | `home/file/agents/skills/workflows/<name>/SKILL.md` |
 | **Knowledge skill** | Reusable knowledge or standards applied *within* other workflows. The agent decides when to load it based on context (e.g. "code review standards", "commit conventions", "external communications guidelines"). No `disable-model-invocation` flag. | `knowledge/` | `home/file/agents/skills/knowledge/<name>/SKILL.md` |
 | **Shared skill** | A helper sub-workflow called programmatically by other skills. Has `disable-model-invocation: true`. Not meant for direct user invocation -- requires inputs from a calling skill. | `shared/` | `home/file/agents/skills/shared/<name>/SKILL.md` |
-| **Subagent prompt** | A prompt template for a delegated sub-task that runs in a separate agent context. Use when the work is parallelizable, needs isolation, or benefits from a dedicated tool set. | -- | `home/file/agents/subagents/<name>.md` |
 
 > **Note**: Agent-specific workspace rules (`.cursor/rules/*.mdc`, `.claude/rules/*.md`) are not managed by this skill. They are agent-specific artifacts that stay in their native directories. For workspace-level guidance that should reach all agents, use the repo-root `AGENTS.md` file. See the **workspace-rules-g** skill for the full trichotomy.
 
@@ -43,7 +59,10 @@ If the requested type doesn't match the best fit, explain the distinction and re
 
 - "I want a knowledge skill that reviews PRs" -> likely a **workflow skill** (it's an invoked workflow with steps, not passive knowledge).
 - "I want a workflow skill for commit message format" -> likely a **knowledge skill** (it's reusable standards referenced by multiple skills, not a standalone workflow).
-- "I want a skill to explore the codebase in parallel" -> likely a **subagent prompt** (it benefits from isolation and parallel execution).
+- "I want a skill to explore the codebase in parallel" -> likely a **subagent** (it benefits from isolation and parallel execution).
+- "Add a rule to AGENTS.md to never edit `.env`" or "always run the formatter after edits" -> likely a **hook** (an instruction is a request; a hook is enforcement). Keep the instruction only as the hook's `fallback`.
+- "Add to AGENTS.md: answer concisely" -> likely an **output style** when the user may want it off again; an always-on instruction only if it holds in every session.
+- "Write a skill that queries our database" -> likely an **MCP server** for the connection, plus a knowledge skill only if the agent also needs the schema or query conventions.
 - "I want a workflow skill for creating work items" -> check whether it's a **shared skill** if it requires inputs from a calling skill and isn't meant for direct user invocation.
 
 ### 3. Research prior art
@@ -55,7 +74,8 @@ Apply the **prior-art-research-g** skill. Search for established patterns and ap
 Before creating, check whether an existing artifact could absorb the requested behavior:
 
 - List existing skills in `home/file/agents/skills/` (check all three category directories: `workflows/`, `knowledge/`, `shared/`).
-- List existing subagent prompts in `home/file/agents/subagents/` (if the directory exists).
+- List existing subagents in `home/file/agents/subagents/`, hooks in `home/file/agents/hooks/`, and output styles in `home/file/agents/output-styles/`.
+- Read `home/file/agents/AGENTS.md` and the `mcpServers` set in `home/shared.nix` for always-on instructions and MCP servers.
 
 For each existing artifact, consider whether the new behavior is a natural extension of it -- even when the names or descriptions don't obviously overlap. Prefer amending an existing artifact over creating a new one. If amendment is viable, recommend it and wait for the user to confirm before proceeding.
 
@@ -97,13 +117,31 @@ Follow the same conventions as workflow skills, but:
 - Include `disable-model-invocation: true` in frontmatter.
 - **Category directory**: place under `shared/`.
 
-#### For subagent prompts
+#### For subagents
 
-Follow the conventions for commands (title, description, steps) but frame the instructions as a prompt for a delegated agent:
+Follow `home/file/agents/subagents/README.md`. Frame the body as the system prompt of a delegated agent:
 
+- Frontmatter: `name`, `description` (what it does and when to delegate to it), `tier` (`volume`, `standard` or `frontier`, per the Model Routing table) and `readonly`.
 - Specify what context the subagent receives.
 - Specify what the subagent must return.
 - Specify any constraints (read-only, no external side effects, etc.).
+
+#### For always-on instructions
+
+- Add the line to the section of `AGENTS.md` it belongs to. Keep it to a rule the agent needs in every session; move reference material to a knowledge skill.
+- For one repository, follow the **workspace-rules-g** skill: portable content in the repo's `AGENTS.md`, file-scoped content in each agent's rule directory.
+
+#### For output styles
+
+Follow `home/file/agents/output-styles/README.md`. The body defines the response itself (role, tone, length, format), not facts about the work.
+
+#### For MCP servers
+
+Add an entry to `mcpServers` in `home/shared.nix`, wrapping the server with `writeShellApplication` as the existing entries do. Secrets come from `~/.secrets`, never the Nix store. The set fans out to every agent's MCP config. Add a knowledge skill only when the agent also needs conventions for using the server.
+
+#### For hooks
+
+Follow `home/file/agents/hooks/README.md`: a `hook.json` with a generic `event`, `matcher` and `fallback`, and a `run.sh` that exits 2 to block. Check the event and tool-class rows in [reference.md](reference.md#hooks) to see which agents will get the `fallback` instead of the hook, and write the `fallback` as a standing instruction that approximates the hook.
 
 #### Mode selection
 
@@ -143,12 +181,26 @@ Apply the **architect-thinking-g** skill and the **decision-priorities-g** skill
 
 ### 6. Create the artifact
 
-Write the file immediately. Create the directory structure (`<category>/<name>/SKILL.md` and any supporting files) under `home/file/agents/skills/`.
+Write the files immediately at the generic source path from step 2 (for skills: `<category>/<name>/SKILL.md` and any supporting files under `home/file/agents/skills/`).
+
+If the type has no generic pipeline yet, build one in `home/programs/agents/default.nix` in the same change, and add its row to [reference.md](reference.md):
+
+- Author the source agent-neutrally under `home/file/agents/<type>/`, with a README describing the format.
+- Render it into the native format of every agent that supports the type.
+- For every agent that doesn't, render the **closest type it does support** (for example, an always-on instruction for a hook, a user-invoked skill for an output style). When no reachable type exists, emit a Home Manager `warnings` entry naming the dropped artifact.
 
 ### 7. Verify
 
 - Confirm the file was created at the correct path under the right category directory.
 - Verify the YAML frontmatter parses correctly.
+- For any type other than a skill, build the Home Manager files and inspect each agent's target from [reference.md](reference.md), including fallbacks:
+
+  ```sh
+  nix build --no-link --print-out-paths '.#darwinConfigurations.macbook.config.home-manager.users."sahar.rachamim".home-files'
+  nix eval --json '.#darwinConfigurations.macbook.config.home-manager.users."sahar.rachamim".warnings'
+  ```
+
+  For a hook, also pipe sample event JSON into the rendered command and check the exit code and output. Tell the user to run `switch`, and to approve new Codex hooks with `/hooks`.
 - Check that all referenced skills exist.
 - Apply the **agent-compatibility-g** skill -- verify frontmatter portability, check for hard agent-specific references, confirm the canonical source path is `home/file/agents/`.
 

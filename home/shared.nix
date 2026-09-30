@@ -211,10 +211,6 @@ in
       recursive = true;
       force = true;
     };
-    "ai-agents-md-codex" = {
-      source = ./file/agents/AGENTS.md;
-      target = ".codex/AGENTS.md";
-    };
     "ai-codex-config" = {
       target = ".codex/config.toml";
       source = (pkgs.formats.toml {}).generate "config.toml" {

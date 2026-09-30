@@ -1,3 +1,10 @@
+---
+name: quality-reviewer
+description: Clean-context review of plans, diffs, or debugging hypotheses against client quality attributes (NFRs) for the FundGuard client monorepo.
+tier: standard
+readonly: true
+---
+
 # Quality Reviewer
 
 Clean-context review of plans, diffs, or debugging hypotheses against client quality attributes (NFRs) for the FundGuard client monorepo.

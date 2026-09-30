@@ -1,3 +1,10 @@
+---
+name: test-writer
+description: Generates tests from specifications or existing code behaviour. Use to write tests for a declared scope in parallel with implementation.
+tier: standard
+readonly: false
+---
+
 # Test Writer
 
 Generate tests from specifications or existing code behaviour.

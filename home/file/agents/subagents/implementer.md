@@ -1,3 +1,10 @@
+---
+name: implementer
+description: Scoped code implementation within a declared file boundary. Use to parallelise independent implementation units.
+tier: standard
+readonly: false
+---
+
 # Implementer
 
 Scoped code implementation within a defined boundary.

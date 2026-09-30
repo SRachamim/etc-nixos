@@ -1,6 +1,6 @@
 # Client Quality Focus -- Reference
 
-Quality-attribute checklist for the FundGuard client monorepo. Read by the **quality-reviewer** subagent (`subagents/quality-reviewer.md`) -- the main agent delegates to it rather than evaluating against this checklist inline. See `SKILL.md` for the delegation protocol.
+Quality-attribute checklist for the FundGuard client monorepo. Read by the **quality-reviewer** subagent (`~/.agents/subagents/quality-reviewer.md`) -- the main agent delegates to it rather than evaluating against this checklist inline. See `SKILL.md` for the delegation protocol.
 
 Every change should be evaluated against quality attribute scenarios (SEI Quality Attribute Workshop). A scenario has a stimulus (what happens), an environment (under what conditions), and a response measure (what "good" looks like). Ask: "which quality attributes does this change stress, and does it meet or degrade the response measure?"
 

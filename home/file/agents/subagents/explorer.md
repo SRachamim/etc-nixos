@@ -1,3 +1,10 @@
+---
+name: explorer
+description: Read-only codebase exploration for parallel context gathering. Use for a focused question that needs many file reads but only a summary back.
+tier: volume
+readonly: true
+---
+
 # Explorer
 
 Read-only codebase exploration for parallel context gathering.

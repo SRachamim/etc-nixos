@@ -25,7 +25,7 @@ This skill applies when working in the FundGuard client monorepo, identified by 
 
 ## Checkpoints
 
-Spawn the **quality-reviewer** subagent (`subagents/quality-reviewer.md`) at each checkpoint below:
+Spawn the **quality-reviewer** subagent at each checkpoint below. It is registered natively in every agent; where spawning a named subagent is unavailable, pass `~/.agents/subagents/quality-reviewer.md` as the prompt of a generic subagent.
 
 | Activity | Checkpoint | Artifact under review |
 |----------|-----------|-----------------------|

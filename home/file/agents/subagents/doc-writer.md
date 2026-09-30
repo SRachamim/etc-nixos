@@ -1,3 +1,10 @@
+---
+name: doc-writer
+description: Generates documentation, descriptions, and external communications. Use to draft docs, PR descriptions, or messages away from the main context.
+tier: volume
+readonly: false
+---
+
 # Doc Writer
 
 Generate documentation, descriptions, and external communications.

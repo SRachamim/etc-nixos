@@ -186,25 +186,9 @@ in
     # Skills are NOT deployed to ~/.cursor/skills/ because Cursor also loads
     # from ~/.claude/skills/ (compatibility) and fails to deduplicate between them.
     # Cursor discovers skills from flatClaudeSkills (~/.claude/skills/) as the single source.
-    "ai-subagents-cursor" = {
-      source = ./file/agents/subagents;
-      target = ".cursor/subagents";
-      recursive = true;
-      force = true;
-    };
-    "ai-subagents-claude" = {
-      source = ./file/agents/subagents;
-      target = ".claude/subagents";
-      recursive = true;
-    };
     "ai-skills-gemini" = {
       source = ./file/agents/skills;
       target = ".gemini/skills";
-      recursive = true;
-    };
-    "ai-subagents-gemini" = {
-      source = ./file/agents/subagents;
-      target = ".gemini/subagents";
       recursive = true;
     };
     "ai-agents-md-gemini" = {

@@ -1,3 +1,10 @@
+---
+name: reviewer
+description: Diff review against personal coding standards and architectural principles. Use for a clean-context review of a change.
+tier: standard
+readonly: true
+---
+
 # Reviewer
 
 Diff review against personal coding standards and architectural principles.

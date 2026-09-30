@@ -76,7 +76,9 @@ Levels 1-4 are already covered per-commit by **plan-execution-g**'s validation s
 
 ### 4. Review implementation
 
-**Gate 2 -- Implementation approval**: present the full implementation diff (`git diff <default-branch>...HEAD`) and a summary of all commits made. The user reviews the implementation, can request changes, or approves.
+Before Gate 2, get a clean-context review of the whole change. When the agent can spawn subagents, spawn the **reviewer** subagent on `git diff <default-branch>...HEAD` with the plan's requirements, plus the **quality-reviewer** subagent for fgrepo changes under `client/`. Otherwise review the diff inline against the **code-review-g** skill.
+
+**Gate 2 -- Implementation approval**: present the full implementation diff (`git diff <default-branch>...HEAD`), a summary of all commits made, and the review findings grouped by severity. The user reviews the implementation, can request changes, or approves.
 
 If the user requests changes, apply them, re-verify, and present the updated diff. Repeat until approved.
 

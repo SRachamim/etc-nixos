@@ -1,0 +1,7 @@
+{
+  "description": "Block git commands that skip git hooks",
+  "event": "preToolUse",
+  "matcher": "shell",
+  "packages": ["jq", "gnused", "gnugrep"],
+  "fallback": "Never pass --no-verify to git commit or git push (or -n to git commit). When a git hook fails, fix the cause it reports."
+}

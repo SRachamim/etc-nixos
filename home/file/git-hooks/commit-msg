@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 #
 # Global commit-msg hook -- mechanical validation of commit messages.
-# Canonical source for these rules: ~/.cursor/skills/commit-conventions/SKILL.md
-# and ~/.cursor/skills/objective-communication/SKILL.md
+# Canonical source for these rules: ~/.claude/skills/commit-conventions-g/SKILL.md
 #
 # Deployed to ~/.config/git/hooks/commit-msg via home-manager.
 # If a repo-local .git/hooks/commit-msg exists, it is chained after this hook.
@@ -20,10 +19,22 @@ perl -i -ne 'print unless /^Co-authored-by:\s*(cursor|copilot|ai)/i || /^(Genera
 msg=$(cat "$msg_file")
 subject=$(head -1 "$msg_file")
 
-# --- Subject line length ---
-if [ "${#subject}" -gt 72 ]; then
-  errors+=("Subject line exceeds 72 characters (currently ${#subject}).")
+# --- Subject line length (git-generated subjects are exempt) ---
+if ! [[ "$subject" =~ ^(fixup|squash|amend)!\ |^Merge\ |^Revert\ \" ]] && [ "${#subject}" -gt 50 ]; then
+  errors+=("Subject line exceeds 50 characters (currently ${#subject}).")
 fi
+
+# --- Body wrap: 72 columns, except URLs, indented code and comments ---
+line_no=0
+while IFS= read -r line; do
+  line_no=$((line_no + 1))
+  [ "$line_no" -eq 1 ] && continue
+  [[ "$line" == "# ------------------------ >8"* ]] && break
+  [[ "$line" == "#"* || "$line" == *"://"* || "$line" == "    "* || "$line" == $'\t'* ]] && continue
+  if [ "${#line}" -gt 72 ]; then
+    errors+=("Body line $line_no exceeds 72 characters (currently ${#line}).")
+  fi
+done < "$msg_file"
 
 # --- Report errors ---
 if [ ${#errors[@]} -gt 0 ]; then

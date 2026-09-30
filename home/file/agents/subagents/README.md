@@ -29,7 +29,7 @@ The body is the subagent's system prompt and should contain:
 - **Context** -- what inputs the subagent receives from the caller.
 - **Instructions** -- what the subagent must do, in order.
 - **Output** -- what the subagent must return to the caller.
-- **Constraints** -- permissions, model tier, isolation requirements
+- **Constraints** -- permissions, tier escalation, isolation requirements
   (e.g. read-only, worktree-isolated).
 
 ## Deployment

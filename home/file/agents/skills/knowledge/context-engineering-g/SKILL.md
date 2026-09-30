@@ -1,6 +1,6 @@
 ---
 name: context-engineering-g
-description: Strategies for managing the agent context window as a scarce resource -- isolate, select, compress, budget. Use whenever the agent runs a multi-step workflow, spawns subagents, or notices context accumulating beyond what the current step needs.
+description: Strategies for managing the agent context window as a scarce resource -- isolate, select, compress, budget -- and the model tier for each task. Use whenever the agent runs a multi-step workflow, spawns subagents, or notices context accumulating beyond what the current step needs.
 ---
 
 # Context Engineering
@@ -43,6 +43,26 @@ Target 60--80% context utilisation. Leaving headroom preserves reasoning quality
 - **Simple tasks get minimal context.** A rename or typo fix does not need architecture documentation.
 - **Complex tasks get structured context.** A cross-repo refactor needs the relevant interfaces, tests, and dependency graph -- but not the entire codebase.
 - **Measure tokens per finished task**, not tokens per call. A 12-turn agent that finishes the task with 30K total tokens is better than one that uses 200K.
+
+## Model routing
+
+Classify tasks by cognitive demand and select the matching model tier. Subagents declare their tier in frontmatter, and `home/programs/agents/default.nix` maps tiers to each agent's models.
+
+| Tier | Cognitive demand | Task examples | Model guidance |
+|------|-----------------|---------------|----------------|
+| **Frontier** | Complex reasoning, long-chain planning, cross-cutting architectural judgement | Architecture decisions, security audits, complex cross-repo debugging, multi-file refactors with subtle dependency chains | Use the most capable model available. ~5-15% of tasks. |
+| **Standard** | Multi-step reasoning, moderate context | Standard implementation, code review, test generation, single-file refactoring, PR descriptions | Use the platform's default/recommended model. ~25-35% of tasks. |
+| **Volume** | Mechanical, well-scoped, low ambiguity | Boilerplate, documentation, classification, bulk file edits, read-only exploration subagents, commit message drafting | Use the fastest/cheapest model available. ~50-60% of tasks. |
+
+### Routing rules
+
+- When spawning subagents, default to **Volume** tier unless the task requires reasoning across multiple files or domains.
+- When the agent can choose its own model, select based on tier.
+- When the platform doesn't support model selection, ignore this section -- the guidance is advisory, not blocking.
+
+### Escalation heuristic
+
+If a Volume-tier task fails or produces low-quality output on the first attempt, retry at Standard tier before involving the user. If a Standard-tier task fails, escalate to Frontier. Don't retry at the same tier more than once.
 
 ## Prompt caching
 

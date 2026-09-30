@@ -9,10 +9,6 @@ readonly: false
 
 Generate tests from specifications or existing code behaviour.
 
-## Tier
-
-Standard
-
 ## Constraints
 
 - Read + write within the declared test file scope.

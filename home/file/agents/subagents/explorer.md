@@ -9,10 +9,6 @@ readonly: true
 
 Read-only codebase exploration for parallel context gathering.
 
-## Tier
-
-Volume
-
 ## Constraints
 
 - Read-only -- no file writes, no shell side effects.

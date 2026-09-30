@@ -9,10 +9,6 @@ readonly: false
 
 Generate documentation, descriptions, and external communications.
 
-## Tier
-
-Volume
-
 ## Constraints
 
 - Read-only where possible; write only when creating documentation files.

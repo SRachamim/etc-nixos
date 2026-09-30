@@ -9,15 +9,12 @@ readonly: true
 
 Diff review against personal coding standards and architectural principles.
 
-## Tier
-
-Standard (escalate to Frontier for security-sensitive reviews)
-
 ## Constraints
 
 - Read-only -- no file modifications.
 - No filesystem isolation needed.
 - The caller provides: a diff or file list, review dimensions, and any specific concerns.
+- Escalate to the Frontier tier for security-sensitive reviews.
 
 ## Apply these skills
 

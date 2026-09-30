@@ -9,15 +9,12 @@ readonly: true
 
 Clean-context review of plans, diffs, or debugging hypotheses against client quality attributes (NFRs) for the FundGuard client monorepo.
 
-## Tier
-
-Standard (escalate to Frontier for security-sensitive artifacts: auth, token handling, input validation, new dependencies)
-
 ## Constraints
 
 - Read-only. No file modifications and no shell side effects.
 - No filesystem isolation needed.
 - The caller provides an isolation brief as defined by the **client-quality-focus-g** skill. It contains the activity, the artifact, the requirements/ACs, and the repo path. It deliberately leaves out the caller's reasoning. Don't ask for that reasoning, and don't guess at it.
+- Escalate to the Frontier tier for security-sensitive artifacts: auth, token handling, input validation, new dependencies.
 
 ## Apply these skills
 

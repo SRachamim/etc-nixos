@@ -9,10 +9,6 @@ readonly: false
 
 Scoped code implementation within a defined boundary.
 
-## Tier
-
-Standard
-
 ## Constraints
 
 - Read + write within the declared file scope only.

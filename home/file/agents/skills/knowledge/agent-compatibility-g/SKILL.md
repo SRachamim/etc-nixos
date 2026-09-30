@@ -21,6 +21,7 @@ Apply this checklist when creating or modifying any skill:
 
 - **No hard references to agent-specific tools.** Do not write "Call `SwitchMode`" without a graceful degradation path. Instead: "If mode switching is available, use it; otherwise, state the constraint and proceed." The **mode-gate-g** skill already handles this pattern.
 - **Cross-references use the portable `**skill-name**` pattern.** Write "Follow the **commit-conventions-g** skill" rather than "Read `~/.cursor/skills/knowledge/commit-conventions/SKILL.md`". All agents resolve skill references by name.
+- **No model names.** Refer to tiers (Volume, Standard, Frontier), never to model slugs; each agent's model mapping lives in agent-specific configuration (`home/programs/agents/default.nix`).
 - **No absolute paths to agent directories.** Use relative references like "the canonical source at `home/file/agents/skills/`" rather than `~/.cursor/skills/` or `~/.claude/skills/`.
 
 ### Supporting files

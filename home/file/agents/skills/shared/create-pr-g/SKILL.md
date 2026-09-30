@@ -1,6 +1,6 @@
 ---
 name: create-pr-g
-description: Creates an Azure DevOps pull request, optionally linked to a work item, with user-approved title and description. Called by submit-feature and other skills that need to open a PR — not invoked directly by the user.
+description: Creates an Azure DevOps pull request, optionally linked to a work item, with user-approved title and description. Can open it as a draft, and publishes an existing draft from the same branch instead of opening a duplicate. Called by submit-feature, draft-feature and other skills that need to open a PR — not invoked directly by the user.
 disable-model-invocation: true
 ---
 
@@ -8,13 +8,14 @@ disable-model-invocation: true
 
 Common steps for creating an Azure DevOps pull request, optionally linked to a work item.
 
-This file is a shared skill. It is referenced by the **submit-feature-g** skill (and any future skill that needs to open a PR), which supplies the work item ID.
+This file is a shared skill. It is referenced by the **submit-feature-g** and **draft-feature-g** skills (and any future skill that needs to open a PR), which supply the inputs below.
 
 ## Inputs (provided by the calling skill)
 
 | Input | Description |
 |-------|-------------|
 | **workItemId** | *(optional)* An Azure DevOps work item ID to link to the PR and use for context. |
+| **draft** | *(optional, default false)* Open the PR as a draft. |
 
 ## Steps
 
@@ -24,6 +25,9 @@ This file is a shared skill. It is referenced by the **submit-feature-g** skill 
 - Determine the PR target branch:
   - For the `fgrepo` repository, target `develop` unless the user specifies a different branch.
   - For all other repositories, consult the **gitflow-branching-g** skill: feature branches target `develop`, release and hotfix branches target `main`. Fall back to the repository's **default branch** if the branching model doesn't apply or `develop` does not exist.
+- Look for an active PR whose source is the current branch. If one exists, don't create a second one:
+  - **Draft PR and `draft` is false**: publish it. Run steps 2--3 to refresh the title and description. After the user approves them, update the PR in one call: set `isDraft` to false, turn on `autoComplete`, and pass the approved title and description. Leave the other auto-complete options at their tool defaults. Present the PR link, note that it is published with auto-complete set, and skip step 4.
+  - **Otherwise**: present the existing PR link and skip steps 2--4.
 
 ### 2. Gather context for the PR
 
@@ -44,7 +48,7 @@ Don't wrap the body in section headings -- no "Summary", no "Test plan", no temp
 ### 4. Create the pull request
 
 - Push the current branch to the remote if it has not been pushed yet (`git push -u origin HEAD`).
-- Create the PR targeting the default branch using the approved title and description. If a **workItemId** was provided, pass it via the `workItems` parameter to link it at creation time.
+- Create the PR targeting the default branch using the approved title and description. If a **workItemId** was provided, pass it via the `workItems` parameter to link it at creation time. If **draft** is true, set `isDraft`.
 - **Present the PR link to the user.**
 
 ### 5. Evolve

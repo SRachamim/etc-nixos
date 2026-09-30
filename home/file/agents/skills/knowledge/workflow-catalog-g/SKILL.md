@@ -53,6 +53,8 @@ flowchart LR
 3. **/submit-feature-g** -- PR + work item transition + Slack.
 4. **/close-worktree-g** -- Post-merge cleanup.
 
+**Note:** `/draft-feature-g` can be invoked before step 3 to open a draft PR linked to the work item, without a state transition or Slack messages. `/submit-feature-g` later publishes that draft with auto-complete set.
+
 **Note:** `/commit-and-push-g` can be invoked anytime during implementation to push intermediate progress (e.g. before switching branches). The agent also uses it internally during `/plan-g` execution and `/submit-feature-g`.
 
 ---
@@ -441,7 +443,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | Skill                         | Called by                                                             | What it does                                   |
 | ----------------------------- | --------------------------------------------------------------------- | ---------------------------------------------- |
 | `plan-execution-g`            | `/plan-g`, `/debug-g`, `/plan-from-prd-intake-g`, microservice skills | Executes approved commit plans step by step    |
-| `create-pr-g`       | `/submit-feature-g`                                                   | Opens the ADO PR with proper description       |
+| `create-pr-g`       | `/submit-feature-g`, `/draft-feature-g`                               | Opens the ADO PR with proper description       |
 | `vote-pr-g`                   | `/submit-review-g`                                                    | Casts the approval vote on a PR                |
 | `create-work-item-g`          | `/create-task-g`, `/create-bug-g`, `/create-user-story-g`, `/request-environment-access-g` | Shared backend for ADO item creation           |
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |

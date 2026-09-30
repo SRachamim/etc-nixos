@@ -32,7 +32,7 @@ Follow the **create-pr-g** skill, passing:
 
 - **workItemId**: the feature ID resolved in step 1.
 
-The shared skill will identify the repository, gather context, compose the description, and create the PR. **Do not compose or present the Slack message yet** -- the user may want to verify the PR live before notifying the team.
+The shared skill will identify the repository, gather context, compose the description, and create the PR. If the branch already has a draft PR (from **draft-feature-g**), the shared skill publishes that draft with auto-complete set instead of creating a new PR. **Do not compose or present the Slack message yet** -- the user may want to verify the PR live before notifying the team.
 
 ### 4. Transition the work item
 
@@ -104,7 +104,7 @@ Follow the **delivered-text-g** skill. **Present the message for user approval b
 
 Print a summary of everything that was done:
 
-- PR link
+- PR link (noting "published from draft, auto-complete set" when step 3 published a draft)
 - Work item link and new state
 - Slack channel message confirmation
 - Yaakov Ellis DM confirmation (if sent)

@@ -35,6 +35,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/defer-fix-g` | `/create-bug-g`, `/create-task-g`, `/checkout-worktree-g` |
 | `/deliver-feature-g` | `/close-worktree-g`, `/verify-deployment-g` |
 | `/design-microservice-system-g` | `/create-microservice-g`, `/plan-g` |
+| `/draft-feature-g` | `/submit-feature-g`, `/review-pr-g` |
 | `/draft-review-g` | `/submit-review-g` |
 | `/estimate-work-item-g` | `/plan-g`, `/checkout-worktree-g` |
 | `/extract-microservice-g` | `/submit-feature-g`, `/review-microservice-architecture-g` |

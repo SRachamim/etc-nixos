@@ -1,0 +1,7 @@
+{
+  "description": "Block commands that change this Nix-managed machine outside the flake",
+  "event": "preToolUse",
+  "matcher": "shell",
+  "packages": ["jq", "gnused", "gnugrep"],
+  "fallback": "Never run darwin-rebuild, nixos-rebuild or home-manager switch, the `switch` alias, or imperative installs and settings changes (brew install, apt/dnf/pacman install, npm install -g, pip install --user, defaults write, gsettings set, systemctl enable, launchctl load). Change the Nix configuration instead and ask the user to run `switch`."
+}

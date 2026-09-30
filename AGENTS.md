@@ -11,6 +11,8 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 - `systemctl enable` / `launchctl load`
 - Manually editing config files outside this repo (e.g. `~/.zshrc`, `~/.gitconfig`)
 
+The `block-imperative-changes` hook (`home/file/agents/hooks/`) blocks these commands, and `switch`, in every agent.
+
 ## Where to make changes
 
 | Change type | File(s) |
@@ -112,7 +114,7 @@ The server is automatically deployed to `~/.claude.json`, `~/.gemini/settings.js
 
 ### Apply changes
 
-After editing, the user must run `switch` (alias for `sudo darwin-rebuild switch --flake .#macbook` on macOS). Do **not** run this command as the agent -- inform the user to apply.
+After editing, the user must run `switch` (alias for `sudo darwin-rebuild switch --flake .#macbook` on macOS). Do **not** run this command as the agent (the `block-imperative-changes` hook blocks it) -- inform the user to apply.
 
 # Keep the Claude Code skill catalog in sync
 

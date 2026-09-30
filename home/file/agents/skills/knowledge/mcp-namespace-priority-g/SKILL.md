@@ -11,15 +11,15 @@ When multiple MCP namespaces can perform the same operation, prefer the **native
 
 | Domain | Preferred (native) | Fallback (proxy) |
 |--------|---------------------|-------------------|
-| Azure DevOps | `user-Azure DevOps` | `user-fundguard` |
-| Slack | `user-Slack` | -- (no proxy equivalent) |
+| Azure DevOps | `Azure DevOps` server | `fundguard` server |
+| Slack | `Slack` server | -- (no proxy equivalent) |
 
 Extend this table when new native/proxy pairs appear.
 
 ## Decision procedure
 
 1. **Identify the operation** -- what ADO/Slack action is needed?
-2. **Discover the native tool** -- run `GetDynamicTools` (or equivalent) against the native namespace to check whether it exposes a tool that covers the operation. If yes, use it.
+2. **Discover the native tool** -- list the native server's tools (tool search or the agent's MCP listing) to check whether it exposes a tool that covers the operation. If yes, use it.
 3. **Fall back to proxy** -- if the native MCP has no equivalent, use the proxy. The FundGuard proxy provides composite and value-add tools not available natively.
 
 Do not skip step 2. The proxy's convenience (e.g. sensible defaults for `org`, `project`, `repoId`) does not justify bypassing the native MCP when it has the tool. When the native tool requires explicit parameters that the proxy defaults, supply them.
@@ -50,4 +50,4 @@ The proxy provides composite tools that aggregate multiple API calls or enrich d
 
 ## Slack: always native
 
-The FundGuard proxy has no Slack tools. All Slack operations use `user-Slack` exclusively.
+The FundGuard proxy has no Slack tools. All Slack operations use the `Slack` server exclusively.

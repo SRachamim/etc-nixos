@@ -21,6 +21,10 @@ Skill categories:
 - Follow the **artifact-layering-g** skill when encountering repo-level skills that overlap with user-level (`-g`) skills.
 - Follow the **skill-trace-g** skill to report which skills and rules shaped the output in agent-to-user chat.
 
+## Nix shell environments
+
+In a project with a Nix dev shell (an `.envrc` with `use flake`/`use nix`, a `shell.nix`, or a `flake.nix` with `devShells`), run toolchain commands through `direnv exec . <cmd>`, falling back to `nix develop -c <cmd>` or `nix-shell --run "<cmd>"`. Skip the prefix for read-only git metadata (`git status`, `git log`, `git diff`) and plain file commands (`ls`, `cp`), but keep it for git commands that run hooks (`git commit`, `git merge`, `git rebase`, `git push`). Don't install tools globally; the shell provides them.
+
 ## Preferences
 
 - Code style: pure functional TypeScript with fp-ts when working in TypeScript repositories.

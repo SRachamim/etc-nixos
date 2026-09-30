@@ -45,6 +45,16 @@ Define what is being reviewed and gather baseline information.
 
 **Deliverable:** Scope document — service inventory, communication map, data store map, diagram status, review trigger.
 
+#### Run steps 2–10 in parallel
+
+Steps 2–10 are independent assessments of the same scope document. When the agent can spawn subagents, run them concurrently instead of in sequence:
+
+- Spawn one read-only **reviewer** subagent per step. Pass it the scope document, that step's **What to do** list, and the **microservice-patterns-g** section the step names.
+- Each returns only that step's findings, in its **Deliverable** format, with file or service references as evidence.
+- Collect every result before step 11.
+
+When subagents are unavailable, work through steps 2–10 in order.
+
 ### 2. Assess boundaries
 
 Evaluate whether each service models a proper bounded context with clear ownership.

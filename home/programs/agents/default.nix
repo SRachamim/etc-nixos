@@ -172,6 +172,39 @@ let
     (h: { ${h.name}.${h.event} = [ (if h.matcher != null then { inherit (h) matcher; hooks = [ (commandHook h) ]; } else commandHook h) ]; })
     (nativeHooks "antigravity"));
 
+  # --- Output styles: home/file/agents/output-styles/<name>.md ---
+  # Only Claude Code has output styles. The closest type elsewhere is a
+  # user-invoked skill that switches the style on for the rest of the session.
+  outputStyles = readMarkdownDir (agentsDir + "/output-styles");
+  renderOutputStyle = style:
+    let
+      skill = "${style.slug}-output-style";
+      text = frontmatter {
+        name = skill;
+        description = "Switches responses to the ${style.meta.name} output style for the rest of the session. ${style.meta.description}";
+        disable-model-invocation = true;
+      } + ''
+        # ${style.meta.name} Output Style
+
+        Apply the style below to every remaining response in this session, until the user asks to switch back.
+
+      '' + style.body;
+    in
+    {
+      "ai-output-style-claude-${style.slug}" = {
+        target = ".claude/output-styles/${style.slug}.md";
+        source = agentsDir + "/output-styles/${style.slug}.md";
+      };
+      "ai-output-style-gemini-${style.slug}" = { target = ".gemini/skills/output-styles/${skill}/SKILL.md"; inherit text; };
+      # Unique name, so Cursor's ~/.claude/skills duplicate problem cannot arise.
+      "ai-output-style-cursor-${style.slug}" = { target = ".cursor/skills/${skill}/SKILL.md"; inherit text; };
+      "ai-output-style-antigravity-${style.slug}" = { target = ".gemini/antigravity/knowledge/artifacts/skills/${skill}.md"; inherit text; };
+      "ai-output-style-antigravity-meta-${style.slug}" = {
+        target = ".gemini/antigravity/knowledge/${skill}/metadata.json";
+        text = builtins.toJSON { summary = "Agent skill: ${skill}"; references = [ "artifacts/skills/${skill}.md" ]; };
+      };
+    };
+
   # --- Fallbacks: the closest supported type for agents lacking one ---
   # A hook an agent cannot run becomes an always-on instruction in a file only
   # that agent reads, so agents that run the real hook never see it.
@@ -208,8 +241,10 @@ in
       (lib.mkIf (fallbacks "gemini" != [ ]) { context.fileName = [ "GEMINI-CLI.md" ]; })
     ];
 
-    # Cursor has no file-based global instructions to carry a fallback.
-    warnings = map (f: "agents: Cursor cannot receive fallback ${f}") (fallbacks "cursor");
+    # Cursor has no file-based global instructions to carry a fallback, and
+    # Codex has no skills deployment to carry an output style.
+    warnings = map (f: "agents: Cursor cannot receive fallback ${f}") (fallbacks "cursor")
+      ++ map (s: "agents: Codex cannot receive output style ${s.slug} (no skills deployment)") outputStyles;
 
     home.file = lib.mkMerge ([
       {
@@ -236,6 +271,6 @@ in
       (fallbackFile "claude" ".claude/rules/agent-fallbacks.md")
       (fallbackFile "gemini" ".gemini/GEMINI-CLI.md")
       (fallbackFile "antigravity" ".gemini/config/rules/agent-fallbacks.md")
-    ] ++ map renderSubagent subagents);
+    ] ++ map renderSubagent subagents ++ map renderOutputStyle outputStyles);
   };
 }

@@ -54,6 +54,7 @@
               ./home/shared.nix
               ./home/nixos.nix
               ./home/programs/neovim
+              ./home/programs/agents
             ];
           };
         }
@@ -78,6 +79,7 @@
               ./home/shared.nix
               ./home/darwin.nix
               ./home/programs/neovim
+              ./home/programs/agents
               ./home/programs/workmux
             ];
           };
@@ -97,6 +99,7 @@
         ./home/shared.nix
         ./home/darwin.nix
         ./home/programs/neovim
+        ./home/programs/agents
         ./home/programs/workmux
       ];
     };

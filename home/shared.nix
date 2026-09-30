@@ -216,13 +216,6 @@ in
       force = true;
       text = builtins.toJSON { inherit mcpServers; };
     };
-    "ai-gemini-settings" = {
-      target = ".gemini/settings.json";
-      text = builtins.toJSON {
-        context.fileName = [ "GEMINI.md" "AGENTS.md" ];
-        inherit mcpServers;
-      };
-    };
     "ai-antigravity-mcp" = {
       target = ".gemini/config/mcp_config.json";
       force = true;
@@ -257,6 +250,11 @@ in
       force = true;
     };
   } // flatClaudeSkills;
+
+  agents.gemini.settings = {
+    context.fileName = [ "GEMINI.md" "AGENTS.md" ];
+    inherit mcpServers;
+  };
 
   home.packages = with pkgs; [
     nerd-fonts.fira-code

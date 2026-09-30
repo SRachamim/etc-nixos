@@ -1,0 +1,7 @@
+{
+  "description": "Block edits to the generated NixOS hardware configuration",
+  "event": "preToolUse",
+  "matcher": "edit",
+  "packages": ["jq"],
+  "fallback": "Never edit hosts/nixos/hardware-configuration.nix; nixos-generate-config owns it."
+}

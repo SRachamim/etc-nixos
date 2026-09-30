@@ -43,7 +43,7 @@ The `block-imperative-changes` hook (`home/file/agents/hooks/`) blocks these com
 | Workspace rules (Claude Code) | `.claude/rules/*.md` |
 | Workspace rules (all agents) | `AGENTS.md` |
 
-Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated.
+Do **not** edit `hosts/nixos/hardware-configuration.nix` -- it is auto-generated (the `protect-hardware-config` hook blocks edits).
 
 ## Workspace rules
 

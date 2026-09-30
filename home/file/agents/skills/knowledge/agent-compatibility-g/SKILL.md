@@ -1,6 +1,6 @@
 ---
 name: agent-compatibility-g
-description: Verifies that a skill or workspace rule stays portable across AI agents. Provides a portability checklist for SKILL.md files and applies the portable/generated/agent-specific trichotomy for workspace rules. Use whenever creating or modifying skills, rules, or subagent prompts.
+description: Verifies that a skill or workspace rule stays portable across AI agents. Provides a portability checklist for SKILL.md files and routes workspace-rule classification to the workspace-rules-g trichotomy. Use whenever creating or modifying skills, rules, or subagent prompts.
 ---
 
 # Agent Compatibility
@@ -29,17 +29,9 @@ Apply this checklist when creating or modifying any skill:
 - **POSIX-compatible scripts.** If the skill includes `scripts/`, use `#!/usr/bin/env bash` and POSIX utilities. Avoid agent-specific script APIs.
 - **Relative paths in references.** `reference.md`, `guide.md`, and other sibling files should be referenced with relative paths from the SKILL.md.
 
-## Trichotomy for workspace rules
+## Workspace rules
 
-When a skill creates or references workspace rules, classify each asset:
-
-| Category | What to do | Example |
-|----------|-----------|---------|
-| **Portable** | Content that works in plain markdown for any agent. Deploy to `AGENTS.md` at repo root. | Coding conventions, build commands, architecture notes |
-| **Generated** | Same intent, different format per agent. Author once, render into each format. | `.cursor/rules/*.mdc` (with `globs:`) and `.claude/rules/*.md` (with `paths:`) |
-| **Agent-specific** | Unique to one agent, no equivalent elsewhere. Keep in the agent's native directory. | Cursor `alwaysApply: true`, Claude `@import` syntax |
-
-See the **workspace-rules-g** skill for the full decision process and format examples.
+When a skill creates or references workspace rules, classify each as portable, generated or agent-specific following the **workspace-rules-g** skill, which holds the trichotomy and per-agent formats.
 
 ## Deployment verification
 

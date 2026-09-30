@@ -1,6 +1,6 @@
 ---
 name: artifact-layering-g
-description: Defines how user-level skills (suffixed with `-g`) interact with repo-level skills -- runtime reconciliation when both are loaded, and authoring conventions for structuring repo-level rules to avoid duplication. Use whenever the agent encounters overlapping user and repo instructions, or when creating/modifying workspace rules in any repository.
+description: Defines how user-level skills (suffixed with `-g`) interact with repo-level skills -- runtime reconciliation when both are loaded, and authoring conventions for structuring repo-level rules to avoid duplication. Includes the fgrepo rule that user-level artifacts override conflicting repo artifacts outside `client/`. Use whenever the agent encounters overlapping user and repo instructions, operates in fgrepo, or creates/modifies workspace rules in any repository.
 ---
 
 # Artifact Layering
@@ -86,8 +86,16 @@ Override should be rare and explicit. Document why the divergence exists.
 | Repo's constraints are incompatible with the `-g` skill | Override |
 | You cannot modify the repo's rules (maintained by another team) | N/A -- rely on runtime reconciliation |
 
+## fgrepo: user-level artifacts win outside `client/`
+
+In `fgrepo` the `client/` directory is the user's workspace. The other top-level directories (`devops/`, `automation/`, `backend/`, …) carry artifacts maintained by other teams that may conflict with the user's.
+
+- **Detection:** the git remote URL contains `fgrepo`, or the workspace has `client/` alongside `devops/`, `automation/` or `backend/`.
+- **Rule:** when a repo-level artifact (workspace rule, skill, subagent prompt) found **outside** `client/` contradicts a user-level artifact, the user-level artifact wins. Examples: a root `.cursor/rules/` file mandating classes against **functional-typescript-g**, or a repo skill with commit conventions that differ from **commit-conventions-g**.
+- **Scope:** artifacts under `client/` are workspace-local and follow the normal reconciliation above.
+- **Behaviour:** follow the user-level artifact silently unless the user asks about the conflict. Follow a repo-level artifact outside `client/` wherever the user's artifacts are silent. Never modify repo-level artifacts outside `client/` to resolve a conflict.
+
 ## Relationship to other skills
 
-- **fgrepo-artifact-precedence-g**: a repo-specific specialization that adds directory-boundary scoping (the `client/` rule) on top of this general model.
 - **workspace-rules-g**: covers the format dimension (portable/generated/agent-specific trichotomy). This skill covers the content-deduplication dimension.
 - **agent-compatibility-g**: ensures skills are portable across agents. This skill ensures they are non-redundant across layers.

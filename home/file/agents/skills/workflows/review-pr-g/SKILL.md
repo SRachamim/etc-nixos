@@ -66,9 +66,10 @@ If none yields a PR, ask the user and stop.
 ### 3. Read the diff
 
 - If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
-- Read each PR commit individually using `git show <sha>` for a commit-by-commit view.
-- Alternatively, read the full PR diff using `git diff origin/<target>...origin/<source>` when a holistic view is more useful.
-- For each changed file, use `Read` to examine surrounding context beyond the diff hunks where needed to understand the change.
+- When the agent can spawn subagents, step 5 delegates line-level reading. Here, read only what step 4 needs: the commit messages, `git diff --stat origin/<target>...origin/<source>`, and the hunks behind any design question. Otherwise read the whole diff:
+  - Read each PR commit individually using `git show <sha>` for a commit-by-commit view.
+  - Alternatively, read the full PR diff using `git diff origin/<target>...origin/<source>` when a holistic view is more useful.
+  - For each changed file, use `Read` to examine surrounding context beyond the diff hunks where needed to understand the change.
 
 ### 4. Evaluate design
 
@@ -124,7 +125,13 @@ Apply the **design-lenses-g** skill using the **review framing** for all three l
 
 ### 5. Evaluate code
 
-Apply the **code-review-g** skill for general review standards.
+When the agent can spawn subagents, delegate the line-level evaluation so the diff stays out of the main context:
+
+- Spawn the **reviewer** subagent with the target and source refs, the commit list, the in-scope file list, and the standards listed below. For more than about 15 files, spawn one reviewer per module or package, each with its own files.
+- For fgrepo PRs with changed files under `client/`, also spawn the **quality-reviewer** subagent with an isolation brief as defined by the **client-quality-focus-g** skill.
+- Merge the returned findings, drop duplicates, and check each against the diff hunk it cites before carrying it into step 6.
+
+Otherwise, evaluate inline. Either way, the standards are the same: apply the **code-review-g** skill for general review standards.
 
 Additionally:
 

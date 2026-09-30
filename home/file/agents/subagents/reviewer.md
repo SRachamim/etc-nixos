@@ -27,9 +27,9 @@ Diff review against personal coding standards and architectural principles.
 
 Return structured findings:
 
-- **Severity** -- critical / major / minor / nit.
+- **Severity** -- `Blocking`, `Suggestion`, or `Nit`, per the **code-review-g** skill.
 - **Location** -- file path and line range.
-- **Finding** -- what's wrong or could be better.
-- **Suggestion** -- concrete fix or alternative.
+- **Finding** -- what the problem is and why it matters.
+- **Alternative** -- the concrete fix or different approach.
 
 Group by severity. Don't pad with praise -- findings only.

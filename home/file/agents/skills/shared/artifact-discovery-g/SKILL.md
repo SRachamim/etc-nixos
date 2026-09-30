@@ -1,6 +1,7 @@
 ---
 name: artifact-discovery-g
 description: Analyzes branch or PR code changes to identify opportunities for new or evolved agent artifacts (rules, skills, subagent prompts) in the target repository. Suggestions are grounded in the actual work just completed. Use after significant implementation work -- especially before submitting a feature for review.
+disable-model-invocation: true
 ---
 
 # Artifact Discovery

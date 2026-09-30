@@ -1,6 +1,7 @@
 ---
 name: mode-gate-g
 description: Enforces a required interaction mode before a workflow step proceeds. In agents that support mode switching (e.g. Cursor's SwitchMode), it switches, verifies, and stops on failure. In other agents, it states the constraint and proceeds without blocking. Use whenever a workflow step requires a specific mode.
+disable-model-invocation: true
 ---
 
 # Mode Gate

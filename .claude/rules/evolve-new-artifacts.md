@@ -1,5 +1,6 @@
 ---
-paths: home/file/agents/skills/**/SKILL.md
+paths:
+  - "home/file/agents/skills/**/SKILL.md"
 ---
 
 # Evolve new artifacts

@@ -1,7 +1,3 @@
----
-alwaysApply: true
----
-
 # Declarative Nix only
 
 Every change to packages, services, programs, dotfiles, environment variables, shell aliases, fonts, or system settings **must** be made declaratively in this repository. Never perform or suggest imperative mutations that won't survive `nixos-rebuild switch`, `darwin-rebuild switch`, or porting to a new machine.

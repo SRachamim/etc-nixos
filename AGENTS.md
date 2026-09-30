@@ -50,7 +50,7 @@ Project context (this file) lives in `AGENTS.md` and is read by all agents. Work
 | Agent | Rule location | Format |
 |-------|--------------|--------|
 | Cursor | `.cursor/rules/*.mdc` | YAML frontmatter with `globs:` |
-| Claude Code | `.claude/rules/*.md` | YAML frontmatter with `globs:` |
+| Claude Code | `.claude/rules/*.md` | YAML frontmatter with `paths:` (no frontmatter = always loaded) |
 
 When adding a new workflow trigger, create it in **every** rule directory above so all agents enforce it. When onboarding a new agent tool, replicate all existing triggers from `.cursor/rules/` and `.claude/rules/` into the new tool's native format.
 

@@ -1,7 +1,7 @@
 ---
 description: Keep the workflow catalog and follow-up-map-g in sync when workflow skills change
-globs:
-  - home/file/agents/skills/**/SKILL.md
+paths:
+  - "home/file/agents/skills/**/SKILL.md"
 ---
 
 # Workflow catalog sync

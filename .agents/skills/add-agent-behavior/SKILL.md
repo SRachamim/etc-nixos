@@ -125,6 +125,7 @@ Follow `home/file/agents/subagents/README.md`. Frame the body as the system prom
 - Specify what context the subagent receives.
 - Specify what the subagent must return.
 - Specify any constraints (read-only, no external side effects, etc.).
+- When the subagent runs an existing skill (as `researcher` runs **work-item-context-g**), put the delegation rule in that skill -- "run this in the **<subagent>** subagent when subagents are available; otherwise, or when you are that subagent, follow the steps directly" -- rather than in each caller. Callers stay unchanged and the skill remains the single source.
 
 #### For always-on instructions
 
@@ -200,7 +201,16 @@ If the type has no generic pipeline yet, build one in `home/programs/agents/defa
   nix eval --json '.#darwinConfigurations.macbook.config.home-manager.users."sahar.rachamim".warnings'
   ```
 
-  For a hook, also pipe sample event JSON into the rendered command and check the exit code and output. Tell the user to run `switch`, and to approve new Codex hooks with `/hooks`.
+  For a hook, also pipe sample event JSON into the rendered command and check the exit code and output.
+
+  Before handing over, check that no newly managed target already exists as an unmanaged file, which makes `switch` stop with "would be clobbered". This happens when a tool wrote the file itself, e.g. `workmux setup --hooks` writing `~/.codex/hooks.json`:
+
+  ```sh
+  cd <home-files-path> && find . \( -type l -o -type f \) | sed 's|^\./||' |
+    while read -r f; do [ -e "$HOME/$f" ] && [ ! -L "$HOME/$f" ] && echo "unmanaged: $f"; done
+  ```
+
+  For each hit, read the file. Declare its content in Nix (merging with other contributors through an option, as `agents.codex.hooks` does) and set `force = true` for the takeover, or ask the user when the content is not reproducible. Then tell the user to run `switch`, and to approve new or changed Codex hooks with `/hooks`.
 - Check that all referenced skills exist.
 - Apply the **agent-compatibility-g** skill -- verify frontmatter portability, check for hard agent-specific references, confirm the canonical source path is `home/file/agents/`.
 

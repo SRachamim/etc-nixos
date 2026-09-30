@@ -73,16 +73,13 @@ Search the codebase to ground the reproduction steps in code reality. This ensur
 
 #### Parallel investigation
 
-When the agent supports parallel subagent execution, prefer this approach:
+Follow the **parallel exploration** procedure in the **context-engineering-g** skill. Typical questions:
 
-1. Decompose the investigation into 2--3 focused questions. Typical decomposition:
-   - Which endpoints, pages, or components are involved in the reported behaviour?
-   - What preconditions does the code require (authentication, data state, feature flags, configuration)?
-   - What is the failure path -- where does the code diverge from expected behaviour?
-2. Spawn one read-only **explorer** subagent per question, providing:
-   - The specific question to answer.
-   - A directory or file scope hint derived from the work item's description and error details.
-3. Collect all subagent results before proceeding.
+- Which endpoints, pages, or components are involved in the reported behaviour?
+- What preconditions does the code require (authentication, data state, feature flags, configuration)?
+- What is the failure path -- where does the code diverge from expected behaviour?
+
+Scope hints come from the work item's description and error details.
 
 #### Sequential fallback
 

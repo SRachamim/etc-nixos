@@ -76,7 +76,7 @@ Explore the codebase to identify which packages, modules, and layers the feature
 - Note new modules that need to be created and where they fit in the existing structure.
 - Consult workspace rules for module structure conventions (e.g. `module-anatomy`, if present).
 
-When the scope is broad, use parallel exploration (Task tool with explore subagents) to examine different areas of the codebase concurrently.
+When the scope is broad, follow the **parallel exploration** procedure in the **context-engineering-g** skill to examine different areas of the codebase concurrently with **explorer** subagents.
 
 ### 5. Map acceptance criteria to verification levels
 

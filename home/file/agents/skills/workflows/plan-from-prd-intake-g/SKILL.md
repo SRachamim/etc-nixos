@@ -76,7 +76,7 @@ Apply the **prior-art-research-g** skill, scoped to the phase's domain. Skip if 
 
 Explore the codebase following the same approach as `/plan-g` step 4:
 
-- When parallel subagents are available, decompose into focused questions and spawn read-only explorers.
+- When parallel subagents are available, follow the **parallel exploration** procedure in the **context-engineering-g** skill (read-only **explorer** subagents).
 - When sequential, search and read key files in the affected area.
 - Map extension points, boundaries, and the gap between current state and phase target.
 

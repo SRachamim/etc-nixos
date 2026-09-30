@@ -19,6 +19,17 @@ Distribute work across subagents with narrow, focused contexts. A subagent that 
 
 Before spawning subagents, partition the work so each agent owns a disjoint set of concerns. The parent collects results and synthesises.
 
+#### Parallel exploration
+
+When a workflow needs to understand an area of the codebase and the agent can run subagents in parallel, prefer this over sequential search:
+
+1. Decompose the goal into 2--5 focused questions. The calling workflow supplies its typical questions.
+2. Spawn one read-only **explorer** subagent per question, giving it the question and the narrowest directory or file scope that plausibly contains the answer.
+3. Collect every result before proceeding.
+4. Synthesise the results into the output the calling workflow names.
+
+When parallel execution is unavailable, the calling workflow's sequential steps apply.
+
 ### Select
 
 Load only what the current step needs. Prefer precision over recall.

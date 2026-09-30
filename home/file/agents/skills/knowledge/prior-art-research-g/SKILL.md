@@ -7,6 +7,10 @@ description: Researches established patterns and approaches from the functional 
 
 Before designing a solution, search the internet for established patterns, architectures, and approaches that address the same problem domain. Standing on the shoulders of prior art produces better designs than reasoning from first principles alone.
 
+## Delegation
+
+Run this skill in the **researcher** subagent when the agent can spawn subagents: pass it this skill's name and the input, and continue with the summary it returns, so the web searches stay out of the calling context. When subagents are unavailable, or you are the researcher, follow the steps below directly.
+
 ## When to apply
 
 During planning, after the goal is clear but before examining the codebase or drafting a design. Prior-art findings should inform how you read the existing code and which design lenses matter most.

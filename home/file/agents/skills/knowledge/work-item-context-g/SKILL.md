@@ -7,6 +7,10 @@ description: Deeply gathers context from an Azure DevOps work item by following 
 
 Given a work item ID, build a rich understanding of the item by fetching the item itself and following its linked artefacts. Return a structured summary that the calling command can use as authoritative context.
 
+## Delegation
+
+Run this skill in the **researcher** subagent when the agent can spawn subagents: pass it this skill's name and the input, and continue with the summary it returns, so the work item fetches stay out of the calling context. When subagents are unavailable, or you are the researcher, follow the steps below directly.
+
 ## Steps
 
 ### 1. Fetch the root work item

@@ -46,7 +46,9 @@ let
   subagents = readMarkdownDir (agentsDir + "/subagents");
   claudeModel = { volume = "haiku"; standard = "sonnet"; frontier = "opus"; };
   codexEffort = { volume = "low"; standard = "medium"; frontier = "high"; };
-  geminiReadOnlyTools = [ "read_file" "read_many_files" "glob" "grep_search" "list_directory" "web_fetch" "google_web_search" ];
+  # Read-only means no file writes, matching Claude's disallowedTools; MCP
+  # tools stay available so subagents like `researcher` can fetch.
+  geminiReadOnlyTools = [ "read_file" "read_many_files" "glob" "grep_search" "list_directory" "web_fetch" "google_web_search" "mcp_*" ];
 
   renderSubagent = { meta, body, ... }:
     let

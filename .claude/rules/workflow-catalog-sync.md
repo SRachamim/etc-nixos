@@ -18,7 +18,4 @@ When a workflow skill (`home/file/agents/skills/workflows/`) is added, removed, 
    - Renamed skill? Update the row key and all references in other rows' follow-up lists.
    - Removed skill? Remove its row and references from other rows.
 
-3. **`home/file/agents/CLAUDE.md`** -- the skill catalog table.
-   - Already covered by `claude-skill-catalog-sync` rule, but verify the new skill appears in the correct section (Workflow vs Knowledge).
-
 Apply all sync changes in the same commit as the skill change.

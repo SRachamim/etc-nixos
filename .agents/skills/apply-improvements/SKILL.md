@@ -50,7 +50,7 @@ Present the evaluation and planned change to the user for each observation. Wait
 For each approved observation:
 
 1. Apply the planned edit to the source file under `home/file/agents/skills/`.
-2. If the change affects a workflow skill, verify that the `workflow-catalog-g`, `follow-up-map-g`, and `CLAUDE.md` catalog remain consistent.
+2. If the change affects a workflow skill, verify that `workflow-catalog-g` and `follow-up-map-g` remain consistent.
 3. Move the observation file from `pending/` to `applied/`.
 
 For rejected observations, move to `rejected/`.

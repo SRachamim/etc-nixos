@@ -37,6 +37,8 @@ Also extract the PR identity (repository ID, PR ID, source/target branches) from
 
 ### 3. Confirm external action
 
+Before confirming, compare the PR's current `lastMergeSourceCommit` (`repo_get_pull_request_by_id`) with the source SHA the review was drafted against. If they differ, stop: fetch, diff the drafted SHA against the new tip, drop findings the push resolved, re-anchor the rest, and show the user the changes before continuing. Re-check with `git ls-remote origin <source>` right before posting the first thread.
+
 Per **external-communications-g**, show what will happen:
 
 - Number of comments to post (or "none" for `approve`).
@@ -54,7 +56,7 @@ Skip this step when verdict is `approve`.
 
 For initial reviews (preceded by `/review-pr-g`):
 
-- Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and the full anchor: `rightFileStartLine`, `rightFileStartOffset`, `rightFileEndLine`, and `rightFileEndOffset`. All four are required together -- the tool rejects a start line without an offset, and a start pair without a matching end pair, including for single-line anchors (set the end line equal to the start line). Offsets are 1-based: use `1` for the start offset and the end line's length plus 1 for the end offset. Compute end offsets for all findings before posting, e.g. `git show "<source-ref>:<path>" | sed -n "<end-line>p" | awk '{print length($0)+1}'`. Anchor to a line with content -- a blank line yields an empty selection in the ADO UI. The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill.
+- Post each finding as a separate comment thread using `repo_create_pull_request_thread` from the native Azure DevOps MCP. For each finding, provide `repositoryId`, `pullRequestId`, `content`, `filePath`, and the full anchor: `rightFileStartLine`, `rightFileStartOffset`, `rightFileEndLine`, and `rightFileEndOffset`. All four are required together -- the tool rejects a start line without an offset, and a start pair without a matching end pair, including for single-line anchors (set the end line equal to the start line). Offsets are 1-based: use `1` for the start offset and the end line's length plus 1 for the end offset. Compute end offsets for all findings before posting, e.g. `git show "<source-ref>:<path>" | sed -n "<end-line>p" | awk '{print length($0)+1}'`. In a loop over findings, write the ref as `"${ref}:${path}"` (zsh reads `$ref:c...` as a history modifier) and run the loop under `bash -c` (zsh doesn't word-split an unquoted `$spec`). Anchor to a line with content -- a blank line yields an empty selection in the ADO UI. The tool defaults to `status: "Active"`, which is correct per the **code-review-g** skill.
 
 For follow-up reviews (preceded by `/review-pr-fixes-g`):
 

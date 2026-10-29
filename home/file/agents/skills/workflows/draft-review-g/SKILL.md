@@ -32,6 +32,7 @@ For each finding, compose the literal ADO comment text:
 - Follow the **communication-templates-g** PR Review Comment template (Brief / Standard / Thorough tiers based on the depth the issue needs).
 - Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text.
 - Each comment must include the specific file path and line range.
+- When a comment includes a code sketch, check every identifier, literal, and function signature in it against the real types on the source branch (read the type definitions or the call's overloads). Change any sketch that wouldn't type-check before presenting it.
 - Do not include praise -- every comment must be actionable.
 
 ### 4. Compose review summary
@@ -59,7 +60,7 @@ When the original `/review-pr-g` was triggered from a Slack message, compose Sla
 Compose:
 
 - **Reaction**: the emoji to add (`:speech_balloon:` for comment/suggest, `:leftwards_arrow_with_hook:` for reject, `:white_check_mark:` for approve). The exact reaction depends on the anticipated verdict from step 4 -- present the default and note that `/submit-review-g` will use the actual verdict keyword.
-- **Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply template (section 11) applies -- select the "initial review" or "follow-up review" variant based on whether the preceding review was `/review-pr-g` or `/review-pr-fixes-g`. For `reject` verdicts, include the one-line summary of blocking issues. Present the draft reply text.
+- **Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply template (section 11) applies -- select the "initial review" or "follow-up review" variant based on whether the preceding review was `/review-pr-g` or `/review-pr-fixes-g`. For `reject` verdicts, include the one-line summary of blocking issues. Present the draft reply text. A comment-only verdict maps to two submit keywords with different replies -- present both, labelled (`comment` -> "Reviewed", `suggest` -> "Reviewed -- LGTM with suggestions"), so `/submit-review-g` posts the one matching the keyword it receives.
 
 ### 7. Present the complete review
 

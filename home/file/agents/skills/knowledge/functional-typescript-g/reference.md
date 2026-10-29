@@ -221,13 +221,13 @@ const validateAccount = (
 ```typescript
 import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 import { sequenceS } from 'fp-ts/Apply'
 
 interface ValidationError { readonly field: string; readonly message: string }
 type ValidationErrors = ReadonlyArray<ValidationError>
 
-const V = E.getApplicativeValidation(RA.getSemigroup<ValidationError>())
+const V = E.getApplicativeValidation(A.getSemigroup<ValidationError>())
 const apS = sequenceS(V)
 
 const validateAccountNo = (no: string): E.Either<ValidationErrors, string> =>
@@ -435,7 +435,7 @@ See the **Encapsulate with Optics** before/after example in the refactoring skil
 From Ghosh Ch. 8: events are the source of truth; current state is a left fold.
 
 ```typescript
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 
 interface AccountOpened { readonly _tag: 'AccountOpened'; readonly id: AccountId; readonly name: string; readonly openDate: Date }
 interface AmountDeposited { readonly _tag: 'AmountDeposited'; readonly id: AccountId; readonly amount: number }
@@ -467,7 +467,7 @@ const applyEvent = (state: AccountState, event: AccountEvent): AccountState => {
 const buildState = (events: ReadonlyArray<AccountEvent>): AccountState =>
   pipe(
     events,
-    RA.reduce(
+    A.reduce(
       { id: '' as AccountId, name: '', balance: 0, status: 'Open' as const },
       applyEvent,
     ),
@@ -667,7 +667,7 @@ const processRequest = (req: Request): Response => {
 ```typescript
 import { pipe } from 'fp-ts/function'
 import * as TE from 'fp-ts/TaskEither'
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 
 type Handler = (req: Request) => TE.TaskEither<AppError, Response>
 
@@ -681,7 +681,7 @@ const tapRequest = (effect: (req: Request) => TE.TaskEither<never, void>): ((nex
 
 const composeMiddleware = (middleware: ReadonlyArray<(h: Handler) => Handler>) =>
   (base: Handler): Handler =>
-    pipe(middleware, RA.reduceRight(base, (mw, acc) => mw(acc)))
+    pipe(middleware, A.reduceRight(base, (mw, acc) => mw(acc)))
 
 const app: Handler = composeMiddleware([
   tapRequest((req) => TE.fromIO(() => { console.log(req.url) })),
@@ -775,7 +775,7 @@ const summarize = (items: ReadonlyArray<Item>): SummarizeResult =>
     ? { _tag: 'EmptyCart' }
     : pipe(
         items,
-        RA.reduce(0, (s, i) => s + i.price),
+        A.reduce(0, (s, i) => s + i.price),
         (total) => ({ _tag: 'Summary' as const, total, formatted: `Total: ${total}` }),
       )
 ```
@@ -933,14 +933,14 @@ const findValidSchedule = (employees: ReadonlyArray<Employee>): Schedule | null 
 
 ```typescript
 import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 import * as O from 'fp-ts/Option'
 import * as B from 'fp-ts/boolean'
 import { Predicate } from 'fp-ts/Predicate'
 
 // Generator -- produces candidates, knows nothing about acceptance criteria
 const generateCandidates = (employees: ReadonlyArray<Employee>): ReadonlyArray<Schedule> =>
-  pipe(permutations(employees), RA.map(buildSchedule))
+  pipe(permutations(employees), A.map(buildSchedule))
 
 // Tester -- evaluates candidates, knows nothing about generation strategy
 type ScheduleRule = Predicate<Schedule>
@@ -949,14 +949,14 @@ const maxHours = (limit: number): ScheduleRule => (s) => s.totalHours <= limit
 const hasRequiredRoles: ScheduleRule = (s) => s.hasRequiredRoles
 const noConflicts: ScheduleRule = (s) => !s.hasConflicts
 
-const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
-  (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
+const allOf = <T>(rules: ReadonlyArray<Predicate<T>>): Predicate<T> =>
+  (a) => pipe(rules, A.foldMap(B.MonoidAll)((rule) => rule(a)))
 
 // Composition -- generator and tester combined independently
 const findValidSchedule = (employees: ReadonlyArray<Employee>): O.Option<Schedule> =>
   pipe(
     generateCandidates(employees),
-    RA.findFirst(allOf([maxHours(40), hasRequiredRoles, noConflicts])),
+    A.findFirst(allOf([maxHours(40), hasRequiredRoles, noConflicts])),
   )
 ```
 

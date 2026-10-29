@@ -716,7 +716,7 @@ const findAvailableSlot = (
 
 ```typescript
 import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 import * as O from 'fp-ts/Option'
 import * as B from 'fp-ts/boolean'
 import { Predicate } from 'fp-ts/Predicate'
@@ -727,7 +727,7 @@ interface SlotEntry { readonly day: Day; readonly slot: TimeSlot }
 const allSlots = (calendar: Calendar): ReadonlyArray<SlotEntry> =>
   pipe(
     calendar.days,
-    RA.flatMap((day) => pipe(day.slots, RA.map((slot): SlotEntry => ({ day, slot })))),
+    A.flatMap((day) => pipe(day.slots, A.map((slot): SlotEntry => ({ day, slot })))),
   )
 
 // Tester -- independent composable predicates
@@ -736,18 +736,18 @@ type SlotRule = Predicate<SlotEntry>
 const minDuration = (d: number): SlotRule => ({ slot }) => slot.duration >= d
 const notBooked: SlotRule = ({ slot }) => !slot.isBooked
 const onAllowedDay = (days: ReadonlyArray<string>): SlotRule =>
-  ({ day }) => pipe(days, RA.elem(Str.Eq)(day.name))
+  ({ day }) => pipe(days, A.elem(Str.Eq)(day.name))
 const afterTime = (t: Time): SlotRule => ({ slot }) => slot.start >= t
 
-const allOf = <A>(rules: ReadonlyArray<Predicate<A>>): Predicate<A> =>
-  (a) => pipe(rules, RA.foldMap(B.MonoidAll)((rule) => rule(a)))
+const allOf = <T>(rules: ReadonlyArray<Predicate<T>>): Predicate<T> =>
+  (a) => pipe(rules, A.foldMap(B.MonoidAll)((rule) => rule(a)))
 
 // Composition -- generator and tester combined independently
 const findAvailableSlot = (duration: number, constraints: Constraints) =>
   (calendar: Calendar): O.Option<TimeSlot> =>
     pipe(
       allSlots(calendar),
-      RA.findFirst(allOf([
+      A.findFirst(allOf([
         minDuration(duration),
         notBooked,
         onAllowedDay(constraints.allowedDays),

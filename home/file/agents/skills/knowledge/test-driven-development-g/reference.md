@@ -114,7 +114,7 @@ const findRate = (bank: Bank, from: string, to: string): number =>
     ? 1
     : pipe(
         bank,
-        RA.findFirst((r) => r.from === from && r.to === to),
+        A.findFirst((r) => r.from === from && r.to === to),
         O.map((r) => r.factor),
         O.getOrElse(() => 1),
       )
@@ -175,10 +175,10 @@ const validateOrder = (_raw: RawOrder): E.Either<ReadonlyArray<ValidationError>,
 
 ```typescript
 import { sequenceS } from 'fp-ts/Apply'
-import * as RA from 'fp-ts/ReadonlyArray'
+import * as A from 'fp-ts/ReadonlyArray'
 
 type VE = ReadonlyArray<ValidationError>
-const V = E.getApplicativeValidation(RA.getSemigroup<ValidationError>())
+const V = E.getApplicativeValidation(A.getSemigroup<ValidationError>())
 const apS = sequenceS(V)
 
 const validateOrderId = (s: string): E.Either<VE, OrderId> =>
@@ -189,7 +189,7 @@ const validateCustomerName = (s: string): E.Either<VE, string> =>
 
 const validateItems = (items: ReadonlyArray<RawItem>): E.Either<VE, ReadonlyArray<ValidatedItem>> =>
   items.length > 0
-    ? pipe(items, RA.traverse(V)(validateItem))
+    ? pipe(items, A.traverse(V)(validateItem))
     : E.left([{ field: 'items', message: 'required' }])
 
 const validateOrder = (raw: RawOrder): E.Either<VE, ValidatedOrder> =>
@@ -278,7 +278,7 @@ test('price all items', () => {
 })
 
 const priceItems = (catalog: Catalog) => (items: ReadonlyArray<ValidatedItem>): E.Either<PricingError, ReadonlyArray<PricedItem>> =>
-  pipe(items, RA.traverse(E.Applicative)(priceItem(catalog)))
+  pipe(items, A.traverse(E.Applicative)(priceItem(catalog)))
 ```
 
 ---
@@ -540,7 +540,7 @@ test('line-item total equals fold total for all valid orders', () => {
     fc.property(pricedOrderArb, (order) => {
       const byLineItems = pipe(
         order.items,
-        RA.foldMap(N.MonoidSum)((item) => item.linePrice),
+        A.foldMap(N.MonoidSum)((item) => item.linePrice),
       )
       const byAmountToBill = order.amountToBill
 

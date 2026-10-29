@@ -102,7 +102,7 @@ When a tangential idea arises mid-cycle, add it to the test list and return to t
 | **Fake It** | Return a hard-coded `E.right(value)` or `TE.right(value)`. Replace constants with `pipe` expressions as you remove duplication. |
 | **Triangulation** | Add a second `fc.property(...)` assertion or a second example-based test with different data. Generalise only when forced. |
 | **Obvious Implementation** | Type in the real `pipe(input, validate, E.flatMap(price), E.map(createEvents))` when it's clear. |
-| **One to Many** | Implement for a single value first, then generalise to `ReadonlyArray`. Use `RA.map`, `RA.traverse`, `RA.foldMap` to scale up. |
+| **One to Many** | Implement for a single value first, then generalise to `ReadonlyArray`. Use `A.map`, `A.traverse`, `A.foldMap` to scale up. |
 
 ## Testing Patterns -- fp-ts Adaptations
 

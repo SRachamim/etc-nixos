@@ -25,9 +25,11 @@ For each file, read the YAML frontmatter and body. Present a summary table:
 |---|----------|----------|-------------------|------------|--------|
 ```
 
+Then group the observations into clusters: observations that report the same defect (e.g. one wrong path recorded on several runs), or that target the same section of one artifact, form one cluster. Normalize `affected-artifact` first -- producers write it in different forms (`code-review-g/SKILL.md`, `.claude/skills/...`, `home/file/agents/skills/...`). Present the clusters with their member observations. Steps 2--4 then operate per cluster: one evaluation, one consolidated edit, and one approval per cluster, so the edit addresses the shared root cause instead of appending one sentence per observation.
+
 ### 2. Classify complexity
 
-For each observation, classify its complexity to determine the evaluation approach:
+For each cluster, classify its complexity to determine the evaluation approach:
 
 | Complexity | Examples | Evaluation approach |
 |---|---|---|
@@ -37,23 +39,23 @@ For each observation, classify its complexity to determine the evaluation approa
 
 ### 3. Evaluate
 
-For each observation (starting with mechanical, then non-trivial):
+For each cluster (starting with mechanical, then non-trivial):
 
 1. **Verify the issue is still present.** Read the affected source file under `home/file/agents/skills/`. The observation may be stale if the artifact was already updated.
 2. **Assess the suggested fix.** Is it the right approach? Could a different change address the root cause better? Should the fix target a different artifact?
 3. **Plan the actual change.** The suggested diff is advisory input. Plan your own edit based on the evaluation.
 
-Present the evaluation and planned change to the user for each observation. Wait for approval before applying.
+Present the evaluation and planned change to the user for each cluster. Wait for approval before applying.
 
 ### 4. Apply approved changes
 
-For each approved observation:
+For each approved cluster:
 
 1. Apply the planned edit to the source file under `home/file/agents/skills/`.
 2. If the change affects a workflow skill, verify that `workflow-catalog-g` and `follow-up-map-g` remain consistent.
-3. Move the observation file from `pending/` to `applied/`.
+3. Move every observation file in the cluster from `pending/` to `applied/`.
 
-For rejected observations, move to `rejected/`.
+For rejected clusters, move their observation files to `rejected/`.
 
 ### 5. Commit
 

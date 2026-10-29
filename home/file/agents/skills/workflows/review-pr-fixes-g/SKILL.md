@@ -98,11 +98,11 @@ If the user does not proactively provide the revised plan, ask for it before pro
 #### When following up on `/review-pr-g`
 
 - Run `git fetch origin <target-branch> <source-branch>` to pick up new commits on both branches. Fetching only the source branch leaves the target stale, which corrupts commit topology analysis (the `origin/<target>..<source>` range includes commits already on the target).
-- List post-baseline commits: `git log --oneline <baseline-sha>..origin/<source>` where `<baseline-sha>` is the last commit reviewed and `<source>` is the PR's source branch.
+- List post-baseline commits: `git log --oneline <baseline-sha>..origin/<source>` where `<baseline-sha>` is the last commit reviewed and `<source>` is the PR's source branch. If `git merge-base --is-ancestor <baseline-sha> origin/<source>` fails, the author force-pushed: map rewritten commits with `git range-diff origin/<target> <baseline-sha> origin/<source>` and use `git diff <baseline-sha> origin/<source>` (scoped to in-scope paths) as the delta instead of reading commits individually.
 - If the repository has a scope filter (see **Repository-specific scope** above), discard changed files outside the included paths before proceeding.
 - Read each new commit individually using `git show <sha>`.
 - Only files touched by these post-baseline commits are in scope for the delta evaluation -- do not include files from IDE workspace state, open editors, or other context.
-- For files touched by the delta, use `Read` to examine surrounding context beyond the diff hunks where needed.
+- For files touched by the delta, read surrounding context beyond the diff hunks from the PR revision (`git show origin/<source>:<path>`), not the working tree -- the local checkout may be on a different revision.
 
 #### When following up on `/review-plan-g`
 

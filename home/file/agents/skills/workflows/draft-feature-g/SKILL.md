@@ -43,7 +43,7 @@ Print:
 
 - PR link, marked as a draft
 - Work item link, with its state unchanged
-- The next step: `/submit-feature-g` when the draft is ready for review
+- The next step: `/refine-draft-pr-g` to self-review and fix the draft, then `/submit-feature-g` when it is ready for review
 
 ### 5. Evolve
 

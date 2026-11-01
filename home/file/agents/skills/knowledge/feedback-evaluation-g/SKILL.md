@@ -64,4 +64,5 @@ This skill provides the evaluation framework behind:
 - **Autopilot's** fix/dismiss/ask triage -- this skill deepens the reasoning that selects between those categories.
 - **trace-pr-comments-g** -- that skill maps comments to artifacts; this skill evaluates their merit.
 - **review-pr-fixes-g** -- when following up on review feedback as author, apply these principles.
+- **refine-draft-pr-g** -- weighs the findings of a subagent's review of the author's own draft PR.
 - `/submit-feature-g` and `/review-pr-g` -- these create the Slack thread that the **weigh-feedback-g** workflow replies to.

@@ -53,7 +53,7 @@ flowchart LR
 3. **/submit-feature-g** -- PR + work item transition + Slack.
 4. **/close-worktree-g** -- Post-merge cleanup.
 
-**Note:** `/draft-feature-g` can be invoked before step 3 to open a draft PR linked to the work item, without a state transition or Slack messages. `/submit-feature-g` later publishes that draft with auto-complete set.
+**Note:** `/draft-feature-g` can be invoked before step 3 to open a draft PR linked to the work item, without a state transition or Slack messages. `/refine-draft-pr-g` then reviews the draft in a clean-context subagent, weighs the findings, and folds the approved fixes into the draft's commits without posting anything. `/submit-feature-g` later publishes that draft with auto-complete set.
 
 **Note:** `/commit-and-push-g` can be invoked anytime during implementation to push intermediate progress (e.g. before switching branches). The agent also uses it internally during `/plan-g` execution and `/submit-feature-g`.
 
@@ -453,7 +453,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
 | `codify-review-miss-g`        | `/submit-review-g`                                                    | Analyzes non-skipped triage findings into review skill improvements |
 | `continuous-improvement-g`    | `capture-improvement-g`, `review-retrospective-g`                     | Improvement methodology (signals, categories)  |
-| `feedback-evaluation-g`       | `/weigh-feedback-g`, `/review-pr-fixes-g`                             | PR feedback evaluation framework               |
+| `feedback-evaluation-g`       | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/refine-draft-pr-g`       | PR feedback evaluation framework               |
 | `follow-up-map-g`             | `capture-improvement-g`                                               | Presents up to 3 follow-up skill suggestions   |
 | `mode-gate-g`                 | Most workflow skills (step 0)                                         | Enforces Plan/Debug/Ask mode before proceeding |
 | `browser-bug-reproduction-g`  | `/reproduce-bug-g`, `/debug-g`                                        | Mechanics of local dev + browser verification  |

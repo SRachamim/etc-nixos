@@ -399,10 +399,12 @@ flowchart LR
   A["/deliver-feature-g"] --> B["checkout"]
   B --> C["plan"]
   C --> D["implement"]
-  D --> E["submit PR"]
+  D --> E["draft PR"]
+  E --> F["refine"]
+  F --> G["submit PR"]
 ```
 
-- **/deliver-feature-g <work-item-id>** -- Orchestrates: `/checkout-worktree-g` -> `/plan-g` (or `/analyze-prd-g` + `/plan-from-prd-intake-g` with `--prd`) -> implement -> `/submit-feature-g`. Human gates at plan approval and PR submission. Replaces 4 manual invocations with 1.
+- **/deliver-feature-g <work-item-id>** -- Orchestrates: `/checkout-worktree-g` -> `/plan-g` (or `/analyze-prd-g` + `/plan-from-prd-intake-g` with `--prd`) -> implement -> `/draft-feature-g` -> `/refine-draft-pr-g` -> `/submit-feature-g`. Human gates at plan approval and at implementation + review-verdict approval. Replaces 6 manual invocations with 1.
 
 ---
 

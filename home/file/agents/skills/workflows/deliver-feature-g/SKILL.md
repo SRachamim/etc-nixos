@@ -1,6 +1,6 @@
 ---
 name: deliver-feature-g
-description: End-to-end feature delivery in a single command -- checks out worktree, plans, implements, submits PR, and queues cleanup. Use when the user wants to deliver a work item from start to finish. Supports both ticket-based and PRD-based flows.
+description: End-to-end feature delivery in a single command -- checks out worktree, plans, implements, drafts and refines the PR, submits it, and queues cleanup. Use when the user wants to deliver a work item from start to finish. Supports both ticket-based and PRD-based flows.
 ---
 
 # Deliver Feature
@@ -17,7 +17,7 @@ Orchestrate the full feature delivery lifecycle from a single invocation. Runs a
 This workflow pauses for user input at exactly **two** points:
 
 1. **Gate 1 -- Plan approval**: after the plan is materialized, the user reviews, iterates, or approves.
-2. **Gate 2 -- Implementation approval**: after all commits are made and verified, the user reviews the implementation diff, iterates, or approves.
+2. **Gate 2 -- Implementation approval**: after all commits are made, verified, and opened as a draft PR, the user reviews the implementation diff and the draft-review verdict table, iterates, or approves.
 
 Outside these gates, the agent proceeds autonomously. Specifically:
 
@@ -26,7 +26,7 @@ Outside these gates, the agent proceeds autonomously. Specifically:
 - Do **not** present intermediate artifacts (Slack messages, work item transitions) for separate approval.
 - Do **not** offer the user choices when encountering obstacles -- attempt autonomous resolution first.
 
-When delegating to sub-skills, override their interactive behaviour to honour this contract. Any approval gates defined inside delegated skills (e.g. Slack message approvals in **submit-feature-g**) are skipped -- compose and execute automatically after Gate 2.
+When delegating to sub-skills, override their interactive behaviour to honour this contract. Any approval gates defined inside delegated skills (e.g. Slack message approvals in **submit-feature-g**) are skipped -- compose and execute automatically after Gate 2. The same applies to the PR title and description approval in **create-pr-g** (reached through **draft-feature-g** and **submit-feature-g**), the verdict-table approval in **refine-draft-pr-g** (folded into Gate 2), and the `--force-with-lease` confirmation in **commit-and-push-g** fixup mode (the draft has no reviewers yet).
 
 ## Steps
 
@@ -74,33 +74,43 @@ Run all Level 5-6 verification artifacts added during implementation:
 This step ensures the feature works end-to-end before human review begins.
 Levels 1-4 are already covered per-commit by **plan-execution-g**'s validation step.
 
-### 4. Review implementation
+### 4. Draft and review
 
-Before Gate 2, get a clean-context review of the whole change. When the agent can spawn subagents, spawn the **reviewer** subagent on `git diff <default-branch>...HEAD` with the plan's requirements, plus the **quality-reviewer** subagent for fgrepo changes under `client/`. Otherwise review the diff inline against the **code-review-g** skill.
+Before Gate 2, open a draft PR and get a clean-context review of the whole change:
 
-**Gate 2 -- Implementation approval**: present the full implementation diff (`git diff <default-branch>...HEAD`), a summary of all commits made, and the review findings grouped by severity. The user reviews the implementation, can request changes, or approves.
+1. Follow the **draft-feature-g** skill with the work item ID. It commits any leftover changes, pushes, and opens a draft PR linked to the work item, without a state transition or Slack messages.
+2. Follow the **refine-draft-pr-g** skill, steps 1--4, on that draft. Skip its step 0 mode gate: steps 1--4 are read-only by instruction. Its review runs **review-pr-g** in a clean-context subagent, which spawns the **reviewer** subagent (plus **quality-reviewer** for fgrepo changes under `client/`), and falls back to an inline review when subagents are unavailable.
 
-If the user requests changes, apply them, re-verify, and present the updated diff. Repeat until approved.
+**Gate 2 -- Implementation approval**: present in one message the full implementation diff (`git diff <default-branch>...HEAD`), a summary of all commits made, and the verdict table from **refine-draft-pr-g** step 4. The user approves, overrides verdicts, or requests implementation changes.
 
-### 5. Submit PR
+If the user requests changes, apply them, re-verify, follow the **commit-and-push-g** skill in **commit** mode so the draft matches `origin`, and present the updated diff. Re-run **refine-draft-pr-g** steps 2--4 only when the user asks. Repeat until approved.
 
-After Gate 2 approval, follow the **submit-feature-g** skill. Override its interactive behaviour per the autonomy contract:
+If the review is `clean`, skip step 5.
 
-- Compose the PR description, select reviewers, and create the PR automatically.
+### 5. Apply review fixes
+
+After Gate 2 approval, follow the **refine-draft-pr-g** skill, steps 5--6: fix the approved **Agree-fix** and **Partial** findings, apply **self-review-g**, run the checks, and fold the fixes into the draft's commits with **commit-and-push-g** in **fixup** mode, force-pushing without asking. Keep the **Agree-defer** and **Need-context** findings for the completion summary.
+
+### 6. Submit PR
+
+Follow the **submit-feature-g** skill. Override its interactive behaviour per the autonomy contract:
+
+- Compose the PR description and select reviewers automatically. **create-pr-g** publishes the existing draft with auto-complete set instead of creating a new PR.
 - Transition the work item to Code Review automatically.
 - Compose and send the Slack notification automatically -- do not present it for separate approval.
 - Agent artifact and automation folder notifications (fgrepo only) are sent automatically.
 
 Do not improvise PR submission -- the skill encodes the correct Slack channels, artifact notification recipients, and formatting conventions.
 
-### 6. Completion
+### 7. Completion
 
 Print a summary of everything done:
-- PR link.
+- PR link, noting it was published from draft with auto-complete set.
+- Draft-review outcome: counts of fixed, deferred, rejected and open findings, listing the deferred and open ones.
 - Work item link and new state.
 - Slack notification confirmation.
 - Reminder: "Run `/close-worktree-g` after the PR merges."
 
-### 7. Evolve
+### 8. Evolve
 
 Follow the **capture-improvement-g** skill.

@@ -26,7 +26,7 @@ This file is a shared skill. It is referenced by the **submit-feature-g** and **
   - For the `fgrepo` repository, target `develop` unless the user specifies a different branch.
   - For all other repositories, consult the **gitflow-branching-g** skill: feature branches target `develop`, release and hotfix branches target `main`. Fall back to the repository's **default branch** if the branching model doesn't apply or `develop` does not exist.
 - Look for an active PR whose source is the current branch. If one exists, don't create a second one:
-  - **Draft PR and `draft` is false**: publish it. Run steps 2--3 to refresh the title and description. After the user approves them, update the PR in one call: set `isDraft` to false, turn on `autoComplete`, and pass the approved title and description. Leave the other auto-complete options at their tool defaults. Present the PR link, note that it is published with auto-complete set, and skip step 4.
+  - **Draft PR and `draft` is false**: publish it. Run steps 2--3 to refresh the title and description. After the user approves them, update the PR in one call: set `isDraft` to false, turn on `autoComplete`, set `mergeStrategy` to one the target branch policy allows, and pass the approved title and description. To pick the strategy, look at the user's last completed PR into the same target. A single-parent commit with the source SHA's message means `Rebase`. After the update, re-read the PR and confirm the auto-complete fields (for example `autoCompleteSetBy`) are present before you report auto-complete as set. Present the PR link, note that it is published with auto-complete set, and skip step 4.
   - **Otherwise**: present the existing PR link and skip steps 2--4.
 
 ### 2. Gather context for the PR

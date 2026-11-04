@@ -66,6 +66,8 @@ If parallel execution is unavailable, proceed sequentially with the guidance bel
 4. Identify the root cause or likely root cause. When certainty is low, state the hypothesis explicitly and note what is unknown.
 5. Check existing test coverage in the affected area -- whether tests exist, whether they cover the failing scenario.
 
+Check whether the item is already done. Run `git log -S` or `git log -L` on the lines or symbols it targets, limited to commits newer than the item's `createdDate`. If a later commit already meets the item's "done when", say so with the commit hash and offer to close the item instead of triaging it. If the user agrees, skip steps 4--5. In step 6, follow the "Closing without triage" section of the **triage-transition-g** skill.
+
 Spend enough time here to form a concrete understanding. Don't guess -- read the code.
 
 Present findings:
@@ -128,7 +130,7 @@ Compose the ADO field updates that **will** be applied, but do not apply them ye
 
 Follow the **effort-estimation-g** skill for hours and confidence level, grounded in the codebase understanding from steps 3--4. Follow the **triage-transition-g** skill for the required fields and their defaults.
 
-If `OriginalEstimate`, `RemainingWork`, or `EstimationConfidenceLevel` are already set on the work item, carry the existing values forward and do not overwrite them.
+If `OriginalEstimate` is already set, carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them. A confidence level set without an estimate is a creation default, so estimate it again.
 
 Present the draft:
 

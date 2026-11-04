@@ -90,7 +90,7 @@ When this step reveals multiple viable paths with no clear winner under the prio
 
 ### 6. Draft the plan
 
-Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments, updating a work item state). Every step will become a TODO item during implementation (step 10).
+Design a sequence of **steps** to ship the change. Most steps are commits; some may be non-commit actions (e.g. creating a follow-up task for TODO comments). Don't add work-item state transitions as steps, because **submit-feature-g** and PR auto-complete own them. Every step will become a TODO item during implementation (step 10).
 
 Design commits following the **commit-conventions-g** skill. Documentation updates must be included in the same commit that introduces the code change making them stale -- never in a separate follow-up commit. For restructuring commits, each commit applies one refactoring and must leave the codebase compiling and tests passing.
 

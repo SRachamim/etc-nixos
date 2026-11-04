@@ -42,6 +42,8 @@ If no `update_work_item` tool is available in the current MCP server set, inform
 
 When transitioning a Task, Azure DevOps requires `CompletedWork` to be non-empty. Set it to `OriginalEstimate` (or the actual hours spent) and `RemainingWork` to `0`. Read these values from the work item fetched during PR creation.
 
+If the work item is still `New` or has no `OriginalEstimate`, first follow the **triage-transition-g** skill (estimate grounded in the branch diff, present it for approval, transition to Triaged). Then transition to Code Review with `CompletedWork` set to the new estimate.
+
 Use the `additionalFields` array (not top-level fields) for effort tracking:
 `[{"name": "Microsoft.VSTS.Scheduling.CompletedWork", "value": "<hours>"}, {"name": "Microsoft.VSTS.Scheduling.RemainingWork", "value": "0"}]`.
 See the **triage-transition-g** skill (step 4) for the general `additionalFields` format.

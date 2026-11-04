@@ -33,7 +33,7 @@ Inspect the fetched relations for a **predecessor** link. If one exists, the wor
 
 ### 3. Estimate
 
-If `OriginalEstimate`, `RemainingWork`, or `EstimationConfidenceLevel` are already set on the work item, **skip this step** -- carry the existing values forward and do not overwrite them.
+If `OriginalEstimate` is already set, **skip this step** -- carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them. A confidence level set without an estimate is a creation default, so estimate it again.
 
 Otherwise, follow the **effort-estimation-g** skill, passing the work item details as input.
 
@@ -62,13 +62,17 @@ Call `update_work_item` with:
 
 - **priority** -- ADO requires this when transitioning to Triaged. Default to `4` (lowest) unless the work item warrants higher priority.
 - `Custom.BusinessPriority` -- also required for the Triaged transition. Default to `"4: Technical"` for internal/tooling tasks. Other values follow the pattern `"1: Must Have"`, `"2: Should Have"`, `"3: Nice to Have"`, `"4: Technical"`.
-- `Custom.Version` -- the current release version (e.g. `26.2.1`). Infer from a recent work item in the same iteration if not known.
+- `Custom.Version` -- the current release version. Read the picklist with `get_field_allowed_values` (the item's type, field `Custom.Version`) and pick the release that matches the iteration's quarter (e.g. `11-A-26` -> `26.4`). Never copy it from another work item, because they can carry `Backlog` or retired values.
 
 #### Estimation fields
 
-Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If the fields were already set on the work item, omit them from the update.
+Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If `OriginalEstimate` was already set on the work item, omit all three from the update.
 
 When included, the **effort-estimation-g** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
+
+### Closing without triage
+
+For an item that is superseded, a duplicate or no longer needed, don't triage it. Add a comment that gives the reason and cites the superseding commit, PR or item, then set `state: "Removed"`. A New item can't move to `Closed` without OriginalEstimate, RemainingWork and the other Triaged fields. Filling them with 0 h would record effort that never happened.
 
 ### 5. Confirm
 

@@ -52,7 +52,7 @@ Wait for user approval before proceeding.
 
 ### 4. Post findings
 
-Skip this step when verdict is `approve`.
+On `approve`, skip posting new findings. Thread status updates from a follow-up review (`/review-pr-fixes-g`) still apply.
 
 For initial reviews (preceded by `/review-pr-g`):
 

@@ -47,6 +47,7 @@ If none yields a PR, ask the user and stop.
 ### 2. Gather context
 
 - Fetch the PR details (source and target branches) via `repo_get_pull_request_by_id`. PR title and description are fetched for navigation only -- they are not review inputs (see the **code-review-g** skill's Review Inputs section).
+- Fetch the user's existing threads on the PR (`repo_list_pull_request_threads`, filtered to the user's email). When the description or replies say content moved to or from sibling PRs, fetch the user's threads there too. For each resolved thread, check on the source branch that the fix landed, and report it in a thread-by-thread table. Brief the reviewers with resolved decisions as settled context, and drop findings that only reverse one unless new evidence contradicts it -- flag any kept reversal for the user.
 - **If the PR was resolved from a Slack message** (step 1, option 2):
   - Parse the Slack link to extract `channel_id` and `thread_ts` (insert dot before last 6 digits of the `p`-prefixed timestamp).
   - React to the Slack message with `eyes` to signal the review has started (see **Slack reaction signals**). Call `reactions_add` with the extracted `channel_id`, the message `timestamp`, and `emoji: "eyes"`.
@@ -101,6 +102,7 @@ From the commit sequence, infer:
 - The **target state** -- what the codebase should look like after the PR lands.
 - The **ordering strategy** -- are refactorings separated from behaviour changes? Are tests added before the code they protect?
 - The **design decisions** -- what alternatives were implicitly rejected by the chosen approach.
+- The **defect behind a guard** -- when the PR adds a preventive constraint (type rule, lint, validation) rather than a fix, trace the runtime consumer that produces the defect. Check that the guard covers every input path that reaches it, keys on a named set rather than one literal, and exposes no unchecked route to call sites.
 
 #### Check for existing solutions
 
@@ -112,6 +114,8 @@ When the PR introduces a new abstraction (component, hook, utility, module, serv
 - Utility functions or hooks that already encapsulate the logic being re-implemented.
 
 If a match exists, evaluate whether the PR should **reuse** the existing abstraction, **compose** with it, or **generalize** it into a shared solution. A new abstraction that reimplements logic already present elsewhere is a design finding (severity: Suggestion or Blocking depending on the degree of duplication). Also consider dropping the requirement that motivated the new code -- a one-line option change can make a new script unnecessary.
+
+When the PR adds an operation to an existing entity or module (a mutation, endpoint, or repository method), compare it with the sibling operations (create, update). Check that it goes through the same layers (repository, ACL, error mapping) and sits in the same file slot. An operation that skips a layer its siblings use, or sits in its own file, is a design finding.
 
 #### Research prior art
 
@@ -132,13 +136,14 @@ Apply the **design-lenses-g** skill using the **review framing** for all three l
 
 When the agent can spawn subagents, delegate the line-level evaluation so the diff stays out of the main context:
 
-- Spawn the **reviewer** subagent with the target and source refs, the commit list, the in-scope file list, and the standards listed below. For more than about 15 files, spawn one reviewer per module or package, each with its own files. The brief must forbid `git checkout`/`git switch` in the workspace -- reviewers read branch files with `git show <source-ref>:<path>` -- and must name the placement sweep explicitly: check every new exported type, function, or constant against the module placement rule in **code-review-g** Convention compliance, including those added to files that predate the PR.
+- Spawn the **reviewer** subagent with the target and source refs, the commit list, the in-scope file list, and the standards listed below. For more than about 15 files, spawn one reviewer per module or package, each with its own files. The brief must forbid `git checkout`/`git switch` in the workspace -- reviewers read branch files with `git show <source-ref>:<path>` -- and must name the placement sweep explicitly: check every new type, function, or constant -- exported or module-private -- against the module placement rule in **code-review-g** Convention compliance, including those added to files that predate the PR.
 - For fgrepo PRs with changed files under `client/`, also spawn the **quality-reviewer** subagent with an isolation brief as defined by the **client-quality-focus-g** skill.
 - Merge the returned findings, drop duplicates, and check each against the diff hunk it cites before carrying it into step 6. Then check each finding's proposed fix:
   - When the fix patches the author's approach, check whether the tool or library has a standard idiom that removes the problem (flag precedence, a built-in option) and propose that instead.
   - When the fix moves or extracts code into another file, check the target against the placement rule (fgrepo client/: the `client-module-anatomy` Function Placement procedure). Drop the suggestion if no valid home exists.
+  - When the fix includes a code sketch, check it against the real types on the source branch (return types, non-empty arrays, overloads). Drop or rework a finding whose only fix doesn't type-check.
 
-Otherwise, evaluate inline. Either way, the standards are the same: apply the **code-review-g** skill for general review standards.
+Otherwise, evaluate inline and run the same placement sweep: list every added declaration (`git diff origin/<target>...origin/<source> | grep '^+export'`, plus new module-private ones) and check each against the rule. Either way, the standards are the same: apply the **code-review-g** skill for general review standards.
 
 Additionally:
 

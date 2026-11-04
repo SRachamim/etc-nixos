@@ -1,6 +1,6 @@
 # Agent customisations authored once under home/file/agents/ and rendered
 # into each supported agent's native format (Claude Code, Cursor, Gemini CLI,
-# Antigravity, Codex).
+# Codex).
 { config, pkgs, lib, ... }:
 let
   json = pkgs.formats.json { };
@@ -72,10 +72,6 @@ let
         target = ".gemini/agents/${name}.md";
         text = frontmatter (identity // lib.optionalAttrs readonly { tools = geminiReadOnlyTools; }) + body;
       };
-      "ai-agent-antigravity-${name}" = {
-        target = ".gemini/config/agents/${name}/agent.md";
-        text = frontmatter identity + body;
-      };
       "ai-agent-codex-${name}" = {
         target = ".codex/agents/${name}.toml";
         source = toml.generate "${name}.toml" (identity // {
@@ -94,7 +90,6 @@ let
     claude = { sessionStart = "SessionStart"; promptSubmit = "UserPromptSubmit"; preToolUse = "PreToolUse"; postToolUse = "PostToolUse"; stop = "Stop"; notification = "Notification"; };
     cursor = { sessionStart = "sessionStart"; promptSubmit = "beforeSubmitPrompt"; preToolUse = "preToolUse"; postToolUse = "postToolUse"; stop = "stop"; };
     gemini = { sessionStart = "SessionStart"; promptSubmit = "BeforeAgent"; preToolUse = "BeforeTool"; postToolUse = "AfterTool"; stop = "AfterAgent"; notification = "Notification"; };
-    antigravity = { preToolUse = "PreToolUse"; postToolUse = "PostToolUse"; stop = "Stop"; };
     codex = { sessionStart = "SessionStart"; promptSubmit = "UserPromptSubmit"; preToolUse = "PreToolUse"; postToolUse = "PostToolUse"; stop = "Stop"; };
   };
   toolEvents = [ "preToolUse" "postToolUse" ];
@@ -102,14 +97,12 @@ let
     claude = { shell = "Bash"; edit = "Edit|Write|MultiEdit|NotebookEdit"; read = "Read|Grep|Glob"; mcp = "mcp__.*"; };
     cursor = { shell = "Shell"; edit = "Write|Delete"; read = "Read|Grep"; mcp = "MCP:.*"; };
     gemini = { shell = "run_shell_command"; edit = "write_file|replace"; read = "read_file|read_many_files|glob|grep_search|list_directory"; mcp = "mcp_.*"; };
-    antigravity = { shell = "run_command"; edit = "write_to_file|replace_file_content|multi_replace_file_content"; read = "view_file|list_dir|grep_search|find_by_name"; mcp = "mcp_.*"; };
     # Codex reads files through its shell tool, so `read` has no equivalent.
     codex = { shell = "Bash"; edit = "apply_patch|Edit|Write"; mcp = "mcp__.*"; };
   };
   # What an agent expects on stdout when a hook allows the action silently.
   allowOutput = agent: event:
     if event == "preToolUse" && agent == "cursor" then ''{"permission":"allow"}''
-    else if event == "preToolUse" && agent == "antigravity" then ''{"decision":"allow"}''
     else "{}";
 
   hooksDir = agentsDir + "/hooks";
@@ -169,10 +162,6 @@ let
   geminiHooks = hooksByEvent "gemini" (h: withMatcher h { hooks = [ (commandHook h // { inherit (h) name; }) ]; });
   codexHooks = hooksByEvent "codex" nestedEntry;
   cursorHooks = hooksByEvent "cursor" (h: withMatcher h { inherit (h) command; });
-  # Antigravity groups events under a per-hook name; only tool events nest.
-  antigravityHooks = lib.foldl' lib.recursiveUpdate { } (map
-    (h: { ${h.name}.${h.event} = [ (if h.matcher != null then { inherit (h) matcher; hooks = [ (commandHook h) ]; } else commandHook h) ]; })
-    (nativeHooks "antigravity"));
 
   # --- Output styles: home/file/agents/output-styles/<name>.md ---
   # Only Claude Code has output styles. The closest type elsewhere is a
@@ -200,11 +189,6 @@ let
       "ai-output-style-gemini-${style.slug}" = { target = ".gemini/skills/output-styles/${skill}/SKILL.md"; inherit text; };
       # Unique name, so Cursor's ~/.claude/skills duplicate problem cannot arise.
       "ai-output-style-cursor-${style.slug}" = { target = ".cursor/skills/${skill}/SKILL.md"; inherit text; };
-      "ai-output-style-antigravity-${style.slug}" = { target = ".gemini/antigravity/knowledge/artifacts/skills/${skill}.md"; inherit text; };
-      "ai-output-style-antigravity-meta-${style.slug}" = {
-        target = ".gemini/antigravity/knowledge/${skill}/metadata.json";
-        text = builtins.toJSON { summary = "Agent skill: ${skill}"; references = [ "artifacts/skills/${skill}.md" ]; };
-      };
     };
 
   # --- Fallbacks: the closest supported type for agents lacking one ---
@@ -247,8 +231,7 @@ in
 
     agents.gemini.settings = lib.mkMerge [
       (lib.mkIf (geminiHooks != { }) { hooks = geminiHooks; })
-      # A context file only Gemini CLI loads; Antigravity reads GEMINI.md and
-      # AGENTS.md from the same directory.
+      # A context file that carries Gemini CLI's fallbacks.
       (lib.mkIf (fallbacks "gemini" != [ ]) { context.fileName = [ "GEMINI-CLI.md" ]; })
     ];
 
@@ -277,12 +260,8 @@ in
         # force: replaces the unmanaged file `workmux setup --hooks` used to write.
         "ai-hooks-codex" = { target = ".codex/hooks.json"; force = true; source = json.generate "hooks.json" { hooks = config.agents.codex.hooks; }; };
       })
-      (lib.optionalAttrs (antigravityHooks != { }) {
-        "ai-hooks-antigravity" = { target = ".gemini/config/hooks.json"; source = json.generate "hooks.json" antigravityHooks; };
-      })
       (fallbackFile "claude" ".claude/rules/agent-fallbacks.md")
       (fallbackFile "gemini" ".gemini/GEMINI-CLI.md")
-      (fallbackFile "antigravity" ".gemini/config/rules/agent-fallbacks.md")
     ] ++ map renderSubagent subagents ++ map renderOutputStyle outputStyles);
   };
 }

@@ -84,44 +84,6 @@ let
     }) skills
   ) categories);
 
-  # Antigravity reads skills from ~/.gemini/antigravity/knowledge/
-  antigravityKnowledge = pkgs.runCommand "antigravity-knowledge" {} ''
-    mkdir -p $out/artifacts/skills
-
-    for category_dir in ${skillsDir}/workflows ${skillsDir}/knowledge ${skillsDir}/shared; do
-      if [ -d "$category_dir" ]; then
-        for skill_dir in "$category_dir"/*; do
-          if [ -d "$skill_dir" ] && [ -f "$skill_dir/SKILL.md" ]; then
-            skill_name=$(basename "$skill_dir")
-            cp "$skill_dir/SKILL.md" "$out/artifacts/skills/$skill_name.md"
-
-            mkdir -p "$out/$skill_name"
-            cat > "$out/$skill_name/metadata.json" <<MEOF
-{
-  "summary": "Agent skill: $skill_name",
-  "references": ["artifacts/skills/$skill_name.md"]
-}
-MEOF
-          fi
-        done
-      fi
-    done
-
-    mkdir -p "$out/skills_catalog"
-    cat > "$out/skills_catalog/metadata.json" <<MEOF
-{
-  "summary": "Agent Skills Catalog: lists all available skills for workflows like planning, reviewing, and investigating.",
-  "references": ["artifacts/skills_catalog.md"]
-}
-MEOF
-
-    echo "# Agent Skills Catalog" > "$out/artifacts/skills_catalog.md"
-    echo "When the user asks for a specific workflow, read the corresponding markdown file below using view_file." >> "$out/artifacts/skills_catalog.md"
-    for skill in "$out/artifacts/skills"/*.md; do
-      skill_name=$(basename "$skill" .md)
-      echo "- **$skill_name**: $skill" >> "$out/artifacts/skills_catalog.md"
-    done
-  '';
 in
 {
   home.stateVersion = "23.05";
@@ -197,17 +159,6 @@ in
       target = ".cursor/mcp.json";
       force = true;
       text = builtins.toJSON { inherit mcpServers; };
-    };
-    "ai-antigravity-mcp" = {
-      target = ".gemini/config/mcp_config.json";
-      force = true;
-      text = builtins.toJSON { inherit mcpServers; };
-    };
-    "ai-antigravity-knowledge" = {
-      source = antigravityKnowledge;
-      target = ".gemini/antigravity/knowledge";
-      recursive = true;
-      force = true;
     };
     "ai-codex-config" = {
       target = ".codex/config.toml";

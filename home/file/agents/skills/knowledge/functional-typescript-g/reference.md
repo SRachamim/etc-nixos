@@ -786,7 +786,7 @@ Wide input (`ReadonlyArray` -- any length) suppresses noise; narrow output (disc
 
 ### Degeneracy -- Multiple Independent Verification
 
-From SDF Ch. 1 §1.3: multiple independent paths to the same result increase reliability.
+From SDF Ch. 1 section 1.3: multiple independent paths to the same result increase reliability.
 
 ```typescript
 import { pipe } from 'fp-ts/function'
@@ -913,7 +913,7 @@ Base layer does not reference logging or tracing. Each metadata layer is self-co
 
 ### Generate-and-Test -- Separate Generation from Evaluation
 
-From SDF Ch. 1 §1.4: generator and tester are independent; neither knows the other's implementation.
+From SDF Ch. 1 section 1.4: generator and tester are independent; neither knows the other's implementation.
 
 **Before** -- generation and validation interleaved:
 
@@ -1141,7 +1141,7 @@ This is the TypeScript analogue of Idris's `SchemaType` function that computes a
 
 ### Domain-Specific Capability Types
 
-From Brady Ch. 11 §11.3.2: restrict the set of permitted operations to exactly those needed.
+From Brady Ch. 11 section 11.3.2: restrict the set of permitted operations to exactly those needed.
 
 **Before** -- domain logic has access to full IO, can do anything:
 

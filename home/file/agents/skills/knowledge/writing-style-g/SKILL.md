@@ -27,7 +27,7 @@ These apply to **all** new prose unless overridden by a platform-specific rule i
 - **Correct capitalisation and punctuation** -- always. No sloppy casing, no missing full stops in complete sentences.
 - **No typos** -- ever. Grammar, syntax, and semantics must be valid.
 - **Abbreviations and coder slang welcome** -- LGTM, PTAL, IIRC, AFAIK, TIL, YMMV, nit, WIP, etc. Avoid non-coder internet slang (no "fr fr", "no cap", "slay", "bestie", etc.).
-- **Keyboard characters only** -- never use non-keyboard typographic characters (em-dash, en-dash, middle dot, curly quotes, etc.). Stick to ASCII punctuation: `--` for dashes, `-` for hyphens, `"` and `'` for quotes.
+- **Keyboard characters only** -- never use non-keyboard typographic characters (em-dash, en-dash, middle dot, curly quotes, `§`, `¶`, `→`, `×`, `…`, etc.). Stick to ASCII punctuation: `--` for dashes, `-` for hyphens, `"` and `'` for quotes, `->` for arrows, `x` for multiplication, `...` for ellipses. To cite a section of a file, name the heading in words -- "the Test Execution Scope section of `client-tdd-workflow.mdc`" or "`client-tdd-workflow.mdc` (Test Execution Scope)" -- and number sections as "step 4" or "section 11", never "§4".
 - **Take positions** -- state opinions directly. Real people have views. Don't present all sides as balanced when you have evidence for one.
 - **Use specifics** -- name the function, the file, the exact error. Generic descriptions ("the issue", "the problem") are an LLM tell. Concretes ground the reader.
 - **Vary energy by context** -- terse for routine, careful for important. Monotone energy across all messages is an LLM hallmark.

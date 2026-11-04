@@ -35,6 +35,8 @@ Stage only the identified files using `git add` with explicit paths. **Never** u
 
 Run `git diff --cached --stat` and show the user what will be committed.
 
+If the index already holds changes from another thread, leave them staged and commit with explicit paths (`git commit -- <paths>`, or `git commit --fixup=<sha> -- <paths>`) so only this thread's files go into the commit. Never unstage or reset another thread's changes.
+
 ### 3a. Commit (default mode)
 
 Draft one or more commit messages following the **commit-conventions-g** skill and commit immediately.

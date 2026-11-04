@@ -22,7 +22,7 @@ Examples:
 
 Derive the slug from the work item title:
 
-1. Lowercase the entire title.
+1. Strip leading bracketed tags (e.g. `[Stability][gated]`), then lowercase the entire title.
 2. Replace non-alphanumeric characters (spaces, punctuation, special chars) with hyphens.
 3. Collapse consecutive hyphens to a single hyphen.
 4. Strip leading and trailing hyphens.
@@ -38,6 +38,7 @@ If the resulting slug is fewer than 3 words and the original title was longer, i
 | Login page crashes on empty email | `login-page-crashes-empty-email` |
 | Refactor portfolio valuation engine | `refactor-portfolio-valuation-engine` |
 | Update README | `update-readme` |
+| [Stability][gated] Client jobs lose agent (OOM suspected) on pool-med-v2-amd | `client-jobs-lose-agent-oom` |
 
 ## Choosing the Prefix
 

@@ -52,9 +52,19 @@ List Azure DevOps projects and locate the repository that matches the current gi
 
 If an Agent of Empires session exists for this worktree, delete it from the AoE TUI (`d`) or CLI before manual worktree removal. AoE cleans up worktrees it created when the session is deleted.
 
+First check whether this agent runs inside that session: compare `tmux display-message -p '#S'` with the session's tmux name (`aoe_<title>_<id>`). If it does, skip the deletion here, because it would end the agent partway through cleanup. Run steps 7--9 in one command from the bare root, then tell the user to delete the session with `d` as the last step.
+
 ### 7. Remove the worktree
 
 Follow the **worktree-layout-g** skill to resolve the worktree path.
+
+Before removing it, run `git -C "<root-repo>/<prefix>/<id>" status --porcelain`. If anything is uncommitted or untracked, stash it so it survives the removal (stashes live in the shared repository), then confirm the worktree is clean:
+
+```sh
+git -C "<root-repo>/<prefix>/<id>" stash push -u -m "<id> <what the changes are>"
+```
+
+Report the stash name in step 10.
 
 ```sh
 git worktree remove "<root-repo>/<prefix>/<id>"
@@ -62,7 +72,7 @@ git worktree remove "<root-repo>/<prefix>/<id>"
 
 If the current working directory is inside the worktree being removed, switch to the main worktree first.
 
-If `git worktree remove` fails and the PR is confirmed **Completed** (step 3), fall back to removing the directory directly:
+If `git worktree remove` still fails and the PR is confirmed **Completed** (step 3), fall back to removing the directory directly. Never use this fallback while uncommitted changes remain, because `rm -rf` destroys them:
 
 ```sh
 rm -rf "<root-repo>/<prefix>/<id>"
@@ -95,6 +105,8 @@ Print a summary of what was cleaned up:
 - Work item link and new state
 - Dependent work items that were unblocked (if any)
 - Worktree and branch removal confirmation
+- Stash name, if local changes were stashed
+- A reminder to delete the AoE session with `d`, if step 6 was skipped
 
 ### 11. Notify the team
 
@@ -108,6 +120,6 @@ If nothing is notable, state that briefly and move on.
 
 If a notification is warranted, follow the **delivered-text-g** skill (text type: "Slack message"), then compose a message for `#full-stack`.
 
-### 11. Evolve
+### 12. Evolve
 
 Follow the **capture-improvement-g** skill.

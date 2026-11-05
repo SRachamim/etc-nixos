@@ -60,8 +60,9 @@ Collect the information needed for the bypass request fields:
 - **What tests failed** -- if triage-build already ran, use its "Failed Tests" and "Error Summary" sections as the basis. Otherwise, fetch the build timeline to find the failed stage/job, then fetch test results. If the project uses Currents, search for the corresponding run by branch name and time window. Either way, summarise which tests failed and include Currents links where available.
 - **Stability owner** -- the stability owner is the client FE user listed in the channel's topic. The topic follows the format `FE: <@USER_ID>` among other area entries. Resolve in priority order:
   1. **Explicit argument** -- the user provided a name or handle.
-  2. **Channel topic** -- call `channels_list` with `channel_types: "public_channel,private_channel"`, find `C03R4T6L6J2`, and extract the user ID from the `FE:` line in the `topic` field.
-  3. **Ask the user** -- if the topic doesn't contain an `FE:` entry.
+  2. **Latest topic change** -- call `conversations_history` on `C03R4T6L6J2` with `include_activity_messages: true` and `limit: "30d"`, and extract the user ID from the `FE:` line of the newest "set the channel topic" message. The `channels_list` topic can be stale after a change, so read the change message first.
+  3. **Channel topic** -- if no topic-change message is found, call `channels_list` with `channel_types: "public_channel,private_channel"`, find `C03R4T6L6J2`, and extract the user ID from the `FE:` line in the `topic` field.
+  4. **Ask the user** -- if neither source contains an `FE:` entry.
 
 ### 4. Compose the bypass request message
 

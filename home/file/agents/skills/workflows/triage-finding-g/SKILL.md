@@ -18,7 +18,7 @@ The user's observation as free text. May include a file path, line reference, or
 
 ### 1. Validate context
 
-Verify the conversation contains raw findings from a preceding `/review-pr-g` or `/review-pr-fixes-g`. If that review is still in progress (e.g. reviewer subagents running), hold the note: parse it, gather evidence, state a provisional decision, and finalize it with an `F<n>` ID once the raw review is presented. If no review has started, tell the user and stop.
+Verify the conversation contains raw findings from a preceding `/review-pr-g` or `/review-pr-fixes-g`. If that review is still in progress (e.g. reviewer subagents running), queue the note: acknowledge it in one line and gather evidence quietly, without a provisional decision. Once the raw review is presented, process every queued note in order (skip, merge, or add with an `F<n>` ID) in the same response as the raw review. If no review has started, tell the user and stop.
 
 ### 2. Parse the note
 

@@ -23,7 +23,7 @@ Collect the authoritative findings list from the conversation:
 - If `/triage-finding-g` was invoked one or more times, the most recent findings list (after all triage decisions) is authoritative.
 - Otherwise, the raw findings output from `/review-pr-g` or `/review-pr-fixes-g` is authoritative.
 
-If the conversation contains no raw findings from a preceding review skill, tell the user and stop.
+If a `/review-pr-g` or `/review-pr-fixes-g` is still in progress (e.g. reviewer subagents running), queue the draft and run it right after the raw review and any queued triage decisions are presented -- don't stop. If no review has started and the conversation contains no raw findings from a preceding review skill, tell the user and stop.
 
 ### 3. Compose comment text
 

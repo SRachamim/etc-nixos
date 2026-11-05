@@ -70,7 +70,7 @@ If none yields a PR, ask the user and stop.
 - When the agent can spawn subagents, step 5 delegates line-level reading. Here, read only what step 4 needs: the commit messages, `git diff --stat origin/<target>...origin/<source>`, and the hunks behind any design question. Otherwise read the whole diff:
   - Read each PR commit individually using `git show <sha>` for a commit-by-commit view.
   - Alternatively, read the full PR diff using `git diff origin/<target>...origin/<source>` when a holistic view is more useful.
-  - For each changed file, read surrounding context beyond the diff hunks from the PR revision (`git show origin/<source>:<path>`), not the working tree -- the local checkout may be on a different revision.
+  - For each changed file, read surrounding context beyond the diff hunks from the PR revision (`git show origin/<source>:<path>`), not the working tree -- the local checkout may be on a different revision. When the ref is in a shell variable, write `"${ref}:<path>"` -- zsh reads `$ref:c...` as a history modifier.
 
 ### 4. Evaluate design
 
@@ -136,7 +136,7 @@ Apply the **design-lenses-g** skill using the **review framing** for all three l
 
 When the agent can spawn subagents, delegate the line-level evaluation so the diff stays out of the main context:
 
-- Spawn the **reviewer** subagent with the target and source refs, the commit list, the in-scope file list, and the standards listed below. For more than about 15 files, spawn one reviewer per module or package, each with its own files. The brief must forbid `git checkout`/`git switch` in the workspace -- reviewers read branch files with `git show <source-ref>:<path>` -- and must name the placement sweep explicitly: check every new type, function, or constant -- exported or module-private -- against the module placement rule in **code-review-g** Convention compliance, including those added to files that predate the PR.
+- Spawn the **reviewer** subagent with the target and source refs, the commit list, the in-scope file list, and the standards listed below. For more than about 15 files, spawn one reviewer per module or package, each with its own files. The brief must forbid `git checkout`/`git switch` in the workspace -- reviewers read branch files with `git show <source-ref>:<path>`, writing `"${ref}:<path>"` when the ref is in a shell variable (zsh reads `$ref:c...` as a history modifier) -- and must name the placement sweep explicitly: check every new type, function, or constant -- exported or module-private -- against the module placement rule in **code-review-g** Convention compliance, including those added to files that predate the PR.
 - For fgrepo PRs with changed files under `client/`, also spawn the **quality-reviewer** subagent with an isolation brief as defined by the **client-quality-focus-g** skill.
 - Merge the returned findings, drop duplicates, and check each against the diff hunk it cites before carrying it into step 6. Then check each finding's proposed fix:
   - When the fix patches the author's approach, check whether the tool or library has a standard idiom that removes the problem (flag precedence, a built-in option) and propose that instead.

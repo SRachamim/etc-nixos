@@ -54,7 +54,7 @@ you manage it from the dashboard (`Ctrl+b g`) or the `wm` CLI.
 After cloning this repository:
 
 ```bash
-cd /Volumes/Development/github.com/srachamim/etc-nixos/main
+cd /Volumes/Development/github.com/srachamim/etc-nixos.git/main
 switch   # alias for: sudo darwin-rebuild switch --flake .#macbook
 ```
 

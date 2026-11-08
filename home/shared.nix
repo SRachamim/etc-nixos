@@ -528,7 +528,7 @@ EOF
         '')
       ];
       shellAliases = {
-        switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos/main#macbook";
+        switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos.git/main#macbook";
       };
     };
   };

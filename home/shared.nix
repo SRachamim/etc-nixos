@@ -166,6 +166,8 @@ in
         mcp_servers = lib.mapAttrs' (name: value:
           lib.nameValuePair (lib.toLower (builtins.replaceStrings [" "] ["-"] name)) value
         ) mcpServers;
+        # Codex ignores ~/.codex/hooks.json (home/programs/agents/) without it.
+        features.hooks = true;
       };
     };
     "ai-claude-md" = {

@@ -103,6 +103,17 @@ in
     Stop = [{ hooks = [ (status "done") ]; }];
   };
 
+  # Mirrors upstream's resources/gemini/settings.json; without it every
+  # `wm add` offers to write the read-only ~/.gemini/settings.json.
+  agents.gemini.settings.hooks = {
+    SessionStart = [{ hooks = [ (hook "workmux register-agent") ]; }];
+    BeforeAgent = [{ hooks = [ (status "working") ]; }];
+    AfterTool = [{ hooks = [ (status "working") ]; }];
+    Notification = [{ matcher = "ToolPermission"; hooks = [ (status "waiting") ]; }];
+    AfterAgent = [{ hooks = [ (status "done") ]; }];
+    SessionEnd = [{ hooks = [ (status "done") ]; }];
+  };
+
   # Skills are fetched from the release tag matching the installed binary, so
   # they stay in step with Homebrew upgrades without pinning a version here.
   home.activation.installWorkmuxSkills = config.lib.dag.entryAfter [ "writeBoundary" ] ''

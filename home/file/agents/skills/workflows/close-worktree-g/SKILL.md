@@ -29,6 +29,7 @@ List Azure DevOps projects and locate the repository that matches the current gi
 
 - Fetch the work item linked to the PR.
 - PR completion normally auto-transitions linked work items to **Resolved**. Verify this happened.
+- Before transitioning, read the work item's comments for conditions on resolving it (e.g. "don't resolve before X"). If one exists, ask the user whether it is met; if it is not, leave the state unchanged and report why in step 8.
 - If the work item is still in **Code Review** or another pre-resolved state, transition it to **Resolved**.
 - Some work item types (notably **Escaped Defect**) require many mandatory fields for the Resolved state (Tech Domain, Is Regression, Custom Resolved Reason, Root Cause Description, Fix Description, Component, Reason for Defect Escape, Context for Chosen Reason, Task Number for Test Coverage, Blocker Reason). When transitioning these types:
   1. Fetch a recently resolved work item of the same type and area path to discover the allowed field values.

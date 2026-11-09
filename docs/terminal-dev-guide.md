@@ -121,7 +121,14 @@ wm add fix-flaky-login -p "Fix the flaky login test"
 wm list                             # worktrees, agent state
 wm merge                            # from inside the worktree: merge, then clean up
 wm rm fix-flaky-login               # drop without merging
+wm-checkout 12345                   # ADO work item: /checkout-worktree-g headless, then wm open
 ```
+
+`wm-checkout <id> [starting-ref]` runs `/checkout-worktree-g` with `claude -p`
+(fetch, `<root>/feature/<id>-<slug>`, work item set to Active), then opens the
+new worktree with `wm open <branch>`. Run it inside tmux, from any worktree of
+the repo. Claude may use only git, skills and the ADO work-item tools, so a
+missing permission fails the run instead of waiting on a prompt.
 
 - Worktrees land next to `main` (`worktree_dir: ".."`); workmux turns the
   branch's slashes into dashes.

@@ -38,6 +38,14 @@ in
         exec "${brewBin}" "$@"
       '';
     })
+
+    # /checkout-worktree-g headless, then `workmux open` on the new worktree.
+    # claude and workmux come from PATH, so both track their latest release.
+    (pkgs.writeShellApplication {
+      name = "wm-checkout";
+      runtimeInputs = with pkgs; [ coreutils git gnugrep gnused ];
+      text = builtins.readFile ./wm-checkout.sh;
+    })
   ];
 
   xdg.configFile."workmux/config.yaml".source = (pkgs.formats.yaml { }).generate "workmux-config.yaml" {

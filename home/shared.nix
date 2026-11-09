@@ -434,14 +434,20 @@ EOF
         # prefix+u -- open a URL from the scrollback.
         fzf-tmux-url
 
-        # prefix+Ctrl+s / prefix+Ctrl+r -- manual layout snapshot and restore.
-        # No continuum: session lifecycle belongs to Agent of Empires, and an
-        # automatic restore would resurrect sessions AoE no longer tracks.
+        # prefix+Ctrl+s / prefix+Ctrl+r -- layout snapshot and restore.
+        # continuum (loaded at the end of extraConfig) saves and restores
+        # automatically; it restores every saved session, AoE's included.
         {
           plugin = resurrect;
           extraConfig = ''
+            # Explicit, so a stray ~/.tmux/resurrect cannot move the saves.
+            set -g @resurrect-dir "$HOME/.local/share/tmux/resurrect"
             set -g @resurrect-strategy-nvim "session"
             set -g @resurrect-capture-pane-contents "on"
+            # Claude Code panes come back with their last conversation. No `~`:
+            # that matches anywhere, so `nvim ~/.claude/...` would restore as
+            # claude; without it the saved command must start with `claude`.
+            set -g @resurrect-processes '"claude->claude --continue"'
           '';
         }
       ]);
@@ -495,6 +501,15 @@ EOF
         # Reload this config into the running server; tmux has no default for it.
         # `r` shadows refresh-client, still reachable via `Ctrl+b : refresh-client`.
         bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux config reloaded"
+
+        # --- continuum: autosave every 10 min, restore when the server starts ---
+        # Loaded here, not in `plugins`: it autosaves by prefixing status-right
+        # with its save script when it loads, and the status line above resets
+        # status-right, so it must run after it. It needs resurrect, loaded above.
+        # No @continuum-boot: it writes a LaunchAgent imperatively.
+        set -g @continuum-restore "on"
+        set -g @continuum-save-interval "10"
+        run-shell ${pkgs.tmuxPlugins.continuum.rtp}
       '';
     };
 

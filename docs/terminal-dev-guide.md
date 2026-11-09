@@ -264,8 +264,13 @@ keys.
 `Ctrl+b Tab` is the one to learn first: it lifts file paths straight out of an
 agent's output without touching the mouse.
 
-Sessions are **not** restored automatically. AoE owns session lifecycle;
-resurrect only acts when you press the key.
+Sessions survive a restart. tmux-continuum saves every 10 minutes and restores
+the last save when the tmux server starts, so the first `tmux` after a reboot
+brings back every session, window and pane, AoE's included. Panes that ran
+Claude Code reopen with `claude --continue`; two Claude panes in the same
+directory both resume that directory's latest conversation. Don't also run
+`wm resurrect`: the windows are already open. `Ctrl+b Ctrl+s` saves on demand,
+e.g. right before a reboot.
 
 ### Mouse
 

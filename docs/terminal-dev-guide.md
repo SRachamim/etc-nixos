@@ -336,13 +336,13 @@ Inside Telescope: `Ctrl+j/k`, `Ctrl+n/p`, `Enter`, `Ctrl+x/v`, `Esc` — all sto
 
 | Key | Action |
 |-----|--------|
-| `<leader>ac` | Toggle Claude Code terminal |
-| `<leader>af` | Focus Claude Code |
 | `<leader>as` | Send visual selection to Claude |
 | `<leader>ab` | Add current buffer to Claude context |
-| `Ctrl+h` (terminal mode) | Leave the Claude split and move to the window on the left |
 
-Workflow: visual-select code → `<leader>as` → selection sent to Claude Code split.
+Claude runs in its own tmux pane; the plugin opens no split. Run `/ide`
+in Claude and pick Neovim (again after restarting either side). Once
+connected, Claude sees the current selection automatically, and
+`<leader>as` adds it to the prompt as an `@file#Lx-y` mention.
 
 ### Neovim — Git
 
@@ -500,7 +500,10 @@ Rebuilds and activates all configs atomically.
 
 ### Neovim ↔ Claude Code
 
-`claudecode.nvim` uses a WebSocket Claude auto-detects. Ensure nvim runs before Claude in the same tmux session.
+`claudecode.nvim` starts a WebSocket server when nvim opens and writes a
+lock file to `~/.claude/ide/`. Claude does not attach on its own: run
+`/ide` and pick Neovim. Claude's working directory must be inside nvim's.
+After restarting nvim, run `/ide` again.
 
 ### Neovim LSP
 

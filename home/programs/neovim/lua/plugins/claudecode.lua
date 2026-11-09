@@ -1,11 +1,7 @@
+-- Claude runs in its own tmux pane and attaches with `/ide`, so the plugin
+-- opens no terminal split.
 require("claudecode").setup({
-  terminal = {
-    split_side = "right",
-    split_width_percentage = 0.4,
-  },
+  terminal = { provider = "none" },
 })
-vim.keymap.set("n", "<leader>ac", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude Code" })
-vim.keymap.set("n", "<leader>af", "<cmd>ClaudeCodeFocus<cr>", { desc = "Focus Claude Code" })
 vim.keymap.set("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>", { desc = "Send selection to Claude" })
-vim.keymap.set("n", "<leader>ab", "<cmd>ClaudeCodeTreeAdd buffer<cr>", { desc = "Add buffer to Claude" })
-vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { desc = "Leave terminal, go left" })
+vim.keymap.set("n", "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", { desc = "Add buffer to Claude" })

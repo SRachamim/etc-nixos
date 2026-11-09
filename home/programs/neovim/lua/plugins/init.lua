@@ -36,16 +36,11 @@ return {
     end,
   },
 
-  -- claudecode.nvim (custom overlay name uses dash)
+  -- claudecode.nvim (custom overlay name uses dash). Loaded at startup so
+  -- its IDE server is up for `/ide` in a Claude running in another pane.
   {
     "claudecode-nvim",
-    cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeSend" },
-    keys = {
-      { "<leader>ac", mode = "n" },
-      { "<leader>af", mode = "n" },
-      { "<leader>as", mode = "v" },
-      { "<leader>ab", mode = "n" },
-    },
+    event = "DeferredUIEnter",
     after = function()
       require("plugins.claudecode")
     end,

@@ -31,6 +31,9 @@ allowed_tools=(
   "Bash(git:*)"
   "Skill"
   "Read(~/.claude/skills/**)"
+  # Each SKILL.md there is a home-manager symlink into /nix/store, and Claude
+  # checks the resolved path, so the rule above alone is denied.
+  "Read(//nix/store/**/SKILL.md)"
   "mcp__fundguard__get_work_item"
   "mcp__fundguard__update_work_item"
   "mcp__Azure_DevOps__wit_get_work_item"

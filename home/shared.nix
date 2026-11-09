@@ -284,8 +284,8 @@ EOF
 
     btop.enable = true;
 
-    # Owns ~/.claude/settings.json as a read-only symlink: runtime writers (AoE
-    # hook install, /config, /hooks) cannot persist changes. The base keys live
+    # Owns ~/.claude/settings.json as a read-only symlink: runtime writers (hook
+    # installers, /config, /hooks) cannot persist changes. The base keys live
     # in file/claude/settings.json; other modules add their own (e.g. hooks),
     # which the JSON option type merges.
     claude-code = {
@@ -436,7 +436,7 @@ EOF
 
         # prefix+Ctrl+s / prefix+Ctrl+r -- layout snapshot and restore.
         # continuum (loaded at the end of extraConfig) saves and restores
-        # automatically; it restores every saved session, AoE's included.
+        # automatically; it restores every saved session and window.
         {
           plugin = resurrect;
           extraConfig = ''

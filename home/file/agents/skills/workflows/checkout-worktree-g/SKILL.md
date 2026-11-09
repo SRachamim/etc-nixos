@@ -1,6 +1,6 @@
 ---
 name: checkout-worktree-g
-description: Creates a git worktree with a dedicated feature or hotfix branch for a work item ID and activates the work item. Use when starting development on an Azure DevOps work item in an isolated worktree.
+description: Creates a git worktree with a dedicated feature or hotfix branch for a work item ID, activates the work item, and opens the worktree in a workmux tmux window. Use when starting development on an Azure DevOps work item in an isolated worktree.
 disable-model-invocation: true
 ---
 
@@ -47,23 +47,16 @@ Run `git worktree list` and show the output so the user can verify the new workt
 
 Print the full path to the new worktree so the user can open it.
 
-### 7.5. Start an AoE session (optional)
-
-If the user wants a terminal agent session in the new worktree:
-
-```sh
-cd "<worktree-path>"
-aoe add --cmd claude .
-```
-
-Or create worktree + session in one step (when branch does not exist yet):
-
-```sh
-aoe add . -w <prefix>/<id>-<slug> -b
-```
-
-See `docs/terminal-dev-guide.md` in etc-nixos for the full terminal workflow.
-
 ### 8. Evolve
 
 Follow the **capture-improvement-g** skill.
+
+### 9. Open the workmux window
+
+Run this as the last step: it switches focus to the new tmux window (agent and shell panes), and the invoking session stays open behind it.
+
+```sh
+workmux open "<prefix>/<id>-<slug>"
+```
+
+If `$TMUX` is unset, print the command for the user to run inside tmux instead.

@@ -11,7 +11,6 @@
       "nikitabobko/tap"
     ];
     brews = [
-      "aoe"
       "workmux"
     ];
     casks = [

@@ -1,6 +1,6 @@
 ---
 name: close-worktree-g
-description: Verifies a merged PR and resolved work item, unblocks dependents, and cleans up the git worktree and branches. Use after a feature or hotfix PR is merged and the worktree should be torn down.
+description: Verifies a merged PR and resolved work item, unblocks dependents, and removes the git worktree, its workmux tmux window, and its branches. Use after a feature or hotfix PR is merged and the worktree should be torn down.
 disable-model-invocation: true
 ---
 
@@ -48,67 +48,38 @@ List Azure DevOps projects and locate the repository that matches the current gi
      - **Assigned to current user**: transition the successor from **Blocked** to **Triaged**. Present the transition to the user for approval before applying it. Include the successor work item ID, title, and the list of predecessors that were checked.
      - **NOT assigned to current user**: do not transition the state. Draft a Slack DM to the assignee notifying them their ticket is unblocked. Follow **delivered-text-g** (text type: "Slack message") using **communication-templates-g** section 9 "Significant" tier. Resolve the assignee's Slack identity via `users_search` with their ADO display name or email. Present the message for user approval before sending (per **external-communications-g**). Include the work item link and the completed PR link so the recipient has full context.
 
-### 6. Remove AoE session (if present)
-
-If an Agent of Empires session exists for this worktree, delete it from the AoE TUI (`d`) or CLI before manual worktree removal. AoE cleans up worktrees it created when the session is deleted.
-
-First check whether this agent runs inside that session: compare `tmux display-message -p '#S'` with the session's tmux name (`aoe_<title>_<id>`). If it does, skip the deletion here, because it would end the agent partway through cleanup. Run steps 7--9 in one command from the bare root, then tell the user to delete the session with `d` as the last step.
-
-### 7. Remove the worktree
+### 6. Stash local changes
 
 Follow the **worktree-layout-g** skill to resolve the worktree path.
 
-Before removing it, run `git -C "<root-repo>/<prefix>/<id>" status --porcelain`. If anything is uncommitted or untracked, stash it so it survives the removal (stashes live in the shared repository), then confirm the worktree is clean:
+Run `git -C "<root-repo>/<prefix>/<id>-<slug>" status --porcelain`. If anything is uncommitted or untracked, stash it so it survives the removal (stashes live in the shared repository), then confirm the worktree is clean:
 
 ```sh
-git -C "<root-repo>/<prefix>/<id>" stash push -u -m "<id> <what the changes are>"
+git -C "<root-repo>/<prefix>/<id>-<slug>" stash push -u -m "<id> <what the changes are>"
 ```
 
-Report the stash name in step 10.
+Report the stash name in step 8.
+
+### 7. Delete the remote branch
 
 ```sh
-git worktree remove "<root-repo>/<prefix>/<id>"
+git push origin --delete "<prefix>/<id>-<slug>"
 ```
 
-If the current working directory is inside the worktree being removed, switch to the main worktree first.
+If the remote branch was already deleted (e.g., by a server-side policy), ignore the error.
 
-If `git worktree remove` still fails and the PR is confirmed **Completed** (step 3), fall back to removing the directory directly. Never use this fallback while uncommitted changes remain, because `rm -rf` destroys them:
-
-```sh
-rm -rf "<root-repo>/<prefix>/<id>"
-git worktree prune
-```
-
-### 8. Delete the local and remote branches
-
-```sh
-git branch -d "<prefix>/<id>"
-git push origin --delete "<prefix>/<id>"
-```
-
-Use `-d` so git refuses if the branch has unmerged changes. If `-d` fails because the PR targeted a non-default branch (e.g. a release branch) or used squash merge, and the PR is confirmed **Completed** via the API, fall back to `-D`. If the remote branch was already deleted (e.g., by a server-side policy), ignore the push error.
-
-### 9. Prune worktrees and empty directories
-
-```sh
-git worktree prune
-rmdir "<root-repo>/<prefix>" 2>/dev/null
-```
-
-Clean up stale worktree references that may linger from previous removals. Remove the `<prefix>/` parent directory if it is now empty; `rmdir` is safe because it only succeeds on empty directories.
-
-### 10. Confirm completion
+### 8. Confirm completion
 
 Print a summary of what was cleaned up:
 
 - PR link and status
 - Work item link and new state
 - Dependent work items that were unblocked (if any)
-- Worktree and branch removal confirmation
+- Remote branch deletion
 - Stash name, if local changes were stashed
-- A reminder to delete the AoE session with `d`, if step 6 was skipped
+- That step 11 removes the worktree, its workmux window, and the local branch -- and ends this session if it runs in that window
 
-### 11. Notify the team
+### 9. Notify the team
 
 Consider whether the completed feature warrants a notification to `#full-stack`. Review the PR description, work item details, and the diff against the base branch to assess whether any changes fall into these categories (non-exhaustive):
 
@@ -120,6 +91,16 @@ If nothing is notable, state that briefly and move on.
 
 If a notification is warranted, follow the **delivered-text-g** skill (text type: "Slack message"), then compose a message for `#full-stack`.
 
-### 12. Evolve
+### 10. Evolve
 
 Follow the **capture-improvement-g** skill.
+
+### 11. Remove the worktree and its window
+
+Run this as the last step, in one command from the main worktree. `workmux remove` deletes the worktree, its tmux window, and the local branch; when this agent runs in that window, the window closes with it, so nothing may follow.
+
+```sh
+cd "<root-repo>" && workmux remove -f "<prefix>/<id>-<slug>"; git worktree prune; rmdir "<root-repo>/<prefix>" 2>/dev/null
+```
+
+`-f` skips the unmerged-branch confirmation, which is safe because step 3 confirmed the PR is **Completed** and step 6 left the worktree clean. If the worktree has no workmux window, `workmux remove` still removes the worktree and branch. `rmdir` only removes the `<prefix>/` directory when it is empty.

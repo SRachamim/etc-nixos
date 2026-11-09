@@ -25,27 +25,12 @@ in
   home.username = "sahar.rachamim";
   home.homeDirectory = "/Users/sahar.rachamim";
 
+  # Homebrew binaries are not on the Nix-managed PATH by default; sessionPath
+  # covers brew tools after a new login shell.
   home.sessionPath = [
     "/Applications/Cursor.app/Contents/Resources/app/bin"
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
-  ];
-
-  # Homebrew binaries are not on the Nix-managed PATH by default. The wrapper
-  # lands in the home-manager profile (already on PATH); sessionPath covers
-  # other brew tools after a new login shell.
-  home.packages = [
-    (pkgs.writeShellApplication {
-      name = "aoe";
-      text = ''
-        aoe_bin=/opt/homebrew/bin/aoe
-        if [ ! -x "$aoe_bin" ]; then
-          echo "aoe: not installed — run switch to install via Homebrew" >&2
-          exit 127
-        fi
-        exec "$aoe_bin" "$@"
-      '';
-    })
   ];
 
   # Runs before compinit (order 570), so brew formulae's completions load.

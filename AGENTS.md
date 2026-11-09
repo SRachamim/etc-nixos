@@ -25,10 +25,9 @@ The `block-imperative-changes` hook (`home/file/agents/hooks/`) blocks these com
 | macOS-specific home config | `home/darwin.nix` |
 | NixOS-specific home config | `home/nixos.nix` |
 | Shell config (zsh) | `home/shared.nix` (programs.zsh.initContent) |
-| Dotfiles (aerospace, agent-of-empires, etc.) | `home/file/<app>/` |
+| Dotfiles (aerospace, ctx, etc.) | `home/file/<app>/` |
 | Terminal dev environment guide | `docs/terminal-dev-guide.md` |
-| tmux / AoE shell aliases | `home/shared.nix` (programs.tmux, programs.zsh) |
-| AoE per-repo template | `home/file/agent-of-empires/` |
+| tmux shell aliases | `home/shared.nix` (programs.tmux, programs.zsh) |
 | workmux (config, hooks, skills, tmux keys) | `home/programs/workmux/` (binary: `modules/darwin/homebrew.nix`) |
 | Agent artifacts (skills, subagents, rules) | `home/file/agents/` |
 | Agent subagents, hooks, output styles | `home/file/agents/{subagents,hooks,output-styles}/` (rendered per agent by `home/programs/agents/`) |

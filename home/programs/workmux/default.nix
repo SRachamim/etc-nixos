@@ -1,6 +1,6 @@
 # workmux: git worktrees + tmux windows + agents (https://workmux.raine.dev).
-# Trialled alongside Agent of Empires; the binary comes from Homebrew
-# (modules/darwin/homebrew.nix) so it tracks upstream's latest release.
+# The binary comes from Homebrew (modules/darwin/homebrew.nix) so it tracks
+# upstream's latest release.
 { config, pkgs, lib, ... }:
 let
   brewBin = "/opt/homebrew/bin/workmux";
@@ -37,14 +37,6 @@ in
         fi
         exec "${brewBin}" "$@"
       '';
-    })
-
-    # /checkout-worktree-g headless, then `workmux open` on the new worktree.
-    # claude and workmux come from PATH, so both track their latest release.
-    (pkgs.writeShellApplication {
-      name = "wm-checkout";
-      runtimeInputs = with pkgs; [ coreutils git gnugrep gnused ];
-      text = builtins.readFile ./wm-checkout.sh;
     })
   ];
 

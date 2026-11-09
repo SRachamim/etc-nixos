@@ -4,25 +4,17 @@ A keyboard-driven, Vim-native development environment optimized for AI agent wor
 
 > **macOS note:** Throughout this guide, `Alt` means the **Option** key. Ghostty is configured with `macos-option-as-alt = true`, so pressing Option sends Alt to all programs inside the terminal.
 
-> **Full stack reference:** See also [home/file/agent-of-empires/README.md](../home/file/agent-of-empires/README.md) for per-repo AoE setup.
-
 ## Architecture Overview
 
 ```
 AeroSpace (tiling window manager)
   └── Ghostty (terminal emulator)
-        ├── Agent of Empires TUI (aoe)
-        │     └── tmux session (per agent)
-        │           ├── Claude Code (AI agent CLI)
-        │           ├── Neovim (editor + claudecode.nvim)
-        │           └── Shell (zsh + starship + atuin)
-        └── tmux session (workmux, trial)
-              └── tmux window (per worktree, created by `wm add`)
-                    ├── Claude Code
-                    └── Shell
+        └── tmux session
+              └── tmux window (per worktree, created by `wm add` / `wm open`)
+                    ├── Claude Code (AI agent CLI)
+                    └── Shell (zsh + starship + atuin; run nvim + claudecode.nvim here)
 ```
 
-AoE gives each agent its own tmux **session** and manages it from its TUI.
 workmux gives each agent a **window** inside the session you are already in, and
 you manage it from the dashboard (`Ctrl+b g`) or the `wm` CLI.
 
@@ -33,8 +25,7 @@ you manage it from the dashboard (`Ctrl+b g`) or the `wm` CLI.
 | AeroSpace | Tiling window manager (macOS) | `home/file/aerospace/aerospace.toml` |
 | Ghostty | GPU-accelerated terminal | `home/darwin.nix` (programs.ghostty) |
 | tmux | Terminal multiplexer (stock keybinds + 5 plugins) | `home/shared.nix` (programs.tmux) |
-| Agent of Empires | Parallel agent session manager | Homebrew `aoe`; repo `.agent-of-empires/config.toml` |
-| workmux | Worktree + tmux window per agent (trial, alongside AoE) | Homebrew `workmux`; `home/programs/workmux/` |
+| workmux | Worktree + tmux window per agent | Homebrew `workmux`; `home/programs/workmux/` |
 | Neovim | Editor | `home/programs/neovim/` |
 | Claude Code | AI agent CLI | `home/shared.nix` (home.packages; settings via programs.claude-code) |
 | ctx | Per-thread work item / PR / pinned links | `home/file/ctx/ctx.sh` |
@@ -58,61 +49,33 @@ cd /Volumes/Development/github.com/srachamim/etc-nixos.git/main
 switch   # alias for: sudo darwin-rebuild switch --flake .#macbook
 ```
 
-### 2. Launch Agent of Empires
+### 2. Open Ghostty
+
+Ghostty's first window attaches to the running tmux server or starts it.
+
+### 3. Create Your First Agent Window
+
+From inside tmux, in a repository:
 
 ```bash
-aoe
+wm add feature/12345-my-feature
 ```
 
-Press `?` in the TUI for the full keymap.
-
-### 3. Create Your First Session
-
-From a project directory:
-
-```bash
-aoe add --cmd claude .
-```
-
-Or from the AoE TUI: press `n`, set the path, select Claude as the agent.
-
-### 4. Attach and Detach
-
-- **Attach:** select session in AoE TUI, press `Enter`
-- **Detach:** inside the tmux session, press `Ctrl+b` then `d`
-- Sessions persist when you quit the AoE TUI or close Ghostty
+This creates the worktree and a tmux window with Claude and a shell. Move between
+windows with `Ctrl+b n` / `Ctrl+b p` or the dashboard (`Ctrl+b g`).
 
 ## Daily Workflows
 
-### Single-session vim + Claude Code
+### Single-window vim + Claude Code
 
-1. `aoe add --cmd claude .` (or attach to an existing session)
+1. `wm add <branch>` (or `wm open <branch>` for an existing worktree)
 2. Split panes with stock tmux (`Ctrl+b %`, `Ctrl+b "`) — Claude, nvim, shell
 3. Edit in nvim; send selections with `<leader>as` (see claudecode.nvim below)
-4. `Ctrl+b d` to detach; `aoe` to reattach later
+4. `Ctrl+b d` to detach; reopening Ghostty reattaches
 
-### Parallel multi-agent development
+### Parallel agents with workmux
 
-One AoE session per branch/work item:
-
-```bash
-aoe add . -w feature/12345-my-feature -b
-aoe add . -w feature/67890-other-fix -b
-```
-
-Monitor all sessions from the AoE TUI. Press `D` for diff review across agents.
-
-Optional web dashboard:
-
-```bash
-aoe serve              # localhost
-aoe serve --remote     # reachable from phone/browser (use with care)
-```
-
-### Parallel agents with workmux (trial)
-
-workmux is installed next to AoE for evaluation. AoE stays the default. With workmux,
-each task gets a worktree and a tmux **window** in the current session, so you
+Each task gets a worktree and a tmux **window** in the current session, so you
 start it from inside tmux:
 
 ```bash
@@ -121,16 +84,7 @@ wm add fix-flaky-login -p "Fix the flaky login test"
 wm list                             # worktrees, agent state
 wm merge                            # from inside the worktree: merge, then clean up
 wm rm fix-flaky-login               # drop without merging
-wm-checkout 12345                   # ADO work item: worktree headless, then triage/activate in its window
 ```
-
-`wm-checkout <id> [starting-ref]` runs `/checkout-worktree-g` with `claude -p`
-(fetch, `<root>/feature/<id>-<slug>`), then opens the new worktree with
-`wm open <branch>`. The window's Claude starts on `/activate-work-item-g <id>`,
-which triages a New item first and needs your approval, so it can't run
-headless. Run it inside tmux, from any worktree of the repo. The headless run
-may use only git, skills and reading work items, so a missing permission fails
-it instead of waiting on a prompt.
 
 - Worktrees land next to `main` (`worktree_dir: ".."`); workmux turns the
   branch's slashes into dashes.
@@ -143,28 +97,22 @@ it instead of waiting on a prompt.
 - Known quirk: workmux names the project after the main worktree's directory,
   so the dashboard labels every repo `main`.
 
-### ADO-driven work (skills + AoE)
+### ADO-driven work (skills + workmux)
 
-Use **`/checkout-worktree-g`** when you need Azure DevOps work-item metadata, branch naming (`feature/<id>-<slug>`), and activation — it creates the git worktree per **worktree-layout-g**.
+Use **`/checkout-worktree-g <id> [starting-ref]`** inside tmux when you need Azure
+DevOps work-item metadata, branch naming (`feature/<id>-<slug>`), and activation. It
+creates the worktree per **worktree-layout-g** (`<root>/feature/<id>-<slug>`),
+triages and activates the item in the invoking session, then runs
+`wm open <branch>` as its last step, which switches you to the new window.
 
-Then start an AoE session in that worktree:
-
-```bash
-cd /path/to/repo/feature/12345-my-feature
-aoe add --cmd claude .
-```
-
-Or combine worktree creation with AoE directly when you already know the branch name:
-
-```bash
-aoe add . -w feature/12345-my-feature -b
-```
-
-Use **`/close-worktree-g`** after merge for ADO verification and git cleanup. Delete the AoE session from the TUI (`d`) when done — AoE cleans up worktrees it created.
+Use **`/close-worktree-g`** after merge for ADO verification and cleanup. Its last
+step runs `wm remove -f <branch>`, which removes the worktree, its window and the
+local branch, so no window is left behind. Run from inside that window, it closes
+its own session.
 
 ### Per-thread context (files, diffs, panes, pages)
 
-A **thread** is one worktree: one branch, one work item, one PR, one AoE session.
+A **thread** is one worktree: one branch, one work item, one PR, one workmux window.
 Files, diffs and panes are already grouped by it — two additions group the *pages*.
 
 **Read pages without a browser.** PR threads, work item fields and build logs reach
@@ -194,16 +142,6 @@ worktree needs no setup.
 Pinned links live in the worktree's git directory, so they are removed with the
 worktree. Set `CTX_BROWSER` to use a browser other than Google Chrome.
 
-### fgrepo monorepo
-
-Register once:
-
-```bash
-aoe project add /Volumes/Development/dev.azure.com/fundguard/fgrepo/develop/client
-```
-
-Press `b` in the AoE TUI to start sessions from saved projects. See `home/file/agent-of-empires/README.md`.
-
 ## Keybinding Philosophy (default-first)
 
 **Principle:** Use each tool's **stock, documented keybindings**. Customize only when two layers would bind the same key to different actions. Cosmetic config (themes, fonts) is fine; keybind overrides are not.
@@ -215,7 +153,7 @@ Press `b` in the AoE TUI to start sessions from saved projects. See `home/file/a
 | AeroSpace | `Alt+*` | macOS window/workspace tiling |
 | Ghostty | (none for splits) | Terminal rendering; passes keys through |
 | tmux | `Ctrl+b` prefix, then key | Pane/window/session management |
-| AoE TUI | `n`, `Enter`, `?`, etc. | Session dashboard (outside agent sessions) |
+| workmux dashboard | `Ctrl+b g`, then its keys | Agent overview (popup) |
 | Neovim | `<leader>*`, `gd`, `Ctrl+w h/j/k/l` | Editor, LSP, Telescope |
 | Claude Code | `/commands`, vim mode in input | Agent chat |
 | TUIs (lazygit, fzf, atuin) | Each app's defaults | Git, search, history |
@@ -249,7 +187,7 @@ Keypress
 | `Ctrl+b n` / `Ctrl+b p` | Next / previous window |
 | `Ctrl+b [` | Copy mode (scroll); `q` to exit |
 | `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |
-| `Ctrl+b L` | Switch back when nested in AoE-managed tmux |
+| `Ctrl+b L` | Switch to the last session |
 
 Plugin and tool bindings. Every one lands on a key stock tmux leaves unbound, so the
 default-first principle above still holds — `l` and `r` remain the only shadowed
@@ -276,8 +214,8 @@ agent's output without touching the mouse.
 Sessions survive a restart. tmux-continuum saves every 10 minutes and restores
 the last save when the tmux server starts. Ghostty's first window attaches to the
 running tmux or starts it (`initial-command` in `home/darwin.nix`), so opening
-Ghostty after a reboot brings back every session, window and pane, AoE's
-included; later Ghostty windows and tabs are plain shells. Panes that ran
+Ghostty after a reboot brings back every session, window and pane;
+later Ghostty windows and tabs are plain shells. Panes that ran
 Claude Code reopen with `claude --continue`; two Claude panes in the same
 directory both resume that directory's latest conversation. Don't also run
 `wm resurrect`: the windows are already open. `Ctrl+b Ctrl+s` saves on demand,
@@ -288,20 +226,6 @@ e.g. right before a reboot.
 Mouse mode is on. Dragging selects into the tmux buffer and scrolling enters copy
 mode. Hold `Option` (or `Shift`) to fall back to Ghostty's own selection when you
 want to copy across panes.
-
-### AoE TUI
-
-| Key | Action |
-|-----|--------|
-| `n` | New session |
-| `b` | New session from saved project |
-| `Enter` | Attach to session |
-| `d` | Delete session |
-| `t` | Toggle agent / terminal view |
-| `D` | Diff view |
-| `/` | Search sessions |
-| `?` | Help |
-| `q` | Quit TUI |
 
 ### Neovim — Navigation (Telescope)
 
@@ -380,7 +304,7 @@ Press `Esc` in the input for normal mode; standard Vim motions edit your prompt.
 | `/compact` | Summarize conversation |
 | `/clear` | Clear history |
 | `/model` | Switch model |
-| `/resume` | Resume prior conversation (AoE persists session id) |
+| `/resume` | Resume prior conversation (`wm open -c` resumes in a worktree window) |
 | `/cost` | Token usage |
 
 ### Skills and MCP
@@ -397,15 +321,12 @@ Press `Esc` in the input for normal mode; standard Vim motions edit your prompt.
 - MCP: merged into `~/.claude.json`, `~/.cursor/mcp.json`, `~/.gemini/settings.json`, `~/.gemini/config/mcp_config.json` (Antigravity), and `~/.codex/config.toml` on `switch` (Azure DevOps, fundguard, Slack). Use **fundguard** for Datadog and Currents; disable the Cursor **azure** and **datadog** marketplace plugins if they reappear.
 - Subagents, hooks, output styles: authored once under `home/file/agents/` and rendered by `home/programs/agents/` into `~/.claude/agents/`, `~/.claude/output-styles/` and the `hooks` key of `~/.claude/settings.json`, plus each other agent's native equivalent. Run `/agents` or `/output-style` to see them.
 
-### Multi-agent via AoE or workmux
+### Multi-agent via workmux
 
-Run multiple Claude Code agents in parallel — each in its own tmux session, optionally on its own worktree. Monitor from the AoE TUI or `aoe serve` web dashboard.
-
-With workmux (trial), each agent gets a worktree and a window in the current
-session. Monitor them from the dashboard (`Ctrl+b g`) or the status icons on the
-tabs. Inside Claude, `/worktree` fans tasks out to new worktrees and
-`/coordinator` spawns, monitors and merges them. See
-[Parallel agents with workmux](#parallel-agents-with-workmux-trial).
+Each agent gets a worktree and a window in the current session. Monitor them from
+the dashboard (`Ctrl+b g`) or the status icons on the tabs. Inside Claude,
+`/worktree` fans tasks out to new worktrees and `/coordinator` spawns, monitors
+and merges them. See [Parallel agents with workmux](#parallel-agents-with-workmux).
 
 ## TUI Tools
 
@@ -469,13 +390,11 @@ Rebuilds and activates all configs atomically.
 
 ## Troubleshooting
 
-### AoE / tmux
+### tmux
 
-- **`aoe: command not found`:** run `switch` (installs Homebrew `aoe` and a Nix profile wrapper). Open a new shell or run `exec zsh`. Verify with `which aoe` — should point to the home-manager profile, not only `/opt/homebrew/bin`.
-- **Launch AoE from a plain Ghostty tab**, not from inside an AoE tmux session (nested tmux: `Ctrl+b L` to switch back).
 - **Pane nav:** confirm `Ctrl+b` prefix before `h/j/k/l`.
-- **tmux change didn't take effect:** a running tmux server loads its config only at server start. `Ctrl+b r` re-sources it, which covers `set -g` options and keybindings. Changes to `default-terminal` or to the plugin list need a full `tmux kill-server` (this drops running sessions — detach AoE work first).
-- **Session orphaned:** delete from AoE TUI (`d`); AoE-created worktrees are cleaned on delete.
+- **tmux change didn't take effect:** a running tmux server loads its config only at server start. `Ctrl+b r` re-sources it, which covers `set -g` options and keybindings. Changes to `default-terminal` or to the plugin list need a full `tmux kill-server` (this drops running sessions — let agents finish first).
+- **Window orphaned:** `wm close <name>` closes it and keeps the worktree; `wm rm <name>` removes both.
 
 ### workmux
 

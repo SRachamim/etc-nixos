@@ -8,10 +8,10 @@ prompts, MCP config) to Claude Code, Gemini CLI, and Codex.
 ## Terminal development environment
 
 **[docs/terminal-dev-guide.md](docs/terminal-dev-guide.md)** — full guide for the
-vim + Claude Code + Agent of Empires + tmux stack (keybindings, workflows,
+vim + Claude Code + workmux + tmux stack (keybindings, workflows,
 troubleshooting).
 
-Quick start after `switch`: run `aoe` in Ghostty.
+Quick start after `switch`: open Ghostty (tmux starts) and run `wm add <branch>`.
 
 ## Repository structure
 
@@ -44,11 +44,11 @@ Quick start after `switch`: run `aoe` in Ghostty.
 │   │   │   ├── settings.json    Cursor IDE settings seed
 │   │   │   ├── skills/          Agent skills (see below)
 │   │   │   └── subagents/       Subagent prompt templates
-│   │   ├── agent-of-empires/    AoE per-repo config template
 │   │   ├── git-hooks/           Global git commit-msg hook
 │   │   └── aerospace/           macOS window manager config
 │   └── programs/
-│       └── neovim/              Neovim (nixCats + claudecode.nvim)
+│       ├── neovim/              Neovim (nixCats + claudecode.nvim)
+│       └── workmux/             workmux config, hooks, skills, tmux keys
 │
 ├── docs/
 │   └── terminal-dev-guide.md    Terminal dev environment user guide

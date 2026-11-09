@@ -1,7 +1,7 @@
 # ctx -- per-thread context for the terminal development environment.
 #
 # A "thread" is a git worktree: one branch, one work item, one pull request, one
-# Agent of Empires session. Work item and PR links are derived from the branch
+# workmux window. Work item and PR links are derived from the branch
 # name and the origin remote rather than stored, so a new worktree needs no
 # setup. Only links that cannot be derived -- a dashboard, a test run -- are
 # pinned, and they live in the worktree's git directory so they die with it.

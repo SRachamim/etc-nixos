@@ -39,7 +39,7 @@ Create the worktree and branch atomically per the **worktree-layout-g** skill.
 
 ### 6. Activate the work item
 
-Follow the **activate-work-item-g** skill, passing the work item ID.
+Follow the **activate-work-item-g** skill, passing the work item ID. A New item is triaged first; point its codebase investigation at the new worktree, which holds the freshly fetched starting ref.
 
 ### 7. Confirm success
 

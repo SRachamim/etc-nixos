@@ -451,7 +451,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `triage-transition-g`         | `/create-task-g`, `/create-bug-g`, `/triage-work-item-g`                        | Mechanical ADO state transition to Triaged     |
 | `extract-requirements-g`      | `/plan-g`                                                             | Extracts FR/NFR/AC/C/A/OS from work item context |
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
-| `activate-work-item-g`        | `/checkout-worktree-g`                                                | Transitions work item to Active                |
+| `activate-work-item-g`        | `/checkout-worktree-g`                                                | Triages a New item, then transitions to Active |
 | `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
 | `codify-review-miss-g`        | `/submit-review-g`                                                    | Analyzes non-skipped triage findings into review skill improvements |
 | `continuous-improvement-g`    | `capture-improvement-g`, `review-retrospective-g`                     | Improvement methodology (signals, categories)  |

@@ -1,9 +1,11 @@
 # wm-checkout -- start an Azure DevOps work item in its own workmux window.
 #
 # Runs /checkout-worktree-g headless (fetches the starting ref, creates
-# <root>/<prefix>/<id>-<slug>, activates the work item), then opens the new
-# worktree with `workmux open`. The new worktree is detected from git rather
-# than from Claude's output, so wording changes in the skill do not break it.
+# <root>/<prefix>/<id>-<slug>), then opens the new worktree with `workmux
+# open`, whose Claude starts on /activate-work-item-g: triaging a New item
+# needs approval, which a headless run cannot give. The new worktree is
+# detected from git rather than from Claude's output, so wording changes in
+# the skill do not break it.
 #
 # Strictness flags come from writeShellApplication; do not set them here.
 
@@ -20,8 +22,9 @@ Usage:
   wm-checkout <work-item-id> [starting-ref]
 
 Runs /checkout-worktree-g <id> [starting-ref] with `claude -p`, then
-`workmux open <branch>` in the current tmux session. Run it from any
-worktree of the repository, inside tmux.
+`workmux open <branch>` in the current tmux session, with the new window's
+Claude prompted to run /activate-work-item-g <id> (which triages a New item
+first). Run it from any worktree of the repository, inside tmux.
 USAGE
 }
 
@@ -35,9 +38,7 @@ allowed_tools=(
   # checks the resolved path, so the rule above alone is denied.
   "Read(//nix/store/**/SKILL.md)"
   "mcp__fundguard__get_work_item"
-  "mcp__fundguard__update_work_item"
   "mcp__Azure_DevOps__wit_get_work_item"
-  "mcp__Azure_DevOps__wit_update_work_item"
 )
 
 worktree_branches() {
@@ -59,7 +60,8 @@ before=$(worktree_branches)
 
 prompt="/checkout-worktree-g $id${ref:+ $ref}
 
-Non-interactive run: skip the Evolve step."
+Non-interactive run: skip the Evolve step, and skip triage and activation;
+the worktree's own Claude session runs them with the user."
 claude -p "$prompt" --allowedTools "${allowed_tools[@]}" ||
   die "claude exited with an error"
 
@@ -69,4 +71,4 @@ new=$(comm -13 <(printf '%s\n' "$before") <(printf '%s\n' "$after"))
 [[ -n $new ]] || die "no worktree was created; see Claude's output above"
 [[ $(printf '%s\n' "$new" | wc -l) -eq 1 ]] || die "more than one new worktree: $new"
 
-workmux open "$new"
+workmux open "$new" -p "/activate-work-item-g $id"

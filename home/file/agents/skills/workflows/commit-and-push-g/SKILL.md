@@ -37,6 +37,16 @@ Run `git diff --cached --stat` and show the user what will be committed.
 
 If the index already holds changes from another thread, leave them staged and commit with explicit paths (`git commit -- <paths>`, or `git commit --fixup=<sha> -- <paths>`) so only this thread's files go into the commit. Never unstage or reset another thread's changes.
 
+When only some hunks of a file belong in a commit -- the file's changes are split across several commits, or it mixes this thread's hunks with another thread's -- explicit paths would commit the whole file. Write the hunks that belong in the commit to a patch and stage it with `git apply --cached <patch>`. If the real index already holds another thread's changes, stage into a temporary index so theirs stays as it is:
+
+```sh
+GIT_INDEX_FILE=<scratch>/index git read-tree HEAD
+GIT_INDEX_FILE=<scratch>/index git apply --cached <patch>
+GIT_INDEX_FILE=<scratch>/index git commit ...
+```
+
+Check `git diff --cached --stat` (with the same `GIT_INDEX_FILE`) before each commit. If a commit fails (e.g. a commit-msg hook), fix the cause and retry with the same index -- never re-stage with a broader `git add`. Stage the next commit's hunks only after the previous commit succeeds.
+
 ### 3a. Commit (default mode)
 
 Draft one or more commit messages following the **commit-conventions-g** skill and commit immediately.

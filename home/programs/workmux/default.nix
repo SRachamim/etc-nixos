@@ -55,6 +55,14 @@ in
     # The catppuccin tmux window text carries @workmux_status itself;
     # workmux's own injection would override the themed format.
     status_format = false;
+    # Grouped by project, the header already names the repo, so each row
+    # leads with its branch. {primary} hides `main`/`master` behind the
+    # session or project name.
+    sidebar.templates.grouped.tiles = [
+      "{git_branch} {pane_suffix} {fill} {pr_number} {pr_checks} {elapsed}"
+      "{pane_title} {fill} {git_stats}"
+    ];
+
     status_icons = {
       working = statusIcon "peach" "󰔠";
       waiting = statusIcon "yellow" "󰀪";

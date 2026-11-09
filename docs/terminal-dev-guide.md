@@ -264,11 +264,19 @@ Inside Telescope: `Ctrl+j/k`, `Ctrl+n/p`, `Enter`, `Ctrl+x/v`, `Esc` — all sto
 |-----|--------|
 | `<leader>as` | Send visual selection to Claude |
 | `<leader>ab` | Add current buffer to Claude context |
+| `<leader>aa` | Accept Claude's proposed diff |
+| `<leader>ad` | Deny Claude's proposed diff |
 
 Claude runs in its own tmux pane; the plugin opens no split. Run `/ide`
 in Claude and pick Neovim (again after restarting either side). Once
 connected, Claude sees the current selection automatically, and
 `<leader>as` adds it to the prompt as an `@file#Lx-y` mention.
+
+Edits that Claude asks permission for open as a diff in nvim: accept with
+`<leader>aa` or `:w`, deny with `<leader>ad` or by closing it. Edits that
+are already allowed (auto-accept or auto mode) apply without a diff; review
+those afterwards with `/diff` or `<leader>gd`. `Shift+Tab` cycles the
+permission mode.
 
 ### Neovim — Git
 

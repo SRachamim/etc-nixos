@@ -103,8 +103,8 @@ in
     tmux = {
       enable = true;
       extraConfig = ''
-        # Flat window tabs -- mirrors lualine's empty component/section separators.
-        set -g @catppuccin_window_status_style "basic"
+        # Rounded window tabs, matching the rounded session and status modules.
+        set -g @catppuccin_window_status_style "rounded"
         set -g @catppuccin_window_number_position "left"
         # #W (window name) is stable under automatic-rename; #T (pane title) is not.
         # @workmux_status is the agent state icon workmux sets per window.
@@ -112,6 +112,9 @@ in
         set -g @catppuccin_window_current_text " #W#{?@workmux_status, #{@workmux_status},}"
         # Zoom / bell / activity markers on the tab, so a zoomed pane is obvious.
         set -g @catppuccin_window_flags "icon"
+        # The number colour already marks the current and last window.
+        set -g @catppuccin_window_flags_icon_current ""
+        set -g @catppuccin_window_flags_icon_last ""
         # Transparent bar, matching neovim's transparent_background.
         set -g @catppuccin_status_background "default"
         set -g @catppuccin_date_time_text " %H:%M"
@@ -478,6 +481,9 @@ EOF
         set -g status-left  "#{E:@catppuccin_status_session}"
         set -g status-right "#{E:@catppuccin_status_directory}"
         set -ag status-right "#{E:@catppuccin_status_date_time}"
+        # tmux underlines the current tab by default; catppuccin leaves it set,
+        # which draws a line under the rounded pill.
+        set -g window-status-current-style "default"
 
         # Pane navigation: stock tmux only binds the arrow keys.
         # `l` shadows the default last-window binding.

@@ -432,9 +432,10 @@ Font: **Fira Code Nerd Font Mono** in Ghostty (`home/darwin.nix`).
 
 The tmux status line sits at the **top** so it never stacks against lualine at the
 bottom of a Neovim pane, and its background is transparent to match Neovim's
-`transparent_background`. Window tabs use flat separators, mirroring lualine's
-empty `component_separators` / `section_separators`. Left shows the session, right
-shows the working directory and a 24-hour clock.
+`transparent_background`. Window tabs use the same rounded pills as the session and
+status modules; the number turns mauve on the current window, so the tab carries
+no extra current/last icon. Left shows the session, right shows the working
+directory and a 24-hour clock.
 
 tmux declares Ghostty's capabilities explicitly (`terminal-features`): truecolor,
 undercurl for LSP diagnostics, synchronized output, OSC 8 hyperlinks, OSC 52

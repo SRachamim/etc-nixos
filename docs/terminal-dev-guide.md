@@ -272,8 +272,10 @@ keys.
 agent's output without touching the mouse.
 
 Sessions survive a restart. tmux-continuum saves every 10 minutes and restores
-the last save when the tmux server starts, so the first `tmux` after a reboot
-brings back every session, window and pane, AoE's included. Panes that ran
+the last save when the tmux server starts. Ghostty's first window attaches to the
+running tmux or starts it (`initial-command` in `home/darwin.nix`), so opening
+Ghostty after a reboot brings back every session, window and pane, AoE's
+included; later Ghostty windows and tabs are plain shells. Panes that ran
 Claude Code reopen with `claude --continue`; two Claude panes in the same
 directory both resume that directory's latest conversation. Don't also run
 `wm resurrect`: the windows are already open. `Ctrl+b Ctrl+s` saves on demand,

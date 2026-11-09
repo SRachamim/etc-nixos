@@ -340,6 +340,7 @@ Inside Telescope: `Ctrl+j/k`, `Ctrl+n/p`, `Enter`, `Ctrl+x/v`, `Esc` — all sto
 | `<leader>af` | Focus Claude Code |
 | `<leader>as` | Send visual selection to Claude |
 | `<leader>ab` | Add current buffer to Claude context |
+| `Ctrl+h` (terminal mode) | Leave the Claude split and move to the window on the left |
 
 Workflow: visual-select code → `<leader>as` → selection sent to Claude Code split.
 

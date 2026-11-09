@@ -92,6 +92,8 @@ For each confirmed item, follow the worktree-layout skill cleanup order:
 
 Use `-d` (not `-D`) so git refuses if the branch has unmerged changes.
 
+If `-d` refuses a branch that step 2 classified as merged, the PR was squash- or rebase-merged: its patches reached the default branch under different hashes, which `-d`'s ancestry check does not see. Re-run `git cherry origin/<default-branch> <branch>` immediately before deleting. If no line starts with `+`, record the branch tip SHA (`git rev-parse <branch>`) and delete it with `git branch -D`. Otherwise keep the branch and report it as not removed.
+
 If the current working directory is inside a worktree being removed, switch to the main worktree first.
 
 ### 9. Prune stale worktree entries
@@ -103,7 +105,7 @@ Run `git worktree prune` to clean up any stale tracking entries (e.g., worktrees
 Print a summary of what was cleaned up:
 
 - Number of worktrees removed
-- Number of branches deleted
+- Number of branches deleted, with the tip SHA of each branch deleted with `-D` (restore with `git branch <branch> <sha>`)
 - Number of orphaned directories removed
 - Number of unrecognized branches deleted
 - Number of stale worktree entries pruned

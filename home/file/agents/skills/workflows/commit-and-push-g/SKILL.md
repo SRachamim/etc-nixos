@@ -66,10 +66,13 @@ Group the staged changes by target commit and create a `git commit --fixup=<sha>
 Then autosquash with:
 
 ```sh
-GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash <base>
+GIT_SEQUENCE_EDITOR=true <dev-shell-prefix> git rebase -i --autosquash <earliest-target-sha>^
 ```
 
-where `<base>` is the parent of the earliest fixup target.
+- **Base**: always the parent of the earliest fixup target (`<sha>^`). Never pass the remote default branch (`origin/develop`, `origin/main`): that also moves the branch onto newer upstream commits. Rebasing onto a newer base is a separate decision that needs the user's approval.
+- **Dev shell**: run the rebase through the project's dev shell (e.g. `direnv exec . git rebase ...`), as for `git commit`. Reword and conflict-resolution steps run the commit-msg hooks.
+- **Changing a target's message**: don't use `git commit --fixup=amend:<sha>`, because commitlint rejects the `amend! ` subject. Mark the target `reword` in the todo and supply the message from a file: `GIT_SEQUENCE_EDITOR="perl -pi -e 's/^pick <short-sha>/reword <short-sha>/'" GIT_EDITOR="cp <message-file>"`.
+- **Cross-commit dependencies**: if the fix for one target breaks another target's files at the fixup point (the pre-commit hook fails on the fixup commit), use an `edit` rebase and amend each commit in place instead of fixup commits.
 
 If the rebase encounters conflicts, abort, inform the user, and stop.
 

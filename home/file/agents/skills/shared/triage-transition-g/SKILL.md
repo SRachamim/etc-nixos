@@ -33,7 +33,7 @@ Inspect the fetched relations for a **predecessor** link. If one exists, the wor
 
 ### 3. Estimate
 
-If `OriginalEstimate` is already set, **skip this step** -- carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them. A confidence level set without an estimate is a creation default, so estimate it again.
+If `OriginalEstimate` is already set, **skip this step** -- carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them, except that an empty `RemainingWork` is set to the `OriginalEstimate` value. A confidence level set without an estimate is a creation default, so estimate it again.
 
 Otherwise, follow the **effort-estimation-g** skill, passing the work item details as input.
 
@@ -66,7 +66,7 @@ Call `update_work_item` with:
 
 #### Estimation fields
 
-Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If `OriginalEstimate` was already set on the work item, omit all three from the update.
+Only include the estimation fields (`OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in `additionalFields` when estimation was performed in step 3. If `OriginalEstimate` was already set on the work item, omit all three from the update, except `RemainingWork` when it is empty: set it to the existing `OriginalEstimate` so the item doesn't reach the sprint without remaining work.
 
 When included, the **effort-estimation-g** skill produces hours and a confidence level, not story points. Set `OriginalEstimate` and `RemainingWork` to the same hour value, and `EstimationConfidenceLevel` to the skill's output.
 

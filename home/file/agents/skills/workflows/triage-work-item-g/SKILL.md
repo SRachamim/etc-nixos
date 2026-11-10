@@ -130,7 +130,7 @@ Compose the ADO field updates that **will** be applied, but do not apply them ye
 
 Follow the **effort-estimation-g** skill for hours and confidence level, grounded in the codebase understanding from steps 3--4. Follow the **triage-transition-g** skill for the required fields and their defaults.
 
-If `OriginalEstimate` is already set, carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them. A confidence level set without an estimate is a creation default, so estimate it again.
+If `OriginalEstimate` is already set, carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them, except that an empty `RemainingWork` is set to the `OriginalEstimate` value. A confidence level set without an estimate is a creation default, so estimate it again.
 
 Present the draft:
 

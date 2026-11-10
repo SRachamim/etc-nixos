@@ -34,7 +34,7 @@ From the user's input, produce:
 
   Omit sections the user's input doesn't cover -- don't invent details. All task information lives exclusively in `System.Description` -- don't duplicate it into other fields.
 
-- **Original estimate** (`Microsoft.VSTS.Scheduling.OriginalEstimate`) -- infer hours from the scope when apparent. Omit if not estimable from the user's input.
+- **Original estimate** (`Microsoft.VSTS.Scheduling.OriginalEstimate`) -- infer hours from the scope when apparent. Omit if not estimable from the user's input. When set, also set **Remaining work** (`Microsoft.VSTS.Scheduling.RemainingWork`) to the same hours.
 - **Activity** (`Microsoft.VSTS.Common.Activity`) -- infer from context: Development, Testing, Design, or Documentation. Default to Development.
 
 ### 3. Create the work item
@@ -49,6 +49,7 @@ Follow the **create-work-item-g** shared instructions with:
 |-------|-------|-----------|
 | `System.Description` | The crafted description (markdown) | Always |
 | `Microsoft.VSTS.Scheduling.OriginalEstimate` | Hours estimate | When estimable from input |
+| `Microsoft.VSTS.Scheduling.RemainingWork` | Same hours as OriginalEstimate | Whenever OriginalEstimate is set |
 | `Microsoft.VSTS.Common.Activity` | Development / Testing / Design / Documentation | Always (default Development) |
 
 - **commonFieldOverrides**:

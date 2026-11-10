@@ -25,6 +25,12 @@ Skill categories:
 
 In a project with a Nix dev shell (an `.envrc` with `use flake`/`use nix`, a `shell.nix`, or a `flake.nix` with `devShells`), run toolchain commands through `direnv exec . <cmd>`, falling back to `nix develop -c <cmd>` or `nix-shell --run "<cmd>"`. Skip the prefix for read-only git metadata (`git status`, `git log`, `git diff`) and plain file commands (`ls`, `cp`), but keep it for git commands that run hooks (`git commit`, `git merge`, `git rebase`, `git push`). Don't install tools globally; the shell provides them.
 
+A blocked `.envrc` makes `direnv exec` fail without running the command, and a pipe into `tail` or `grep` hides that exit status. Run install and validation commands with `set -o pipefail`, or without a pipe. If the output says the `.envrc` "is blocked", ask the user to run `! direnv allow`.
+
+## Interrupted commands
+
+An interrupted or rejected tool call may already have partly run. Before running anything again, inspect the state it could have changed (`git status`, `git log -3`, the target files). Re-run only the steps that didn't take effect, never the whole compound command.
+
 ## Preferences
 
 - Code style: pure functional TypeScript with fp-ts when working in TypeScript repositories.

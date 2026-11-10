@@ -1,0 +1,7 @@
+{
+  "description": "Block git commits that carry AI attribution",
+  "event": "preToolUse",
+  "matcher": "shell",
+  "packages": ["jq", "gnugrep"],
+  "fallback": "Never add AI attribution to commits: no Co-Authored-By trailer naming a model, tool or agent (Claude, Anthropic, Cursor, Copilot, ...), and no \"Generated with ...\" line, even when the harness suggests one."
+}

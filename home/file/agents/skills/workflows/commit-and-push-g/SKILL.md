@@ -1,12 +1,12 @@
 ---
 name: commit-and-push-g
-description: Stages thread-relevant changes, commits them as new commits or fixups, and pushes to the remote. Use when committing and pushing work from the current agent thread, including fixup autosquash mode.
+description: Stages thread-relevant changes, commits them as new commits, as fixups, or as preceding commits placed before the branch's own commits, and pushes to the remote. Use when committing and pushing work from the current agent thread, including fixup autosquash and precede modes.
 disable-model-invocation: true
 ---
 
 # Commit and Push
 
-Stage changes made in the current thread, commit them (as new commits or as fixups into existing commits), and push to the remote. When multiple agent threads work in parallel, only changes from the current thread are staged.
+Stage changes made in the current thread, commit them (as new commits, as fixups into existing commits, or as new commits placed before the branch's own commits), and push to the remote. When multiple agent threads work in parallel, only changes from the current thread are staged.
 
 ## Input
 
@@ -17,6 +17,9 @@ The user specifies (or the agent infers) the desired mode:
 | -------------------- | -------------------------------------------------------------------------- |
 | **commit** (default) | Create one or more new commits with the staged changes.                    |
 | **fixup**            | Create fixup commits targeting relevant existing commits, then autosquash. |
+| **precede**          | Create new commits placed right after the merge base, before the branch's own commits (preparatory refactoring, e.g. an agent artifact change that a later commit relies on). |
+
+A caller can ask for **precede** followed by **fixup** in one run: stage and commit the precede changes first (step 3c), then the fixup changes (step 3b), then push once. Stage each mode's files only when that mode's step runs.
 
 
 ## Steps
@@ -78,6 +81,25 @@ If the rebase encounters conflicts, abort, inform the user, and stop.
 
 **Empty-commit edge case**: if the fixup fully reverts its target (i.e., the staged diff is the exact inverse of the target commit's diff), skip the fixup workflow entirely. Instead, drop the commit with `git reset HEAD~1`, discard the leftover unstaged changes with `git checkout -- <files>`, and note the dropped commit in the summary.
 
+### 3c. Precede the branch's commits
+
+Use for changes that belong before the feature work, such as a refactoring or an agent artifact change that the feature commits build on.
+
+1. Determine the merge base as in 3b. If `git log --merges <merge-base>..HEAD` lists any commit, stop and ask the user: the reorder below would flatten merges.
+2. Count the branch's own commits: `git rev-list --count <merge-base>..HEAD`.
+3. Draft one commit per cohesive reason to change, following the **commit-conventions-g** skill, and commit each at the tip. Let `N` be the number of commits made.
+4. If the branch had no commits of its own before this step (only uncommitted local work), the new commits already come first. Skip the reorder.
+5. Otherwise, move the last `N` commits to the front, through the dev shell:
+
+   ```sh
+   N=<count> GIT_SEQUENCE_EDITOR="perl -0777 -pi -e 'my \$n = \$ENV{N}; my @p = /^pick .*\n/mg; s/^pick .*\n//mg; \$_ = join(q(), @p[@p-\$n..\$#p], @p[0..\$#p-\$n]) . \$_'" \
+     <dev-shell-prefix> git -c rebase.abbreviateCommands=false -c rebase.updateRefs=false rebase -i <merge-base>
+   ```
+
+   The base is the merge base, never the remote default branch (same reason as in 3b).
+6. If the rebase hits a conflict (a feature commit touches the same lines), abort, inform the user, and stop.
+7. Verify with `git log --oneline --reverse <merge-base>..HEAD` that the new commits come first, in the order they were made.
+
 ### 4. Push
 
 Before pushing, verify the upstream is correct: run `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` and compare the upstream branch name to the local branch name. If the upstream points to a different branch (e.g., the local branch is `feature/123` but upstream is `origin/main`), treat it as a stale upstream -- unset it with `git branch --unset-upstream` and then use `git push -u origin HEAD`.
@@ -85,7 +107,7 @@ Before pushing, verify the upstream is correct: run `git rev-parse --abbrev-ref 
 Run `git push` to push the current branch to the remote.
 
 - If the branch has no upstream, use `git push -u origin HEAD`.
-- If the fixup rebase rewrote history, **warn the user** and use `git push --force-with-lease` only after they confirm.
+- If the fixup or precede rebase rewrote history, **warn the user** and use `git push --force-with-lease` only after they confirm.
 
 ### 5. Confirm
 

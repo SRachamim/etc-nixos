@@ -21,6 +21,7 @@ Look for these signals during or after execution:
 - **Recurring friction**: the same painful step appears across multiple executions. "If it hurts, do it more often" -- automate or simplify it rather than working around it each time.
 - **Cost of inaction**: the artifact's current state causes repeated delay, confusion, or error. The cost of not improving accumulates -- flag it even if no single execution failed.
 - **Review miss**: a `/triage-finding-g` classified a user observation as "merge" or "add", indicating the review skills failed to detect an issue the human reviewer caught. Each non-skipped triage finding is evidence of a blind spot in the review skill ecosystem. Processed by the **codify-review-miss-g** shared skill.
+- **Authoring miss**: a `/triage-finding-g` in authoring mode traced an author's note on their own draft to an artifact that misled the agent, or that lacked a rule the agent needed. The lesson is applied as a refactoring commit before the feature commits (workspace artifact) or an observation file (user-level artifact), through **refine-draft-pr-g**.
 
 If the execution went smoothly and matched the instructions perfectly, there is nothing to propose.
 

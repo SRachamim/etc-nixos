@@ -53,7 +53,7 @@ flowchart LR
 3. **/submit-feature-g** -- PR + work item transition + Slack.
 4. **/close-worktree-g** -- Post-merge cleanup.
 
-**Note:** `/draft-feature-g` can be invoked before step 3 to open a draft PR linked to the work item, without a state transition or Slack messages. `/refine-draft-pr-g` then reviews the draft in a clean-context subagent, weighs the findings, and folds the approved fixes into the draft's commits without posting anything. `/submit-feature-g` later publishes that draft with auto-complete set.
+**Note:** `/draft-feature-g` can be invoked before step 3 to open a draft PR linked to the work item, without a state transition or Slack messages. `/refine-draft-pr-g` then reviews the draft in a clean-context subagent, weighs the findings, and folds the approved fixes into the draft's commits without posting anything. While it reviews, queue your own observations as `/triage-finding-g <note>`: each note becomes one or more feature fixes (fixed up into the feature commits) and zero or more agent improvements, committed as refactoring commits before the feature commits when a workspace artifact led to the defect. `/submit-feature-g` later publishes that draft with auto-complete set.
 
 **Note:** `/commit-and-push-g` can be invoked anytime during implementation to push intermediate progress (e.g. before switching branches). The agent also uses it internally during `/plan-g` execution and `/submit-feature-g`.
 
@@ -124,7 +124,7 @@ flowchart LR
 
 1. **/review-pr-g** -- Provide a PR ID, a Slack message link containing a review request, or let it infer from the current branch. Performs design + code evaluation, presents raw findings (severity, file, line, description). Does not compose final text or post.
    - If triggered from Slack, adds `:eyes:` reaction to signal review started.
-2. **/triage-finding-g** *(optional, one per manual note)* -- While the agent reviews, queue your own observations as `/triage-finding-g <note>`. Each is triaged against the agent's findings: skip (duplicate), merge (enriches existing), or add (new finding).
+2. **/triage-finding-g** *(optional, one per manual note)* -- While the agent reviews, queue your own observations as `/triage-finding-g <note>`. Each is triaged against the agent's findings: skip (duplicate), merge (enriches existing), or add (new finding). The same command works on your own draft during `/refine-draft-pr-g`, where it also proposes fixes and agent improvements (see the `/draft-feature-g` note).
 3. **/draft-review-g** -- Composes the literal ADO comment text for all findings via the **delivered-text-g** stack. Presents the complete review for approval.
 4. **/submit-review-g \<verdict\>** -- Posts findings and casts a vote based on the keyword: `approve` (vote only, no comments), `comment` (post, no vote), `reject` (post + reject), `suggest` (post + approve-with-suggestions).
 5. *(Author pushes fixes)*
@@ -453,7 +453,7 @@ These skills are never invoked directly by the user. The agent calls them behind
 | `resolve-current-work-item-g` | `/plan-g`, `/close-worktree-g`, `/defer-fix-g`                        | Infers work item ID from branch or PR          |
 | `activate-work-item-g`        | `/checkout-worktree-g`                                                | Triages a New item, then transitions to Active |
 | `capture-improvement-g`       | All workflow skills (final step)                                      | Post-execution reflection + artifact persistence |
-| `codify-review-miss-g`        | `/submit-review-g`                                                    | Analyzes non-skipped triage findings into review skill improvements |
+| `codify-review-miss-g`        | `/submit-review-g`, `/refine-draft-pr-g`                              | Analyzes non-skipped triage findings into review skill improvements |
 | `continuous-improvement-g`    | `capture-improvement-g`, `review-retrospective-g`                     | Improvement methodology (signals, categories)  |
 | `feedback-evaluation-g`       | `/weigh-feedback-g`, `/review-pr-fixes-g`, `/refine-draft-pr-g`       | PR feedback evaluation framework               |
 | `follow-up-map-g`             | `capture-improvement-g`                                               | Presents up to 3 follow-up skill suggestions   |

@@ -48,7 +48,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/plan-from-prd-intake-g` | `/submit-feature-g`, `/commit-and-push-g` |
 | `/analyze-prd-g` | `/checkout-worktree-g`, `/plan-from-prd-intake-g`, `/create-task-g`, `/create-user-story-g`, `/estimate-work-item-g`, `/plan-g` |
 | `/prune-merged-g` | `/checkout-worktree-g` |
-| `/refine-draft-pr-g` | `/submit-feature-g`, `/refine-draft-pr-g` |
+| `/refine-draft-pr-g` | `/triage-finding-g`, `/submit-feature-g`, `/refine-draft-pr-g` |
 | `/report-bug-g` | `/fix-bug-g`, `/checkout-worktree-g` |
 | `/reproduce-bug-g` | `/debug-g`, `/write-repro-steps-g` |
 | `/review-retrospective-g` | `/plan-g`, `/create-task-g`, `/create-user-story-g` |
@@ -60,7 +60,7 @@ Apply after completing any workflow skill execution, as part of the Evolve step.
 | `/submit-review-g` | `/weigh-feedback-g`, `/trace-pr-comments-g`, `/close-worktree-g` |
 | `/sweep-backlog-g` | `/checkout-worktree-g`, `/create-task-g`, `/create-user-story-g`, `/estimate-work-item-g` |
 | `/trace-pr-comments-g` | `/weigh-feedback-g`, `/review-pr-fixes-g` |
-| `/triage-finding-g` | `/draft-review-g` |
+| `/triage-finding-g` | `/draft-review-g`, `/submit-feature-g` |
 | `/triage-work-item-g` | `/plan-g`, `/checkout-worktree-g`, `/estimate-work-item-g` |
 | `/triage-build-g` | `/debug-g`, `/submit-bypass-request-g`, `/create-bug-g` |
 | `/update-wiki-g` | `/prepare-release-g` |

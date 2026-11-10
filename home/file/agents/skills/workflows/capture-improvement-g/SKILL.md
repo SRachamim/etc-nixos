@@ -80,7 +80,7 @@ Also present the observation in the conversation so the user sees what was persi
 
 **Path 2 -- workspace-level artifact, own branch** (source is in the current workspace and the user authored the current branch):
 
-Apply the edit as a separate commit that appears **before** the feature commit(s) in branch history (use fixup/reorder, stash/reapply, or a fresh commit before the feature work). The commit message body must explain both what went wrong during execution and why the fix prevents recurrence, following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
+Apply the edit as a separate commit that appears **before** the feature commit(s) in branch history, following the **commit-and-push-g** skill in **precede** mode. The commit message body must explain both what went wrong during execution and why the fix prevents recurrence, following the workspace's Git conventions. This covers repo-local rules (`.cursor/rules/`, `.claude/rules/`), workspace `AGENTS.md`, and any repo-level skills.
 
 Before committing, verify that **all** files mentioned or agreed upon during the Propose step are staged -- do not commit a subset and leave discussed artifacts behind.
 

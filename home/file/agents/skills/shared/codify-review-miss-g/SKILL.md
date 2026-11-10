@@ -1,6 +1,6 @@
 ---
 name: codify-review-miss-g
-description: "Analyzes non-skipped /triage-finding-g decisions (merge and add) to identify blind spots in review skills, then persists targeted improvement observations. Called by submit-review-g after the review is posted -- requires the full review pipeline conversation context."
+description: "Analyzes non-skipped /triage-finding-g decisions (merge and add) to identify blind spots in review skills, then persists targeted improvement observations. Called by submit-review-g after the review is posted, and by refine-draft-pr-g after the fixes are committed -- requires the full review pipeline conversation context."
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Turn non-skipped `/triage-finding-g` decisions into targeted improvements for the review skill ecosystem. Every "merge" or "add" triage decision is evidence that the agent's review skills have a blind spot -- this skill analyzes the miss, root-causes it, and persists an improvement observation.
 
-This is a shared skill called by **submit-review-g** (step 8). It requires the full conversation context of the review pipeline: the raw review output, the triage decisions, and the PR diff.
+This is a shared skill called by **submit-review-g** (step 8) and **refine-draft-pr-g** (step 7). It requires the full conversation context of the review pipeline: the raw review output, the triage decisions, and the PR diff.
 
 ## Input
 
@@ -125,7 +125,7 @@ Observation file format:
 ```yaml
 ---
 source-skill: codify-review-miss-g
-observed-during: <review-pr-g or review-pr-fixes-g>
+observed-during: <review-pr-g, review-pr-fixes-g or refine-draft-pr-g>
 affected-artifact: <path-relative-to-dotfiles-repo>
 category: <accuracy|missing-step|new-field>
 confidence: <high|medium|low>

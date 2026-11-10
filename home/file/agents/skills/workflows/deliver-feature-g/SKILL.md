@@ -81,7 +81,7 @@ Before Gate 2, open a draft PR and get a clean-context review of the whole chang
 1. Follow the **draft-feature-g** skill with the work item ID. It commits any leftover changes, pushes, and opens a draft PR linked to the work item, without a state transition or Slack messages.
 2. Follow the **refine-draft-pr-g** skill, steps 1--4, on that draft. Skip its step 0 mode gate: steps 1--4 are read-only by instruction. Its review runs **review-pr-g** in a clean-context subagent, which spawns the **reviewer** subagent (plus **quality-reviewer** for fgrepo changes under `client/`), and falls back to an inline review when subagents are unavailable.
 
-**Gate 2 -- Implementation approval**: present in one message the full implementation diff (`git diff <default-branch>...HEAD`), a summary of all commits made, and the verdict table from **refine-draft-pr-g** step 4. The user approves, overrides verdicts, or requests implementation changes.
+**Gate 2 -- Implementation approval**: present in one message the full implementation diff (`git diff <default-branch>...HEAD`), a summary of all commits made, and the verdict tables from **refine-draft-pr-g** step 4. The user approves, overrides verdicts, or requests implementation changes.
 
 If the user requests changes, apply them, re-verify, follow the **commit-and-push-g** skill in **commit** mode so the draft matches `origin`, and present the updated diff. Re-run **refine-draft-pr-g** steps 2--4 only when the user asks. Repeat until approved.
 
@@ -89,7 +89,7 @@ If the review is `clean`, skip step 5.
 
 ### 5. Apply review fixes
 
-After Gate 2 approval, follow the **refine-draft-pr-g** skill, steps 5--6: fix the approved **Agree-fix** and **Partial** findings, apply **self-review-g**, run the checks, and fold the fixes into the draft's commits with **commit-and-push-g** in **fixup** mode, force-pushing without asking. Keep the **Agree-defer** and **Need-context** findings for the completion summary.
+After Gate 2 approval, follow the **refine-draft-pr-g** skill, steps 5--7: fix the approved **Agree-fix** and **Partial** findings, apply **self-review-g**, run the checks, commit any approved agent improvements before the feature commits (**commit-and-push-g** **precede** mode), and fold the fixes into the draft's commits with **commit-and-push-g** in **fixup** mode, force-pushing without asking. Keep the **Agree-defer** and **Need-context** findings for the completion summary.
 
 ### 6. Submit PR
 

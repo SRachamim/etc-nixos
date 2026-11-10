@@ -65,11 +65,11 @@ Delegate to **commit-and-push-g** to push the committed changes.
 
 **Skip the Slack "Updated -- ready for re-review" notification when the PR is fully approved.** The PR already meets its merge policy; there is no re-review needed. Still push the code changes via **commit-and-push-g**.
 
-Only after the push succeeds and when the PR is not fully approved, post a Slack thread reply.
+Only after the push succeeds, when the PR is not fully approved, and when at least one reviewer who left feedback has written in the PR's Slack thread, post a Slack thread reply. If none of them has written there, skip it: the PR thread replies already notify them. Identify the reviewers from the PR's comment threads or votes.
 
 **Thread identification**: from conversation context, a preceding `/submit-feature-g` invocation, or the PR's linked Slack thread. If no thread is identifiable, skip the Slack reply and note this to the user.
 
-**Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply author template (section 11) applies ("Updated -- ready for re-review"). Apply the @ mention rule from that template: check whether the reviewer(s) who left feedback on the PR have already replied in the Slack thread; if not, prepend an `@mention` so they receive a notification. Identify reviewers from the PR's comment threads or votes. Present the Slack reply to the user for approval before posting, per **external-communications-g**.
+**Thread reply**: follow the **delivered-text-g** skill (text type: "Slack message"). The **communication-templates-g** Slack Review Thread Reply author template (section 11) applies ("Updated -- ready for re-review"). Apply the thread reply rule from that template: no `@mention` -- the reviewers who wrote in the thread follow it. Present the Slack reply to the user for approval before posting, per **external-communications-g**.
 
 ### 6. Evolve
 

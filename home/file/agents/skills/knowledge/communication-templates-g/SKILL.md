@@ -566,12 +566,12 @@ Only `reject` includes a summary -- name the 1--2 most significant blocking conc
 Updated -- ready for re-review
 ```
 
-### @ mention rule (author replies only)
+### Thread reply rule (author replies only)
 
-Before posting an author thread reply, check whether the reviewer(s) who left feedback on the PR (identified from PR comment threads or votes) have already replied in the Slack thread. If they have not, prepend an `@mention` so they receive a notification. Reviewer thread replies don't need this -- the thread belongs to the PR author, who already gets notified.
+Post an author thread reply only when a reviewer who left feedback on the PR (identified from PR comment threads or votes) has written in the Slack thread. Reply without an `@mention` -- they follow the thread. If no such reviewer wrote there, post nothing: the PR comment replies are the notification, and a ping in a thread they never joined is noise under the author's name. Reviewer thread replies don't need this rule -- the thread belongs to the PR author, who already gets notified.
 
 **Anti-patterns**:
 
 - Posting the bare verdict keyword ("comment", "suggest") -- not a meaningful signal to the reader
 - Recapping every finding in the thread reply -- violates Delimit (the PR comments are the detail; the thread reply is a status signal)
-- Omitting the `@mention` when the reviewer has no prior reply in the thread -- they won't see the notification
+- Pinging a reviewer in a thread they never wrote in -- duplicates the PR notification they already get

@@ -36,12 +36,13 @@ let
     "Azure DevOps" = {
       command = lib.getExe (pkgs.writeShellApplication {
         name = "mcp-azure-devops";
-        runtimeInputs = [ pkgs.azure-devops-mcp ];
+        runtimeInputs = [ pkgs.azure-devops-mcp pkgs.coreutils ];
         excludeShellChecks = [ "SC1090" ];
         text = ''
           source ~/.secrets 2>/dev/null || true
           export PERSONAL_ACCESS_TOKEN
-          PERSONAL_ACCESS_TOKEN=$(printf ':%s' "$ADO_PAT" | base64)
+          # -w 0: GNU base64 wraps at 76 chars, which breaks the auth header.
+          PERSONAL_ACCESS_TOKEN=$(printf ':%s' "$ADO_PAT" | base64 -w 0)
           exec azure-devops-mcp fundguard -a pat -d core work repositories search test-plans advanced-security
         '';
       });

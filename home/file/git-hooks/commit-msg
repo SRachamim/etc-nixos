@@ -24,6 +24,12 @@ if ! [[ "$subject" =~ ^(fixup|squash|amend)!\ |^Merge\ |^Revert\ \" ]] && [ "${#
   errors+=("Subject line exceeds 50 characters (currently ${#subject}).")
 fi
 
+# --- Blank line after the subject (else git folds the body into it) ---
+second=$(sed -n 2p "$msg_file")
+if [ -n "$second" ] && [[ "$second" != "#"* ]]; then
+  errors+=("Line 2 must be blank: separate the subject from the body.")
+fi
+
 # --- Body wrap: 72 columns, except URLs, indented code and comments ---
 line_no=0
 while IFS= read -r line; do

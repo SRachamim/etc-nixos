@@ -1,6 +1,13 @@
 {
   "attribution": {
     "commit": "",
-    "pr": ""
+    "pr": "",
+    "sessionUrl": false
+  },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "`git push --force-with-lease` (lease form only, never plain `--force` or `-f`) of the current branch when it is the user's own `feature/*`, `bugfix/*` or `hotfix/*` branch, after the agent rewrote its own unmerged commits (fixup, reword, autosquash or edit rebase) and the user approved the push in this session"
+    ]
   }
 }

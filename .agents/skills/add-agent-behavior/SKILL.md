@@ -194,7 +194,8 @@ If the type has no generic pipeline yet, build one in `home/programs/agents/defa
 
 - Confirm the file was created at the correct path under the right category directory.
 - Verify the YAML frontmatter parses correctly.
-- For any type other than a skill, build the Home Manager files and inspect each agent's target from [reference.md](reference.md), including fallbacks:
+- Nix flakes see only files git tracks. Before any `nix build` or `nix eval`, run `git add -N <new files>` (intent-to-add: the path enters the index without staging content); otherwise a new artifact is silently missing from the build output.
+- For a new skill, build the Home Manager files to confirm it renders into each agent's skills directory. For any type other than a skill, build them and inspect each agent's target from [reference.md](reference.md), including fallbacks:
 
   ```sh
   nix build --no-link --print-out-paths '.#darwinConfigurations.macbook.config.home-manager.users."sahar.rachamim".home-files'

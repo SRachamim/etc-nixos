@@ -12,6 +12,7 @@
     ../../modules/nixos/nixpkgs.nix
     ../../modules/nixos/programs.nix
     ../../modules/nixos/services.nix
+    ../../modules/nixos/switch.nix
     ../../modules/nixos/system.nix
     ../../modules/nixos/time.nix
     ../../modules/nixos/users.nix

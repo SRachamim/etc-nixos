@@ -39,6 +39,11 @@ in
     fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
   '';
 
+  # Trusts every .envrc in fgrepo worktrees, so new worktrees need no `direnv allow`.
+  programs.direnv.config.whitelist.prefix = [
+    "/Volumes/Development/dev.azure.com/fundguard/fgrepo.git"
+  ];
+
   home.file = {
     "aerospace-config" = {
       source = ./file/aerospace/aerospace.toml;

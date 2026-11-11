@@ -46,7 +46,8 @@ After cloning this repository:
 
 ```bash
 cd /Volumes/Development/github.com/srachamim/etc-nixos.git/main
-switch   # alias for: sudo darwin-rebuild switch --flake .#macbook
+sudo darwin-rebuild switch --flake .#macbook   # first time only
+switch   # afterwards: applies this checkout, no sudo password
 ```
 
 ### 2. Open Ghostty

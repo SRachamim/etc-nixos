@@ -549,9 +549,6 @@ EOF
           [ -f "$HOME/.secrets" ] && source "$HOME/.secrets"
         '')
       ];
-      shellAliases = {
-        switch = "sudo darwin-rebuild switch --flake /Volumes/Development/github.com/srachamim/etc-nixos.git/main#macbook";
-      };
     };
   };
 }

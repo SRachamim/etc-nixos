@@ -10,7 +10,6 @@ start='(^|[;&|(]|\$\()[[:space:]]*(sudo[[:space:]]+)?'
 bans=(
   '(darwin|nixos)-rebuild[[:space:]]+(switch|activate|boot|test)'
   'home-manager[[:space:]]+switch'
-  'switch([[:space:]]|$)'
   'brew[[:space:]]+(install|reinstall|upgrade|tap)'
   'apt(-get)?[[:space:]]+install'
   'dnf[[:space:]]+install'
@@ -27,7 +26,7 @@ for ban in "${bans[@]}"; do
   if match=$(printf '%s\n' "$unquoted" | grep -oE "$start$ban" | head -1); [ -n "$match" ]; then
     {
       echo "Blocked: '${match#"${match%%[![:space:];&|(]*}"}' changes this machine outside the Nix flake."
-      echo "Make the change declaratively (see 'Where to make changes' in the dotfiles AGENTS.md) and ask the user to run \`switch\`."
+      echo "Make the change declaratively (see 'Where to make changes' in the dotfiles AGENTS.md) and run \`switch\` to apply it."
     } >&2
     exit 2
   fi

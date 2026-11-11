@@ -211,7 +211,7 @@ If the type has no generic pipeline yet, build one in `home/programs/agents/defa
     while read -r f; do [ -e "$HOME/$f" ] && [ ! -L "$HOME/$f" ] && echo "unmanaged: $f"; done
   ```
 
-  For each hit, read the file. Declare its content in Nix (merging with other contributors through an option, as `agents.codex.hooks` does) and set `force = true` for the takeover, or ask the user when the content is not reproducible. Then tell the user to run `switch`, and to approve new or changed Codex hooks with `/hooks`.
+  For each hit, read the file. Declare its content in Nix (merging with other contributors through an option, as `agents.codex.hooks` does) and set `force = true` for the takeover, or ask the user when the content is not reproducible. Then run `switch`, and tell the user to approve new or changed Codex hooks with `/hooks`.
 - Check that all referenced skills exist.
 - Apply the **agent-compatibility-g** skill -- verify frontmatter portability, check for hard agent-specific references, confirm the canonical source path is `home/file/agents/`.
 

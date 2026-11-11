@@ -11,7 +11,7 @@ Every change to packages, services, programs, dotfiles, environment variables, s
 - `systemctl enable` / `launchctl load`
 - Manually editing config files outside this repo (e.g. `~/.zshrc`, `~/.gitconfig`)
 
-The `block-imperative-changes` hook (`home/file/agents/hooks/`) blocks these commands, and `switch`, in every agent.
+The `block-imperative-changes` hook (`home/file/agents/hooks/`) blocks these commands, and direct `darwin-rebuild`/`nixos-rebuild`/`home-manager switch` calls, in every agent.
 
 ## Where to make changes
 
@@ -113,7 +113,9 @@ The server is automatically deployed to `~/.claude.json`, `~/.gemini/settings.js
 
 ### Apply changes
 
-After editing, the user must run `switch` (alias for `sudo darwin-rebuild switch --flake .#macbook` on macOS). Do **not** run this command as the agent (the `block-imperative-changes` hook blocks it) -- inform the user to apply.
+After editing, run `switch` to apply. It needs no sudo password: sudoers allows only its exact rebuild command (`modules/darwin/switch.nix`, `modules/nixos/switch.nix`). Don't call `darwin-rebuild` or `nixos-rebuild` directly; the `block-imperative-changes` hook blocks them.
+
+`switch` always applies the main checkout (`/Volumes/Development/github.com/srachamim/etc-nixos.git/main` on macOS, `/etc/nixos` on NixOS), not the current worktree. Changes made in another worktree must reach main first. Flakes ignore untracked files, so `git add` new files before running it.
 
 # Evolve new artifacts
 

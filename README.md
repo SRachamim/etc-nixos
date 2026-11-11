@@ -113,12 +113,18 @@ home/file/agents/subagents/  ->  ~/.agents/subagents/
 ### Apply changes
 
 ```sh
-# macOS (nix-darwin + home-manager) -- or just: switch
+# macOS (nix-darwin + home-manager), first time
 sudo darwin-rebuild switch --flake .#macbook
 
-# NixOS (full system + home-manager)
+# NixOS (full system + home-manager), first time
 sudo nixos-rebuild switch --flake .#SaharRachamim
+
+# Afterwards, on either host (no sudo password; agents can run it too)
+switch
 ```
+
+`switch` applies the main checkout. sudoers allows its exact rebuild
+command without a password; other rebuild commands still ask for one.
 
 ## Common tasks
 

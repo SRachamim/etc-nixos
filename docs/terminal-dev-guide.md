@@ -217,7 +217,9 @@ running tmux or starts it (`initial-command` in `home/darwin.nix`), so opening
 Ghostty after a reboot brings back every session, window and pane;
 later Ghostty windows and tabs are plain shells. Panes that ran
 Claude Code reopen with `claude --continue`; two Claude panes in the same
-directory both resume that directory's latest conversation. Don't also run
+directory both resume that directory's latest conversation. If the workmux
+sidebar was on, a resurrect hook replaces the restored sidebar shells with a
+fresh sidebar. Don't also run
 `wm resurrect`: the windows are already open. `Ctrl+b Ctrl+s` saves on demand,
 e.g. right before a reboot.
 

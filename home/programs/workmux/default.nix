@@ -23,6 +23,20 @@ let
   # reports "update available" if upstream changes them.
   hook = command: { type = "command"; inherit command; };
   status = state: hook "workmux set-window-status ${state}";
+
+  # Resurrect restores each sidebar as a plain shell without the
+  # @workmux_role tag workmux tracks it by: kill those panes (pane_command is
+  # field 10 of the save) and let workmux recreate the sidebar.
+  restoreSidebar = pkgs.writeShellScript "workmux-restore-sidebar" ''
+    tmux=${config.programs.tmux.package}/bin/tmux
+    save="$HOME/.local/share/tmux/resurrect/last"
+    [ -f "$save" ] || exit 0
+    panes=$(${pkgs.gawk}/bin/awk -F'\t' \
+      '$1 == "pane" && $10 == "workmux" { print $2 ":" $3 "." $6 }' "$save")
+    [ -n "$panes" ] || exit 0
+    while IFS= read -r pane; do "$tmux" kill-pane -t "$pane"; done <<< "$panes"
+    exec ${brewBin} sidebar on
+  '';
 in
 {
   # Homebrew binaries are not on the Nix-managed PATH for non-login shells
@@ -149,11 +163,18 @@ in
 
   # Upstream suggests C-s / L / Tab, which resurrect, switch-client -l and
   # extrakto already own here.
-  programs.tmux.extraConfig = ''
-    # --- workmux ---
-    bind g   display-popup -E -w 90% -h 80% "workmux dashboard"
-    bind a   run-shell "workmux last-done"
-    bind A   run-shell "workmux last-agent"
-    bind C-t run-shell "workmux sidebar"
-  '';
+  programs.tmux.extraConfig = lib.mkMerge [
+    # Before continuum's run-shell at the end of extraConfig, which starts
+    # the restore that runs this hook.
+    (lib.mkBefore ''
+      set -g @resurrect-hook-post-restore-all "${restoreSidebar}"
+    '')
+    ''
+      # --- workmux ---
+      bind g   display-popup -E -w 90% -h 80% "workmux dashboard"
+      bind a   run-shell "workmux last-done"
+      bind A   run-shell "workmux last-agent"
+      bind C-t run-shell "workmux sidebar"
+    ''
+  ];
 }

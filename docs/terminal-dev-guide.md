@@ -52,6 +52,7 @@ switch   # alias for: sudo darwin-rebuild switch --flake .#macbook
 ### 2. Open Ghostty
 
 Ghostty's first window attaches to the running tmux server or starts it.
+Closing the last Ghostty window quits Ghostty, so reopening it attaches again.
 
 ### 3. Create Your First Agent Window
 

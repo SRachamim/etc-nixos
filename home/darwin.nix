@@ -68,6 +68,9 @@ in
       # server creates session `0`; continuum restores the last save and
       # resurrect kills that `0`, so no empty session is left behind. Later
       # windows and tabs stay plain shells, a way out if tmux breaks.
+      # initial-command runs once per process, so quit with the last window:
+      # every reopen is a new process whose first window gets tmux.
+      quit-after-last-window-closed = true;
       initial-command =
         let tmux = "${config.programs.tmux.package}/bin/tmux";
         in "shell:${tmux} attach || exec ${tmux} new-session -s 0";

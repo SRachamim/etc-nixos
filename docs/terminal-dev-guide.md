@@ -184,14 +184,14 @@ Keypress
 | `Ctrl+b %` | Split vertical |
 | `Ctrl+b "` | Split horizontal |
 | `Ctrl+b h/j/k/l` | Move between panes (repeatable; `l` replaces stock last-window) |
+| `Ctrl+b H/J/K/L` | Resize pane by 5 cells (repeatable; `L` replaces stock last-session) |
 | `Ctrl+b c` | New window |
 | `Ctrl+b n` / `Ctrl+b p` | Next / previous window |
 | `Ctrl+b [` | Copy mode (scroll); `q` to exit |
 | `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |
-| `Ctrl+b L` | Switch to the last session |
 
 Plugin and tool bindings. Every one lands on a key stock tmux leaves unbound, so the
-default-first principle above still holds — `l` and `r` remain the only shadowed
+default-first principle above still holds — `l`, `L` and `r` remain the only shadowed
 keys.
 
 | Keys | Plugin | Action |

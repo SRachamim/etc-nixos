@@ -499,6 +499,13 @@ EOF
         bind -r k select-pane -U
         bind -r l select-pane -R
 
+        # Pane resizing, 5 cells per press. `L` shadows the default
+        # switch-to-last-session binding.
+        bind -r H resize-pane -L 5
+        bind -r J resize-pane -D 5
+        bind -r K resize-pane -U 5
+        bind -r L resize-pane -R 5
+
         # Reload this config into the running server; tmux has no default for it.
         # `r` shadows refresh-client, still reachable via `Ctrl+b : refresh-client`.
         bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux config reloaded"

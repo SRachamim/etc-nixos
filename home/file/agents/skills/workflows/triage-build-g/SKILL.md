@@ -61,6 +61,13 @@ Before classifying a failure as external/infrastructure or flaky:
    evidence -- "failing identically" is. Only classify as external if at
    least one other build reproduces the same error.
 
+   Alternatively, a base-branch gap is sufficient evidence: the failing
+   assertion depends on a change present on the gated base (e.g.
+   `latest-stable`) whose matching test or code update exists on
+   `develop` but not on the base (`git merge-base --is-ancestor <fix>
+   origin/latest-stable` fails), and the PR diff touches neither. Cite
+   both commits in the summary.
+
 2. **Flaky/intermittent**: A test's historical flakiness rate alone is
    not sufficient. Verify that the failure is isolated:
    - If the failing test count is disproportionate (e.g., >10% of specs

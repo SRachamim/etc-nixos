@@ -73,9 +73,11 @@ in
       # server creates session `0`; continuum restores the last save and
       # resurrect kills that `0`, so no empty session is left behind. Later
       # windows and tabs stay plain shells, a way out if tmux breaks.
+      # Ghostty runs this as `exec -l <command>`, which would replace the
+      # shell before `||` could fall back, so the fallback gets its own sh.
       initial-command =
         let tmux = "${config.programs.tmux.package}/bin/tmux";
-        in "shell:${tmux} attach || exec ${tmux} new-session -s 0";
+        in "shell:/bin/sh -c '${tmux} attach || exec ${tmux} new-session -s 0'";
       keybind = [
         "alt+left=unbind"
         "alt+right=unbind"

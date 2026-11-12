@@ -506,6 +506,12 @@ EOF
         bind -r K resize-pane -U 5
         bind -r L resize-pane -R 5
 
+        # Stock new-window and splits start in the session's start directory;
+        # open them in the current pane's directory (e.g. its worktree) instead.
+        bind c new-window -c "#{pane_current_path}"
+        bind % split-window -h -c "#{pane_current_path}"
+        bind '"' split-window -v -c "#{pane_current_path}"
+
         # Reload this config into the running server; tmux has no default for it.
         # `r` shadows refresh-client, still reachable via `Ctrl+b : refresh-client`.
         bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux config reloaded"

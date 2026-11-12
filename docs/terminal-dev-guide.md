@@ -181,11 +181,11 @@ Keypress
 | Keys | Action |
 |------|--------|
 | `Ctrl+b d` | Detach from session |
-| `Ctrl+b %` | Split vertical |
-| `Ctrl+b "` | Split horizontal |
+| `Ctrl+b %` | Split vertical (in the current pane's directory) |
+| `Ctrl+b "` | Split horizontal (in the current pane's directory) |
 | `Ctrl+b h/j/k/l` | Move between panes (repeatable; `l` replaces stock last-window) |
 | `Ctrl+b H/J/K/L` | Resize pane by 5 cells (repeatable; `L` replaces stock last-session) |
-| `Ctrl+b c` | New window |
+| `Ctrl+b c` | New window (in the current pane's directory) |
 | `Ctrl+b n` / `Ctrl+b p` | Next / previous window |
 | `Ctrl+b [` | Copy mode (scroll); `q` to exit |
 | `Ctrl+b r` | Reload tmux config (replaces stock refresh-client) |

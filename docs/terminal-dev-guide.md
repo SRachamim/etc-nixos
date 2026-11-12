@@ -52,7 +52,7 @@ switch   # afterwards: applies this checkout, no sudo password
 
 ### 2. Open Ghostty
 
-Ghostty's first window attaches to the running tmux server or starts it.
+Run `tmux attach` to rejoin the running server, or `tmux` to start it.
 
 ### 3. Create Your First Agent Window
 
@@ -72,7 +72,7 @@ windows with `Ctrl+b n` / `Ctrl+b p` or the dashboard (`Ctrl+b g`).
 1. `wm add <branch>` (or `wm open <branch>` for an existing worktree)
 2. Split panes with stock tmux (`Ctrl+b %`, `Ctrl+b "`) — Claude, nvim, shell
 3. Edit in nvim; send selections with `<leader>as` (see claudecode.nvim below)
-4. `Ctrl+b d` to detach; reopening Ghostty reattaches
+4. `Ctrl+b d` to detach; `tmux attach` reattaches
 
 ### Parallel agents with workmux
 
@@ -213,10 +213,9 @@ keys.
 agent's output without touching the mouse.
 
 Sessions survive a restart. tmux-continuum saves every 10 minutes and restores
-the last save when the tmux server starts. Ghostty's first window attaches to the
-running tmux or starts it (`initial-command` in `home/darwin.nix`), so opening
-Ghostty after a reboot brings back every session, window and pane;
-later Ghostty windows and tabs are plain shells. Panes that ran
+the last save when the tmux server starts, so the first `tmux` after a reboot
+brings back every session, window and pane. Afterwards use `tmux attach`: a bare
+`tmux` adds an empty session that every later save keeps. Panes that ran
 Claude Code reopen with `claude --continue`; two Claude panes in the same
 directory both resume that directory's latest conversation. If the workmux
 sidebar was on, a resurrect hook replaces the restored sidebar shells with a

@@ -33,6 +33,7 @@ For each finding, compose the literal ADO comment text:
 - Internally classify each finding per the **code-review-g** skill (Blocking / Suggestion / Nit) for verdict logic, but do not include severity labels in the comment text.
 - Each comment must include the specific file path and line range.
 - When a comment includes a code sketch, check every identifier, literal, and function signature in it against the real types on the source branch (read the type definitions or the call's overloads). Change any sketch that wouldn't type-check before presenting it. When the sketch is a spec, also check its `describe`/`it` tree and imports against the repo's testing-standards rule, as the Test coverage dimension of **code-review-g** does for reviewed specs.
+- Inline code that itself contains a backtick (template literals) must use a longer delimiter (``` `` ... `` ```) or a fenced block -- a single-backtick span ends at the first inner backtick and breaks the rendering in ADO.
 - When a comment states how a tool, script, config, or CI step behaves (what a test command checks, what a tsconfig includes), read the script or config on the source branch and confirm the claim before presenting it. A subagent report is not verification.
 - Do not include praise -- every comment must be actionable.
 

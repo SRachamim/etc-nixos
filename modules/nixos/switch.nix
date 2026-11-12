@@ -1,7 +1,7 @@
 # `switch` applies the checkout's flake. sudo lets the user run exactly this
 # command line without a password, so agents can apply their changes; any
 # other nixos-rebuild invocation still asks for one.
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   cmd = "/run/current-system/sw/bin/nixos-rebuild switch --flake /etc/nixos#SaharRachamim";
 in
@@ -11,7 +11,9 @@ in
       users = [ "user" ];
       commands = [
         {
-          command = cmd;
+          # sudoers reads an unescaped `#` as the start of a comment, which
+          # would cut the rule off before `#SaharRachamim` so it never matches.
+          command = lib.replaceStrings [ "#" ] [ "\\#" ] cmd;
           options = [ "NOPASSWD" ];
         }
       ];

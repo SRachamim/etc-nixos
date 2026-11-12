@@ -34,7 +34,12 @@ let
     panes=$(${pkgs.gawk}/bin/awk -F'\t' \
       '$1 == "pane" && $10 == "workmux" { print $2 ":" $3 "." $6 }' "$save")
     [ -n "$panes" ] || exit 0
-    while IFS= read -r pane; do "$tmux" kill-pane -t "$pane"; done <<< "$panes"
+    # A manual restore (prefix C-r) leaves existing panes alone, so the pane
+    # there may be a live sidebar: kill only the untagged ones.
+    while IFS= read -r pane; do
+      role=$("$tmux" display-message -p -t "$pane" '#{@workmux_role}') || continue
+      [ "$role" = sidebar ] || "$tmux" kill-pane -t "$pane"
+    done <<< "$panes"
     exec ${brewBin} sidebar on
   '';
 in

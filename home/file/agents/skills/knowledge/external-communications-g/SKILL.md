@@ -174,6 +174,10 @@ Example workflow for "Send to #team and share with #announcements":
 2. Build permalink from the channel ID and `ts`
 3. `conversations_add_message` to `#announcements` with the permalink as the message body (optionally with brief context)
 
+#### "Also send to channel" (reply_broadcast)
+
+The Slack MCP `conversations_add_message` tool has no `reply_broadcast` parameter. When the user asks for a thread reply that is also visible in the channel, say so before drafting and offer two options: (1) post the thread reply, then a short top-level post linking to the reply's permalink (put any group mention on the top-level post only), or (2) the user posts it from Slack with the checkbox ticked. Never report a reply as broadcast when it was posted only to the thread.
+
 #### Thread Reuse in Slack
 
 When sending a message to a person or channel, check whether an earlier message in the current session was already sent to the same destination about the same topic (e.g. the same PR, work item, or incident). If so, reply in that existing thread (`thread_ts`) rather than posting a new top-level message.

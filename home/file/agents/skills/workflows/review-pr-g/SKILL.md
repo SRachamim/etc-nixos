@@ -109,7 +109,7 @@ From the commit sequence, infer:
 When the PR introduces a new abstraction (component, hook, utility, module, service, type, or interface), search the codebase for existing abstractions that address the same problem. Treat as new abstractions too: a styled element that rebuilds a control another component provides, and a style override that reaches into another component's internals (`${Other} button`) -- for an override, ask whether the target component should own a variant. Look for:
 
 - Same domain concept under a different name.
-- Same type shape -- for a new type or interface, grep its field names (e.g. `added` + `removed`) across the repository, starting with sibling files.
+- Same type shape -- for a new type or interface, exported or module-private, grep its field names (e.g. `added` + `removed`) across the repository, starting with sibling files. A type with `loading`/`error`/data fields is remote-data state: look for the codebase's ADT for it (e.g. `DatumEither`) before accepting separate booleans.
 - Same structural pattern applied to a related use case (e.g. collapsing header vs. collapsing footer).
 - Utility functions or hooks that already encapsulate the logic being re-implemented.
 

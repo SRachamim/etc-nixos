@@ -132,6 +132,13 @@ Follow the **effort-estimation-g** skill for hours and confidence level, grounde
 
 If `OriginalEstimate` is already set, carry `OriginalEstimate`, `RemainingWork` and `EstimationConfidenceLevel` forward and do not overwrite them, except that an empty `RemainingWork` is set to the `OriginalEstimate` value. A confidence level set without an estimate is a creation default, so estimate it again.
 
+When the estimate is XL (31 h or more), draft this restructure as the default instead of a single estimate, and apply it in step 6:
+
+1. Convert the item to a User Story: `update_work_item` with `additionalFields: [{ name: "System.WorkItemType", value: "User Story" }]`.
+2. If its parent is a User Story, reparent it to the nearest Feature and keep the old parent as a Related link.
+3. Create one child Task per slice following the **create-task-g** skill, and triage each following the **triage-transition-g** skill.
+4. Block each Task following the **block-work-item-g** skill, only on the slices it actually depends on, so independent slices run in parallel.
+
 Present the draft:
 
 ```

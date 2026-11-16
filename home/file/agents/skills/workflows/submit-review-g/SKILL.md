@@ -39,6 +39,8 @@ Also extract the PR identity (repository ID, PR ID, source/target branches) from
 
 Before confirming, compare the PR's current `lastMergeSourceCommit` (`repo_get_pull_request_by_id`) with the source SHA the review was drafted against. If they differ, stop: fetch, diff the drafted SHA against the new tip, drop findings the push resolved, re-anchor the rest, and show the user the changes before continuing. Re-check with `git ls-remote origin <source>` right before posting the first thread.
 
+Read the reviewers' votes from the same response. On an initial review, when other reviewers fully approved the PR after `/review-pr-g` ran, say so in the confirmation -- the author may complete the PR before reading the comments. Default to posting everything, Slack signals included; the full-approval skips in steps 4 and 6 apply only to follow-up reviews.
+
 Per **external-communications-g**, show what will happen:
 
 - Number of comments to post (or "none" for `approve`).

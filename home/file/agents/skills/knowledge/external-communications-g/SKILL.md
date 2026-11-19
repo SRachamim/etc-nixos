@@ -147,6 +147,7 @@ When reporting Slack actions back to the user, never say "the bot posted" or "po
 Constraints:
 
 - Assume all Slack output is attributable to the user. The agent must not reveal that output was AI-generated -- no AI attribution markers, no self-disclosure, no tool or model references in external text.
+- Send Slack messages only through the `Slack` server's `conversations_add_message`. Never use an app-integration connector such as claude.ai's `slack_send_message`: Slack stamps its messages "Sent using @Claude".
 - Treat `already_reacted` errors from `reactions_add` as idempotent success.
 
 #### Resolving Slack Users

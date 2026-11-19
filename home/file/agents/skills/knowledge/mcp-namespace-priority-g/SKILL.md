@@ -12,7 +12,7 @@ When multiple MCP namespaces can perform the same operation, prefer the **native
 | Domain | Preferred (native) | Fallback (proxy) |
 |--------|---------------------|-------------------|
 | Azure DevOps | `Azure DevOps` server | `fundguard` server |
-| Slack | `Slack` server | -- (no proxy equivalent) |
+| Slack | `Slack` server | claude.ai Slack connector (`claude_ai_Slack`): reads only, never posts |
 
 Extend this table when new native/proxy pairs appear.
 
@@ -50,4 +50,4 @@ The proxy provides composite tools that aggregate multiple API calls or enrich d
 
 ## Slack: always native
 
-The FundGuard proxy has no Slack tools. All Slack operations use the `Slack` server exclusively.
+The FundGuard proxy has no Slack tools. Post, reply and schedule only through the `Slack` server, which acts with the user's own token. The claude.ai Slack connector posts as an app, and Slack labels those messages "Sent using @Claude". Use the connector only for reads the `Slack` server lacks.

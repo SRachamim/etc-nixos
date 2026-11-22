@@ -143,13 +143,15 @@ in
 
   # Skills are fetched from the release tag matching the installed binary, so
   # they stay in step with Homebrew upgrades without pinning a version here.
+  # Activation lacks NIX_SSL_CERT_FILE, so Nix's curl would fall back to its
+  # bundled CAs, which miss the Netskope root added through security.pki.
   home.activation.installWorkmuxSkills = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     if [ -x "${brewBin}" ]; then
       wmVersion=$("${brewBin}" --version | ${pkgs.gawk}/bin/awk '{print $NF}')
       for skill in ${lib.escapeShellArgs skills}; do
         dir="$HOME/.claude/skills/$skill"
         tmp=$(mktemp)
-        if ${pkgs.curl}/bin/curl -fsSL \
+        if SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt ${pkgs.curl}/bin/curl -fsSL \
             "https://raw.githubusercontent.com/raine/workmux/v$wmVersion/skills/$skill/SKILL.md" \
             -o "$tmp"; then
           run mkdir -p "$dir"

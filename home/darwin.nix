@@ -10,7 +10,7 @@ let
     "dbaeumer.vscode-eslint"
     "eamodio.gitlens"
     "jnoortheen.nix-ide"
-    "luksch42.themetree"
+    "hjegeorge.themetree"
     "mermaidchart.vscode-mermaid-chart"
     "ms-python.python"
     "ms-python.debugpy"
@@ -96,7 +96,8 @@ in
     if [ -x "${cursorCli}" ]; then
       echo "Installing Cursor extensions..." >&2
       ${lib.concatMapStringsSep "\n" (ext: ''
-        "${cursorCli}" --install-extension "${ext}" --force 2>/dev/null || true
+        "${cursorCli}" --install-extension "${ext}" --force 2>/dev/null \
+          || echo "Cursor: could not install ${ext}" >&2
       '') cursorExtensions}
     fi
   '';

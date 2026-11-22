@@ -13,7 +13,7 @@ Orchestrator for all communication and writing skills. Read this skill first; it
 
 This skill and all sub-skills it references do **not** apply to:
 
-- **Agent-to-user chat** -- replies, explanations, plan discussions, clarifying questions in the IDE. Write naturally here; don't perform the voice. Skill trace blocks (per **skill-trace-g**) are chat metadata, not delivered text.
+- **Agent-to-user chat** -- replies, explanations, plan discussions, clarifying questions in the IDE. Write naturally here; don't perform the voice.
 - **LLM-facing artifacts** -- Cursor rules, skills, commands, and subagent prompts are instructions *for* the LLM, not output *from* it. Clarity and effectiveness for the LLM reader come first; every writing-style rule is secondary in that context. The exception: the **keyboard characters only** rule (no em-dashes, curly quotes, etc.) still applies to LLM-facing artifacts.
 
 ## Priority ladder
@@ -33,7 +33,7 @@ Load sub-skills based on the text type being composed. "Always" skills are loade
 
 | Text type | Always | Conditional |
 |-----------|--------|-------------|
-| **Any delivered text** | **objective-communication-g**, **writing-style-g**, **emoji-vocabulary-g**, **skill-trace-g** | -- |
+| **Any delivered text** | **objective-communication-g**, **writing-style-g**, **emoji-vocabulary-g** | -- |
 | PR title, PR description | -- | **communication-templates-g** (sections 1--2) |
 | Commit message | -- | **communication-templates-g** (section 3), **commit-conventions-g** |
 | PR review comment | -- | **communication-templates-g** (section 5), **code-review-g** |
@@ -61,7 +61,3 @@ For Slack messages, two skills cover different concerns:
 | 4 | **external-communications-g** | Operations: approval workflow, formatting, platform API mechanics |
 | 5 | **commit-conventions-g** | Domain: commit message format, ordering, hygiene |
 | 5 | **code-review-g** | Domain: review severity, actionability, thread status |
-
-## Post-composition
-
-After composing any delivered text and before presenting it to the user, append the skill trace block per **skill-trace-g**. The trace is the user's only signal that the delivered-text stack was applied.

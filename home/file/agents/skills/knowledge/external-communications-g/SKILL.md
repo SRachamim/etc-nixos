@@ -104,9 +104,24 @@ Best practices:
 
 Choose the delivery method based on the message's structural complexity. The tiers below are listed from most to least reliable for preserving formatting.
 
-**1. Block Kit `blocks` (preferred for structured messages)**
+**0. One `rich_text` block (prose replies, code blocks, any paragraph over ~3 lines)**
 
-Pass a JSON array of `section` blocks to the `blocks` parameter of `conversations_add_message`. Each block uses `"type": "mrkdwn"` text objects, which invoke Slack's native mrkdwn parser where `*bold*` and `<url|text>` work reliably. Set the `text` parameter to a short fallback string (e.g. a one-line summary) -- it is only shown in notifications and clients that don't support blocks.
+Slack collapses a long `section` block behind "Show more", and `content_type: "text/markdown"` turns each paragraph into its own `section` block. For conversational messages, especially ones with inline code or a code block, pass a single `rich_text` block to `blocks` -- the structure the Slack client sends for typed messages, which Slack doesn't collapse:
+
+```json
+[{"type": "rich_text", "elements": [
+  {"type": "rich_text_section", "elements": [
+    {"type": "text", "text": "Prose with "}, {"type": "text", "text": "inline code", "style": {"code": true}}, {"type": "text", "text": ".\n"}]},
+  {"type": "rich_text_preformatted", "elements": [{"type": "text", "text": "code block line 1\nline 2"}]},
+  {"type": "rich_text_section", "elements": [
+    {"type": "text", "text": "\nNext paragraph, with a "}, {"type": "link", "url": "https://example.com", "text": "link"}]}]}]
+```
+
+Use `\n` inside a section's text for line breaks; links are `link` elements, bold is `"style": {"bold": true}`. Set `text` to a short fallback string as in tier 1.
+
+**1. Block Kit `section` blocks (short structured messages: field/value layouts, status posts)**
+
+Pass a JSON array of `section` blocks to the `blocks` parameter of `conversations_add_message`. Each block uses `"type": "mrkdwn"` text objects, which invoke Slack's native mrkdwn parser where `*bold*` and `<url|text>` work reliably. Set the `text` parameter to a short fallback string (e.g. a one-line summary) -- it is only shown in notifications and clients that don't support blocks. Keep each block's text to a few lines; longer text collapses behind "Show more", so use tier 0 instead.
 
 Use Block Kit when the message has any of:
 

@@ -106,7 +106,7 @@ After presenting findings, offer to compose a Slack reply. If the user accepts:
 
 1. Follow the **delivered-text-g** skill to draft the reply (text type: "Slack message").
 2. Present the draft for approval.
-3. Post via `conversations_add_message` (with `thread_ts`) only after explicit approval.
+3. Post via `conversations_add_message` (with `thread_ts`) only after explicit approval, in the format the **external-communications-g** skill's Delivery Method section chooses.
 
 Wait for user confirmation before taking any action.
 

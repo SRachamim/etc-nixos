@@ -42,6 +42,8 @@ Call `update_work_item` with:
 
 Skip this step if the work item is already in the **Blocked** state.
 
+If the blocked item has no `OriginalEstimate`, ADO rejects the transition (TF401320) until the Triaged fields are set. Estimate it with the **effort-estimation-g** skill and get the user's approval, then send the **triage-transition-g** step 4 fields (priority, `Custom.BusinessPriority`, version, `OriginalEstimate`, `RemainingWork`, `EstimationConfidenceLevel`) in the same `update_work_item` call as `state: "Blocked"`.
+
 ### 4. Link as predecessor
 
 Call `manage_work_item_links` with:

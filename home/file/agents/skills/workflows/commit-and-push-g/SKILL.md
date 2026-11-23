@@ -102,7 +102,15 @@ Use for changes that belong before the feature work, such as a refactoring or an
 
 ### 4. Push
 
-Before pushing, verify the upstream is correct: run `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` and compare the upstream branch name to the local branch name. If the upstream points to a different branch (e.g., the local branch is `feature/123` but upstream is `origin/main`), treat it as a stale upstream -- unset it with `git branch --unset-upstream` and then use `git push -u origin HEAD`.
+Before pushing, check the commit count when the repository caps it. In fgrepo, the PR's "Git history and style enforcement" CI step fails when the PR has more than 10 commits from the same author. Count yours since the merge base (as in 3b):
+
+```sh
+git rev-list --count --author="$(git config user.email)" <merge-base>..HEAD
+```
+
+If the count is over the cap, don't push. Propose two commits to squash whose result still has one cohesive reason to change (e.g. two agent artifact commits, or a follow-up and the commit it completes), and get the user's approval. Squash them with a rebase from the parent of the earlier commit, using the 3b mechanics (dev shell, scripted `GIT_SEQUENCE_EDITOR`): move the later commit right after the earlier one, mark it `fixup`, and reword the earlier one from a message file. Confirm `git diff <old-head> HEAD` is empty -- a squash changes no code.
+
+Then verify the upstream is correct: run `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` and compare the upstream branch name to the local branch name. If the upstream points to a different branch (e.g., the local branch is `feature/123` but upstream is `origin/main`), treat it as a stale upstream -- unset it with `git branch --unset-upstream` and then use `git push -u origin HEAD`.
 
 Run `git push` to push the current branch to the remote.
 

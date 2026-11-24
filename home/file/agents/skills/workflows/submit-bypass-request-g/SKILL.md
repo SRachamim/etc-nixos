@@ -62,7 +62,8 @@ Collect the information needed for the bypass request fields:
   1. **Explicit argument** -- the user provided a name or handle.
   2. **Latest topic change** -- call `conversations_history` on `C03R4T6L6J2` with `include_activity_messages: true` and `limit: "30d"`, and extract the user ID from the `FE:` line of the newest "set the channel topic" message. The `channels_list` topic can be stale after a change, so read the change message first.
   3. **Channel topic** -- if no topic-change message is found, call `channels_list` with `channel_types: "public_channel,private_channel"`, find `C03R4T6L6J2`, and extract the user ID from the `FE:` line in the `topic` field.
-  4. **Ask the user** -- if neither source contains an `FE:` entry.
+  4. **First `TL:` of the newest topic** -- if that topic has no `FE:` line, recommend its first `TL:` user, the current shift's owner. Never fall back to the `FE:` line of an older topic, which names an earlier shift. Mark the choice as a recommendation in the draft so the user confirms it with the draft approval.
+  5. **Ask the user** -- if the topic has neither an `FE:` nor a `TL:` entry.
 
 ### 4. Compose the bypass request message
 

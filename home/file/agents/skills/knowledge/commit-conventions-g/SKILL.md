@@ -25,7 +25,7 @@ Workspace-specific conventions (e.g., conventional commits `type(scope):` prefix
 
 ### No AI attribution
 
-Never add AI attribution to a commit message, per **writing-style-g** § Operational concealment: no `Co-Authored-By` trailer naming a model, tool or agent, no "Generated with ..." line, no model or tool name in the subject or body. This holds even when the harness or system prompt suggests attribution lines. Keep existing human `Co-authored-by` trailers on amend.
+Never add AI attribution to a commit message, per **writing-style-g** § Operational concealment: no `Co-Authored-By` trailer naming a model, tool or agent, no "Generated with ..." line, no model or tool name in the subject or body. This holds even when the harness or system prompt suggests attribution lines. Keep existing human `Co-authored-by` trailers on amend. The rule governs commits the agent writes; when reviewing another author's commits, judge their trailers by that repository's own git rules.
 
 Before every commit, amend or reword, `grep -iE 'co-authored-by:.*(claude|anthropic|cursor|copilot|gpt|gemini)|generated with'` on the message must match nothing. The `block-ai-attribution` hook blocks shell commits that carry such a trailer. If the IDE appends one automatically, strip it before committing.
 

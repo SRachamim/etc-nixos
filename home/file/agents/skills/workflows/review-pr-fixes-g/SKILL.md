@@ -74,7 +74,7 @@ The original review's findings list is the baseline. Each finding (with its seve
 
 Fetch all threads on the PR via `repo_list_pull_request_threads`. Use `baseIteration` to filter to threads from the iteration after the last reviewed push (this returns only threads created since the baseline, reducing noise). For every thread the reviewer authored, review the full conversation and record:
 
-- **Current status**: Active, Fixed, WontFix, Closed, ByDesign, Pending.
+- **Current status**: Active, Fixed, WontFix, Closed, ByDesign, Pending. The full thread response returns it as a number (1 Active, 2 Fixed, 3 WontFix, 4 Closed, 5 ByDesign, 6 Pending); map it before deciding, and leave a thread out of the status changes when it already has the target status.
 - **Author replies**: any responses added since the reviewer's last comment.
 - **Code context**: the file and line range the thread targets.
 - **Original intent**: match each thread back to the corresponding comment in the conversation context to recover the full reasoning and severity behind the original concern.

@@ -28,13 +28,15 @@ Extract:
 | `Microsoft.VSTS.CMMI.FoundInEnvironment` | Short environment name (e.g. `UAT261`) |
 | `Custom.Org` | Organisation (e.g. `RBC-UAT`) |
 
-If `FoundInEnvironment` is missing or empty, ask the user which environment to target. If `Custom.Org` is missing, note it but continue -- it is informational, not required for the IGW URL.
+If `FoundInEnvironment` is missing or empty (common on Tasks), scan the description and repro steps for an environment the ticket names (e.g. "env uat264"). If exactly one is named, use it and tell the user where it came from. Otherwise, ask the user which environment to target. If `Custom.Org` is missing, note it but continue -- it is informational, not required for the IGW URL.
 
 ### 2. Resolve the full environment name from Sunday
 
-Navigate to `https://sunday.fundguard.io/fundguard/environments` in the browser. Wait for the page to load (environment cards should be visible), then use `browser_search` to find the `FoundInEnvironment` value (case-insensitive).
+Call `sunday_list_environments` with `search: <short environment name>` (lowercase). The `name` field of each returned environment is its full environment name.
 
-Read the matching environment card heading to extract the full environment name. Environment names follow the pattern `<short-name>-<region>-<date>` (e.g. `uat261-ca-central-1-2026-01-06`).
+If the Sunday MCP tool is unavailable, fall back to the browser: navigate to `https://sunday.fundguard.io/fundguard/environments`, wait for the environment cards to load, use `browser_search` to find the short name (case-insensitive), and read the matching card heading.
+
+Environment names follow the pattern `<short-name>-<region>-<date>` (e.g. `uat261-ca-central-1-2026-01-06`).
 
 If multiple environments match the prefix (the same short name may appear in different regions or categories), present all matches and ask the user to pick one.
 

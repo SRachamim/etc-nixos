@@ -1,6 +1,6 @@
 ---
 name: mode-gate-g
-description: Enforces a required interaction mode before a workflow step proceeds. In agents that support mode switching (e.g. Cursor's SwitchMode), it switches, verifies, and stops on failure. In other agents, it states the constraint and proceeds without blocking. Use whenever a workflow step requires a specific mode.
+description: Enforces a required interaction mode before a workflow step proceeds. In agents that support mode switching (e.g. Cursor's SwitchMode, Claude Code's EnterPlanMode), it switches, verifies, and stops on failure. In other agents, it states the constraint and proceeds without blocking. Use whenever a workflow step requires a specific mode.
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,7 @@ When a workflow step requires a specific mode (e.g. read-only analysis before wr
 
 Follow these steps in order whenever a workflow requires a mode:
 
-1. **Check for mode-switching support.** Determine whether the current agent provides a mode-switching tool (e.g. Cursor's `SwitchMode`). If the tool is available, proceed to the strict protocol. If not, proceed to the graceful protocol.
+1. **Check for mode-switching support.** Determine whether the current agent provides a mode-switching tool for the required mode (e.g. Cursor's `SwitchMode`, Claude Code's `EnterPlanMode`). If the tool is available, proceed to the strict protocol. If not, proceed to the graceful protocol.
 
 2. **Strict protocol** (agent supports mode switching):
    1. **Attempt the switch.** Call the mode-switching tool with the required mode. If the tool doesn't support the required mode as a target, tell the user which mode is needed and ask them to switch manually.
@@ -27,6 +27,8 @@ Follow these steps in order whenever a workflow requires a mode:
 ## Determining auto-switchability
 
 In Cursor, a mode is auto-switchable when the `SwitchMode` tool lists it as an allowed value for `target_mode_id`. Check the tool's schema at invocation time rather than relying on a hard-coded list -- new switchable modes may be added in future releases.
+
+In Claude Code, `EnterPlanMode` and `ExitPlanMode` switch to and from Plan mode (read-only); both need user approval. Use the strict protocol for a read-only requirement; other modes (e.g. debug) are not switchable, so the graceful protocol applies to them.
 
 In other agents, mode switching is not available. The graceful protocol applies.
 

@@ -68,6 +68,8 @@ If parallel execution is unavailable, proceed sequentially with the guidance bel
 
 Check whether the item is already done. Run `git log -S` or `git log -L` on the lines or symbols it targets, limited to commits newer than the item's `createdDate`. If a later commit already meets the item's "done when", say so with the commit hash and offer to close the item instead of triaging it. The item's linked "fixed in" commits are not evidence: they can come from a parent or sibling branch, so judge only by commits that touch the target lines. If the user agrees, skip steps 4--5. In step 6, follow the "Closing without triage" section of the **triage-transition-g** skill.
 
+Check for open items with the same root cause: scan the relations of related items one hop out and run `search_workitems` on the key symbols or error text. Report each overlap with its owner, state and estimate under Collateral Impact.
+
 Spend enough time here to form a concrete understanding. Don't guess -- read the code.
 
 Present findings:
